@@ -32,5 +32,8 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "shelljs": "^0.8.1"
+  },
+  "devDependencies": {
+    "xo": "^0.18.2"
   }
 }
