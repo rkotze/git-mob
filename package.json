@@ -14,7 +14,13 @@
     "type": "git",
     "url": "keybase://team/findmypast/git-mob"
   },
-  "keywords": ["git", "github", "pairing", "mob programming", "social coding"],
+  "keywords": [
+    "git",
+    "github",
+    "pairing",
+    "mob programming",
+    "social coding"
+  ],
   "author": "Findmypast OSS",
   "license": "MIT",
   "contributors": [
