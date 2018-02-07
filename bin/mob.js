@@ -1,9 +1,10 @@
 #! /usr/bin/env node
 
 var argv = require('minimist')(process.argv.slice(2));
+var shell = require('shelljs');
 
 if (argv.h) {
-  const help = `
+  console.log(`
 Usage
   $ git mob <co-author-initials>
   $ git solo
@@ -15,6 +16,6 @@ Examples
   $ git mob jd  # Set John Doe is co-author
   $ git mob jd am  # Set John and Amy as co-authors
   $ git solo  # Go back to soloing
-  `;
-  console.log(help);
+  `);
+  shell.exit(0);
 }
