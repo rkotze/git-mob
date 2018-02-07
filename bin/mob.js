@@ -6,6 +6,7 @@ if (argv.h) {
   const help = `
 Usage
   $ git mob <co-author-initials>
+  $ git solo
 
 Options
   -h  Prints this help and exits
@@ -13,6 +14,7 @@ Options
 Examples
   $ git mob jd  # Set John Doe is co-author
   $ git mob jd am  # Set John and Amy as co-authors
+  $ git solo  # Go back to soloing
   `;
   console.log(help);
 }
