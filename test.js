@@ -1,11 +1,10 @@
 import test from 'ava';
+import { exec } from 'shelljs';
 
-test('foo', t => {
-  t.pass();
-});
+test('mob help', async t => {
+  const { stdout } = await exec('git mob -h', { silent: true });
 
-test('bar', async t => {
-  const bar = Promise.resolve('bar');
-
-  t.is(await bar, 'bar');
+  t.regex(stdout, /usage/i);
+  t.regex(stdout, /options/i);
+  t.regex(stdout, /examples/i);
 });
