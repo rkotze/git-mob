@@ -1,0 +1,29 @@
+{
+  "name": "git-mob",
+  "version": "1.0.0",
+  "description":
+    "A command-line tool for social coding. Includes co-authors in commits.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "keybase://team/findmypast/git-mob"
+  },
+  "keywords": ["git", "github", "pairing", "mob programming", "social coding"],
+  "author": "Findmypast OSS",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Richard Kotze",
+      "email": "rkotze@findmypast.com",
+      "url": "https://github.com/rkotze"
+    },
+    {
+      "name": "Dennis Ideler",
+      "email": "dideler@findmypast.com",
+      "url": "https://github.com/dideler"
+    }
+  ]
+}
