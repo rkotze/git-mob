@@ -27,5 +27,8 @@
       "email": "dideler@findmypast.com",
       "url": "https://github.com/dideler"
     }
-  ]
+  ],
+  "dependencies": {
+    "shelljs": "^0.8.1"
+  }
 }
