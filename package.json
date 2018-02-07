@@ -4,7 +4,7 @@
   "description": "A command-line tool for social coding. Includes co-authors in commits.",
   "main": "index.js",
   "scripts": {
-    "test": "xo"
+    "test": "xo && ava"
   },
   "bin": {
     "git-mob": "bin/mob.js",
