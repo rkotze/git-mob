@@ -4,7 +4,7 @@
   "description": "A command-line tool for social coding. Includes co-authors in commits.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "xo"
   },
   "bin": {
     "git-mob": "bin/mob.js",
@@ -35,5 +35,8 @@
   },
   "devDependencies": {
     "xo": "^0.18.2"
+  },
+  "xo": {
+    "space": true
   }
 }
