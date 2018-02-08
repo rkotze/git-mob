@@ -14,6 +14,9 @@
     "type": "git",
     "url": "keybase://team/findmypast/git-mob"
   },
+  "engines": {
+    "node": ">=8"
+  },
   "keywords": [
     "git",
     "github",
