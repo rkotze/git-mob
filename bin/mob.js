@@ -19,3 +19,12 @@ Examples
   `);
   shell.exit(0);
 }
+
+if (argv._.length > 0) {
+  console.log(`
+    Error:
+    - Author ${argv._[0]} initials not found.
+    - Please add to .gitauthor file.
+  `);
+  shell.exit(1);
+}
