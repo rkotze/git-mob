@@ -18,10 +18,18 @@
     "node": ">=8"
   },
   "keywords": [
+    "cli",
+    "cli-app",
+    "git-pair",
+    "git-duet",
     "git",
     "github",
+    "co-author",
     "pairing",
+    "pair programming",
     "mob programming",
+    "extreme programming",
+    "xp",
     "social coding"
   ],
   "author": "Findmypast OSS",
