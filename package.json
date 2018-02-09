@@ -57,7 +57,10 @@
     "xo": "^0.18.2"
   },
   "xo": {
-    "space": true
+    "space": true,
+    "rules": {
+      "object-curly-spacing": ["error", "always"]
+    }
   },
   "ava": {
     "files": ["**/*.spec.js"],
