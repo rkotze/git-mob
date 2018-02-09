@@ -1,10 +1,12 @@
 {
   "name": "git-mob",
   "version": "0.0.1",
-  "description": "A command-line tool for social coding. Includes co-authors in commits.",
+  "description":
+    "A command-line tool for social coding. Includes co-authors in commits.",
   "main": "index.js",
   "scripts": {
-    "test": "ava && xo"
+    "test": "ava && xo",
+    "test:w": "ava --watch"
   },
   "bin": {
     "git-mob": "bin/mob.js",
@@ -56,5 +58,9 @@
   },
   "xo": {
     "space": true
+  },
+  "ava": {
+    "files": ["**/*.spec.js"],
+    "source": ["**/*.js"]
   }
 }
