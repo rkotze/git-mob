@@ -1,7 +1,7 @@
 import test from 'ava';
 import { exec } from 'shelljs';
 
-test('mob help', async t => {
+test('-h prints help', async t => {
   const { stdout } = await exec('git mob -h', { silent: true });
 
   t.regex(stdout, /usage/i);
@@ -9,7 +9,7 @@ test('mob help', async t => {
   t.regex(stdout, /examples/i);
 });
 
-test('mob version', async t => {
+test('-v prints version', async t => {
   const { stdout } = await exec('git mob -v', { silent: true });
 
   t.regex(stdout, /\d.\d.\d/);

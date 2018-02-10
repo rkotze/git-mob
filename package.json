@@ -4,7 +4,7 @@
   "description": "A command-line tool for social coding. Includes co-authors in commits.",
   "main": "index.js",
   "scripts": {
-    "test": "ava && xo",
+    "test": "ava --verbose && xo",
     "test:w": "ava --watch"
   },
   "bin": {
