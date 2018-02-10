@@ -39,7 +39,16 @@ test('does nothing when there is no mob', t => {
   t.is(stdout, '');
 });
 
-test.serial.todo('without args returns the current mob');
+test('returns the current mob', t => {
+  const rkotze = 'Richard Kotze <richkotze@outlook.com>';
+  addCoAuthor(rkotze);
+
+  const { stdout } = exec('git mob', { silent: true });
+
+  t.is(stdout, rkotze + '\n');
+
+  removeCoAuthor(rkotze);
+});
 
 test('missing author when setting co-author mob rk', async t => {
   const { stdout } = await exec('git mob rk', { silent: true });
@@ -48,3 +57,11 @@ test('missing author when setting co-author mob rk', async t => {
   t.regex(stdout, /rk initials not found/i);
   t.regex(stdout, /add to .\/\.git-authors file/i);
 });
+
+function addCoAuthor(coauthor) {
+  exec(`git config --add git-mob.co-author "${coauthor}"`);
+}
+
+function removeCoAuthor(coauthor) {
+  exec(`git config --unset git-mob.co-author "^${coauthor}"`);
+}

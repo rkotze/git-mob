@@ -16,6 +16,7 @@ if (argv.help) {
 if (argv.version) {
   runVersion();
 }
+// TODO: Handle "not found" scenario in runMob()
 if (argv._.length > 0) {
   console.log(`
     Error:
@@ -24,6 +25,8 @@ if (argv._.length > 0) {
   `);
   shell.exit(1);
 }
+
+runMob(argv._);
 
 function runHelp() {
   console.log(`
@@ -45,4 +48,12 @@ Examples
 
 function runVersion() {
   console.log(require('../package.json').version);
+}
+
+function runMob(args) {
+  if (args.length === 0) readMob();
+}
+
+function readMob() {
+  shell.exec('git config git-mob.co-author');
 }
