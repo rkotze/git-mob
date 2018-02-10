@@ -22,11 +22,15 @@ function gitAuthors(readFilePromise) {
       return yaml.load(authorYaml);
     },
 
-    coAuthors() {
-      return [
-        'Co-authored-by: Jane Doe <jane@findmypast.com>',
-        'Co-authored-by: Frances Bar <frances_bar@findmypast.com>',
-      ];
+    coAuthors(authorInitials, authorJson) {
+      const authors = authorJson.authors;
+      const emailDomain = authorJson.email.domain;
+      return authorInitials.map(initials => {
+        const author = authors[initials].split('; ');
+        const formatName =
+          author[1] || author[0].replace(' ', '-').toLowerCase();
+        return `Co-authored-by: ${author[0]} <${formatName}@${emailDomain}>`;
+      });
     },
   };
 }
