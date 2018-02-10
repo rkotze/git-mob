@@ -11,6 +11,7 @@ test('-h prints help', async t => {
 
 test('--help is intercepted by git launcher', async t => {
   const { code, stderr } = await exec('git mob --help', { silent: true });
+
   t.not(code, 0);
   t.regex(stderr, /no manual entry for git-mob/i);
 });
@@ -26,6 +27,14 @@ test('--version prints version', async t => {
 
   t.regex(stdout, /\d.\d.\d/);
 });
+
+test('does nothing when there is no mob', t => {
+  const { stdout } = exec('git mob', { silent: true });
+
+  t.is(stdout, '');
+});
+
+test.todo('without args returns the current mob');
 
 test('missing author when setting co-author mob rk', async t => {
   const { stdout } = await exec('git mob rk', { silent: true });
