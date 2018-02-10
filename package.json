@@ -60,7 +60,8 @@
     "space": true,
     "rules": {
       "object-curly-spacing": ["error", "always"],
-      "comma-dangle": ["error", "only-multiline"]
+      "comma-dangle": ["error", "only-multiline"],
+      "ava/no-skip-test": "off"
     }
   },
   "ava": {

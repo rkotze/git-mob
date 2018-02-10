@@ -9,12 +9,17 @@ test('-h prints help', async t => {
   t.regex(stdout, /examples/i);
 });
 
-test.skip('--help is intercepted by git launcher', async t => {
-  const { code, stderr } = await exec('git mob --help', { silent: true });
+if (process.platform === 'win32') {
+  // Windows tries to open a man page at git-doc/git-mob.html which errors.
+  test.skip('--help is intercepted by git launcher on Windows', () => {});
+} else {
+  test('--help is intercepted by git launcher', async t => {
+    const { code, stderr } = await exec('git mob --help', { silent: true });
 
-  t.not(code, 0);
-  t.regex(stderr, /no manual entry for git-mob/i);
-});
+    t.not(code, 0);
+    t.regex(stderr, /no manual entry for git-mob/i);
+  });
+}
 
 test('-v prints version', async t => {
   const { stdout } = await exec('git mob -v', { silent: true });
