@@ -9,6 +9,12 @@ test('-h prints help', async t => {
   t.regex(stdout, /examples/i);
 });
 
+test('--help is intercepted by git launcher', async t => {
+  const { code, stderr } = await exec('git mob --help', { silent: true });
+  t.not(code, 0);
+  t.regex(stderr, /no manual entry for git-mob/i);
+});
+
 test('-v prints version', async t => {
   const { stdout } = await exec('git mob -v', { silent: true });
 
