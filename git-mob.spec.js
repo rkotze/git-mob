@@ -54,6 +54,8 @@ test('returns the current mob', t => {
   removeCoAuthor(rkotze);
 });
 
+test.serial.todo('overwrites old mob when setting a new mob');
+
 test('missing author when setting co-author mob rk', async t => {
   const { stdout } = await exec('git mob rk', { silent: true });
 
