@@ -1,6 +1,10 @@
 import test from 'ava';
 import { exec } from 'shelljs';
 
+test.after.always('cleanup', () => {
+  exec('git config --remove-section git-mob');
+});
+
 test('-h prints help', async t => {
   const { stdout } = await exec('git mob -h', { silent: true });
 
