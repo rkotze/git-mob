@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
-const argv = require("minimist")(process.argv.slice(2));
-const shell = require("shelljs");
+const argv = require('minimist')(process.argv.slice(2));
+const shell = require('shelljs');
 
 if (argv.h) {
   runHelp();
@@ -37,5 +37,5 @@ Examples
 }
 
 function runVersion() {
-  console.log(require("../package.json").version);
+  console.log(require('../package.json').version);
 }

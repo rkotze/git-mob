@@ -1,5 +1,5 @@
-const test = require("ava");
-const { gitAuthors } = require("./index");
+const test = require('ava');
+const { gitAuthors } = require('./index');
 
 const validYaml = `
 authors:
@@ -8,25 +8,25 @@ authors:
 email:
   domain: findmypast.com`;
 
-test(".gitauthor file does not exist", async t => {
+test('.gitauthor file does not exist', async t => {
   const authors = gitAuthors(() =>
-    Promise.reject(new Error("enoent: no such file or directory, open"))
+    Promise.reject(new Error('enoent: no such file or directory, open'))
   );
   const error = await t.throws(authors.read());
   t.regex(error.message, /enoent: no such file or directory, open/i);
 });
 
-test("read contents from .gitauthor", async t => {
+test('read contents from .gitauthor', async t => {
   const authors = gitAuthors(() => Promise.resolve(validYaml));
 
   const author = await authors.read();
   t.deepEqual(author, {
     authors: {
-      jd: "Jane Doe; jane",
-      fb: "Frances Bar"
+      jd: 'Jane Doe; jane',
+      fb: 'Frances Bar',
     },
     email: {
-      domain: "findmypast.com"
-    }
+      domain: 'findmypast.com',
+    },
   });
 });
