@@ -50,3 +50,5 @@ test('find and format "jd" to an array of co-authors', async t => {
   const coAuthorList = authors.coAuthors(['jd'], authorsJson);
   t.deepEqual(['Co-authored-by: Jane Doe <jane@findmypast.com>'], coAuthorList);
 });
+
+test.todo('Throw error if no author is found');
