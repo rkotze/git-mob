@@ -4,7 +4,7 @@ const path = require("path");
 const { promisify } = require("util");
 const yaml = require("js-yaml");
 
-function readSetup(readFilePromise) {
+function gitAuthors(readFilePromise) {
   const readPromise = readFilePromise || promisify(fs.readFile);
   async function readFile(path) {
     try {
@@ -15,11 +15,13 @@ function readSetup(readFilePromise) {
   }
 
   return {
-    gitAuthors: async () => {
-      const authorYaml = await readFile(path.join(os.homedir(), ".gitauthor"));
+    read: async () => {
+      const authorYaml = await readFile(
+        path.join(os.homedir(), ".git-authors")
+      );
       return yaml.load(authorYaml);
     }
   };
 }
 
-module.exports = { readSetup };
+module.exports = { gitAuthors };
