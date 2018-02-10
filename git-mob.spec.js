@@ -9,7 +9,7 @@ test('-h prints help', async t => {
   t.regex(stdout, /examples/i);
 });
 
-test('--help is intercepted by git launcher', async t => {
+test.skip('--help is intercepted by git launcher', async t => {
   const { code, stderr } = await exec('git mob --help', { silent: true });
 
   t.not(code, 0);
