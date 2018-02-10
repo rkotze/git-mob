@@ -8,6 +8,16 @@ authors:
 email:
   domain: findmypast.com`;
 
+const authorsJson = {
+  authors: {
+    jd: 'Jane Doe; jane',
+    fb: 'Frances Bar',
+  },
+  email: {
+    domain: 'findmypast.com',
+  },
+};
+
 test('.gitauthor file does not exist', async t => {
   const authors = gitAuthors(() =>
     Promise.reject(new Error('enoent: no such file or directory, open'))
@@ -19,14 +29,18 @@ test('.gitauthor file does not exist', async t => {
 test('read contents from .gitauthor', async t => {
   const authors = gitAuthors(() => Promise.resolve(validYaml));
 
-  const author = await authors.read();
-  t.deepEqual(author, {
-    authors: {
-      jd: 'Jane Doe; jane',
-      fb: 'Frances Bar',
-    },
-    email: {
-      domain: 'findmypast.com',
-    },
-  });
+  const json = await authors.read();
+  t.deepEqual(json, authorsJson);
+});
+
+test('find and format to co-authors', async t => {
+  const authors = gitAuthors();
+  const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson);
+  t.deepEqual(
+    [
+      'Co-authored-by: Jane Doe <jane@findmypast.com>',
+      'Co-authored-by: Frances Bar <frances_bar@findmypast.com>',
+    ],
+    coAuthorList
+  );
 });

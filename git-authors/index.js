@@ -21,6 +21,13 @@ function gitAuthors(readFilePromise) {
       );
       return yaml.load(authorYaml);
     },
+
+    coAuthors() {
+      return [
+        'Co-authored-by: Jane Doe <jane@findmypast.com>',
+        'Co-authored-by: Frances Bar <frances_bar@findmypast.com>',
+      ];
+    },
   };
 }
 
