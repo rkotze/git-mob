@@ -34,7 +34,7 @@ test('does nothing when there is no mob', t => {
   t.is(stdout, '');
 });
 
-test.todo('without args returns the current mob');
+test.serial.todo('without args returns the current mob');
 
 test('missing author when setting co-author mob rk', async t => {
   const { stdout } = await exec('git mob rk', { silent: true });
