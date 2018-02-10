@@ -15,6 +15,12 @@ test('-v prints version', async t => {
   t.regex(stdout, /\d.\d.\d/);
 });
 
+test('--version prints version', async t => {
+  const { stdout } = await exec('git mob --version', { silent: true });
+
+  t.regex(stdout, /\d.\d.\d/);
+});
+
 test('missing author when setting co-author mob rk', async t => {
   const { stdout } = await exec('git mob rk', { silent: true });
 

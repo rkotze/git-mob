@@ -1,12 +1,18 @@
 #! /usr/bin/env node
 
-const argv = require('minimist')(process.argv.slice(2));
+const minimist = require('minimist');
 const shell = require('shelljs');
+
+const argv = minimist(process.argv.slice(2), {
+  alias: {
+    v: 'version',
+  },
+});
 
 if (argv.h) {
   runHelp();
 }
-if (argv.v) {
+if (argv.version) {
   runVersion();
 }
 if (argv._.length > 0) {
