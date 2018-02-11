@@ -33,7 +33,7 @@ test('read contents from .gitauthor', async t => {
   t.deepEqual(json, authorsJson);
 });
 
-test('find and format "jd" and "fb" to an array of co-authors', async t => {
+test('find and format "jd" and "fb" to an array of co-authors', t => {
   const authors = gitAuthors();
   const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson);
   t.deepEqual(
@@ -45,7 +45,7 @@ test('find and format "jd" and "fb" to an array of co-authors', async t => {
   );
 });
 
-test('find and format "jd" to an array of co-authors', async t => {
+test('find and format "jd" to an array of co-authors', t => {
   const authors = gitAuthors();
   const coAuthorList = authors.coAuthors(['jd'], authorsJson);
   t.deepEqual(['Co-authored-by: Jane Doe <jane@findmypast.com>'], coAuthorList);

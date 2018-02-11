@@ -17,6 +17,8 @@ if (argv.version) {
   runVersion();
 }
 // TODO: Handle "not found" scenario in runMob()
+// I was thinking throwing the error from git-authors/index
+// Lets discuss in keybase team chat
 if (argv._.length > 0) {
   console.log(`
     Error:
@@ -51,7 +53,9 @@ function runVersion() {
 }
 
 function runMob(args) {
-  if (args.length === 0) readMob();
+  if (args.length === 0) {
+    readMob();
+  }
 }
 
 function readMob() {
