@@ -1,8 +1,7 @@
 {
   "name": "git-mob",
   "version": "0.0.1",
-  "description":
-    "A command-line tool for social coding. Includes co-authors in commits.",
+  "description": "CLI tool for including co-authors in commits.",
   "main": "index.js",
   "scripts": {
     "test": "ava --verbose && npm run js-lint",
