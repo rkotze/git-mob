@@ -30,10 +30,10 @@ if (argv._.length > 0) {
     .then(authorList => {
       authors.coAuthors(argv._, authorList);
     })
-    .catch(ex => {
+    .catch(err => {
       console.log(`
         Error:
-        ${ex.message}
+        ${err.message}
       `);
       shell.exit(1);
     });

@@ -61,14 +61,24 @@
   "xo": {
     "space": true,
     "rules": {
-      "object-curly-spacing": ["error", "always"],
-      "comma-dangle": ["error", "only-multiline"],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "comma-dangle": [
+        "error",
+        "only-multiline"
+      ],
       "ava/no-skip-test": "off",
       "linebreak-style": "off"
     }
   },
   "ava": {
-    "files": ["**/*.spec.js"],
-    "source": ["**/*.js"]
+    "files": [
+      "**/*.spec.js"
+    ],
+    "source": [
+      "**/*.js"
+    ]
   }
 }
