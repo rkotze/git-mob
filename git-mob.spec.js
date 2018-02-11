@@ -39,13 +39,17 @@ test('--version prints version', async t => {
   t.regex(stdout, /\d.\d.\d/);
 });
 
-test('does nothing when there is no mob', t => {
-  const { stdout } = exec('git mob', { silent: true });
+test('prints only primary author when there is no mob', t => {
+  addAuthor('John Doe', 'jdoe@example.com');
 
-  t.is(stdout, '');
+  const actual = exec('git mob', { silent: true }).stdout.trimRight();
+
+  t.is(actual, 'John Doe <jdoe@example.com>');
+
+  removeAuthor();
 });
 
-test('returns the current mob, including the primary author', t => {
+test('prints current mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
   addCoAuthor('Dennis Ideler', 'dideler@findmypast.com');
   addCoAuthor('Richard Kotze', 'rkotze@findmypast.com');

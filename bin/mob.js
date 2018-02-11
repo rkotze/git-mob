@@ -63,19 +63,27 @@ function runMob(args) {
 
 function printMob() {
   console.log(author());
-  console.log(coauthors());
+
+  if (isCoAuthorSet()) {
+    console.log(coauthors());
+  }
 }
 
 function author() {
-  const name = silentRun('git config user.name');
-  const email = silentRun('git config user.email');
+  const name = silentRun('git config user.name').stdout.trim();
+  const email = silentRun('git config user.email').stdout.trim();
   return oneLine`${name} <${email}>`;
 }
 
 function coauthors() {
-  return silentRun('git config --get-all git-mob.co-author');
+  return silentRun('git config --get-all git-mob.co-author').stdout.trim();
+}
+
+function isCoAuthorSet() {
+  const { code } = silentRun('git config git-mob.co-author');
+  return code === 0;
 }
 
 function silentRun(command) {
-  return shell.exec(command, { silent: true }).stdout.trim();
+  return shell.exec(command, { silent: true });
 }
