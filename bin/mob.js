@@ -2,7 +2,7 @@
 
 const minimist = require('minimist');
 const shell = require('shelljs');
-const { stripIndent } = require('common-tags');
+const { stripIndent, oneLine } = require('common-tags');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -55,10 +55,25 @@ function runVersion() {
 
 function runMob(args) {
   if (args.length === 0) {
-    readMob();
+    printMob();
   }
 }
 
-function readMob() {
-  shell.exec('git config --get-all git-mob.co-author');
+function printMob() {
+  console.log(author());
+  console.log(coauthors());
+}
+
+function author() {
+  const name = silentRun('git config user.name');
+  const email = silentRun('git config user.email');
+  return oneLine`${name} <${email}>`;
+}
+
+function coauthors() {
+  return silentRun('git config --get-all git-mob.co-author');
+}
+
+function silentRun(command) {
+  return shell.exec(command, { silent: true }).stdout.trim();
 }

@@ -1,7 +1,9 @@
 import test from 'ava';
 import { exec } from 'shelljs';
+import { stripIndent } from 'common-tags';
 
 test.after.always('cleanup', () => {
+  exec('git config --remove-section user');
   exec('git config --remove-section git-mob');
 });
 
@@ -43,18 +45,22 @@ test('does nothing when there is no mob', t => {
   t.is(stdout, '');
 });
 
-test('returns the current mob', t => {
-  const dideler = 'Dennis Ideler <dideler@findmypast.com>';
-  const rkotze = 'Richard Kotze <rkotze@findmypast.com>';
-  const coauthors = [dideler, rkotze];
+test('returns the current mob, including the primary author', t => {
+  addAuthor('John Doe', 'jdoe@example.com');
+  addCoAuthor('Dennis Ideler', 'dideler@findmypast.com');
+  addCoAuthor('Richard Kotze', 'rkotze@findmypast.com');
 
-  coauthors.forEach(coauthor => addCoAuthor(coauthor));
+  const actual = exec('git mob', { silent: true }).stdout.trimRight();
+  const expected = stripIndent`
+    John Doe <jdoe@example.com>
+    Dennis Ideler <dideler@findmypast.com>
+    Richard Kotze <rkotze@findmypast.com>
+  `;
 
-  const { stdout } = exec('git mob', { silent: true });
+  t.is(actual, expected);
 
-  t.is(stdout, dideler + '\n' + rkotze + '\n');
-
-  coauthors.forEach(coauthor => removeCoAuthor(coauthor));
+  removeAuthor();
+  removeCoAuthors();
 });
 
 test.serial.todo('overwrites old mob when setting a new mob');
@@ -67,10 +73,20 @@ test('missing author when setting co-author mob rk', async t => {
   t.regex(stdout, /add to .\/\.git-authors file/i);
 });
 
-function addCoAuthor(coauthor) {
-  exec(`git config --add git-mob.co-author "${coauthor}"`);
+function addAuthor(name, email) {
+  exec(`git config user.name "${name}"`);
+  exec(`git config user.email "${email}"`);
 }
 
-function removeCoAuthor(coauthor) {
-  exec(`git config --unset git-mob.co-author "^${coauthor}"`);
+function removeAuthor() {
+  exec('git config --unset user.name');
+  exec('git config --unset user.email');
+}
+
+function addCoAuthor(name, email) {
+  exec(`git config --add git-mob.co-author "${name} <${email}>"`);
+}
+
+function removeCoAuthors() {
+  exec('git config --unset-all git-mob.co-author');
 }
