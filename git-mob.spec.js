@@ -67,6 +67,21 @@ test('prints current mob', t => {
   removeCoAuthors();
 });
 
+test('set "jd" as co-author', t => {
+  addAuthor('Billy the kid', 'billy@thekid.com');
+
+  const actual = exec('git mob jd', { silent: true }).stdout.trimRight();
+  const expected = stripIndent`
+    Billy the kid <billy@thekid.com>
+    Jane Doe <jane@findmypast.com>
+  `;
+
+  t.is(actual, expected);
+
+  removeAuthor();
+  removeCoAuthors();
+});
+
 test.serial.todo('overwrites old mob when setting a new mob');
 
 test('missing author when setting co-author mob rk', async t => {

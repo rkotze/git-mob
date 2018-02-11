@@ -20,24 +20,6 @@ if (argv.version) {
   runVersion();
   shell.exit(0);
 }
-// TODO: Handle "not found" scenario in runMob()
-// I was thinking throwing the error from git-authors/index
-// Lets discuss in keybase team chat
-if (argv._.length > 0) {
-  const authors = gitAuthors();
-  authors
-    .read()
-    .then(authorList => {
-      authors.coAuthors(argv._, authorList);
-    })
-    .catch(err => {
-      console.log(`
-        Error:
-        ${err.message}
-      `);
-      shell.exit(1);
-    });
-}
 
 runMob(argv._);
 
@@ -67,6 +49,27 @@ function runMob(args) {
   if (args.length === 0) {
     printMob();
   }
+
+  // TODO: Handle "not found" scenario in runMob()
+  if (args.length > 0) {
+    const authors = gitAuthors();
+    authors
+      .read()
+      .then(authorList => {
+        return authors.coAuthors(args, authorList);
+      })
+      .then(coAuthors => {
+        coAuthors.forEach(addCoAuthor);
+        printMob();
+      })
+      .catch(err => {
+        console.log(`
+          Error:
+          ${err.message}
+        `);
+        shell.exit(1);
+      });
+  }
 }
 
 function printMob() {
@@ -94,4 +97,8 @@ function isCoAuthorSet() {
 
 function silentRun(command) {
   return shell.exec(command, { silent: true });
+}
+
+function addCoAuthor(coAuthor) {
+  return silentRun(`git config --add git-mob.co-author "${coAuthor}"`);
 }
