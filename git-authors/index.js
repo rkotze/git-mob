@@ -26,6 +26,7 @@ function gitAuthors(readFilePromise) {
       const authors = authorJson.authors;
       const emailDomain = authorJson.email.domain;
       return authorInitials.map(initials => {
+        missingAuthorError(initials, authors);
         const author = authors[initials].split('; ');
         const formatName =
           author[1] || author[0].replace(' ', '-').toLowerCase();
@@ -33,6 +34,12 @@ function gitAuthors(readFilePromise) {
       });
     },
   };
+}
+
+function missingAuthorError(initials, authors) {
+  if (!(initials in authors)) {
+    throw new Error(`Author with initials "${initials}" not found!`);
+  }
 }
 
 module.exports = { gitAuthors };
