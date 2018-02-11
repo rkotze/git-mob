@@ -16,9 +16,10 @@ function gitAuthors(readFilePromise) {
 
   return {
     read: async () => {
-      const authorYaml = await readFile(
-        path.join(os.homedir(), '.git-authors')
-      );
+      const gitAuthorsPath = process.env.TEST
+        ? path.join('test-helpers', '.git-authors')
+        : path.join(os.homedir(), '.git-authors');
+      const authorYaml = await readFile(gitAuthorsPath);
       return yaml.load(authorYaml);
     },
 

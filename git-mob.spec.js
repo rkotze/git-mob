@@ -72,9 +72,7 @@ test.serial.todo('overwrites old mob when setting a new mob');
 test('missing author when setting co-author mob rk', async t => {
   const { stdout } = await exec('git mob rk', { silent: true });
 
-  t.regex(stdout, /error/i);
-  t.regex(stdout, /rk initials not found/i);
-  t.regex(stdout, /add to .\/\.git-authors file/i);
+  t.regex(stdout, /Author with initials "rk" not found!/i);
 });
 
 function addAuthor(name, email) {

@@ -3,6 +3,7 @@
 const minimist = require('minimist');
 const shell = require('shelljs');
 const { stripIndent, oneLine } = require('common-tags');
+const { gitAuthors } = require('../git-authors');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -23,12 +24,19 @@ if (argv.version) {
 // I was thinking throwing the error from git-authors/index
 // Lets discuss in keybase team chat
 if (argv._.length > 0) {
-  console.log(`
-    Error:
-    - Author ${argv._[0]} initials not found.
-    - Please add to ~/.git-authors file.
-  `);
-  shell.exit(1);
+  const authors = gitAuthors();
+  authors
+    .read()
+    .then(authorList => {
+      authors.coAuthors(argv._, authorList);
+    })
+    .catch(ex => {
+      console.log(`
+        Error:
+        ${ex.message}
+      `);
+      shell.exit(1);
+    });
 }
 
 runMob(argv._);

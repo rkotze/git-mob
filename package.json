@@ -4,8 +4,8 @@
   "description": "CLI tool for including co-authors in commits.",
   "main": "index.js",
   "scripts": {
-    "test": "ava --verbose && npm run js-lint",
-    "test:w": "ava --watch",
+    "test": "set TEST=true && ava --verbose && npm run js-lint",
+    "test:w": "set TEST=true && ava --watch",
     "js-lint": "xo"
   },
   "bin": {
