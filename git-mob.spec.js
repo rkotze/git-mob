@@ -44,14 +44,17 @@ test('does nothing when there is no mob', t => {
 });
 
 test('returns the current mob', t => {
-  const rkotze = 'Richard Kotze <richkotze@outlook.com>';
-  addCoAuthor(rkotze);
+  const dideler = 'Dennis Ideler <dideler@findmypast.com>';
+  const rkotze = 'Richard Kotze <rkotze@findmypast.com>';
+  const coauthors = [dideler, rkotze];
+
+  coauthors.forEach(coauthor => addCoAuthor(coauthor));
 
   const { stdout } = exec('git mob', { silent: true });
 
-  t.is(stdout, rkotze + '\n');
+  t.is(stdout, dideler + '\n' + rkotze + '\n');
 
-  removeCoAuthor(rkotze);
+  coauthors.forEach(coauthor => removeCoAuthor(coauthor));
 });
 
 test.serial.todo('overwrites old mob when setting a new mob');

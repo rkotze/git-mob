@@ -59,5 +59,5 @@ function runMob(args) {
 }
 
 function readMob() {
-  shell.exec('git config git-mob.co-author');
+  shell.exec('git config --get-all git-mob.co-author');
 }
