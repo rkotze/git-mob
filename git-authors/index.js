@@ -30,7 +30,7 @@ function gitAuthors(readFilePromise) {
         const author = authors[initials].split('; ');
         const formatName =
           author[1] || author[0].replace(' ', '-').toLowerCase();
-        return `Co-authored-by: ${author[0]} <${formatName}@${emailDomain}>`;
+        return `${author[0]} <${formatName}@${emailDomain}>`;
       });
     },
   };

@@ -38,8 +38,8 @@ test('find and format "jd" and "fb" to an array of co-authors', t => {
   const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson);
   t.deepEqual(
     [
-      'Co-authored-by: Jane Doe <jane@findmypast.com>',
-      'Co-authored-by: Frances Bar <frances-bar@findmypast.com>',
+      'Jane Doe <jane@findmypast.com>',
+      'Frances Bar <frances-bar@findmypast.com>',
     ],
     coAuthorList
   );
@@ -48,7 +48,7 @@ test('find and format "jd" and "fb" to an array of co-authors', t => {
 test('find and format "jd" to an array of one co-author', t => {
   const authors = gitAuthors();
   const coAuthorList = authors.coAuthors(['jd'], authorsJson);
-  t.deepEqual(['Co-authored-by: Jane Doe <jane@findmypast.com>'], coAuthorList);
+  t.deepEqual(['Jane Doe <jane@findmypast.com>'], coAuthorList);
 });
 
 test('Throw error if initials of author are not found', t => {
