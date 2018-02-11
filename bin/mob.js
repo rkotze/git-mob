@@ -12,10 +12,12 @@ const argv = minimist(process.argv.slice(2), {
 });
 
 if (argv.help) {
-  return runHelp();
+  runHelp();
+  shell.exit(0);
 }
 if (argv.version) {
-  return runVersion();
+  runVersion();
+  shell.exit(0);
 }
 // TODO: Handle "not found" scenario in runMob()
 // I was thinking throwing the error from git-authors/index
