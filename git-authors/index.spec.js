@@ -18,7 +18,7 @@ const authorsJson = {
   },
 };
 
-test('.gitauthor file does not exist', async t => {
+test('.git-authors file does not exist', async t => {
   const authors = gitAuthors(() =>
     Promise.reject(new Error('enoent: no such file or directory, open'))
   );
@@ -26,7 +26,7 @@ test('.gitauthor file does not exist', async t => {
   t.regex(error.message, /enoent: no such file or directory, open/i);
 });
 
-test('read contents from .gitauthor', async t => {
+test('read contents from .git-authors', async t => {
   const authors = gitAuthors(() => Promise.resolve(validYaml));
 
   const json = await authors.read();

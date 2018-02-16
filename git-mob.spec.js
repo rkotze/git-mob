@@ -22,8 +22,8 @@ if (process.platform === 'win32') {
   test('--help is intercepted by git launcher', async t => {
     const { code, stderr } = await exec('git mob --help', { silent: true });
 
-    t.not(code, 0);
     t.regex(stderr, /no manual entry for git-mob/i);
+    t.not(code, 0);
   });
 }
 
@@ -67,13 +67,14 @@ test('prints current mob', t => {
   removeCoAuthors();
 });
 
-test('set "jd" as co-author', t => {
-  addAuthor('Billy the kid', 'billy@thekid.com');
+test('sets mob when co-author initials found in .git-authors file', t => {
+  addAuthor('Billy the Kid', 'billy@example.com');
 
-  const actual = exec('git mob jd', { silent: true }).stdout.trimRight();
+  const actual = exec('git mob jd ea', { silent: true }).stdout.trimRight();
   const expected = stripIndent`
-    Billy the kid <billy@thekid.com>
+    Billy the Kid <billy@example.com>
     Jane Doe <jane@findmypast.com>
+    Elliot Alderson <ealderson@findmypast.com>
   `;
 
   t.is(actual, expected);
@@ -82,12 +83,15 @@ test('set "jd" as co-author', t => {
   removeCoAuthors();
 });
 
+test.serial.todo('appends co-authors to .gitmessage file');
+
 test.serial.todo('overwrites old mob when setting a new mob');
 
-test('missing author when setting co-author mob rk', async t => {
-  const { stdout } = await exec('git mob rk', { silent: true });
+test('errors when co-author initials not found in .git-authors', async t => {
+  const { stderr, code } = await exec('git mob rk', { silent: true });
 
-  t.regex(stdout, /Author with initials "rk" not found!/i);
+  t.regex(stderr, /Author with initials "rk" not found!/i);
+  t.not(code, 0);
 });
 
 function addAuthor(name, email) {

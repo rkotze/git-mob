@@ -48,27 +48,8 @@ function runVersion() {
 function runMob(args) {
   if (args.length === 0) {
     printMob();
-  }
-
-  // TODO: Handle "not found" scenario in runMob()
-  if (args.length > 0) {
-    const authors = gitAuthors();
-    authors
-      .read()
-      .then(authorList => {
-        return authors.coAuthors(args, authorList);
-      })
-      .then(coAuthors => {
-        coAuthors.forEach(addCoAuthor);
-        printMob();
-      })
-      .catch(err => {
-        console.log(`
-          Error:
-          ${err.message}
-        `);
-        shell.exit(1);
-      });
+  } else {
+    setMob(args);
   }
 }
 
@@ -78,6 +59,23 @@ function printMob() {
   if (isCoAuthorSet()) {
     console.log(coauthors());
   }
+}
+
+function setMob(initials) {
+  const authors = gitAuthors();
+  authors
+    .read()
+    .then(authorList => authors.coAuthors(initials, authorList))
+    .then(coAuthors => {
+      coAuthors.forEach(addCoAuthorToGitConfig);
+      // TODO: Set commit template
+      // TODO: Append to .git/gitmessage
+      printMob();
+    })
+    .catch(err => {
+      console.error(`Error: ${err.message}`);
+      shell.exit(1);
+    });
 }
 
 function author() {
@@ -95,10 +93,10 @@ function isCoAuthorSet() {
   return code === 0;
 }
 
-function silentRun(command) {
-  return shell.exec(command, { silent: true });
+function addCoAuthorToGitConfig(coAuthor) {
+  silentRun(`git config --add git-mob.co-author "${coAuthor}"`);
 }
 
-function addCoAuthor(coAuthor) {
-  return silentRun(`git config --add git-mob.co-author "${coAuthor}"`);
+function silentRun(command) {
+  return shell.exec(command, { silent: true });
 }
