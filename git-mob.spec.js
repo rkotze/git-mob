@@ -83,9 +83,23 @@ test('sets mob when co-author initials found in .git-authors file', t => {
   removeCoAuthors();
 });
 
-test.serial.todo('appends co-authors to .gitmessage file');
+test('overwrites old mob when setting a new mob', t => {
+  addAuthor('John Doe', 'jdoe@example.com');
+  addCoAuthor('Tyrell Wellick', 'twellick@example.com');
 
-test.serial.todo('overwrites old mob when setting a new mob');
+  const actual = exec('git mob ea', { silent: true }).stdout.trimRight();
+  const expected = stripIndent`
+    John Doe <jdoe@example.com>
+    Elliot Alderson <ealderson@findmypast.com>
+  `;
+
+  t.is(actual, expected);
+
+  removeAuthor();
+  removeCoAuthors();
+});
+
+test.serial.todo('appends co-authors to .gitmessage file');
 
 test('errors when co-author initials not found in .git-authors', async t => {
   const { stderr, code } = await exec('git mob rk', { silent: true });

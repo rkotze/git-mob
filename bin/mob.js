@@ -67,6 +67,7 @@ function setMob(initials) {
     .read()
     .then(authorList => authors.coAuthors(initials, authorList))
     .then(coAuthors => {
+      resetMob();
       coAuthors.forEach(addCoAuthorToGitConfig);
       // TODO: Set commit template
       // TODO: Append to .git/gitmessage
@@ -95,6 +96,10 @@ function isCoAuthorSet() {
 
 function addCoAuthorToGitConfig(coAuthor) {
   silentRun(`git config --add git-mob.co-author "${coAuthor}"`);
+}
+
+function resetMob() {
+  silentRun('git config --remove-section git-mob');
 }
 
 function silentRun(command) {
