@@ -20,6 +20,8 @@ test('Append co-authors to .git-message', t => {
   t.is(
     argContent,
     [
+      os.EOL,
+      os.EOL,
       'Co-authored-by: Jane Doe <jane@findmypast.com>',
       os.EOL,
       'Co-authored-by: Frances Bar <frances-bar@findmypast.com>',

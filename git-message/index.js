@@ -17,11 +17,13 @@ function gitMessage(appendFilePromise) {
 
   return {
     writeCoAuthors: async coAuthorList => {
-      const coAuthorText = coAuthorList.reduce((acc, coAuthor, i, arr) => {
-        const newline = i < arr.length - 1 ? os.EOL : '';
-        return acc + 'Co-authored-by: ' + coAuthor + newline;
-      }, '');
-      await append(MESSAGE_PATH, coAuthorText);
+      const coAuthorText = coAuthorList
+        .map(coAuthor => {
+          return 'Co-authored-by: ' + coAuthor;
+        })
+        .join(os.EOL);
+
+      await append(MESSAGE_PATH, os.EOL + os.EOL + coAuthorText);
       return MESSAGE_PATH;
     },
   };
