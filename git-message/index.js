@@ -1,15 +1,12 @@
 const fs = require('fs');
-const path = require('path');
 const os = require('os');
 const { promisify } = require('util');
 
-const MESSAGE_PATH = path.join('.git', '.git-message');
-
-function gitMessage(appendFilePromise) {
+function gitMessage(messagePath, appendFilePromise) {
   const appendPromise = appendFilePromise || promisify(fs.appendFile);
-  async function append(path, content) {
+  async function append(content) {
     try {
-      return await appendPromise(path, content, 'utf8');
+      return await appendPromise(messagePath, content, 'utf8');
     } catch (err) {
       throw new Error(err.message);
     }
@@ -23,8 +20,8 @@ function gitMessage(appendFilePromise) {
         })
         .join(os.EOL);
 
-      await append(MESSAGE_PATH, os.EOL + os.EOL + coAuthorText);
-      return MESSAGE_PATH;
+      await append(os.EOL + os.EOL + coAuthorText);
+      return 'SAVED';
     },
   };
 }

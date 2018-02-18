@@ -1,9 +1,14 @@
 #! /usr/bin/env node
 
+const path = require('path');
 const minimist = require('minimist');
 const shell = require('shelljs');
 const { stripIndent, oneLine } = require('common-tags');
 const { gitAuthors } = require('../git-authors');
+const { gitMessage } = require('../git-message');
+
+const gitMessagePath =
+  process.env.GITMOB_MESSAGE_PATH || path.join('.git', '.gitmessage');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -63,12 +68,15 @@ function printMob() {
 
 function setMob(initials) {
   const authors = gitAuthors();
+  const message = gitMessage(gitMessagePath);
   authors
     .read()
     .then(authorList => authors.coAuthors(initials, authorList))
     .then(coAuthors => {
+      setCommitTemplate();
       resetMob();
       coAuthors.forEach(addCoAuthorToGitConfig);
+      message.writeCoAuthors(coAuthors);
       // TODO: Set commit template
       // TODO: Append to .git/gitmessage
       printMob();
@@ -104,4 +112,9 @@ function resetMob() {
 
 function silentRun(command) {
   return shell.exec(command, { silent: true });
+}
+
+// TODO: Use pre-existing template if set (global or local), instead of overwriting.
+function setCommitTemplate() {
+  silentRun(`git config commit.template ${gitMessagePath}`);
 }

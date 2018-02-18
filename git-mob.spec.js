@@ -1,6 +1,8 @@
+import fs from 'fs';
 import test from 'ava';
 import { exec } from 'shelljs';
 import { stripIndent } from 'common-tags';
+import eol from 'eol';
 
 test.after.always('cleanup', () => {
   exec('git config --remove-section user');
@@ -99,13 +101,35 @@ test('overwrites old mob when setting a new mob', t => {
   removeCoAuthors();
 });
 
-test.serial.todo('appends co-authors to .gitmessage file');
-
 test('errors when co-author initials not found in .git-authors', async t => {
   const { stderr, code } = await exec('git mob rk', { silent: true });
 
   t.regex(stderr, /Author with initials "rk" not found!/i);
   t.not(code, 0);
+});
+
+// TODO: concurrent IO tests https://github.com/avajs/ava#temp-files
+test('appends co-authors to .gitmessage file', t => {
+  addAuthor('Thomas Anderson', 'neo@example.com');
+  setGitMessageFile();
+
+  exec('git mob jd ea', { silent: false });
+
+  const actual = eol.auto(
+    fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
+  );
+  const expected = eol.auto(stripIndent`
+    A commit title
+
+    A commit body that goes into more detail.
+
+    Co-authored-by: Jane Doe <jane@findmypast.com>
+    Co-authored-by: Elliot Alderson <ealderson@findmypast.com>`);
+
+  t.is(actual, expected);
+
+  unsetCommitTemplate();
+  removeAuthor();
 });
 
 function addAuthor(name, email) {
@@ -124,4 +148,18 @@ function addCoAuthor(name, email) {
 
 function removeCoAuthors() {
   exec('git config --unset-all git-mob.co-author');
+}
+
+function unsetCommitTemplate() {
+  exec('git config --unset commit.template');
+}
+
+function setGitMessageFile() {
+  fs.writeFileSync(
+    process.env.GITMOB_MESSAGE_PATH,
+    stripIndent`
+  A commit title
+
+  A commit body that goes into more detail.`
+  );
 }
