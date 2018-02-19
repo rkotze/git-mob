@@ -84,16 +84,28 @@ test('sets mob when co-author initials found in .git-authors file', t => {
 
 test('overwrites old mob when setting a new mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
-  addCoAuthor('Tyrell Wellick', 'twellick@example.com');
+  exec('git mob jd', { silent: true });
 
-  const actual = exec('git mob ea', { silent: true }).stdout.trimRight();
-  const expected = stripIndent`
+  const actualOutput = exec('git mob ea', { silent: true }).stdout.trimRight();
+  const expectedOutput = stripIndent`
     John Doe <jdoe@example.com>
     Elliot Alderson <ealderson@findmypast.com>
   `;
 
-  t.is(actual, expected);
+  t.is(actualOutput, expectedOutput);
 
+  const actualGitmessage = eol.auto(
+    fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
+  );
+
+  const expectedGitmessage = eol.auto(stripIndent`
+    A commit title
+
+    A commit body that goes into more detail.
+
+    Co-authored-by: Elliot Alderson <ealderson@findmypast.com>`);
+
+  t.is(actualGitmessage, expectedGitmessage);
 });
 
 test('errors when co-author initials not found in .git-authors', async t => {
