@@ -82,6 +82,17 @@ test('sets mob when co-author initials found in .git-authors file', t => {
   t.is(actual, expected);
 });
 
+test('errors when co-author initials not found in .git-authors', t => {
+  const { stderr, code } = exec('git mob rk');
+
+  t.regex(stderr, /Author with initials "rk" not found!/i);
+  t.not(code, 0);
+});
+
+test.todo(
+  'write to .gitmessage file which does not exist (this currently fails)'
+);
+
 test('overwrites old mob when setting a new mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
   exec('git mob jd');
@@ -106,13 +117,6 @@ test('overwrites old mob when setting a new mob', t => {
     Co-authored-by: Elliot Alderson <ealderson@findmypast.com>`);
 
   t.is(actualGitmessage, expectedGitmessage);
-});
-
-test('errors when co-author initials not found in .git-authors', t => {
-  const { stderr, code } = exec('git mob rk');
-
-  t.regex(stderr, /Author with initials "rk" not found!/i);
-  t.not(code, 0);
 });
 
 // TODO: concurrent IO tests https://github.com/avajs/ava#temp-files
