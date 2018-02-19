@@ -2,7 +2,7 @@
 
 const path = require('path');
 const minimist = require('minimist');
-const shell = require('shelljs');
+const { execSync } = require('child_process');
 const { stripIndent, oneLine } = require('common-tags');
 const { gitAuthors } = require('../git-authors');
 const { gitMessage } = require('../git-message');
@@ -21,11 +21,11 @@ const argv = minimist(process.argv.slice(2), {
 
 if (argv.help) {
   runHelp();
-  shell.exit(0);
+  process.exit(0);
 }
 if (argv.version) {
   runVersion();
-  shell.exit(0);
+  process.exit(0);
 }
 
 runMob(argv._);
@@ -85,7 +85,7 @@ function setMob(initials) {
     })
     .catch(err => {
       console.error(`Error: ${err.message}`);
-      shell.exit(1);
+      process.exit(1);
     });
 }
 
@@ -113,7 +113,20 @@ function resetMob() {
 }
 
 function silentRun(command) {
-  return shell.exec(command, { silent: true });
+  try {
+    return {
+      stdout: execSync(command, { encoding: 'utf8' }),
+      code: 0,
+    };
+  } catch (err) {
+    return {
+      code: err.status,
+      pid: err.pid,
+      stderr: err.stderr,
+      stdout: err.stdout,
+      cmd: err.cmd,
+    };
+  }
 }
 
 function setCommitTemplate() {
