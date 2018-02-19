@@ -4,6 +4,11 @@ import { exec } from 'shelljs';
 import { stripIndent } from 'common-tags';
 import eol from 'eol';
 
+test.beforeEach('reset state', t => {
+  removeAuthor();
+  removeCoAuthors();
+});
+
 test.after.always('cleanup', () => {
   exec('git config --remove-section user');
   exec('git config --remove-section git-mob');
@@ -47,8 +52,6 @@ test('prints only primary author when there is no mob', t => {
   const actual = exec('git mob', { silent: true }).stdout.trimRight();
 
   t.is(actual, 'John Doe <jdoe@example.com>');
-
-  removeAuthor();
 });
 
 test('prints current mob', t => {
@@ -64,9 +67,6 @@ test('prints current mob', t => {
   `;
 
   t.is(actual, expected);
-
-  removeAuthor();
-  removeCoAuthors();
 });
 
 test('sets mob when co-author initials found in .git-authors file', t => {
@@ -80,9 +80,6 @@ test('sets mob when co-author initials found in .git-authors file', t => {
   `;
 
   t.is(actual, expected);
-
-  removeAuthor();
-  removeCoAuthors();
 });
 
 test('overwrites old mob when setting a new mob', t => {
@@ -97,8 +94,6 @@ test('overwrites old mob when setting a new mob', t => {
 
   t.is(actual, expected);
 
-  removeAuthor();
-  removeCoAuthors();
 });
 
 test('errors when co-author initials not found in .git-authors', async t => {
@@ -113,7 +108,7 @@ test('appends co-authors to .gitmessage file', t => {
   addAuthor('Thomas Anderson', 'neo@example.com');
   setGitMessageFile();
 
-  exec('git mob jd ea', { silent: false });
+  exec('git mob jd ea', { silent: true });
 
   const actual = eol.auto(
     fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
@@ -129,7 +124,6 @@ test('appends co-authors to .gitmessage file', t => {
   t.is(actual, expected);
 
   unsetCommitTemplate();
-  removeAuthor();
 });
 
 function addAuthor(name, email) {
