@@ -1,16 +1,15 @@
 const fs = require('fs');
 const os = require('os');
-const { promisify } = require('util');
 
 function append(messagePath, newAuthors) {
-  return new Promise(function(resolve, reject) {
-    fs.readFile(messagePath, 'utf8', function(err, data) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(messagePath, 'utf8', (err, data) => {
       if (err) reject(err);
 
       const result =
         data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
 
-      fs.writeFile(messagePath, result, 'utf8', function(err) {
+      fs.writeFile(messagePath, result, 'utf8', err => {
         if (err) reject(err);
 
         resolve();
