@@ -8,7 +8,9 @@ const { gitAuthors } = require('../git-authors');
 const { gitMessage } = require('../git-message');
 
 const gitMessagePath =
-  process.env.GITMOB_MESSAGE_PATH || path.join('.git', '.gitmessage');
+  process.env.GITMOB_MESSAGE_PATH ||
+  commitTemplatePath() ||
+  path.join('.git', '.gitmessage');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -117,4 +119,8 @@ function silentRun(command) {
 // TODO: Use pre-existing template if set (global or local), instead of overwriting.
 function setCommitTemplate() {
   silentRun(`git config commit.template ${gitMessagePath}`);
+}
+
+function commitTemplatePath() {
+  return silentRun('git config commit.template').stdout.trim();
 }
