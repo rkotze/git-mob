@@ -2,7 +2,6 @@
   "name": "git-mob",
   "version": "0.0.1",
   "description": "CLI tool for including co-authors in commits.",
-  "main": "index.js",
   "scripts": {
     "test": "cross-env TEST=true GITMOB_MESSAGE_PATH=test-helpers/.gitmessage ava --verbose && npm run js-lint",
     "test:w": "cross-env TEST=true GITMOB_MESSAGE_PATH=test-helpers/.gitmessage ava --watch",
