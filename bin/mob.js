@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 
 const path = require('path');
-const minimist = require('minimist');
 const { execSync } = require('child_process');
+const minimist = require('minimist');
 const { stripIndent, oneLine } = require('common-tags');
 const { gitAuthors } = require('../git-authors');
 const { gitMessage } = require('../git-message');

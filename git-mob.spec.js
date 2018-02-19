@@ -1,10 +1,10 @@
 import fs from 'fs';
+import { execSync } from 'child_process';
 import test from 'ava';
-import { exec } from 'shelljs';
 import { stripIndent } from 'common-tags';
 import eol from 'eol';
 
-test.beforeEach('reset state', t => {
+test.beforeEach('reset state', () => {
   removeAuthor();
   removeCoAuthors();
 });
@@ -14,8 +14,8 @@ test.after.always('cleanup', () => {
   exec('git config --remove-section git-mob');
 });
 
-test('-h prints help', async t => {
-  const { stdout } = await exec('git mob -h', { silent: true });
+test('-h prints help', t => {
+  const { stdout } = exec('git mob -h');
 
   t.regex(stdout, /usage/i);
   t.regex(stdout, /options/i);
@@ -26,22 +26,22 @@ if (process.platform === 'win32') {
   // Windows tries to open a man page at git-doc/git-mob.html which errors.
   test.skip('--help is intercepted by git launcher on Windows', () => {});
 } else {
-  test('--help is intercepted by git launcher', async t => {
-    const { code, stderr } = await exec('git mob --help', { silent: true });
+  test('--help is intercepted by git launcher', t => {
+    const { code, stderr } = exec('git mob --help');
 
     t.regex(stderr, /no manual entry for git-mob/i);
     t.not(code, 0);
   });
 }
 
-test('-v prints version', async t => {
-  const { stdout } = await exec('git mob -v', { silent: true });
+test('-v prints version', t => {
+  const { stdout } = exec('git mob -v');
 
   t.regex(stdout, /\d.\d.\d/);
 });
 
-test('--version prints version', async t => {
-  const { stdout } = await exec('git mob --version', { silent: true });
+test('--version prints version', t => {
+  const { stdout } = exec('git mob --version');
 
   t.regex(stdout, /\d.\d.\d/);
 });
@@ -49,7 +49,7 @@ test('--version prints version', async t => {
 test('prints only primary author when there is no mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
 
-  const actual = exec('git mob', { silent: true }).stdout.trimRight();
+  const actual = exec('git mob').stdout.trimRight();
 
   t.is(actual, 'John Doe <jdoe@example.com>');
 });
@@ -59,7 +59,7 @@ test('prints current mob', t => {
   addCoAuthor('Dennis Ideler', 'dideler@findmypast.com');
   addCoAuthor('Richard Kotze', 'rkotze@findmypast.com');
 
-  const actual = exec('git mob', { silent: true }).stdout.trimRight();
+  const actual = exec('git mob').stdout.trimRight();
   const expected = stripIndent`
     John Doe <jdoe@example.com>
     Dennis Ideler <dideler@findmypast.com>
@@ -72,7 +72,7 @@ test('prints current mob', t => {
 test('sets mob when co-author initials found in .git-authors file', t => {
   addAuthor('Billy the Kid', 'billy@example.com');
 
-  const actual = exec('git mob jd ea', { silent: true }).stdout.trimRight();
+  const actual = exec('git mob jd ea').stdout.trimRight();
   const expected = stripIndent`
     Billy the Kid <billy@example.com>
     Jane Doe <jane@findmypast.com>
@@ -84,9 +84,9 @@ test('sets mob when co-author initials found in .git-authors file', t => {
 
 test('overwrites old mob when setting a new mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
-  exec('git mob jd', { silent: true });
+  exec('git mob jd');
 
-  const actualOutput = exec('git mob ea', { silent: true }).stdout.trimRight();
+  const actualOutput = exec('git mob ea').stdout.trimRight();
   const expectedOutput = stripIndent`
     John Doe <jdoe@example.com>
     Elliot Alderson <ealderson@findmypast.com>
@@ -108,8 +108,8 @@ test('overwrites old mob when setting a new mob', t => {
   t.is(actualGitmessage, expectedGitmessage);
 });
 
-test('errors when co-author initials not found in .git-authors', async t => {
-  const { stderr, code } = await exec('git mob rk', { silent: true });
+test('errors when co-author initials not found in .git-authors', t => {
+  const { stderr, code } = exec('git mob rk');
 
   t.regex(stderr, /Author with initials "rk" not found!/i);
   t.not(code, 0);
@@ -120,7 +120,7 @@ test('appends co-authors to .gitmessage file', t => {
   addAuthor('Thomas Anderson', 'neo@example.com');
   setGitMessageFile();
 
-  exec('git mob jd ea', { silent: true });
+  exec('git mob jd ea');
 
   const actual = eol.auto(
     fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
@@ -168,4 +168,21 @@ function setGitMessageFile() {
 
   A commit body that goes into more detail.`
   );
+}
+
+function exec(command) {
+  try {
+    return {
+      stdout: execSync(command, { encoding: 'utf8' }),
+      code: 0,
+    };
+  } catch (err) {
+    return {
+      code: err.status,
+      pid: err.pid,
+      stderr: err.stderr,
+      stdout: err.stdout,
+      cmd: err.cmd,
+    };
+  }
 }
