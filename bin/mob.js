@@ -116,9 +116,9 @@ function silentRun(command) {
   return shell.exec(command, { silent: true });
 }
 
-// TODO: Use pre-existing template if set (global or local), instead of overwriting.
 function setCommitTemplate() {
-  silentRun(`git config commit.template ${gitMessagePath}`);
+  const { code } = silentRun('git config commit.template');
+  if (code !== 0) silentRun(`git config commit.template ${gitMessagePath}`);
 }
 
 function commitTemplatePath() {
