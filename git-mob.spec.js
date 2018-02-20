@@ -12,6 +12,7 @@ test.beforeEach('reset state', () => {
 test.after.always('cleanup', () => {
   exec('git config --remove-section user');
   exec('git config --remove-section git-mob');
+  deleteGitMessageFile();
 });
 
 test('-h prints help', t => {
@@ -95,6 +96,7 @@ test.todo(
 
 test('overwrites old mob when setting a new mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
+  setGitMessageFile();
   exec('git mob jd');
 
   const actualOutput = exec('git mob ea').stdout.trimRight();
@@ -165,13 +167,21 @@ function unsetCommitTemplate() {
 }
 
 function setGitMessageFile() {
-  fs.writeFileSync(
-    process.env.GITMOB_MESSAGE_PATH,
-    stripIndent`
+  try {
+    fs.writeFileSync(
+      process.env.GITMOB_MESSAGE_PATH,
+      stripIndent`
   A commit title
 
   A commit body that goes into more detail.`
-  );
+    );
+  } catch (e) {
+    console.log('Error setGitMessageFile: create test .gitmessage', e);
+  }
+}
+
+function deleteGitMessageFile() {
+  fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
 }
 
 function exec(command) {
