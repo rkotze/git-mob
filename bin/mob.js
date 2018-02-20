@@ -79,8 +79,6 @@ function setMob(initials) {
       resetMob();
       coAuthors.forEach(addCoAuthorToGitConfig);
       message.writeCoAuthors(coAuthors);
-      // TODO: Set commit template
-      // TODO: Append to .git/gitmessage
       printMob();
     })
     .catch(err => {
