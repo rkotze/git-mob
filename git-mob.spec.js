@@ -1,4 +1,5 @@
 import fs from 'fs';
+import os from 'os';
 import { execSync } from 'child_process';
 import test from 'ava';
 import { stripIndent } from 'common-tags';
@@ -90,9 +91,22 @@ test('errors when co-author initials not found in .git-authors', t => {
   t.not(code, 0);
 });
 
-test.todo(
-  'write to .gitmessage file which does not exist (this currently fails)'
-);
+test('write to .gitmessage file which does not exist', t => {
+  addAuthor('John Doe', 'jdoe@example.com');
+
+  const actualOutput = exec('git mob ea').stdout.trimRight();
+
+  const actualGitmessage = eol.auto(
+    fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
+  );
+
+  const expectedGitmessage =
+    os.EOL +
+    os.EOL +
+    'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>';
+
+  t.is(actualGitmessage, expectedGitmessage);
+});
 
 test('overwrites old mob when setting a new mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');

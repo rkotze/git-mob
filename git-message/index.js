@@ -6,10 +6,13 @@ function append(messagePath, newAuthors) {
     fs.readFile(messagePath, 'utf8', (err, data) => {
       if (err) reject(err);
 
-      const result =
-        data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
+      let result = newAuthors;
+      if (data) {
+        result =
+          data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
+      }
 
-      fs.writeFile(messagePath, result, 'utf8', err => {
+      fs.writeFile(messagePath, result, err => {
         if (err) reject(err);
 
         resolve();
