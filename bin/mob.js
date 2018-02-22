@@ -3,9 +3,10 @@
 const path = require('path');
 const { spawnSync } = require('child_process');
 const minimist = require('minimist');
-const { stripIndent, oneLine } = require('common-tags');
+const { oneLine } = require('common-tags');
 const { gitAuthors } = require('../git-authors');
 const { gitMessage } = require('../git-message');
+const { runHelp, runVersion } = require('../helpers');
 
 const gitMessagePath =
   process.env.GITMOB_MESSAGE_PATH ||
@@ -29,28 +30,6 @@ if (argv.version) {
 }
 
 runMob(argv._);
-
-function runHelp() {
-  const message = stripIndent`
-    Usage
-      $ git mob <co-author-initials>
-      $ git solo
-
-    Options
-      -h  Prints usage information
-      -v  Prints current version
-
-    Examples
-      $ git mob jd     # Set John Doe as co-author
-      $ git mob jd am  # Set John & Amy as co-authors
-      $ git solo       # Dissipate the mob
-  `;
-  console.log(message);
-}
-
-function runVersion() {
-  console.log(require('../package.json').version);
-}
 
 function runMob(args) {
   if (args.length === 0) {

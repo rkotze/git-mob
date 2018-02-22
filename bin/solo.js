@@ -1,5 +1,20 @@
 #! /usr/bin/env node
 
-// Not compatible with git-duet which also has a solo command.
-// Need to warn user to uninstall git-duet.
-console.log('coming soon');
+const minimist = require('minimist');
+const { runHelp, runVersion } = require('../helpers');
+
+const argv = minimist(process.argv.slice(2), {
+  alias: {
+    h: 'help',
+    v: 'version',
+  },
+});
+
+if (argv.help) {
+  runHelp();
+  process.exit(0);
+}
+if (argv.version) {
+  runVersion();
+  process.exit(0);
+}
