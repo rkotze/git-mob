@@ -10,9 +10,14 @@ test.beforeEach('reset state', () => {
   removeCoAuthors();
 });
 
+test.afterEach('cleanup', () => {
+  removeAuthor();
+  removeGitConfigSection('git-mob');
+  safelyRemoveGitConfigSection('user');
+  safelyRemoveGitConfigSection('commit');
+});
+
 test.after.always('cleanup', () => {
-  exec('git config --remove-section user');
-  exec('git config --remove-section git-mob');
   deleteGitMessageFile();
 });
 
@@ -178,6 +183,20 @@ function removeCoAuthors() {
 
 function unsetCommitTemplate() {
   exec('git config --unset commit.template');
+}
+
+function localGitConfigSectionEmpty(section) {
+  return exec(`git config --local --get-regexp '^${section}\.'`).status !== 0;
+}
+
+function safelyRemoveGitConfigSection(section) {
+  if (localGitConfigSectionEmpty(section)) {
+    exec(`git config --remove-section ${section}`);
+  }
+}
+
+function removeGitConfigSection(section) {
+  exec(`git config --remove-section ${section}`);
 }
 
 function setGitMessageFile() {
