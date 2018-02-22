@@ -1,6 +1,6 @@
 import fs from 'fs';
 import os from 'os';
-import { execSync } from 'child_process';
+import { spawnSync } from 'child_process';
 import test from 'ava';
 import { stripIndent } from 'common-tags';
 import eol from 'eol';
@@ -29,10 +29,10 @@ if (process.platform === 'win32') {
   test.skip('--help is intercepted by git launcher on Windows', () => {});
 } else {
   test('--help is intercepted by git launcher', t => {
-    const { code, stderr } = exec('git mob --help');
+    const { status, stderr } = exec('git mob --help', { silent: true });
 
     t.regex(stderr, /no manual entry for git-mob/i);
-    t.not(code, 0);
+    t.not(status, 0);
   });
 }
 
@@ -85,10 +85,10 @@ test('sets mob when co-author initials found in .git-authors file', t => {
 });
 
 test('errors when co-author initials not found in .git-authors', t => {
-  const { stderr, code } = exec('git mob rk');
+  const { stderr, status } = exec('git mob rk');
 
   t.regex(stderr, /Author with initials "rk" not found!/i);
-  t.not(code, 0);
+  t.not(status, 0);
 });
 
 test('write to .gitmessage file which does not exist', t => {
@@ -199,18 +199,5 @@ function deleteGitMessageFile() {
 }
 
 function exec(command) {
-  try {
-    return {
-      stdout: execSync(command, { encoding: 'utf8' }),
-      code: 0,
-    };
-  } catch (err) {
-    return {
-      code: err.status,
-      pid: err.pid,
-      stderr: err.stderr,
-      stdout: err.stdout,
-      cmd: err.cmd,
-    };
-  }
+  return spawnSync(command, { encoding: 'utf8', shell: true });
 }

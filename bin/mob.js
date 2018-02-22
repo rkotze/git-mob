@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 const path = require('path');
-const { execSync } = require('child_process');
+const { spawnSync } = require('child_process');
 const minimist = require('minimist');
 const { stripIndent, oneLine } = require('common-tags');
 const { gitAuthors } = require('../git-authors');
@@ -98,8 +98,8 @@ function coauthors() {
 }
 
 function isCoAuthorSet() {
-  const { code } = silentRun('git config git-mob.co-author');
-  return code === 0;
+  const { status } = silentRun('git config git-mob.co-author');
+  return status === 0;
 }
 
 function addCoAuthorToGitConfig(coAuthor) {
@@ -111,25 +111,12 @@ function resetMob() {
 }
 
 function silentRun(command) {
-  try {
-    return {
-      stdout: execSync(command, { encoding: 'utf8' }),
-      code: 0,
-    };
-  } catch (err) {
-    return {
-      code: err.status,
-      pid: err.pid,
-      stderr: err.stderr,
-      stdout: err.stdout,
-      cmd: err.cmd,
-    };
-  }
+  return spawnSync(command, { encoding: 'utf8', shell: true });
 }
 
 function setCommitTemplate() {
-  const { code } = silentRun('git config commit.template');
-  if (code !== 0) silentRun(`git config commit.template ${gitMessagePath}`);
+  const { status } = silentRun('git config commit.template');
+  if (status !== 0) silentRun(`git config commit.template ${gitMessagePath}`);
 }
 
 function commitTemplatePath() {
