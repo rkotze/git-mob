@@ -40,7 +40,7 @@ function runSolo(args) {
     gitMessage(gitMessagePath)
       .removeCoAuthors()
       .then(() => {
-        // todo: unset git-mob.co-authors
+        resetMob();
         printAuthor();
         process.exit(0);
       })
@@ -59,6 +59,10 @@ function author() {
   const name = silentRun('git config user.name').stdout.trim();
   const email = silentRun('git config user.email').stdout.trim();
   return oneLine`${name} <${email}>`;
+}
+
+function resetMob() {
+  silentRun('git config --remove-section git-mob');
 }
 
 function silentRun(command) {
