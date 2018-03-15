@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "keybase://team/findmypast/git-mob"
+    "url": "git@github.com:findmypast-oss/git-mob.git"
   },
   "engines": {
     "node": ">=8"
