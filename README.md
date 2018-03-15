@@ -5,15 +5,18 @@ A command-line tool for social coding. Includes co-authors in commits.
 Whether you're pairing with a buddy at a shared computer, or mobbing with your
 team in front of a projector, git mob has got you covered.
 
-## Comparison versus existing tools
-
-TODO
-
 ## Workflow / Usage
 
-Scenario: Jane pairs with her friend Amy
+With git-mob, the primary author will always be the primary user of the computer.
+Set your author info in git if you haven't done so before.
 
-1. Jane just installed git-mob. The first thing she does is define herself a potential author in the `~/.git-authors` file.
+```
+$ git config --global user.name "Jane Doe"
+$ git config --global user.email "jane@example.com"
+```
+
+To keep track of potential co-authors, git-mob uses a YAML file called `~/.git-authors`.
+Here's a template of its structure.
 
 ```
 authors:
@@ -22,51 +25,43 @@ email:
   domain: <email_domain>
 ```
 
+Start by adding a few co-authors that you work with.
+
 ```
 $ cat <<-EOF > ~/.git-authors
 authors:
-  jd: Jane Doe; jane
+  ad: Amy Doe; amy
+  bd: Bob Doe; bob
 email:
   domain: example.com
 EOF
 ```
 
-...
-
-TODO: amy has a different email, use `email_addresses:` section
+You're ready to create your mob. Tell git-mob you're pairing with Amy by using her initials.
 
 ```
-authors:
-  jd: Jane Doe; jane
-  aw: Amy Winehouse
-email:
-  domain: example.com
-email_addresses:
-  aw: amy@winehouse.dev
+$ git mob ad
+Jane Doe <jane@example.com>
+Amy Doe <amy@example.com>
 ```
 
-1. Jane, the committer, specifies Amy as a co-author of the mob.
+Commit like you normally would.
+You should see `Co-authored-by: Amy Doe <amy@example.com>` appear at the end of the commit message.
+
+Let's add Bob to the group to create a three-person mob.
 
 ```
-git mob aw
+$ git mob ad bd
+Jane Doe <jane@example.com>
+Amy Doe <amy@example.com>
+Bob Doe <bob@example.com>
 ```
 
-Scenario: TODO: pair with coworkers (email template)
+Once you're done mobbing, switch back to developing solo.
 
-## MVP
+```
+$ git solo
+Jane Doe <jane@example.com>
+```
 
-* local support
-
-* disable mob (i.e. solo)
-
-* append to .gitmessage (so we don't overwrite existing file)
-
-## Future
-
-* only set commit template when it doesn't exist
-
-* global support
-
-* support `email_addresses` in `.git-authors` file
-
-* support `email_template` in `.git-authors` file?
+Find out more with `git mob --help`
