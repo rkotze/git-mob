@@ -5,6 +5,17 @@ A command-line tool for social coding. Includes co-authors in commits.
 Whether you're pairing with a buddy at a shared computer, or mobbing with your
 team in front of a projector, git mob has got you covered.
 
+## Install
+
+**Warning: This package hasn't reached v1.0.0 yet. There may be many missing
+features, lots of bugs, and the API could change until we reach a stable version.**
+
+git-mob is a CLI tool, so you'll need to install the package globally.
+
+```
+npm i -g git-mob
+```
+
 ## Workflow / Usage
 
 With git-mob, the primary author will always be the primary user of the computer.
