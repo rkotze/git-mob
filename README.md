@@ -1,4 +1,4 @@
-# Git Mob
+# Git Mob [![npm version](https://badge.fury.io/js/git-mob.svg)](https://badge.fury.io/js/git-mob)
 
 A command-line tool for social coding. Includes co-authors in commits.
 
