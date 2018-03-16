@@ -1,5 +1,8 @@
 const fs = require('fs');
 const os = require('os');
+const path = require('path');
+
+const { config } = require('../git');
 
 function fileExists(err) {
   return err.code !== 'ENOENT';
@@ -14,8 +17,7 @@ function append(messagePath, newAuthors) {
 
       let result = newAuthors;
       if (data) {
-        result =
-          data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
+        result = data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
       }
 
       fs.writeFile(messagePath, result, err => {
@@ -44,4 +46,13 @@ function gitMessage(messagePath, appendFilePromise) {
   };
 }
 
-module.exports = { gitMessage };
+const gitMessagePath =
+  process.env.GITMOB_MESSAGE_PATH ||
+  commitTemplatePath() ||
+  path.join('.git', '.gitmessage');
+
+function commitTemplatePath() {
+  return config.get('commit.template').stdout.trim();
+}
+
+module.exports = { gitMessage, gitMessagePath };
