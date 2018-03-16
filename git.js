@@ -56,12 +56,21 @@ function add(key, value) {
 }
 
 /**
- * Removes the given section from the configuration file.
+ * Removes the given section from the configuration.
  * @param {string} section
  * @return {ChildProcess.SpawnResult} object from child_process.spawnSync
  */
 function removeSection(section) {
   return silentRun(`git config --remove-section ${section}`);
+}
+
+/**
+ * Checks if the given option exists in the configuration.
+ * @param {string} key
+ * @return {boolean}
+ */
+function hasOption(key) {
+  return silentRun(`git config ${key}`).status === 0;
 }
 
 module.exports = {
@@ -71,5 +80,6 @@ module.exports = {
     getAll,
     add,
     removeSection,
+    hasOption,
   },
 };

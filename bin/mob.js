@@ -72,7 +72,7 @@ function coauthors() {
 }
 
 function isCoAuthorSet() {
-  return config.get('git-mob.co-author').status === 0;
+  return config.hasOption('git-mob.co-author');
 }
 
 function addCoAuthorToGitConfig(coAuthor) {
@@ -84,7 +84,7 @@ function resetMob() {
 }
 
 function isCommitTemplateSet() {
-  return config.get('commit.template').status === 0;
+  return config.hasOption('commit.template');
 }
 
 function setCommitTemplate() {
