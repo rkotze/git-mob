@@ -1,19 +1,11 @@
 #! /usr/bin/env node
 
-const { spawnSync } = require('child_process');
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
+
+const { config } = require('../git');
+const { gitMessage, gitMessagePath } = require('../git-message');
 const { runHelp, runVersion } = require('../helpers');
-const { gitMessage } = require('../git-message');
-
-const gitMessagePath =
-  process.env.GITMOB_MESSAGE_PATH ||
-  commitTemplatePath() ||
-  path.join('.git', '.gitmessage');
-
-function commitTemplatePath() {
-  return silentRun('git config commit.template').stdout.trim();
-}
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -55,15 +47,11 @@ function printAuthor() {
 }
 
 function author() {
-  const name = silentRun('git config user.name').stdout.trim();
-  const email = silentRun('git config user.email').stdout.trim();
+  const name = config.get('user.name').stdout.trim();
+  const email = config.get('user.email').stdout.trim();
   return oneLine`${name} <${email}>`;
 }
 
 function resetMob() {
-  silentRun('git config --remove-section git-mob');
-}
-
-function silentRun(command) {
-  return spawnSync(command, { encoding: 'utf8', shell: true });
+  config.removeSection('git-mob');
 }

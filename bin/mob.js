@@ -1,17 +1,12 @@
 #! /usr/bin/env node
 
-const path = require('path');
-const { spawnSync } = require('child_process');
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
-const { gitAuthors } = require('../git-authors');
-const { gitMessage } = require('../git-message');
-const { runHelp, runVersion } = require('../helpers');
 
-const gitMessagePath =
-  process.env.GITMOB_MESSAGE_PATH ||
-  commitTemplatePath() ||
-  path.join('.git', '.gitmessage');
+const { config } = require('../git');
+const { gitAuthors } = require('../git-authors');
+const { gitMessage, gitMessagePath } = require('../git-message');
+const { runHelp, runVersion } = require('../helpers');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -67,37 +62,33 @@ function setMob(initials) {
 }
 
 function author() {
-  const name = silentRun('git config user.name').stdout.trim();
-  const email = silentRun('git config user.email').stdout.trim();
+  const name = config.get('user.name').stdout.trim();
+  const email = config.get('user.email').stdout.trim();
   return oneLine`${name} <${email}>`;
 }
 
 function coauthors() {
-  return silentRun('git config --get-all git-mob.co-author').stdout.trim();
+  return config.getAll('git-mob.co-author').stdout.trim();
 }
 
 function isCoAuthorSet() {
-  const { status } = silentRun('git config git-mob.co-author');
-  return status === 0;
+  return config.get('git-mob.co-author').status === 0;
 }
 
 function addCoAuthorToGitConfig(coAuthor) {
-  silentRun(`git config --add git-mob.co-author "${coAuthor}"`);
+  config.add('git-mob.co-author', coAuthor);
 }
 
 function resetMob() {
-  silentRun('git config --remove-section git-mob');
+  config.removeSection('git-mob');
 }
 
-function silentRun(command) {
-  return spawnSync(command, { encoding: 'utf8', shell: true });
+function isCommitTemplateSet() {
+  return config.get('commit.template').status === 0;
 }
 
 function setCommitTemplate() {
-  const { status } = silentRun('git config commit.template');
-  if (status !== 0) silentRun(`git config commit.template ${gitMessagePath}`);
-}
-
-function commitTemplatePath() {
-  return silentRun('git config commit.template').stdout.trim();
+  if (!isCommitTemplateSet()) {
+    config.set('commit.template', gitMessagePath);
+  }
 }
