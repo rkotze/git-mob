@@ -1,10 +1,16 @@
 const fs = require('fs');
 const os = require('os');
 
+function fileExists(err) {
+  return err.code !== 'ENOENT';
+}
+
 function append(messagePath, newAuthors) {
   return new Promise((resolve, reject) => {
     fs.readFile(messagePath, 'utf8', (err, data) => {
-      if (err) reject(err);
+      if (err) {
+        if (fileExists(err)) reject(err);
+      }
 
       let result = newAuthors;
       if (data) {

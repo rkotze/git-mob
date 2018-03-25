@@ -106,9 +106,7 @@ test('write to .gitmessage file which does not exist', t => {
   );
 
   const expectedGitmessage =
-    os.EOL +
-    os.EOL +
-    'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>';
+    os.EOL + os.EOL + 'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>';
 
   t.is(actualGitmessage, expectedGitmessage);
 });
@@ -147,9 +145,7 @@ test('appends co-authors to .gitmessage file', t => {
 
   exec('git mob jd ea');
 
-  const actual = eol.auto(
-    fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
-  );
+  const actual = eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8'));
   const expected = eol.auto(stripIndent`
     A commit title
 
@@ -157,6 +153,28 @@ test('appends co-authors to .gitmessage file', t => {
 
     Co-authored-by: Jane Doe <jane@findmypast.com>
     Co-authored-by: Elliot Alderson <ealderson@findmypast.com>`);
+
+  t.is(actual, expected);
+
+  unsetCommitTemplate();
+});
+
+test('no .gitmessage file when adding co-authors', t => {
+  deleteGitMessageFile();
+  addAuthor('Thomas Anderson', 'neo@example.com');
+
+  exec('git mob jd ea');
+
+  const actual = eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8'));
+  const expected = eol.auto(
+    [
+      os.EOL,
+      os.EOL,
+      'Co-authored-by: Jane Doe <jane@findmypast.com>',
+      os.EOL,
+      'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>',
+    ].join('')
+  );
 
   t.is(actual, expected);
 
@@ -214,7 +232,11 @@ function setGitMessageFile() {
 }
 
 function deleteGitMessageFile() {
-  fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
+  try {
+    fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
+  } catch (ex) {
+    console.log('Failed to delete git message template: ', ex);
+  }
 }
 
 function exec(command) {
