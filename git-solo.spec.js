@@ -39,7 +39,7 @@ test.serial('sets the current mob to the primary author', t => {
   unsetCommitTemplate();
 });
 
-test.only.serial('removes co-authors from commit template', t => {
+test.serial('removes co-authors from commit template', t => {
   addAuthor('Thomas Anderson', 'neo@example.com');
   setGitMessageFile();
 
