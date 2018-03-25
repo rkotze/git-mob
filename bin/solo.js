@@ -1,6 +1,5 @@
 #! /usr/bin/env node
 
-const path = require('path');
 const { spawnSync } = require('child_process');
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
