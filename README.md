@@ -5,6 +5,8 @@ A command-line tool for social coding. Includes co-authors in commits.
 Whether you're pairing with a buddy at a shared computer, or mobbing with your
 team in front of a projector, git mob has got you covered.
 
+![Use git mob gif animation](https://github.com/findmypast-oss/git-mob/blob/master/docs/git-mob-intro.gif)
+
 ## Install
 
 **Warning: This package hasn't reached v1.0.0 yet. There may be many missing
