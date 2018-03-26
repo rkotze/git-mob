@@ -52,7 +52,7 @@ const gitMessagePath =
   path.join('.git', '.gitmessage');
 
 function commitTemplatePath() {
-  return config.get('commit.template').stdout.trim();
+  return config.get('commit.template');
 }
 
 module.exports = { gitMessage, gitMessagePath };

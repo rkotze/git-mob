@@ -47,8 +47,8 @@ function printAuthor() {
 }
 
 function author() {
-  const name = config.get('user.name').stdout.trim();
-  const email = config.get('user.email').stdout.trim();
+  const name = config.get('user.name');
+  const email = config.get('user.email');
   return oneLine`${name} <${email}>`;
 }
 

@@ -62,17 +62,17 @@ function setMob(initials) {
 }
 
 function author() {
-  const name = config.get('user.name').stdout.trim();
-  const email = config.get('user.email').stdout.trim();
+  const name = config.get('user.name');
+  const email = config.get('user.email');
   return oneLine`${name} <${email}>`;
 }
 
 function coauthors() {
-  return config.getAll('git-mob.co-author').stdout.trim();
+  return config.getAll('git-mob.co-author');
 }
 
 function isCoAuthorSet() {
-  return config.hasOption('git-mob.co-author');
+  return config.has('git-mob.co-author');
 }
 
 function addCoAuthorToGitConfig(coAuthor) {
@@ -83,12 +83,6 @@ function resetMob() {
   config.removeSection('git-mob');
 }
 
-function isCommitTemplateSet() {
-  return config.hasOption('commit.template');
-}
-
 function setCommitTemplate() {
-  if (!isCommitTemplateSet()) {
-    config.set('commit.template', gitMessagePath);
-  }
+  config.has('commit.template') || config.set('commit.template', gitMessagePath);
 }
