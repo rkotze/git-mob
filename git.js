@@ -48,7 +48,7 @@ function set(key, value) {
   const { status } = silentRun(`git config ${key} "${value}"`);
   if (status !== 0) {
     const msg = `Option ${key} has multiple values. Cannot overwrite multiple values for option ${key} with a single value.`;
-    throw Error(msg);
+    throw new Error(msg);
   }
 }
 

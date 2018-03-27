@@ -2,7 +2,7 @@ const os = require('os');
 const test = require('ava');
 const sinon = require('sinon');
 
-const { gitMessage } = require('./index');
+const { gitMessage } = require('.');
 
 test('Append co-authors to .gitmessage append file mock', t => {
   const appendSpy = sinon.spy();
