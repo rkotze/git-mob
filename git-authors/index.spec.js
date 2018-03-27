@@ -1,5 +1,5 @@
 const test = require('ava');
-const { gitAuthors } = require('./index');
+const { gitAuthors } = require('.');
 
 const validYaml = `
 authors:
