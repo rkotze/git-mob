@@ -31,7 +31,7 @@ test('-h prints help', t => {
 
 if (process.platform === 'win32') {
   // Windows tries to open a man page at git-doc/git-mob.html which errors.
-  test.skip('--help is intercepted by git launcher on Windows', () => {});
+  test.skip('--help is intercepted by git launcher on Windows', () => { });
 } else {
   test('--help is intercepted by git launcher', t => {
     const { status, stderr } = exec('git mob --help', { silent: true });
@@ -99,7 +99,7 @@ test('errors when co-author initials not found in .git-authors', t => {
 test('write to .gitmessage file which does not exist', t => {
   addAuthor('John Doe', 'jdoe@example.com');
 
-  const actualOutput = exec('git mob ea').stdout.trimRight();
+  exec('git mob ea');
 
   const actualGitmessage = eol.auto(
     fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
