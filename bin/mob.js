@@ -84,5 +84,7 @@ function resetMob() {
 }
 
 function setCommitTemplate() {
-  config.has('commit.template') || config.set('commit.template', gitMessagePath);
+  if (!config.has('commit.template')) {
+    config.set('commit.template', gitMessagePath);
+  }
 }
