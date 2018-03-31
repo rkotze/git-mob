@@ -3,9 +3,9 @@
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
 
-const { config } = require('../git');
-const { gitMessage, gitMessagePath } = require('../git-message');
-const { runHelp, runVersion } = require('../helpers');
+const { config } = require('../src/git');
+const { gitMessage, gitMessagePath } = require('../src/git-message');
+const { runHelp, runVersion } = require('../src/helpers');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {

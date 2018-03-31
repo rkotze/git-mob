@@ -3,10 +3,10 @@
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
 
-const { config } = require('../git');
-const { gitAuthors } = require('../git-authors');
-const { gitMessage, gitMessagePath } = require('../git-message');
-const { runHelp, runVersion } = require('../helpers');
+const { config } = require('../src/git');
+const { gitAuthors } = require('../src/git-authors');
+const { gitMessage, gitMessagePath } = require('../src/git-message');
+const { runHelp, runVersion } = require('../src/helpers');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {

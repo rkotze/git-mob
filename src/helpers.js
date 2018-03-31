@@ -19,7 +19,7 @@ function runHelp() {
 }
 
 function runVersion() {
-  console.log(require('./package.json').version);
+  console.log(require('../package.json').version);
 }
 
 module.exports = { runHelp, runVersion };
