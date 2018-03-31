@@ -1,4 +1,4 @@
-# Git Mob [![npm version](https://badge.fury.io/js/git-mob.svg)](https://badge.fury.io/js/git-mob) [![build status](https://travis-ci.org/findmypast-oss/git-mob.svg?branch=master)](https://travis-ci.org/findmypast-oss/git-mob)
+# Git Mob [![npm version](https://badge.fury.io/js/git-mob.svg)](https://www.npmjs.com/package/git-mob) [![build status](https://travis-ci.org/findmypast-oss/git-mob.svg?branch=master)](https://travis-ci.org/findmypast-oss/git-mob)
 
 A command-line tool for social coding. Includes co-authors in commits.
 
