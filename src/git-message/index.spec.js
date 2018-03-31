@@ -12,8 +12,7 @@ test('Append co-authors to .gitmessage append file mock', t => {
     'Frances Bar <frances-bar@findmypast.com>',
   ]);
 
-  const argPath = appendSpy.getCall(0).args[0];
-  const argContent = appendSpy.getCall(0).args[1];
+  const [argPath, argContent] = appendSpy.getCall(0).args;
 
   t.true(appendSpy.calledOnce);
   t.true(argPath.includes('.gitmessage'));
