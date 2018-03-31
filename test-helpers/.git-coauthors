@@ -1,0 +1,16 @@
+{
+  "coauthors": {
+    "jd": {
+      "name": "Jane Doe",
+      "email": "jane@findmypast.com"
+    },
+    "fb": {
+      "name": "Frances Bar",
+      "email": "frances-bar@findmypast.com"
+    },
+    "ea": {
+      "name": "Elliot Alderson",
+      "email": "ealderson@findmypast.com"
+    }
+  }
+}

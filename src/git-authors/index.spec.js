@@ -1,24 +1,37 @@
+/* eslint quotes: ["off", "double"] */
+/* eslint quote-props: ["off", "always"] */
+
 const test = require('ava');
 const { gitAuthors } = require('.');
 
-const validYaml = `
-authors:
-  jd: Jane Doe; jane
-  fb: Frances Bar
-email:
-  domain: findmypast.com`;
+const validJsonString = `
+{
+  "coauthors": {
+    "jd": {
+      "name": "Jane Doe",
+      "email": "jane@findmypast.com"
+    },
+    "fb": {
+      "name": "Frances Bar",
+      "email": "frances-bar@findmypast.com"
+    }
+  }
+}`;
 
 const authorsJson = {
-  authors: {
-    jd: 'Jane Doe; jane',
-    fb: 'Frances Bar',
-  },
-  email: {
-    domain: 'findmypast.com',
-  },
+  "coauthors": {
+    "jd": {
+      "name": "Jane Doe",
+      "email": "jane@findmypast.com"
+    },
+    "fb": {
+      "name": "Frances Bar",
+      "email": "frances-bar@findmypast.com"
+    }
+  }
 };
 
-test('.git-authors file does not exist', async t => {
+test('.git-coauthors file does not exist', async t => {
   const authors = gitAuthors(() =>
     Promise.reject(new Error('enoent: no such file or directory, open'))
   );
@@ -26,8 +39,8 @@ test('.git-authors file does not exist', async t => {
   t.regex(error.message, /enoent: no such file or directory, open/i);
 });
 
-test('read contents from .git-authors', async t => {
-  const authors = gitAuthors(() => Promise.resolve(validYaml));
+test('read contents from .git-coauthors', async t => {
+  const authors = gitAuthors(() => Promise.resolve(validJsonString));
 
   const json = await authors.read();
   t.deepEqual(json, authorsJson);

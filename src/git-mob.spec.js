@@ -76,7 +76,7 @@ test('prints current mob', t => {
   t.is(actual, expected);
 });
 
-test('sets mob when co-author initials found in .git-authors file', t => {
+test('sets mob when co-author initials found in .git-coauthors file', t => {
   addAuthor('Billy the Kid', 'billy@example.com');
 
   const actual = exec('git mob jd ea').stdout.trimRight();
@@ -89,7 +89,7 @@ test('sets mob when co-author initials found in .git-authors file', t => {
   t.is(actual, expected);
 });
 
-test('errors when co-author initials not found in .git-authors', t => {
+test('errors when co-author initials not found in .git-coauthors', t => {
   const { stderr, status } = exec('git mob rk');
 
   t.regex(stderr, /Author with initials "rk" not found!/i);
