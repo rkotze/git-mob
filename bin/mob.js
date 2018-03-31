@@ -42,23 +42,23 @@ function printMob() {
   }
 }
 
-function setMob(initials) {
-  const authors = gitAuthors();
-  const message = gitMessage(gitMessagePath);
-  authors
-    .read()
-    .then(authorList => authors.coAuthors(initials, authorList))
-    .then(coAuthors => {
-      setCommitTemplate();
-      resetMob();
-      coAuthors.forEach(addCoAuthorToGitConfig);
-      message.writeCoAuthors(coAuthors);
-      printMob();
-    })
-    .catch(err => {
-      console.error(`Error: ${err.message}`);
-      process.exit(1);
-    });
+async function setMob(initials) {
+  try {
+    const instance = gitAuthors();
+    const authorList = await instance.read();
+    const coauthors = instance.coAuthors(initials, authorList);
+
+    setCommitTemplate();
+    resetMob();
+
+    coauthors.forEach(addCoAuthor);
+    gitMessage(gitMessagePath).writeCoAuthors(coauthors);
+
+    printMob();
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exit(1);
+  }
 }
 
 function author() {
@@ -75,7 +75,7 @@ function isCoAuthorSet() {
   return config.has('git-mob.co-author');
 }
 
-function addCoAuthorToGitConfig(coAuthor) {
+function addCoAuthor(coAuthor) {
   config.add('git-mob.co-author', coAuthor);
 }
 
