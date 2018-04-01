@@ -204,7 +204,7 @@ function unsetCommitTemplate() {
 }
 
 function localGitConfigSectionEmpty(section) {
-  return exec(`git config --local --get-regexp '^${section}\.'`).status !== 0;
+  return exec(`git config --local --get-regexp '^${section}'`).status !== 0;
 }
 
 function safelyRemoveGitConfigSection(section) {
