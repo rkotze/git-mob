@@ -1,5 +1,4 @@
 import fs from 'fs';
-import os from 'os';
 import { spawnSync } from 'child_process';
 import test from 'ava';
 import { stripIndent } from 'common-tags';
@@ -67,10 +66,6 @@ function removeAuthor() {
   exec('git config --unset user.email');
 }
 
-function addCoAuthor(name, email) {
-  exec(`git config --add git-mob.co-author "${name} <${email}>"`);
-}
-
 function removeCoAuthors() {
   exec('git config --unset-all git-mob.co-author');
 }
@@ -80,7 +75,7 @@ function unsetCommitTemplate() {
 }
 
 function localGitConfigSectionEmpty(section) {
-  return exec(`git config --local --get-regexp '^${section}\.'`).status !== 0;
+  return exec(`git config --local --get-regexp '^${section}'`).status !== 0;
 }
 
 function safelyRemoveGitConfigSection(section) {
