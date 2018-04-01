@@ -18,6 +18,17 @@ const validJsonString = `
   }
 }`;
 
+// Invalid because of comma at end of email
+const invalidJsonString = `
+{
+  "coauthors": {
+    "jd": {
+      "name": "Jane Doe",
+      "email": "jane@findmypast.com",
+    }
+  }
+}`;
+
 const authorsJson = {
   "coauthors": {
     "jd": {
@@ -37,6 +48,13 @@ test('.git-coauthors file does not exist', async t => {
   );
   const error = await t.throws(authors.read());
   t.regex(error.message, /enoent: no such file or directory, open/i);
+});
+
+test('invalid json contents from .git-coauthors', async t => {
+  const authors = gitAuthors(() => Promise.resolve(invalidJsonString));
+
+  const error = await t.throws(authors.read());
+  t.regex(error.message, /Invalid JSON/i);
 });
 
 test('read contents from .git-coauthors', async t => {

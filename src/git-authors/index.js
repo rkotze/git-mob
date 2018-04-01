@@ -19,7 +19,11 @@ function gitAuthors(readFilePromise) {
         ? path.join('test-helpers', '.git-coauthors')
         : path.join(os.homedir(), '.git-coauthors');
       const authorJsonString = await readFile(gitAuthorsPath);
-      return JSON.parse(authorJsonString);
+      try {
+        return JSON.parse(authorJsonString);
+      } catch (err) {
+        throw new Error('Invalid JSON ' + err.message);
+      }
     },
 
     coAuthors(authorInitials, authorJson) {
