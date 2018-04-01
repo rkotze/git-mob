@@ -41,7 +41,7 @@ function gitMessage(messagePath, appendFilePromise) {
       await appendPromise(messagePath, os.EOL + os.EOL + coAuthorText);
     },
     removeCoAuthors: async () => {
-      return await appendPromise(messagePath, '');
+      return appendPromise(messagePath, '');
     },
   };
 }

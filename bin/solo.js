@@ -26,19 +26,19 @@ if (argv.version) {
 
 runSolo(argv._);
 
-function runSolo(args) {
-  if (args.length === 0) {
-    gitMessage(gitMessagePath)
-      .removeCoAuthors()
-      .then(() => {
-        resetMob();
-        printAuthor();
-        process.exit(0);
-      })
-      .catch(err => {
-        console.error(`Error: ${err.message}`);
-        process.exit(1);
-      });
+async function runSolo(args) {
+  try {
+    if (args.length === 0) {
+      await gitMessage(gitMessagePath)
+        .removeCoAuthors();
+
+      resetMob();
+      printAuthor();
+      process.exit(0);
+    }
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exit(1);
   }
 }
 
