@@ -28,25 +28,36 @@ $ git config --global user.name "Jane Doe"
 $ git config --global user.email "jane@example.com"
 ```
 
-To keep track of potential co-authors, git-mob uses a YAML file called `~/.git-authors`.
+To keep track of potential co-authors, git-mob uses a JSON file called `~/.git-coauthors`.
 Here's a template of its structure.
 
 ```
-authors:
-  <initials>: <name>; <email_prefix>
-email:
-  domain: <email_domain>
+{
+  "coauthors": {
+    "initials": {
+      "name": "<name>",
+      "email": "<email>"
+    }
+  }
+}
 ```
 
 Start by adding a few co-authors that you work with.
 
 ```
-$ cat <<-EOF > ~/.git-authors
-authors:
-  ad: Amy Doe; amy
-  bd: Bob Doe; bob
-email:
-  domain: example.com
+$ cat <<-EOF > ~/.git-coauthors
+{
+  "coauthors": {
+    "jd": {
+      "name": "Jane Doe",
+      "email": "jane@findmypast.com"
+    },
+    "fb": {
+      "name": "Frances Bar",
+      "email": "frances-bar@findmypast.com"
+    }
+  }
+}
 EOF
 ```
 
