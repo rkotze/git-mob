@@ -48,13 +48,13 @@ Start by adding a few co-authors that you work with.
 $ cat <<-EOF > ~/.git-coauthors
 {
   "coauthors": {
-    "jd": {
-      "name": "Jane Doe",
-      "email": "jane@findmypast.com"
+    "ad": {
+      "name": "Amy Doe",
+      "email": "amy@findmypast.com"
     },
-    "fb": {
-      "name": "Frances Bar",
-      "email": "frances-bar@findmypast.com"
+    "bd": {
+      "name": "Bob Doe",
+      "email": "bob@findmypast.com"
     }
   }
 }
