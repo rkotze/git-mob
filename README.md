@@ -81,11 +81,13 @@ Amy Doe <amy@example.com>
 Bob Doe <bob@example.com>
 ```
 
-Once you're done mobbing, switch back to developing solo.
+Once you're done mobbing, switch back to developing solo.<sup>*</sup>
 
 ```
 $ git solo
 Jane Doe <jane@example.com>
 ```
+
+<sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/findmypast-oss/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
 
 Find out more with `git mob --help`
