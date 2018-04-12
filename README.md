@@ -6,7 +6,7 @@ Includes co-authors in commits when you collaborate on code. Use when pairing wi
 
 Read our blog post to find out why git-mob exists: http://tech.findmypast.com/co-author-commits-with-git-mob
 
-![Use git mob gif animation](https://github.com/findmypast-oss/git-mob/blob/master/docs/git-mob-intro.gif)
+![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38693812-f1ffd126-3e7f-11e8-82f7-f6927d4c37ed.gif)
 
 ## Install
 
@@ -82,7 +82,7 @@ Amy Doe <amy@example.com>
 Bob Doe <bob@example.com>
 ```
 
-Once you're done mobbing, switch back to developing solo.<sup>*</sup>
+Once you're done mobbing, switch back to developing solo.<sup>\*</sup>
 
 ```
 $ git solo
