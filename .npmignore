@@ -1,0 +1,5 @@
+**/*.spec.js
+**/*.md
+test-helpers/
+.prettierrc
+.travis.yml
