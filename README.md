@@ -1,9 +1,10 @@
 # Git Mob [![npm version](https://badge.fury.io/js/git-mob.svg)](https://www.npmjs.com/package/git-mob) [![build status](https://travis-ci.org/findmypast-oss/git-mob.svg?branch=master)](https://travis-ci.org/findmypast-oss/git-mob)
 
-A command-line tool for social coding. Includes co-authors in commits.
+> A command-line tool for social coding
 
-Whether you're pairing with a buddy at a shared computer, or mobbing with your
-team in front of a projector, git mob has got you covered.
+Includes co-authors in commits when you collaborate on code. Use when pairing with a buddy or mobbing with your team.
+
+Read our blog post to find out why git-mob exists: http://tech.findmypast.com/co-author-commits-with-git-mob
 
 ![Use git mob gif animation](https://github.com/findmypast-oss/git-mob/blob/master/docs/git-mob-intro.gif)
 
