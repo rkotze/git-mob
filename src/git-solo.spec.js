@@ -1,8 +1,19 @@
 import fs from 'fs';
-import { spawnSync } from 'child_process';
 import test from 'ava';
 import { stripIndent } from 'common-tags';
 import eol from 'eol';
+
+import {
+  addAuthor,
+  removeAuthor,
+  removeCoAuthors,
+  unsetCommitTemplate,
+  safelyRemoveGitConfigSection,
+  removeGitConfigSection,
+  setGitMessageFile,
+  deleteGitMessageFile,
+  exec,
+} from '../test-helpers';
 
 test.beforeEach('reset state', () => {
   removeAuthor();
@@ -55,57 +66,3 @@ test.serial('removes co-authors from commit template', t => {
 
   unsetCommitTemplate();
 });
-
-function addAuthor(name, email) {
-  exec(`git config user.name "${name}"`);
-  exec(`git config user.email "${email}"`);
-}
-
-function removeAuthor() {
-  exec('git config --unset user.name');
-  exec('git config --unset user.email');
-}
-
-function removeCoAuthors() {
-  exec('git config --unset-all git-mob.co-author');
-}
-
-function unsetCommitTemplate() {
-  exec('git config --unset commit.template');
-}
-
-function localGitConfigSectionEmpty(section) {
-  return exec(`git config --local --get-regexp '^${section}'`).status !== 0;
-}
-
-function safelyRemoveGitConfigSection(section) {
-  if (localGitConfigSectionEmpty(section)) {
-    exec(`git config --remove-section ${section}`);
-  }
-}
-
-function removeGitConfigSection(section) {
-  exec(`git config --remove-section ${section}`);
-}
-
-function setGitMessageFile() {
-  try {
-    fs.writeFileSync(
-      process.env.GITMOB_MESSAGE_PATH,
-      stripIndent`
-  A commit title
-
-  A commit body that goes into more detail.`
-    );
-  } catch (e) {
-    console.log('Error setGitMessageFile: create test .gitmessage', e);
-  }
-}
-
-function deleteGitMessageFile() {
-  fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
-}
-
-function exec(command) {
-  return spawnSync(command, { encoding: 'utf8', shell: true });
-}
