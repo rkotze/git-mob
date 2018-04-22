@@ -26,16 +26,11 @@ if (argv.version) {
 
 runSolo(argv._);
 
-async function runSolo(args) {
+async function runSolo(_args) {
   try {
-    if (args.length === 0) {
-      await gitMessage(gitMessagePath)
-        .removeCoAuthors();
-
-      resetMob();
-      printAuthor();
-      process.exit(0);
-    }
+    await gitMessage(gitMessagePath).removeCoAuthors();
+    resetMob();
+    printAuthor();
   } catch (err) {
     console.error(`Error: ${err.message}`);
     process.exit(1);

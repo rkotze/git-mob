@@ -62,3 +62,12 @@ test('removes co-authors from commit template', t => {
 
   unsetCommitTemplate();
 });
+
+test('ignores positional arguments', t => {
+  addAuthor('Thomas Anderson', 'neo@example.com');
+
+  const soloActual = exec('git solo yolo').stdout.trimRight();
+  const soloExpected = 'Thomas Anderson <neo@example.com>';
+
+  t.is(soloActual, soloExpected);
+});
