@@ -31,7 +31,7 @@ test.after.always('cleanup', () => {
   deleteGitMessageFile();
 });
 
-test.serial('sets the current mob to the primary author', t => {
+test('sets the current mob to the primary author', t => {
   addAuthor('Thomas Anderson', 'neo@example.com');
   setGitMessageFile();
 
@@ -49,7 +49,7 @@ test.serial('sets the current mob to the primary author', t => {
   unsetCommitTemplate();
 });
 
-test.serial('removes co-authors from commit template', t => {
+test('removes co-authors from commit template', t => {
   addAuthor('Thomas Anderson', 'neo@example.com');
   setGitMessageFile();
 
