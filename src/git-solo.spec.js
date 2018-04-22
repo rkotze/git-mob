@@ -15,13 +15,9 @@ import {
   exec,
 } from '../test-helpers';
 
-test.beforeEach('reset state', () => {
+test.afterEach.always('cleanup', () => {
   removeAuthor();
   removeCoAuthors();
-});
-
-test.afterEach('cleanup', () => {
-  removeAuthor();
   removeGitConfigSection('git-mob');
   safelyRemoveGitConfigSection('user');
   safelyRemoveGitConfigSection('commit');

@@ -17,13 +17,9 @@ import {
   exec,
 } from '../test-helpers';
 
-test.beforeEach('reset state', () => {
+test.afterEach.always('cleanup', () => {
   removeAuthor();
   removeCoAuthors();
-});
-
-test.afterEach('cleanup', () => {
-  removeAuthor();
   removeGitConfigSection('git-mob');
   safelyRemoveGitConfigSection('user');
   safelyRemoveGitConfigSection('commit');
@@ -109,8 +105,9 @@ test('errors when co-author initials not found', t => {
 });
 
 test('overwrites old mob when setting a new mob', t => {
-  addAuthor('John Doe', 'jdoe@example.com');
   setGitMessageFile();
+  addAuthor('John Doe', 'jdoe@example.com');
+
   exec('git mob jd');
 
   const actualOutput = exec('git mob ea').stdout.trimRight();
