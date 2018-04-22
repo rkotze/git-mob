@@ -1,6 +1,6 @@
 {
   "name": "git-mob",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "CLI tool for including co-authors in commits.",
   "scripts": {
     "test": "cross-env TEST=true GITMOB_MESSAGE_PATH=test-helpers/.gitmessage ava --verbose --serial && npm run js-lint",
@@ -62,7 +62,10 @@
     "space": true,
     "rules": {
       "no-unused-vars": [
-        "error", { "argsIgnorePattern": "^_" }
+        "error",
+        {
+          "argsIgnorePattern": "^_"
+        }
       ],
       "object-curly-spacing": [
         "error",
