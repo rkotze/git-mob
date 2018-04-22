@@ -108,18 +108,6 @@ test('errors when co-author initials not found in .git-coauthors', t => {
   t.not(status, 0);
 });
 
-test('write to .gitmessage file which does not exist', t => {
-  addAuthor('John Doe', 'jdoe@example.com');
-
-  exec('git mob ea');
-
-  const actualGitmessage = readGitMessageFile();
-  const expectedGitmessage =
-    os.EOL + os.EOL + 'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>';
-
-  t.is(actualGitmessage, expectedGitmessage);
-});
-
 test('overwrites old mob when setting a new mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
   setGitMessageFile();
@@ -144,10 +132,9 @@ test('overwrites old mob when setting a new mob', t => {
   t.is(actualGitmessage, expectedGitmessage);
 });
 
-// TODO: concurrent IO tests https://github.com/avajs/ava#temp-files
-test('appends co-authors to .gitmessage file', t => {
-  addAuthor('Thomas Anderson', 'neo@example.com');
+test('appends co-authors to an existing .gitmessage file', t => {
   setGitMessageFile();
+  addAuthor('Thomas Anderson', 'neo@example.com');
 
   exec('git mob jd ea');
 
@@ -165,7 +152,7 @@ test('appends co-authors to .gitmessage file', t => {
   unsetCommitTemplate();
 });
 
-test('no .gitmessage file when adding co-authors', t => {
+test('appends co-authors to a new .gitmessage file', t => {
   deleteGitMessageFile();
   addAuthor('Thomas Anderson', 'neo@example.com');
 
