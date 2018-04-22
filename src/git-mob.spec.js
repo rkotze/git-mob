@@ -43,7 +43,7 @@ test('-h prints help', t => {
 
 if (process.platform === 'win32') {
   // Windows tries to open a man page at git-doc/git-mob.html which errors.
-  test.skip('--help is intercepted by git launcher on Windows', () => { });
+  test.skip('--help is intercepted by git launcher on Windows', () => {});
 } else {
   test('--help is intercepted by git launcher', t => {
     const { status, stderr } = exec('git mob --help', { silent: true });
@@ -88,7 +88,7 @@ test('prints current mob', t => {
   t.is(actual, expected);
 });
 
-test('sets mob when co-author initials found in .git-coauthors file', t => {
+test('sets mob when co-author initials found', t => {
   addAuthor('Billy the Kid', 'billy@example.com');
 
   const actual = exec('git mob jd ea').stdout.trimRight();
@@ -101,7 +101,7 @@ test('sets mob when co-author initials found in .git-coauthors file', t => {
   t.is(actual, expected);
 });
 
-test('errors when co-author initials not found in .git-coauthors', t => {
+test('errors when co-author initials not found', t => {
   const { stderr, status } = exec('git mob rk');
 
   t.regex(stderr, /Author with initials "rk" not found!/i);
@@ -132,7 +132,7 @@ test('overwrites old mob when setting a new mob', t => {
   t.is(actualGitmessage, expectedGitmessage);
 });
 
-test('appends co-authors to an existing .gitmessage file', t => {
+test('appends co-authors to an existing commit template', t => {
   setGitMessageFile();
   addAuthor('Thomas Anderson', 'neo@example.com');
 
@@ -152,7 +152,7 @@ test('appends co-authors to an existing .gitmessage file', t => {
   unsetCommitTemplate();
 });
 
-test('appends co-authors to a new .gitmessage file', t => {
+test('appends co-authors to a new commit template', t => {
   deleteGitMessageFile();
   addAuthor('Thomas Anderson', 'neo@example.com');
 
