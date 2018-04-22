@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { spawnSync } = require('child_process');
 const { stripIndent } = require('common-tags');
+const eol = require('eol');
 
 function addAuthor(name, email) {
   exec(`git config user.name "${name}"`);
@@ -51,6 +52,14 @@ function setGitMessageFile() {
   }
 }
 
+function readGitMessageFile() {
+  try {
+    return eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8'));
+  } catch (error) {
+    console.warn('Failed to read .gitmessage file.', error.message);
+  }
+}
+
 function deleteGitMessageFile() {
   try {
     fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
@@ -72,6 +81,7 @@ module.exports = {
   safelyRemoveGitConfigSection,
   removeGitConfigSection,
   setGitMessageFile,
+  readGitMessageFile,
   deleteGitMessageFile,
   exec,
 };

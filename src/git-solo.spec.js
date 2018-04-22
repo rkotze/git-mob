@@ -1,4 +1,3 @@
-import fs from 'fs';
 import test from 'ava';
 import { stripIndent } from 'common-tags';
 import eol from 'eol';
@@ -11,6 +10,7 @@ import {
   safelyRemoveGitConfigSection,
   removeGitConfigSection,
   setGitMessageFile,
+  readGitMessageFile,
   deleteGitMessageFile,
   exec,
 } from '../test-helpers';
@@ -56,13 +56,13 @@ test.serial('removes co-authors from commit template', t => {
   exec('git mob jd ea');
   exec('git solo');
 
-  const actual = eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8'));
-  const expected = eol.auto(stripIndent`
+  const actualGitMessage = readGitMessageFile();
+  const expectedGitMessage = eol.auto(stripIndent`
     A commit title
 
     A commit body that goes into more detail.`);
 
-  t.is(actual, expected);
+  t.is(actualGitMessage, expectedGitMessage);
 
   unsetCommitTemplate();
 });

@@ -1,4 +1,3 @@
-import fs from 'fs';
 import os from 'os';
 import test from 'ava';
 import { stripIndent } from 'common-tags';
@@ -13,6 +12,7 @@ import {
   safelyRemoveGitConfigSection,
   removeGitConfigSection,
   setGitMessageFile,
+  readGitMessageFile,
   deleteGitMessageFile,
   exec,
 } from '../test-helpers';
@@ -113,10 +113,7 @@ test('write to .gitmessage file which does not exist', t => {
 
   exec('git mob ea');
 
-  const actualGitmessage = eol.auto(
-    fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
-  );
-
+  const actualGitmessage = readGitMessageFile();
   const expectedGitmessage =
     os.EOL + os.EOL + 'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>';
 
@@ -136,10 +133,7 @@ test('overwrites old mob when setting a new mob', t => {
 
   t.is(actualOutput, expectedOutput);
 
-  const actualGitmessage = eol.auto(
-    fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8')
-  );
-
+  const actualGitmessage = readGitMessageFile();
   const expectedGitmessage = eol.auto(stripIndent`
     A commit title
 
@@ -157,8 +151,8 @@ test('appends co-authors to .gitmessage file', t => {
 
   exec('git mob jd ea');
 
-  const actual = eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8'));
-  const expected = eol.auto(stripIndent`
+  const actualGitMessage = readGitMessageFile();
+  const expectedGitMessage = eol.auto(stripIndent`
     A commit title
 
     A commit body that goes into more detail.
@@ -166,7 +160,7 @@ test('appends co-authors to .gitmessage file', t => {
     Co-authored-by: Jane Doe <jane@findmypast.com>
     Co-authored-by: Elliot Alderson <ealderson@findmypast.com>`);
 
-  t.is(actual, expected);
+  t.is(actualGitMessage, expectedGitMessage);
 
   unsetCommitTemplate();
 });
@@ -177,8 +171,8 @@ test('no .gitmessage file when adding co-authors', t => {
 
   exec('git mob jd ea');
 
-  const actual = eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8'));
-  const expected = eol.auto(
+  const actualGitMessage = readGitMessageFile();
+  const expectedGitMessage = eol.auto(
     [
       os.EOL,
       os.EOL,
@@ -188,7 +182,7 @@ test('no .gitmessage file when adding co-authors', t => {
     ].join('')
   );
 
-  t.is(actual, expected);
+  t.is(actualGitMessage, expectedGitMessage);
 
   unsetCommitTemplate();
 });
