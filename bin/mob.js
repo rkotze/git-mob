@@ -52,7 +52,7 @@ async function setMob(initials) {
     resetMob();
 
     coauthors.forEach(addCoAuthor);
-    gitMessage(gitMessagePath).writeCoAuthors(coauthors);
+    gitMessage(gitMessagePath()).writeCoAuthors(coauthors);
 
     printMob();
   } catch (err) {
@@ -85,6 +85,6 @@ function resetMob() {
 
 function setCommitTemplate() {
   if (!config.has('commit.template')) {
-    config.set('commit.template', gitMessagePath);
+    config.set('commit.template', gitMessagePath());
   }
 }

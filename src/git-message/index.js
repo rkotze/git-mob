@@ -1,8 +1,7 @@
 const fs = require('fs');
 const os = require('os');
-const path = require('path');
 
-const { config } = require('../git');
+const { config, revParse } = require('../git');
 
 function fileExists(err) {
   return err.code !== 'ENOENT';
@@ -46,10 +45,13 @@ function gitMessage(messagePath, appendFilePromise) {
   };
 }
 
-const gitMessagePath =
-  process.env.GITMOB_MESSAGE_PATH ||
-  commitTemplatePath() ||
-  path.join('.git', '.gitmessage');
+function gitMessagePath() {
+  return (
+    process.env.GITMOB_MESSAGE_PATH ||
+    commitTemplatePath() ||
+    revParse.gitPath('.gitmessage')
+  );
+}
 
 function commitTemplatePath() {
   return config.get('commit.template');

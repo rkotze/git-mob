@@ -28,7 +28,7 @@ runSolo(argv._);
 
 async function runSolo(_args) {
   try {
-    await gitMessage(gitMessagePath).removeCoAuthors();
+    await gitMessage(gitMessagePath()).removeCoAuthors();
     resetMob();
     printAuthor();
   } catch (err) {

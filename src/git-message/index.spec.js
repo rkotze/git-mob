@@ -2,7 +2,7 @@ const os = require('os');
 const test = require('ava');
 const sinon = require('sinon');
 
-const { gitMessage } = require('.');
+const { gitMessage, gitMessagePath } = require('.');
 
 test('Append co-authors to .gitmessage append file mock', t => {
   const appendSpy = sinon.spy();
@@ -26,4 +26,18 @@ test('Append co-authors to .gitmessage append file mock', t => {
       'Co-authored-by: Frances Bar <frances-bar@findmypast.com>',
     ].join('')
   );
+});
+
+test('gitMessagePath is relative from the cwd in the repo', t => {
+  const { GITMOB_MESSAGE_PATH } = process.env;
+  delete process.env.GITMOB_MESSAGE_PATH;
+
+  t.is(gitMessagePath(), '.git/.gitmessage');
+
+  process.chdir('src');
+
+  t.is(gitMessagePath(), '../.git/.gitmessage');
+
+  process.chdir('..');
+  process.env.GITMOB_MESSAGE_PATH = GITMOB_MESSAGE_PATH;
 });
