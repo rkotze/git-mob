@@ -5,7 +5,8 @@
   "scripts": {
     "test": "env-cmd test-helpers/.env ava --verbose --serial && npm run js-lint",
     "test:w": "env-cmd test-helpers/.env ava --watch",
-    "js-lint": "xo"
+    "js-lint": "xo",
+    "preversion": "npm test -s"
   },
   "bin": {
     "git-mob": "bin/mob.js",
