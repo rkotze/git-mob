@@ -78,6 +78,17 @@ function removeSection(section) {
   silentRun(`git config --remove-section ${section}`);
 }
 
+/**
+ * Resolves the given path to the .git directory.
+ * Takes other path relocation variables into account, e.g.
+ * https://git-scm.com/book/en/v2/Git-Internals-Environment-Variables#_repository_locations
+ * @param {string} path
+ * @returns {string} Relative path to "$GIT_DIR/<path>"
+ */
+function gitPath(path) {
+  return silentRun(`git rev-parse --git-path ${path}`).stdout.trim();
+}
+
 module.exports = {
   config: {
     set,
@@ -86,5 +97,8 @@ module.exports = {
     add,
     has,
     removeSection,
+  },
+  revParse: {
+    gitPath,
   },
 };
