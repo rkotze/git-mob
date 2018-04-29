@@ -3,6 +3,9 @@ const os = require('os');
 const path = require('path');
 const { promisify } = require('util');
 
+const gitCoauthorsPath =
+  process.env.GITMOB_COAUTHORS_PATH || path.join(os.homedir(), '.git-coauthors');
+
 function gitAuthors(readFilePromise) {
   const readPromise = readFilePromise || promisify(fs.readFile);
   async function readFile(path) {
@@ -15,10 +18,7 @@ function gitAuthors(readFilePromise) {
 
   return {
     read: async () => {
-      const gitAuthorsPath = process.env.TEST
-        ? path.join('test-helpers', '.git-coauthors')
-        : path.join(os.homedir(), '.git-coauthors');
-      const authorJsonString = await readFile(gitAuthorsPath);
+      const authorJsonString = await readFile(gitCoauthorsPath);
       try {
         return JSON.parse(authorJsonString);
       } catch (err) {
