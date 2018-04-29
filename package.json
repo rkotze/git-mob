@@ -3,8 +3,8 @@
   "version": "0.1.2",
   "description": "CLI tool for including co-authors in commits.",
   "scripts": {
-    "test": "cross-env TEST=true GITMOB_MESSAGE_PATH=test-helpers/.gitmessage ava --verbose --serial && npm run js-lint",
-    "test:w": "cross-env TEST=true GITMOB_MESSAGE_PATH=test-helpers/.gitmessage ava --watch",
+    "test": "env-cmd test-helpers/.env ava --verbose --serial && npm run js-lint",
+    "test:w": "env-cmd test-helpers/.env ava --watch",
     "js-lint": "xo"
   },
   "bin": {
@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "ava": "*",
-    "cross-env": "^5.1.3",
+    "env-cmd": "^8.0.1",
     "eol": "^0.9.1",
     "sinon": "^4.3.0",
     "xo": "*"
