@@ -67,18 +67,9 @@
           "argsIgnorePattern": "^_"
         }
       ],
-      "object-curly-spacing": [
-        "error",
-        "always"
-      ],
-      "curly": [
-        "error",
-        "multi-line"
-      ],
-      "comma-dangle": [
-        "error",
-        "only-multiline"
-      ],
+      "object-curly-spacing": ["error", "always"],
+      "curly": ["error", "multi-line"],
+      "comma-dangle": ["error", "only-multiline"],
       "ava/no-skip-test": "off",
       "linebreak-style": "off",
       "operator-linebreak": [
@@ -94,11 +85,7 @@
     }
   },
   "ava": {
-    "files": [
-      "**/*.spec.js"
-    ],
-    "source": [
-      "**/*.js"
-    ]
+    "files": ["**/*.spec.js"],
+    "source": ["**/*.js"]
   }
 }
