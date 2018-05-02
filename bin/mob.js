@@ -5,7 +5,11 @@ const { oneLine } = require('common-tags');
 
 const { config } = require('../src/git');
 const { gitAuthors } = require('../src/git-authors');
-const { gitMessage, gitMessagePath } = require('../src/git-message');
+const {
+  gitMessage,
+  gitMessagePath,
+  commitTemplatePath,
+} = require('../src/git-message');
 const { runHelp, runVersion } = require('../src/helpers');
 
 const argv = minimist(process.argv.slice(2), {
@@ -85,6 +89,6 @@ function resetMob() {
 
 function setCommitTemplate() {
   if (!config.has('commit.template')) {
-    config.set('commit.template', gitMessagePath());
+    config.set('commit.template', commitTemplatePath());
   }
 }

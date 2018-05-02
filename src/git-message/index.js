@@ -46,15 +46,15 @@ function gitMessage(messagePath, appendFilePromise) {
 }
 
 function gitMessagePath() {
-  return (
-    process.env.GITMOB_MESSAGE_PATH ||
-    commitTemplatePath() ||
-    revParse.gitPath('.gitmessage')
-  );
+  return process.env.GITMOB_MESSAGE_PATH || revParse.gitPath('.gitmessage');
 }
 
 function commitTemplatePath() {
-  return config.get('commit.template');
+  return (
+    process.env.GITMOB_MESSAGE_PATH ||
+    config.get('commit.template') ||
+    '.git/.gitmessage'
+  );
 }
 
-module.exports = { gitMessage, gitMessagePath };
+module.exports = { gitMessage, gitMessagePath, commitTemplatePath };
