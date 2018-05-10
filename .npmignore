@@ -2,6 +2,7 @@
 **/*.md
 test-helpers/
 .prettierrc
+.prettierignore
 .travis.yml
 .vscode/
 .idea/
