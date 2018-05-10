@@ -6,7 +6,7 @@ Includes co-authors in commits when you collaborate on code. Use when pairing wi
 
 Read our blog post to find out why git-mob exists: http://tech.findmypast.com/co-author-commits-with-git-mob
 
-![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38693812-f1ffd126-3e7f-11e8-82f7-f6927d4c37ed.gif)
+![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
 
 ## Install
 
