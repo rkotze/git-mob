@@ -1,6 +1,7 @@
 import test from 'ava';
 import { stripIndent } from 'common-tags';
 import eol from 'eol';
+import tempy from 'tempy';
 
 import {
   addAuthor,
@@ -70,4 +71,17 @@ test('ignores positional arguments', t => {
   const soloExpected = 'Thomas Anderson <neo@example.com>';
 
   t.is(soloActual, soloExpected);
+});
+
+test('warns when used outside of a git repo', t => {
+  const repoDir = process.cwd();
+  const tempDir = tempy.directory();
+  process.chdir(tempDir);
+
+  const { stderr, status } = exec('git solo');
+
+  t.regex(stderr, /not a git repository/i);
+  t.not(status, 0);
+
+  process.chdir(repoDir);
 });

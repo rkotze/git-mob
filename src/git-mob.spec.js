@@ -2,6 +2,7 @@ import os from 'os';
 import test from 'ava';
 import { stripIndent } from 'common-tags';
 import eol from 'eol';
+import tempy from 'tempy';
 
 import {
   addAuthor,
@@ -169,4 +170,17 @@ test('appends co-authors to a new commit template', t => {
   t.is(actualGitMessage, expectedGitMessage);
 
   unsetCommitTemplate();
+});
+
+test('warns when used outside of a git repo', t => {
+  const repoDir = process.cwd();
+  const tempDir = tempy.directory();
+  process.chdir(tempDir);
+
+  const { stderr, status } = exec('git mob');
+
+  t.regex(stderr, /not a git repository/i);
+  t.not(status, 0);
+
+  process.chdir(repoDir);
 });

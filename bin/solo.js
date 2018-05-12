@@ -3,7 +3,7 @@
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
 
-const { config } = require('../src/git');
+const { config, revParse } = require('../src/git');
 const { gitMessage, gitMessagePath } = require('../src/git-message');
 const { runHelp, runVersion } = require('../src/helpers');
 
@@ -22,6 +22,11 @@ if (argv.help) {
 if (argv.version) {
   runVersion();
   process.exit(0);
+}
+
+if (!revParse.insideWorkTree()) {
+  console.error('Error: not a git repository');
+  process.exit(1);
 }
 
 runSolo(argv._);
