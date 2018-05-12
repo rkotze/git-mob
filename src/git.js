@@ -89,6 +89,14 @@ function gitPath(path) {
   return silentRun(`git rev-parse --git-path ${path}`).stdout.trim();
 }
 
+/**
+ * Checks if the current working directory is inside the working tree of a git repository.
+ * @returns {boolean} Is the cwd in a git repository?
+ */
+function insideWorkTree() {
+  return silentRun('git rev-parse --is-inside-work-tree').status === 0;
+}
+
 module.exports = {
   config: {
     set,
@@ -100,5 +108,6 @@ module.exports = {
   },
   revParse: {
     gitPath,
+    insideWorkTree,
   },
 };
