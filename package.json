@@ -50,7 +50,8 @@
   ],
   "dependencies": {
     "common-tags": "^1.7.2",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "update-notifier": "^2.5.0"
   },
   "devDependencies": {
     "ava": "*",

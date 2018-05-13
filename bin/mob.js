@@ -10,7 +10,9 @@ const {
   gitMessagePath,
   commitTemplatePath,
 } = require('../src/git-message');
-const { runHelp, runVersion } = require('../src/helpers');
+const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
+
+checkForUpdates();
 
 const argv = minimist(process.argv.slice(2), {
   alias: {

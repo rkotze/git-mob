@@ -5,7 +5,9 @@ const { oneLine } = require('common-tags');
 
 const { config, revParse } = require('../src/git');
 const { gitMessage, gitMessagePath } = require('../src/git-message');
-const { runHelp, runVersion } = require('../src/helpers');
+const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
+
+checkForUpdates();
 
 const argv = minimist(process.argv.slice(2), {
   alias: {

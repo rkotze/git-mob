@@ -1,4 +1,8 @@
 const { stripIndent } = require('common-tags');
+const updateNotifier = require('update-notifier');
+const pkg = require('../package.json');
+
+const weekly = 1000 * 60 * 60 * 24 * 7;
 
 function runHelp() {
   const message = stripIndent`
@@ -19,7 +23,13 @@ function runHelp() {
 }
 
 function runVersion() {
-  console.log(require('../package.json').version);
+  console.log(pkg.version);
 }
 
-module.exports = { runHelp, runVersion };
+function checkForUpdates(intervalInMs = weekly) {
+  updateNotifier({ pkg, updateCheckInterval: intervalInMs }).notify({
+    isGlobal: true,
+  });
+}
+
+module.exports = { runHelp, runVersion, checkForUpdates };
