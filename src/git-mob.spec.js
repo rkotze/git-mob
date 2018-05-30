@@ -98,6 +98,18 @@ test('sets mob when co-author initials found', t => {
   t.is(actual, expected);
 });
 
+test('sets mob and override author', t => {
+  addAuthor('Billy the Kid', 'billy@example.com');
+
+  const actual = exec('git mob jd ea').stdout.trimRight();
+  const expected = stripIndent` 
+    Jane Doe <jane@findmypast.com>
+    Elliot Alderson <ealderson@findmypast.com>
+  `;
+
+  t.is(actual, expected);
+});
+
 test('errors when co-author initials not found', t => {
   const { stderr, status } = exec('git mob rk');
 

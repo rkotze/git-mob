@@ -14,12 +14,16 @@ const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
 
 checkForUpdates();
 
-const argv = minimist(process.argv.slice(2), {
+const argv = minimist(process.argv.slice(2), { 
+  boolean: ['o','h','v'],
+
   alias: {
     h: 'help',
     v: 'version',
+    o: 'override'
   },
 });
+
 
 if (argv.help) {
   runHelp();
@@ -34,6 +38,10 @@ if (argv.version) {
 if (!revParse.insideWorkTree()) {
   console.error('Error: not a git repository');
   process.exit(1);
+}
+
+if (argv.override) {
+  setAuthor(argv._.shift())
 }
 
 runMob(argv._);
@@ -72,7 +80,26 @@ async function setMob(initials) {
     process.exit(1);
   }
 }
+function addAuthor(name, email) {
+  exec(`git config user.name "${name}"`);
+  exec(`git config user.email "${email}"`);
+}
+async function setAuthor(initial) {
+  try {
 
+  
+  const instance = gitAuthors();
+  const authorList = await instance.read();
+  const authors = instance.author(initial, authorList);
+  console.log(authors)
+  config.set('user.name',authors.name);
+  config.set('user.email',authors.email);
+
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exit(1);
+  }
+}
 function author() {
   const name = config.get('user.name');
   const email = config.get('user.email');

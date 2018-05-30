@@ -4,7 +4,7 @@
   "description": "CLI tool for including co-authors in commits.",
   "scripts": {
     "test": "env-cmd test-helpers/.env ava --verbose --serial && npm run js-lint",
-    "test:w": "env-cmd test-helpers/.env ava --watch",
+    "testw": "env-cmd test-helpers/.env ava --watch",
     "js-lint": "xo",
     "preversion": "npm test -s"
   },

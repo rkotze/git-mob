@@ -34,6 +34,13 @@ function gitAuthors(readFilePromise) {
         return `${name} <${email}>`;
       });
     },
+
+    author(authorInitials, authorJson) {
+      const { coauthors } = authorJson;
+      missingAuthorError(authorInitials, coauthors);
+      return coauthors[authorInitials]
+    },
+    
   };
 }
 
