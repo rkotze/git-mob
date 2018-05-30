@@ -41,10 +41,11 @@ if (!revParse.insideWorkTree()) {
 }
 
 if (argv.override) {
-  setAuthor(argv._.shift())
+   setAuthor(argv._.shift()).then(runMob(argv._))
+}else{
+  runMob(argv._);
 }
 
-runMob(argv._);
 
 function runMob(args) {
   if (args.length === 0) {
