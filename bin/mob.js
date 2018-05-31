@@ -41,7 +41,7 @@ if (!revParse.insideWorkTree()) {
 }
 
 if (argv.override) {
-   setAuthor(argv._.shift()).then(runMob(argv._))
+   setAuthor(argv._);
 }else{
   runMob(argv._);
 }
@@ -62,7 +62,7 @@ function printMob() {
     console.log(coauthors());
   }
 }
-
+  
 async function setMob(initials) {
   try {
     const instance = gitAuthors();
@@ -81,21 +81,18 @@ async function setMob(initials) {
     process.exit(1);
   }
 }
-function addAuthor(name, email) {
-  exec(`git config user.name "${name}"`);
-  exec(`git config user.email "${email}"`);
-}
-async function setAuthor(initial) {
+
+async function setAuthor(initials) {
   try {
 
   
   const instance = gitAuthors();
   const authorList = await instance.read();
-  const authors = instance.author(initial, authorList);
-  console.log(authors)
+  const authors = instance.author(initials.shift(), authorList);
+
   config.set('user.name',authors.name);
   config.set('user.email',authors.email);
-
+  runMob(initials)
   } catch (err) {
     console.error(`Error: ${err.message}`);
     process.exit(1);
