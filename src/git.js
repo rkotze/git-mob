@@ -86,7 +86,7 @@ function removeSection(section) {
  * @returns {string} Relative path to "$GIT_DIR/<path>"
  */
 function gitPath(path) {
-  return silentRun(`git rev-parse --git-path ${path}`).stdout.trim();
+  return silentRun(`git rev-parse  --show-cdup |  tr -d '\n' && git rev-parse  --git-path ${path}`).stdout.trim();
 }
 
 /**
