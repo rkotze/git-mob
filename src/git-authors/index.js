@@ -38,9 +38,8 @@ function gitAuthors(readFilePromise) {
     author(authorInitials, authorJson) {
       const { coauthors } = authorJson;
       missingAuthorError(authorInitials, coauthors);
-      return coauthors[authorInitials]
+      return coauthors[authorInitials];
     },
-    
   };
 }
 

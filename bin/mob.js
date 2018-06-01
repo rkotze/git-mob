@@ -14,8 +14,8 @@ const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
 
 checkForUpdates();
 
-const argv = minimist(process.argv.slice(2), { 
-  boolean: ['o','h','v'],
+const argv = minimist(process.argv.slice(2), {
+  boolean: ['o', 'h', 'v'],
 
   alias: {
     h: 'help',
@@ -23,7 +23,6 @@ const argv = minimist(process.argv.slice(2), {
     o: 'override'
   },
 });
-
 
 if (argv.help) {
   runHelp();
@@ -41,11 +40,10 @@ if (!revParse.insideWorkTree()) {
 }
 
 if (argv.override) {
-   setAuthor(argv._);
-}else{
+  setAuthor(argv._);
+} else {
   runMob(argv._);
 }
-
 
 function runMob(args) {
   if (args.length === 0) {
@@ -62,7 +60,7 @@ function printMob() {
     console.log(coauthors());
   }
 }
-  
+
 async function setMob(initials) {
   try {
     const instance = gitAuthors();
@@ -84,15 +82,13 @@ async function setMob(initials) {
 
 async function setAuthor(initials) {
   try {
+    const instance = gitAuthors();
+    const authorList = await instance.read();
+    const authors = instance.author(initials.shift(), authorList);
 
-  
-  const instance = gitAuthors();
-  const authorList = await instance.read();
-  const authors = instance.author(initials.shift(), authorList);
-
-  config.set('user.name',authors.name);
-  config.set('user.email',authors.email);
-  runMob(initials)
+    config.set('user.name', authors.name);
+    config.set('user.email', authors.email);
+    runMob(initials);
   } catch (err) {
     console.error(`Error: ${err.message}`);
     process.exit(1);
