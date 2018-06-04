@@ -1,5 +1,4 @@
-#! /home/juanpablo/.nvm/versions/node/v8.11.2/bin/node --inspect-brk 
-//#! /usr/bin/env node
+#! /usr/bin/env node
 
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
