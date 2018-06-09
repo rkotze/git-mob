@@ -23,8 +23,12 @@ This section is for maintainers with push access to git-mob on npm.
    ```
    npm version patch
    ```
-2. Publish the package
+1. Push the version commit and tag
+   ```
+   git push --follow-tags
+   ```
+1. Publish the package
    ```
    npm publish
    ```
-3. Add release notes at https://github.com/findmypast-oss/git-mob/releases
+1. Add release notes at https://github.com/findmypast-oss/git-mob/releases
