@@ -86,7 +86,14 @@ function removeSection(section) {
  * @returns {string} Relative path to "$GIT_DIR/<path>"
  */
 function gitPath(path) {
-  return silentRun(`git rev-parse --git-path ${path}`).stdout.trim();
+  const version = silentRun('git --version').stdout.trim();
+  const [, mayor, minor] = /.*(\d)\.(\d*)\.(\d*)/gm.exec(version);
+
+  if (mayor >= 2 && minor >= 13) {
+    return silentRun(` git rev-parse  --git-path ${path}`).stdout.trim();
+  }
+
+  return silentRun(`git rev-parse  --show-cdup |  tr -d '\n' && git rev-parse  --git-path ${path}`).stdout.trim();
 }
 
 /**
