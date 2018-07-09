@@ -3,7 +3,7 @@
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
 
-const { config, revParse } = require('../src/git');
+const { config, revParse } = require('../src/git-commands');
 const { gitMessage, gitMessagePath } = require('../src/git-message');
 const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
 

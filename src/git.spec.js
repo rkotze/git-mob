@@ -1,5 +1,5 @@
 import test from 'ava';
-import git from './git';
+import git from './git-commands';
 
 test('extract git versions return in expected format [, major, minor]', t => {
   let [, major, minor] = git.versionArray('git version 2.10.1.windows.1');

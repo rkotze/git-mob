@@ -1,7 +1,7 @@
 const fs = require('fs');
 const os = require('os');
 
-const { config, revParse } = require('../git');
+const { config, revParse } = require('../git-commands');
 
 function fileExists(err) {
   return err.code !== 'ENOENT';
