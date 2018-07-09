@@ -100,6 +100,10 @@ function gitPath(path) {
   ).stdout.trim();
 }
 
+function gitVersionArray(versionStr){
+  return /(\d)\.(\d*)\.(\d*)/gm.exec(versionStr);
+}
+
 /**
  * Checks if the current working directory is inside the working tree of a git repository.
  * @returns {boolean} Is the cwd in a git repository?
@@ -109,6 +113,7 @@ function insideWorkTree() {
 }
 
 module.exports = {
+  versionArray: gitVersionArray,
   config: {
     set,
     get,
