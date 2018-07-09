@@ -100,7 +100,7 @@ function gitPath(path) {
   ).stdout.trim();
 }
 
-function gitVersionArray(versionStr){
+function gitVersionArray(versionStr) {
   return /(\d)\.(\d*)\.(\d*)/gm.exec(versionStr);
 }
 
