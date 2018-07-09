@@ -89,11 +89,11 @@ function gitPath(path) {
   const version = silentRun('git --version').stdout.trim();
   const [, major, minor] = gitVersionArray(version);
 
-  if (major >= 2 && minor >= 13) {
+  if (major >= 2 && minor >= 5) {
     return silentRun(`git rev-parse --git-path ${path}`).stdout.trim();
   }
 
-  // Git pre-v2.13 does not give relative path to GIT_DIR for `rev-parse --git-path`.
+  // Git pre-v2.5.1 does not give relative path to GIT_DIR for `rev-parse --git-path`.
   // Prefix relative path with `--show-cdup`.
   return silentRun(
     `git rev-parse --show-cdup | tr -d '\n' && git rev-parse --git-path ${path}`
