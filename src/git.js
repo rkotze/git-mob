@@ -87,9 +87,9 @@ function removeSection(section) {
  */
 function gitPath(path) {
   const version = silentRun('git --version').stdout.trim();
-  const [, mayor, minor] = /.*(\d)\.(\d*)\.(\d*)/gm.exec(version);
+  const [, major, minor] = gitVersionArray(version);
 
-  if (mayor >= 2 && minor >= 13) {
+  if (major >= 2 && minor >= 13) {
     return silentRun(`git rev-parse --git-path ${path}`).stdout.trim();
   }
 
