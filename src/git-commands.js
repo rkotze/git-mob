@@ -87,7 +87,7 @@ function removeSection(section) {
  */
 function gitPath(path) {
   const version = silentRun('git --version').stdout.trim();
-  const [, major, minor] = gitVersionArray(version);
+  const [major, minor] = gitVersion(version);
 
   if (major >= 2 && minor >= 13) {
     return silentRun(`git rev-parse --git-path ${path}`).stdout.trim();
@@ -100,8 +100,14 @@ function gitPath(path) {
   ).stdout.trim();
 }
 
-function gitVersionArray(versionStr) {
-  return /(\d)\.(\d*)\.(\d*)/gm.exec(versionStr);
+/**
+ * Extracts the git version into an array format.
+ * @param {string} version a string containing a semver format
+ * @returns {array} [major, minor, patch]
+ */
+function gitVersion(version) {
+  const [, major, minor, patch] = /(\d)\.(\d*)\.(\d*)/gm.exec(version);
+  return [major, minor, patch];
 }
 
 /**
@@ -113,7 +119,7 @@ function insideWorkTree() {
 }
 
 module.exports = {
-  versionArray: gitVersionArray,
+  version: gitVersion,
   config: {
     set,
     get,
