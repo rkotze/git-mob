@@ -95,6 +95,7 @@ function gitPath(path) {
 
   // Git pre-v2.13 does not give relative path to GIT_DIR for `rev-parse --git-path`.
   // Prefix relative path with `--show-cdup`.
+  // Git release notes: https://github.com/git/git/blob/master/Documentation/RelNotes/2.13.0.txt#L71-L74
   return silentRun(
     `git rev-parse --show-cdup | tr -d '\n' && git rev-parse --git-path ${path}`
   ).stdout.trim();
