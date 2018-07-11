@@ -12,6 +12,14 @@ function readFile(path) {
   }
 }
 
+function deleteFile(path) {
+  try {
+    fs.unlinkSync(path);
+  } catch (error) {
+    console.warn(`Failed to delete ${path}`, error.message);
+  }
+}
+
 function addAuthor(name, email) {
   exec(`git config user.name "${name}"`);
   exec(`git config user.email "${email}"`);
@@ -61,16 +69,13 @@ function setGitMessageFile() {
   }
 }
 
+// TODO: Export generic readFile/1 deleteFile/1 and remove these.
 function readGitMessageFile() {
   return readFile(process.env.GITMOB_MESSAGE_PATH);
 }
 
 function deleteGitMessageFile() {
-  try {
-    fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
-  } catch (error) {
-    console.warn('Failed to delete .gitmessage file.', error.message);
-  }
+  return deleteFile(process.env.GITMOB_MESSAGE_PATH);
 }
 
 function exec(command) {
