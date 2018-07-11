@@ -2,6 +2,7 @@ const fs = require('fs');
 const { spawnSync } = require('child_process');
 const { stripIndent } = require('common-tags');
 const eol = require('eol');
+const tempy = require('tempy');
 
 function addAuthor(name, email) {
   exec(`git config user.name "${name}"`);
@@ -72,7 +73,21 @@ function exec(command) {
   return spawnSync(command, { encoding: 'utf8', shell: true });
 }
 
+/**
+ * Creates a temporary git repository for a callback.
+ * @param {function} cb Callback to execute inside the git repo
+ */
+function gitRepo(cb) {
+  const origPath = process.cwd();
+  const repoPath = tempy.directory();
+  process.chdir(repoPath);
+  exec('git init');
+  cb();
+  process.chdir(origPath);
+}
+
 module.exports = {
+  gitRepo,
   addAuthor,
   removeAuthor,
   addCoAuthor,
