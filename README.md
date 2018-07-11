@@ -35,7 +35,7 @@ Here's a template of its structure.
 ```
 {
   "coauthors": {
-    "initials": {
+    "<initials>": {
       "name": "<name>",
       "email": "<email>"
     }
