@@ -5,6 +5,7 @@ import eol from 'eol';
 import tempy from 'tempy';
 
 import {
+  gitRepo,
   addAuthor,
   removeAuthor,
   addCoAuthor,
@@ -16,6 +17,7 @@ import {
   readGitMessageFile,
   deleteGitMessageFile,
   exec,
+  readFile,
 } from '../test-helpers';
 
 test.afterEach.always('cleanup', () => {
@@ -183,4 +185,25 @@ test('warns when used outside of a git repo', t => {
   t.not(status, 0);
 
   process.chdir(repoDir);
+});
+
+test.only('shows co-authors in commit message', t => {
+  gitRepo(() => {
+    addAuthor('John Doe', 'jdoe@example.com');
+
+    exec('git mob jd');
+    exec('git commit --allow-empty --message "test"');
+
+    console.log(process.cwd());
+
+    const commitMsg = readFile('.git/COMMIT_EDITMSG');
+
+    const expectedMsg = stripIndent`
+    test
+
+    John Doe <jdoe@example.com>
+  `;
+
+    t.is(commitMsg, expectedMsg);
+  });
 });

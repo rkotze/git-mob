@@ -108,4 +108,5 @@ module.exports = {
   readGitMessageFile,
   deleteGitMessageFile,
   exec,
+  readFile,
 };
