@@ -4,6 +4,14 @@ const { stripIndent } = require('common-tags');
 const eol = require('eol');
 const tempy = require('tempy');
 
+function readFile(path) {
+  try {
+    return eol.auto(fs.readFileSync(path, 'utf-8'));
+  } catch (error) {
+    console.warn('Failed to read file.', error.message);
+  }
+}
+
 function addAuthor(name, email) {
   exec(`git config user.name "${name}"`);
   exec(`git config user.email "${email}"`);
@@ -54,11 +62,7 @@ function setGitMessageFile() {
 }
 
 function readGitMessageFile() {
-  try {
-    return eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8'));
-  } catch (error) {
-    console.warn('Failed to read .gitmessage file.', error.message);
-  }
+  return readFile(process.env.GITMOB_MESSAGE_PATH);
 }
 
 function deleteGitMessageFile() {
