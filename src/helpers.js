@@ -14,10 +14,12 @@ function runHelp() {
     Options
       -h  Prints usage information
       -v  Prints current version
+      -l  Prints list of available co-authors
 
     Examples
       $ git mob jd     # Set John Doe as co-author
       $ git mob jd am  # Set John & Amy as co-authors
+      $ git mob -l     # Show a list of all co-authors
       $ git solo       # Dissipate the mob
   `;
   console.log(message);

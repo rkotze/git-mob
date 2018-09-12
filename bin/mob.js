@@ -18,6 +18,7 @@ const argv = minimist(process.argv.slice(2), {
   alias: {
     h: 'help',
     v: 'version',
+    l: 'list'
   },
 });
 

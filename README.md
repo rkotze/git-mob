@@ -89,6 +89,15 @@ $ git solo
 Jane Doe <jane@example.com>
 ```
 
+Check which co-authors you have available in your `.git-coauthors` file.
+
+```
+$ git mob --list
+jd Jane Doe jane@example.com
+ad Amy Doe amy@example.com
+bd Bob Doe bob@example.com
+```
+
 <sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/findmypast-oss/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
 
 Find out more with `git mob --help`
