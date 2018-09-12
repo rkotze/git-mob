@@ -1,6 +1,7 @@
 const { stripIndent } = require('common-tags');
 const updateNotifier = require('update-notifier');
 const pkg = require('../package.json');
+const os = require('os');
 
 const weekly = 1000 * 60 * 60 * 24 * 7;
 
@@ -32,4 +33,8 @@ function checkForUpdates(intervalInMs = weekly) {
   });
 }
 
-module.exports = { runHelp, runVersion, checkForUpdates };
+function printList(list){
+  console.log(list.join(os.EOL));
+}
+
+module.exports = { runHelp, runVersion, checkForUpdates, printList };

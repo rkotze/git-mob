@@ -34,6 +34,14 @@ function gitAuthors(readFilePromise) {
         return `${name} <${email}>`;
       });
     },
+
+    toList(authors) {
+      const entries = Object.entries(authors.coauthors);
+      return entries.map((authorParts) => {
+        const [initials, { name, email }] = authorParts
+        return [initials, name, email].join(' ');
+      });
+    }
   };
 }
 

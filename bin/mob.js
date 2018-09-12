@@ -10,7 +10,7 @@ const {
   gitMessagePath,
   commitTemplatePath,
 } = require('../src/git-message');
-const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
+const { checkForUpdates, runHelp, runVersion, printList } = require('../src/helpers');
 
 checkForUpdates();
 
@@ -29,6 +29,11 @@ if (argv.help) {
 if (argv.version) {
   runVersion();
   process.exit(0);
+}
+
+if (argv.list) {
+  listCoAuthors();
+  return;
 }
 
 if (!revParse.insideWorkTree()) {
@@ -51,6 +56,20 @@ function printMob() {
 
   if (isCoAuthorSet()) {
     console.log(coauthors());
+  }
+}
+
+async function listCoAuthors() {
+  try {
+    const instance = gitAuthors();
+    const authorList = await instance.read();
+    const coAuthors = instance.toList(authorList);
+
+    printList(coAuthors);
+    process.exit(0);
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exit(1);
   }
 }
 

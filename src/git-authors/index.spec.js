@@ -64,6 +64,17 @@ test('read contents from .git-coauthors', async t => {
   t.deepEqual(json, authorsJson);
 });
 
+test('create an organised string list of .git-coauthors', async t => {
+  const authors = gitAuthors(() => Promise.resolve(validJsonString));
+
+  const json = await authors.read();
+  const authorList = authors.toList(json);
+  const expectAuthorList = [
+    "jd Jane Doe jane@findmypast.com",
+    "fb Frances Bar frances-bar@findmypast.com"];
+  t.deepEqual(expectAuthorList, authorList);
+});
+
 test('find and format "jd" and "fb" to an array of co-authors', t => {
   const authors = gitAuthors();
   const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson);
