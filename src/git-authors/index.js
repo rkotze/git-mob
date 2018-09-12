@@ -37,8 +37,8 @@ function gitAuthors(readFilePromise) {
 
     toList(authors) {
       const entries = Object.entries(authors.coauthors);
-      return entries.map((authorParts) => {
-        const [initials, { name, email }] = authorParts
+      return entries.map(authorParts => {
+        const [initials, { name, email }] = authorParts;
         return [initials, name, email].join(' ');
       });
     }

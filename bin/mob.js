@@ -21,27 +21,31 @@ const argv = minimist(process.argv.slice(2), {
   },
 });
 
-if (argv.help) {
-  runHelp();
-  process.exit(0);
-}
+execute(argv);
 
-if (argv.version) {
-  runVersion();
-  process.exit(0);
-}
+async function execute(args) {
+  if (args.help) {
+    runHelp();
+    process.exit(0);
+  }
 
-if (argv.list) {
-  listCoAuthors();
-  return;
-}
+  if (args.version) {
+    runVersion();
+    process.exit(0);
+  }
 
-if (!revParse.insideWorkTree()) {
-  console.error('Error: not a git repository');
-  process.exit(1);
-}
+  if (args.list) {
+    await listCoAuthors();
+    process.exit(0);
+  }
 
-runMob(argv._);
+  if (!revParse.insideWorkTree()) {
+    console.error('Error: not a git repository');
+    process.exit(1);
+  }
+
+  runMob(args._);
+}
 
 function runMob(args) {
   if (args.length === 0) {
@@ -66,7 +70,6 @@ async function listCoAuthors() {
     const coAuthors = instance.toList(authorList);
 
     printList(coAuthors);
-    process.exit(0);
   } catch (err) {
     console.error(`Error: ${err.message}`);
     process.exit(1);

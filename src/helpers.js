@@ -1,7 +1,7 @@
+const os = require('os');
 const { stripIndent } = require('common-tags');
 const updateNotifier = require('update-notifier');
 const pkg = require('../package.json');
-const os = require('os');
 
 const weekly = 1000 * 60 * 60 * 24 * 7;
 
@@ -33,7 +33,7 @@ function checkForUpdates(intervalInMs = weekly) {
   });
 }
 
-function printList(list){
+function printList(list) {
   console.log(list.join(os.EOL));
 }
 

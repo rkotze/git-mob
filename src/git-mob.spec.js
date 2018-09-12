@@ -65,9 +65,9 @@ test('--version prints version', t => {
 test('--list print a list of available co-authors', t => {
   const actual = exec('git mob --list').stdout.trimRight();
   const expected = [
-    "jd Jane Doe jane@findmypast.com",
-    "fb Frances Bar frances-bar@findmypast.com",
-    "ea Elliot Alderson ealderson@findmypast.com"
+    'jd Jane Doe jane@findmypast.com',
+    'fb Frances Bar frances-bar@findmypast.com',
+    'ea Elliot Alderson ealderson@findmypast.com'
   ].join(os.EOL);
 
   t.is(actual, expected);

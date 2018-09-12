@@ -71,7 +71,8 @@ test('create an organised string list of .git-coauthors', async t => {
   const authorList = authors.toList(json);
   const expectAuthorList = [
     "jd Jane Doe jane@findmypast.com",
-    "fb Frances Bar frances-bar@findmypast.com"];
+    "fb Frances Bar frances-bar@findmypast.com"
+  ];
   t.deepEqual(expectAuthorList, authorList);
 });
 
