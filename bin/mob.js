@@ -9,8 +9,14 @@ const {
   gitMessage,
   gitMessagePath,
   commitTemplatePath,
+  prepareCommitMsgTemplate,
 } = require('../src/git-message');
-const { checkForUpdates, runHelp, runVersion, printList } = require('../src/helpers');
+const {
+  checkForUpdates,
+  runHelp,
+  runVersion,
+  printList,
+} = require('../src/helpers');
 
 checkForUpdates();
 
@@ -18,7 +24,7 @@ const argv = minimist(process.argv.slice(2), {
   alias: {
     h: 'help',
     v: 'version',
-    l: 'list'
+    l: 'list',
   },
 });
 
@@ -87,7 +93,9 @@ async function setMob(initials) {
     resetMob();
 
     coauthors.forEach(addCoAuthor);
-    gitMessage(gitMessagePath()).writeCoAuthors(coauthors);
+    gitMessage(prepareCommitMsgTemplate() || gitMessagePath()).writeCoAuthors(
+      coauthors
+    );
 
     printMob();
   } catch (err) {

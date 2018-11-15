@@ -10,7 +10,8 @@
   },
   "bin": {
     "git-mob": "bin/mob.js",
-    "git-solo": "bin/solo.js"
+    "git-solo": "bin/solo.js",
+    "git-mob-print": "bin/mob-print.js"
   },
   "repository": {
     "type": "git",

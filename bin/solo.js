@@ -4,7 +4,11 @@ const minimist = require('minimist');
 const { oneLine } = require('common-tags');
 
 const { config, revParse } = require('../src/git-commands');
-const { gitMessage, gitMessagePath } = require('../src/git-message');
+const {
+  gitMessage,
+  gitMessagePath,
+  prepareCommitMsgTemplate,
+} = require('../src/git-message');
 const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
 
 checkForUpdates();
@@ -35,7 +39,9 @@ runSolo(argv._);
 
 async function runSolo(_args) {
   try {
-    await gitMessage(gitMessagePath()).removeCoAuthors();
+    await gitMessage(
+      prepareCommitMsgTemplate() || gitMessagePath()
+    ).removeCoAuthors();
     resetMob();
     printAuthor();
   } catch (err) {

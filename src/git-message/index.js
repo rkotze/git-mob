@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const os = require('os');
 
 const { config, revParse } = require('../git-commands');
@@ -28,8 +29,21 @@ function append(messagePath, newAuthors) {
   });
 }
 
-function gitMessage(messagePath, appendFilePromise) {
+function read(messagePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(messagePath, 'utf8', (err, data) => {
+      if (err) {
+        if (fileExists(err)) reject(err);
+      }
+
+      resolve(data);
+    });
+  });
+}
+
+function gitMessage(messagePath, appendFilePromise, readFilePromise) {
   const appendPromise = appendFilePromise || append;
+  const readPromise = readFilePromise || read;
 
   return {
     writeCoAuthors: async coAuthorList => {
@@ -39,10 +53,19 @@ function gitMessage(messagePath, appendFilePromise) {
 
       await appendPromise(messagePath, os.EOL + os.EOL + coAuthorText);
     },
+    readCoAuthors: () => {
+      return readPromise(messagePath);
+    },
     removeCoAuthors: async () => {
       return appendPromise(messagePath, '');
     },
   };
+}
+
+function prepareCommitMsgTemplate() {
+  const mobTemplate = path.join('.git', '.git-mob-template');
+  if (fs.existsSync(mobTemplate)) return mobTemplate;
+  return null;
 }
 
 function gitMessagePath() {
@@ -57,4 +80,9 @@ function commitTemplatePath() {
   );
 }
 
-module.exports = { gitMessage, gitMessagePath, commitTemplatePath };
+module.exports = {
+  gitMessage,
+  gitMessagePath,
+  commitTemplatePath,
+  prepareCommitMsgTemplate,
+};
