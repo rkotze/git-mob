@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const os = require('os');
 
 const { config, revParse } = require('../git-commands');
@@ -63,7 +62,7 @@ function gitMessage(messagePath, appendFilePromise, readFilePromise) {
 }
 
 function prepareCommitMsgTemplate() {
-  const mobTemplate = path.join('.git', '.git-mob-template');
+  const mobTemplate = revParse.gitPath('.git-mob-template');
   if (fs.existsSync(mobTemplate)) return mobTemplate;
   return null;
 }
