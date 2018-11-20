@@ -15,6 +15,8 @@ function runHelp() {
       -h  Prints usage information
       -v  Prints current version
       -l  Prints list of available co-authors
+      
+      --installTemplate  Installs a template file for prepare-commit-msg
 
     Examples
       $ git mob jd     # Set John Doe as co-author

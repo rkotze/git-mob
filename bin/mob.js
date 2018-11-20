@@ -1,10 +1,11 @@
 #! /usr/bin/env node
-
+const os = require('os');
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
 
 const { config, revParse } = require('../src/git-commands');
 const { gitAuthors } = require('../src/git-authors');
+const { installTempate } = require('../src/mob-template');
 const {
   gitMessage,
   gitMessagePath,
@@ -44,6 +45,21 @@ async function execute(args) {
   if (args.list) {
     await listCoAuthors();
     process.exit(0);
+  }
+
+  if (args.installTemplate) {
+    try {
+      await installTempate();
+      console.log(
+        'Installed git mob template ready for prepare-commit-msg.' +
+          os.EOL +
+          'See git-mob readme for further instuction.'
+      );
+      process.exit(0);
+    } catch (ex) {
+      console.error(ex.message);
+      process.exit();
+    }
   }
 
   if (!revParse.insideWorkTree()) {
