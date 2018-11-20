@@ -18,6 +18,7 @@ function runHelp() {
       -l  Prints list of available co-authors
 
       --installTemplate  Installs a template file for prepare-commit-msg
+      --uninstallTemplate  Removes the mob template file for prepare-commit-msg
 
     Examples
       $ git mob jd     # Set John Doe as co-author
