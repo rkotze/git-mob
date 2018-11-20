@@ -58,7 +58,7 @@ async function execute(args) {
       process.exit(0);
     } catch (ex) {
       console.error(ex.message);
-      process.exit();
+      process.exit(1);
     }
   }
 
