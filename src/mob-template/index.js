@@ -12,6 +12,17 @@ function installTempate() {
   });
 }
 
+function uninstallTemplate() {
+  return new Promise((resolve, reject) => {
+    const pathToTemplate = revParse.gitPath('.git-mob-template');
+    fs.unlink(pathToTemplate, err => {
+      if (err) reject(err);
+      resolve();
+    });
+  });
+}
+
 module.exports = {
   installTempate,
+  uninstallTemplate,
 };

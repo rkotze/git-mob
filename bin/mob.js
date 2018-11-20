@@ -5,7 +5,7 @@ const { oneLine } = require('common-tags');
 
 const { config, revParse } = require('../src/git-commands');
 const { gitAuthors } = require('../src/git-authors');
-const { installTempate } = require('../src/mob-template');
+const { installTempate, uninstallTemplate } = require('../src/mob-template');
 const {
   gitMessage,
   gitMessagePath,
@@ -54,6 +54,21 @@ async function execute(args) {
         'Installed git mob template ready for prepare-commit-msg.' +
           os.EOL +
           'See git-mob readme for further instuction.'
+      );
+      process.exit(0);
+    } catch (ex) {
+      console.error(ex.message);
+      process.exit(1);
+    }
+  }
+
+  if (args.uninstallTemplate) {
+    try {
+      await uninstallTemplate();
+      console.log(
+        'Uninstalled git mob template.' +
+          os.EOL +
+          'Update your prepare-commit-msg hook respectively.'
       );
       process.exit(0);
     } catch (ex) {
