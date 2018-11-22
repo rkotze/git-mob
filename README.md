@@ -19,6 +19,28 @@ git-mob is a CLI tool, so you'll need to install the package globally.
 npm i -g git-mob
 ```
 
+By default install git-mob will git the git template to append co-authors.
+
+### Prepare commit msg setup
+
+Do you want the co-authors appended to the message when using the command `git commit -m "commit message"`?
+
+1. `git mob --installTemplate`
+1. Add `prepare-commit-msg` to `.git/hooks` and see [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples)
+
+**More details about above ^**
+
+`--installTemplate` This will create a file in your local `.git` folder where it will write the selected co-authors into.
+
+`prepare-commit-msg` will need a script to read the co-authors template. See [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples) folder for working scripts.
+
+The command `git mob-print` will output to stdout the formatted co-authors which you can use in your own git hooks.
+
+### Revert back to default setup
+
+1. `git mob --uninstallTemplate`
+1. Remove `prepare-commit-msg` file
+
 ## Workflow / Usage
 
 With git-mob, the primary author will always be the primary user of the computer.
