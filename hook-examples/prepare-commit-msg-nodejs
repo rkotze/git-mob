@@ -15,7 +15,11 @@ if(/COMMIT_EDITMSG/g.test(commitMessage)){
         // opens .git/COMMIT_EDITMSG
         contents = fs.readFileSync(commitMessage);
 
-        fs.writeFileSync(commitMessage, stdout + contents);
+        const commentPos = contents.indexOf('# ');
+        const gitMessage = contents.slice(0, commentPos);
+        const gitComments = contents.slice(commentPos)
+
+        fs.writeFileSync(commitMessage, gitMessage + stdout + gitComments);
         process.exit(0);
     });
 }
