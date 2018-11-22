@@ -19,7 +19,7 @@ git-mob is a CLI tool, so you'll need to install the package globally.
 npm i -g git-mob
 ```
 
-By default install git-mob will git the git template to append co-authors.
+By default git-mob will use the `.gitmessage` template to append co-authors.
 
 ### Prepare commit msg setup
 
