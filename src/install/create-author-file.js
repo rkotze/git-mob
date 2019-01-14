@@ -1,4 +1,6 @@
-const DUMMY_CONTENT = {
+const { gitAuthors, gitCoauthorsPath } = require('../git-authors');
+
+const SAMPLE_CONTENT = {
   coauthors: {
     hh: {
       name: 'Hulk Hogan',
@@ -6,3 +8,17 @@ const DUMMY_CONTENT = {
     },
   },
 };
+
+createFileIfNotExist();
+
+async function createFileIfNotExist() {
+  const instance = gitAuthors();
+  if (!instance.fileExists()) {
+    try {
+      await instance.write(SAMPLE_CONTENT);
+      console.log('Add co-authors to: ', gitCoauthorsPath);
+    } catch (err) {
+      console.log('Someting went wrong adding a new co-authors file, error: ', err);
+    }
+  }
+}

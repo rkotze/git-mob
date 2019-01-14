@@ -16,10 +16,10 @@ function gitAuthors(readFilePromise, writeFilePromise) {
     }
   }
 
-  async function writeToFile(path) {
+  async function writeToFile(path, content) {
     const writeToPromise = writeFilePromise || promisify(fs.appendFile);
     try {
-      return await writeToPromise(path, 'utf8');
+      return await writeToPromise(path, content, 'utf8');
     } catch (err) {
       throw new Error(err.message);
     }
@@ -37,10 +37,14 @@ function gitAuthors(readFilePromise, writeFilePromise) {
 
     write: async authorJson => {
       try {
-        return writeToFile(gitCoauthorsPath, JSON.stringify(authorJson));
+        return writeToFile(gitCoauthorsPath, JSON.stringify(authorJson, null, 2));
       } catch (err) {
         throw new Error('Invalid JSON ' + err.message);
       }
+    },
+
+    fileExists: () => {
+      return fs.existsSync(gitCoauthorsPath);
     },
 
     coAuthors(authorInitials, authorJson) {
@@ -68,4 +72,4 @@ function missingAuthorError(initials, coauthors) {
   }
 }
 
-module.exports = { gitAuthors };
+module.exports = { gitAuthors, gitCoauthorsPath };

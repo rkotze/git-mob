@@ -6,7 +6,8 @@
     "test": "env-cmd test-helpers/.env ava --verbose --serial && npm run js-lint",
     "test:w": "env-cmd test-helpers/.env ava --watch",
     "js-lint": "xo",
-    "preversion": "npm test -s"
+    "preversion": "npm test -s",
+    "postinstall": "node ./src/install/create-author-file.js"
   },
   "bin": {
     "git-mob": "bin/mob.js",
