@@ -1,5 +1,6 @@
 const fs = require('fs');
 const os = require('os');
+const path = require('path');
 
 const { config, revParse } = require('../git-commands');
 
@@ -75,7 +76,7 @@ function commitTemplatePath() {
   return (
     process.env.GITMOB_MESSAGE_PATH ||
     config.get('commit.template') ||
-    '.git/.gitmessage'
+    path.relative(revParse.topLevelDirectory(), gitMessagePath())
   );
 }
 
