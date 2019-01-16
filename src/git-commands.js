@@ -120,14 +120,6 @@ function insideWorkTree() {
   return silentRun('git rev-parse --is-inside-work-tree').status === 0;
 }
 
-/**
- * Computes the path to the top-level directory of the git repository.
- * @returns {string} Path to the top-level directory of the git repository.
- */
-function topLevelDirectory() {
-  return silentRun('git rev-parse --show-toplevel').stdout.trim();
-}
-
 module.exports = {
   version: gitVersion,
   config: {
@@ -141,6 +133,5 @@ module.exports = {
   revParse: {
     gitPath,
     insideWorkTree,
-    topLevelDirectory,
   },
 };
