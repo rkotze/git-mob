@@ -89,3 +89,11 @@ test('does not add coauthor to coauthors file if wrong amount of parameters', t 
 
   t.deepEqual(addCoauthorActual, addCoauthorExpected);
 });
+
+test('-h prints help', t => {
+  const { stdout } = exec('git add-author -h');
+
+  t.regex(stdout, /usage/i);
+  t.regex(stdout, /options/i);
+  t.regex(stdout, /examples/i);
+});

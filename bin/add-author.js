@@ -3,9 +3,17 @@ const minimist = require('minimist');
 const { gitAuthors } = require('../src/git-authors');
 const { runAddCoauthorHelp, validateEmail } = require('../src/helpers');
 
-const argv = minimist(process.argv.slice(2), {});
+const argv = minimist(process.argv.slice(2), {
+  alias: {
+    h: 'help',
+  },
+});
 
 async function addCoauthor(argv) {
+  if (argv.help) {
+    runAddCoauthorHelp();
+    process.exit(0);
+  }
   const instance = gitAuthors();
   const authorList = await instance.read();
   const args = argv._;

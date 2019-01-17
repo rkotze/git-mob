@@ -30,6 +30,21 @@ function runHelp() {
   console.log(message);
 }
 
+function runAddCoauthorHelp() {
+  const message = stripIndent`
+    Usage
+      $ git add-author <co-author-initials> "Coauthor Name" <coauthor-email-address>
+    Options
+      -h  Prints usage information
+    Examples
+      $ git add-author jd "John Doe" johndoe@aol.org  # adds John Doe to coauthors file
+      $ git mob jd                                    # Set John as co-authors
+      $ git mob -l                                    # Show a list of all co-authors, John Doe should be there
+      $ git solo                                      # Dissipate the mob
+  `;
+  console.log(message);
+}
+
 function runVersion() {
   console.log(pkg.version);
 }
@@ -49,4 +64,11 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-module.exports = { runHelp, runVersion, checkForUpdates, printList, validateEmail };
+module.exports = {
+  runHelp,
+  runVersion,
+  checkForUpdates,
+  printList,
+  validateEmail,
+  runAddCoauthorHelp,
+};
