@@ -6,7 +6,7 @@ const { promisify } = require('util');
 const gitCoauthorsPath =
   process.env.GITMOB_COAUTHORS_PATH || path.join(os.homedir(), '.git-coauthors');
 
-function gitAuthors(readFilePromise, writeFilePromise) {
+function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {
     const readPromise = readFilePromise || promisify(fs.readFile);
     try {
@@ -25,6 +25,15 @@ function gitAuthors(readFilePromise, writeFilePromise) {
     }
   }
 
+  async function overwriteFile(path, content) {
+    const overwritePromise = overwriteFilePromise || promisify(fs.writeFile);
+    try {
+      return await overwritePromise(path, content, 'utf8');
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
   return {
     read: async () => {
       const authorJsonString = await readFile(gitCoauthorsPath);
@@ -38,6 +47,14 @@ function gitAuthors(readFilePromise, writeFilePromise) {
     write: async authorJson => {
       try {
         return writeToFile(gitCoauthorsPath, JSON.stringify(authorJson, null, 2));
+      } catch (err) {
+        throw new Error('Invalid JSON ' + err.message);
+      }
+    },
+
+    overwrite: async authorJson => {
+      try {
+        return overwriteFile(gitCoauthorsPath, JSON.stringify(authorJson, null, 2));
       } catch (err) {
         throw new Error('Invalid JSON ' + err.message);
       }
