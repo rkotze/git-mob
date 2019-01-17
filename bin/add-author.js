@@ -10,6 +10,11 @@ async function addCoauthor(argv) {
   const authorList = await instance.read();
   const args = argv._;
 
+  if (args.length !== 3) {
+    console.log('Incorrect Number of Parameters');
+    process.exit(0);
+  }
+
   if (validateEmail(args[2]) === false) {
     console.log('Invalid Email Format');
     process.exit(0);

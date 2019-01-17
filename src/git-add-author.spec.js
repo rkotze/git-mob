@@ -64,3 +64,28 @@ test('does not add coauthor to coauthors file if email invalid', t => {
 
   t.deepEqual(addCoauthorActual, addCoauthorExpected);
 });
+
+test('does not add coauthor to coauthors file if wrong amount of parameters', t => {
+  setCoauthorsFile();
+  exec('git add-author tb "Barry Butterworth"');
+
+  const addCoauthorActual = JSON.parse(readCoauthorsFile());
+  const addCoauthorExpected = {
+    coauthors: {
+      jd: {
+        name: 'Jane Doe',
+        email: 'jane@findmypast.com',
+      },
+      fb: {
+        name: 'Frances Bar',
+        email: 'frances-bar@findmypast.com',
+      },
+      ea: {
+        name: 'Elliot Alderson',
+        email: 'ealderson@findmypast.com',
+      },
+    },
+  };
+
+  t.deepEqual(addCoauthorActual, addCoauthorExpected);
+});
