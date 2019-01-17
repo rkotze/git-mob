@@ -6,7 +6,7 @@ Includes co-authors in commits when you collaborate on code. Use when pairing wi
 
 Read our blog post to find out why git-mob exists: http://tech.findmypast.com/co-author-commits-with-git-mob
 
-[**New** Get the VS Code extension here](https://marketplace.visualstudio.com/items?itemName=RichardKotze.git-mob#overview)
+[**New** Git Mob VS Code extension](https://github.com/findmypast-oss/git-mob)
 
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
 
