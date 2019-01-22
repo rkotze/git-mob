@@ -40,7 +40,6 @@ function runAddCoauthorHelp() {
       $ git add-author jd "John Doe" johndoe@aol.org  # adds John Doe to coauthors file
       $ git mob jd                                    # Set John as co-authors
       $ git mob -l                                    # Show a list of all co-authors, John Doe should be there
-      $ git solo                                      # Dissipate the mob
   `;
   console.log(message);
 }
