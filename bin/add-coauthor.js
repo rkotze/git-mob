@@ -18,15 +18,16 @@ async function execute(argv) {
   const args = argv._;
 
   if (args.length !== 3) {
-    console.log('Incorrect Number of Parameters');
-    process.exit(0);
+    console.error('Incorrect Number of Parameters');
+    process.exit(1);
   }
   if (validateEmail(args[2]) === false) {
-    console.log('Invalid Email Format');
-    process.exit(0);
+    console.error('Invalid Email Format');
+    process.exit(1);
   }
 
   await addCoauthor(args);
+  process.exit(0);
 }
 
 execute(argv);
