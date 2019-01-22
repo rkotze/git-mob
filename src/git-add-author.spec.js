@@ -90,6 +90,31 @@ test('does not add coauthor to coauthors file if wrong amount of parameters', t 
   t.deepEqual(addCoauthorActual, addCoauthorExpected);
 });
 
+test('does not add coauthor to coauthors file if key already exists', t => {
+  setCoauthorsFile();
+  exec('git add-coauthor ea "Emily Anderson" "emily@anderson.org"');
+
+  const addCoauthorActual = JSON.parse(readCoauthorsFile());
+  const addCoauthorExpected = {
+    coauthors: {
+      jd: {
+        name: 'Jane Doe',
+        email: 'jane@findmypast.com',
+      },
+      fb: {
+        name: 'Frances Bar',
+        email: 'frances-bar@findmypast.com',
+      },
+      ea: {
+        name: 'Elliot Alderson',
+        email: 'ealderson@findmypast.com',
+      },
+    },
+  };
+
+  t.deepEqual(addCoauthorActual, addCoauthorExpected);
+});
+
 test('-h prints help', t => {
   const { stdout } = exec('git add-coauthor -h');
 
