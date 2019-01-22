@@ -13,7 +13,7 @@ test.afterEach.always('cleanup', () => {
 
 test('adds coauthor to coauthors file', t => {
   setCoauthorsFile();
-  exec('git add-author tb "Barry Butterworth" barry@butterworth.org');
+  exec('git add-coauthor tb "Barry Butterworth" barry@butterworth.org');
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {
@@ -42,7 +42,7 @@ test('adds coauthor to coauthors file', t => {
 
 test('does not add coauthor to coauthors file if email invalid', t => {
   setCoauthorsFile();
-  exec('git add-author tb "Barry Butterworth" barry.org');
+  exec('git add-coauthor tb "Barry Butterworth" barry.org');
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {
@@ -67,7 +67,7 @@ test('does not add coauthor to coauthors file if email invalid', t => {
 
 test('does not add coauthor to coauthors file if wrong amount of parameters', t => {
   setCoauthorsFile();
-  exec('git add-author tb "Barry Butterworth"');
+  exec('git add-coauthor tb "Barry Butterworth"');
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {
@@ -91,7 +91,7 @@ test('does not add coauthor to coauthors file if wrong amount of parameters', t 
 });
 
 test('-h prints help', t => {
-  const { stdout } = exec('git add-author -h');
+  const { stdout } = exec('git add-coauthor -h');
 
   t.regex(stdout, /usage/i);
   t.regex(stdout, /options/i);
