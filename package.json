@@ -11,8 +11,9 @@
   },
   "bin": {
     "git-mob": "bin/mob.js",
+    "git-mob-print": "bin/mob-print.js",
     "git-solo": "bin/solo.js",
-    "git-mob-print": "bin/mob-print.js"
+    "git-add-coauthor": "bin/add-coauthor.js"
   },
   "repository": {
     "type": "git",
