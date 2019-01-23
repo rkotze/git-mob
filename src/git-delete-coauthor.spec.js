@@ -56,3 +56,11 @@ test('does nothing if initial are not a key in coauthors file', t => {
 
   t.deepEqual(deleteCoauthorActual, deleteCoauthorExpected);
 });
+
+test('-h prints help', t => {
+  const { stdout } = exec('git delete-coauthor -h');
+
+  t.regex(stdout, /usage/i);
+  t.regex(stdout, /options/i);
+  t.regex(stdout, /examples/i);
+});

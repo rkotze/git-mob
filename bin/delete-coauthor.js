@@ -1,5 +1,6 @@
 #! /usr/bin/env node
 const minimist = require('minimist');
+const { runDeleteCoauthorHelp } = require('../src/helpers');
 const { deleteCoauthor } = require('../src/manage-authors/delete-coauthor');
 
 const argv = minimist(process.argv.slice(2), {
