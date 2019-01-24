@@ -85,3 +85,53 @@ test('edits coauthors name and email in coauthors file', t => {
 
   t.deepEqual(addCoauthorActual, addCoauthorExpected);
 });
+
+test('does not update a random key input', t => {
+  setCoauthorsFile();
+  exec('git edit-coauthor ea gender="female"');
+
+  const addCoauthorActual = JSON.parse(readCoauthorsFile());
+  const addCoauthorExpected = {
+    coauthors: {
+      jd: {
+        name: 'Jane Doe',
+        email: 'jane@findmypast.com',
+      },
+      fb: {
+        name: 'Frances Bar',
+        email: 'frances-bar@findmypast.com',
+      },
+      ea: {
+        name: 'Elliot Alderson',
+        email: 'ealderson@findmypast.com',
+      },
+    },
+  };
+
+  t.deepEqual(addCoauthorActual, addCoauthorExpected);
+});
+
+test('does not update if author does not already exist', t => {
+  setCoauthorsFile();
+  exec('git edit-coauthor bb name="barry butterworth"');
+
+  const addCoauthorActual = JSON.parse(readCoauthorsFile());
+  const addCoauthorExpected = {
+    coauthors: {
+      jd: {
+        name: 'Jane Doe',
+        email: 'jane@findmypast.com',
+      },
+      fb: {
+        name: 'Frances Bar',
+        email: 'frances-bar@findmypast.com',
+      },
+      ea: {
+        name: 'Elliot Alderson',
+        email: 'ealderson@findmypast.com',
+      },
+    },
+  };
+
+  t.deepEqual(addCoauthorActual, addCoauthorExpected);
+});
