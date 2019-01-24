@@ -18,6 +18,7 @@ const {
   runVersion,
   printList,
 } = require('../src/helpers');
+const { RED } = require('../src/constants');
 
 checkForUpdates();
 
@@ -99,6 +100,8 @@ function printMob() {
   if (isCoAuthorSet()) {
     console.log(coauthors());
   }
+
+  printConfigWarning();
 }
 
 async function listCoAuthors() {
@@ -139,6 +142,23 @@ function author() {
   const name = config.get('user.name');
   const email = config.get('user.email');
   return oneLine`${name} <${email}>`;
+}
+
+function printConfigWarning() {
+  const name = config.get('user.name');
+  const email = config.get('user.email');
+  if (name === '' || email === '') {
+    console.warn(
+      RED,
+      'Warning: Missing information for the primary author. Set with:'
+    );
+  }
+  if (name === '') {
+    console.warn('$ git config --global user.name "Jane Doe"');
+  }
+  if (email === '') {
+    console.warn('$ git config --global user.email "jane@example.com"');
+  }
 }
 
 function coauthors() {
