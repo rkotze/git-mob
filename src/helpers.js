@@ -59,6 +59,21 @@ function runDeleteCoauthorHelp() {
   console.log(message);
 }
 
+function runEditCoauthorHelp() {
+  const message = stripIndent`
+    Usage
+      $ git edit-coauthor <co-author-initials> name="Coauthor Name" email="Coauthor Email"
+    Options
+      -h  Prints usage information
+    Examples
+      $ git edit-coauthor jd name="Jeb Dush" email="jeb@dush.com"    # Updates email and name
+      $ git edit-coauthor jd name="Jeb Dush"                         # Updates just the name
+      $ git edit-coauthor jd email="jeb@dush.com"                    # Updates just the email
+
+  `;
+  console.log(message);
+}
+
 function runVersion() {
   console.log(pkg.version);
 }
@@ -86,4 +101,5 @@ module.exports = {
   validateEmail,
   runAddCoauthorHelp,
   runDeleteCoauthorHelp,
+  runEditCoauthorHelp,
 };
