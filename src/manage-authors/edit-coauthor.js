@@ -18,8 +18,9 @@ async function editCoauthor([key, ...args]) {
         }
       });
     await coauthors.overwrite(authorList);
+    console.log(key + ' has been updated.');
   } else {
-    console.log(key + ' does not exist in your .git-coauthors file');
+    console.log(key + ' does not exist in your .git-coauthors file.');
   }
 }
 
