@@ -15,9 +15,7 @@ async function execute(argv) {
     process.exit(0);
   }
 
-  const args = argv._;
-
-  await editCoauthor(args);
+  await editCoauthor(argv);
   process.exit(0);
 }
 

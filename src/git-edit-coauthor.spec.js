@@ -13,7 +13,7 @@ test.afterEach.always('cleanup', () => {
 
 test('edits coauthors name in coauthors file', t => {
   setCoauthorsFile();
-  exec('git edit-coauthor ea name="emily aldershot"');
+  exec('git edit-coauthor ea --name="emily aldershot"');
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {
@@ -38,7 +38,7 @@ test('edits coauthors name in coauthors file', t => {
 
 test('edits coauthors email in coauthors file', t => {
   setCoauthorsFile();
-  exec('git edit-coauthor ea email="emily@aldershot.com"');
+  exec('git edit-coauthor ea --email="emily@aldershot.com"');
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {
@@ -63,7 +63,9 @@ test('edits coauthors email in coauthors file', t => {
 
 test('edits coauthors name and email in coauthors file', t => {
   setCoauthorsFile();
-  exec('git edit-coauthor ea email="emily@aldershot.com" name="emily aldershot"');
+  exec(
+    'git edit-coauthor ea --email="emily@aldershot.com" --name="emily aldershot"'
+  );
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {
@@ -88,7 +90,7 @@ test('edits coauthors name and email in coauthors file', t => {
 
 test('does not update a random key input', t => {
   setCoauthorsFile();
-  exec('git edit-coauthor ea gender="female"');
+  exec('git edit-coauthor ea --gender="female"');
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {
@@ -113,7 +115,7 @@ test('does not update a random key input', t => {
 
 test('does not update if author does not already exist', t => {
   setCoauthorsFile();
-  exec('git edit-coauthor bb name="barry butterworth"');
+  exec('git edit-coauthor bb --name="barry butterworth"');
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {

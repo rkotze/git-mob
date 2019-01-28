@@ -13,6 +13,7 @@ function runHelp() {
       $ git mob-print
       $ git add-coauthor <co-author-initials> "Coauthor Name" <coauthor-email-address>
       $ git delete-coauthor <co-author-initials>
+      $ git edit-coauthor <co-author-initials> --name="Coauthor Name" --email="coauthor-email-address"
 
     Options
       -h  Prints usage information
@@ -66,9 +67,9 @@ function runEditCoauthorHelp() {
     Options
       -h  Prints usage information
     Examples
-      $ git edit-coauthor jd name="Jeb Dush" email="jeb@dush.com"    # Updates email and name
-      $ git edit-coauthor jd name="Jeb Dush"                         # Updates just the name
-      $ git edit-coauthor jd email="jeb@dush.com"                    # Updates just the email
+      $ git edit-coauthor jd --name="Jeb Dush" --email="jeb@dush.com"    # Updates email and name
+      $ git edit-coauthor jd --name="Jeb Dush"                           # Updates just the name
+      $ git edit-coauthor jd --email="jeb@dush.com"                      # Updates just the email
 
   `;
   console.log(message);

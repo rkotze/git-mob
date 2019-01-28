@@ -137,9 +137,9 @@ $ git delete-coauthor bb
 Edit a coauthor's details in your `.git-coauthors` file.
 
 ```
-$ git edit-coauthor bb name="Barry Butterworth" email="barry@butterworth.org"
-$ git edit-coauthor bb name="Barry Butterworth"
-$ git edit-coauthor bb email="barry@butterworth.org"
+$ git edit-coauthor bb --name="Barry Butterworth" --email="barry@butterworth.org"
+$ git edit-coauthor bb --name="Barry Butterworth"
+$ git edit-coauthor bb --email="barry@butterworth.org"
 ```
 
 <sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/findmypast-oss/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
