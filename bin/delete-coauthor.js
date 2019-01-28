@@ -17,6 +17,12 @@ async function execute(argv) {
 
   const args = argv._;
 
+  if (args.length === 0) {
+    console.error(
+      'Please provide the initials of who you want deleting. Use -h to view examples.'
+    );
+  }
+
   await deleteCoauthor(args[0]);
   process.exit(0);
 }

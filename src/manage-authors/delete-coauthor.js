@@ -6,7 +6,7 @@ async function deleteCoauthor(key) {
   if (key in authorList.coauthors) {
     delete authorList.coauthors[key];
     await coauthors.overwrite(authorList);
-    console.log(key + ' has been removed from .git-coauthors');
+    console.log(key + ': has been removed from .git-coauthors');
   } else {
     console.error(key + ': no such initials in .git-coauthors');
   }
