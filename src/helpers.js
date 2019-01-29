@@ -67,9 +67,9 @@ function runEditCoauthorHelp() {
     Options
       -h  Prints usage information
     Examples
-      $ git edit-coauthor jd --name="Jeb Dush" --email="jeb@dush.com"    # Updates email and name
-      $ git edit-coauthor jd --name="Jeb Dush"                           # Updates just the name
-      $ git edit-coauthor jd --email="jeb@dush.com"                      # Updates just the email
+      $ git edit-coauthor jd --name="Jeb Diamond" --email="jeb@Diamond.com"    # Updates email and name
+      $ git edit-coauthor jd --name="Jeb Diamond"                           # Updates just the name
+      $ git edit-coauthor jd --email="jeb@diamond.com"                      # Updates just the email
 
   `;
   console.log(message);
