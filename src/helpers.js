@@ -11,6 +11,9 @@ function runHelp() {
       $ git mob <co-author-initials>
       $ git solo
       $ git mob-print
+      $ git add-coauthor <co-author-initials> "Coauthor Name" <coauthor-email-address>
+      $ git delete-coauthor <co-author-initials>
+      $ git edit-coauthor <co-author-initials> --name="Coauthor Name" --email="coauthor-email-address"
 
     Options
       -h  Prints usage information
@@ -33,13 +36,41 @@ function runHelp() {
 function runAddCoauthorHelp() {
   const message = stripIndent`
     Usage
-      $ git add-author <co-author-initials> "Coauthor Name" <coauthor-email-address>
+      $ git add-coauthor <co-author-initials> "Coauthor Name" <coauthor-email-address>
     Options
       -h  Prints usage information
     Examples
-      $ git add-author jd "John Doe" johndoe@aol.org  # adds John Doe to coauthors file
-      $ git mob jd                                    # Set John as co-authors
-      $ git mob -l                                    # Show a list of all co-authors, John Doe should be there
+      $ git add-coauthor jd "John Doe" johndoe@aol.org  # adds John Doe to coauthors file
+      $ git mob jd                                      # Set John as co-authors
+      $ git mob -l                                      # Show a list of all co-authors, John Doe should be there
+  `;
+  console.log(message);
+}
+
+function runDeleteCoauthorHelp() {
+  const message = stripIndent`
+    Usage
+      $ git delete-coauthor <co-author-initials>
+    Options
+      -h  Prints usage information
+    Examples
+      $ git delete-coauthor jd  # deletes John Doe to coauthors file
+
+  `;
+  console.log(message);
+}
+
+function runEditCoauthorHelp() {
+  const message = stripIndent`
+    Usage
+      $ git edit-coauthor <co-author-initials> name="Coauthor Name" email="Coauthor Email"
+    Options
+      -h  Prints usage information
+    Examples
+      $ git edit-coauthor jd --name="Jeb Diamond" --email="jeb@Diamond.com"    # Updates email and name
+      $ git edit-coauthor jd --name="Jeb Diamond"                           # Updates just the name
+      $ git edit-coauthor jd --email="jeb@diamond.com"                      # Updates just the email
+
   `;
   console.log(message);
 }
@@ -70,4 +101,6 @@ module.exports = {
   printList,
   validateEmail,
   runAddCoauthorHelp,
+  runDeleteCoauthorHelp,
+  runEditCoauthorHelp,
 };

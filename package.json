@@ -13,7 +13,9 @@
     "git-mob": "bin/mob.js",
     "git-mob-print": "bin/mob-print.js",
     "git-solo": "bin/solo.js",
-    "git-add-coauthor": "bin/add-coauthor.js"
+    "git-add-coauthor": "bin/add-coauthor.js",
+    "git-delete-coauthor": "bin/delete-coauthor.js",
+    "git-edit-coauthor": "bin/edit-coauthor.js"
   },
   "repository": {
     "type": "git",
