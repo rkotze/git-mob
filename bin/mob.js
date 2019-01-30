@@ -18,6 +18,8 @@ const {
   runVersion,
   printList,
 } = require('../src/helpers');
+const { configWarning } = require('../src/check-author');
+const { RED } = require('../src/constants');
 
 checkForUpdates();
 
@@ -94,10 +96,15 @@ function runMob(args) {
 }
 
 function printMob() {
-  console.log(author());
+  const gitAuthor = getGitAuthor();
+  console.log(author(gitAuthor));
 
   if (isCoAuthorSet()) {
     console.log(coauthors());
+  }
+
+  if (configWarning(gitAuthor)) {
+    console.warn(RED, configWarning(gitAuthor));
   }
 }
 
@@ -135,9 +142,13 @@ async function setMob(initials) {
   }
 }
 
-function author() {
+function getGitAuthor() {
   const name = config.get('user.name');
   const email = config.get('user.email');
+  return { name, email };
+}
+
+function author({ name, email }) {
   return oneLine`${name} <${email}>`;
 }
 
