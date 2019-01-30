@@ -1,5 +1,5 @@
-import test from 'ava';
 import os from 'os';
+import test from 'ava';
 
 import { configWarning } from './check-author';
 
