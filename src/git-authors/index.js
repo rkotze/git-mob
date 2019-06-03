@@ -34,6 +34,10 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
     }
   }
 
+  function author({ name, email }) {
+    return `${name} <${email}>`;
+  }
+
   return {
     read: async () => {
       const authorJsonString = await readFile(gitCoauthorsPath);
@@ -68,9 +72,18 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
       const { coauthors } = authorJson;
       return authorInitials.map(initials => {
         missingAuthorError(initials, coauthors);
-        const { name, email } = coauthors[initials];
-        return `${name} <${email}>`;
+        return author(coauthors[initials]);
       });
+    },
+
+    coAuthorsInitials(authorJson, currentCoAuthors) {
+      const { coauthors } = authorJson;
+      return Object.keys(coauthors).reduce((currentCoAuthorsInitials, initials) => {
+        if (currentCoAuthors.includes(author(coauthors[initials]))) {
+          currentCoAuthorsInitials.push(initials);
+        }
+        return currentCoAuthorsInitials;
+      }, []);
     },
 
     toList(authors) {

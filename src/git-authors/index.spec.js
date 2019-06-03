@@ -100,3 +100,10 @@ test('Throw error if initials of author are not found', t => {
 
   t.is(error.message, 'Author with initials "hp" not found!');
 });
+
+test('find initials of co-authors', t => {
+  const authors = gitAuthors();
+  const coAuthorsInitials = authors.coAuthorsInitials(authorsJson, ['Jane Doe <jane@findmypast.com>']);
+
+  t.deepEqual(['jd'], coAuthorsInitials);
+});
