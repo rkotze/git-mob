@@ -166,6 +166,18 @@ $ git edit-coauthor bb --name="Barry Butterworth"
 $ git edit-coauthor bb --email="barry@butterworth.org"
 ```
 
+Add initials of current mob to `PS1`, in `~/.bashrc`
+```bash
+function git_initials {
+  local initials=$(git mob-print --initials)
+  if [[ -n "${initials}" ]]; then
+    echo " [${initials}]"
+  fi
+}
+
+export PS1="\$(pwd)\$(git_initials) -> "
+```
+
 <sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/findmypast-oss/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
 
 Find out more with `git mob --help`
