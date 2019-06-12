@@ -9,9 +9,11 @@ async function editCoauthor({ _, ...props }) {
       if (props.name) {
         authorList.coauthors[key].name = props.name;
       }
+
       if (props.email) {
         authorList.coauthors[key].email = props.email;
       }
+
       await coauthors.overwrite(authorList);
       console.log(key + ' has been updated.');
     } else {

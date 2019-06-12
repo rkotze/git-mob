@@ -16,9 +16,9 @@ async function createFileIfNotExist() {
   if (!instance.fileExists()) {
     try {
       await instance.write(SAMPLE_CONTENT);
-      console.log('Add co-authors to: ', gitCoauthorsPath);
-    } catch (err) {
-      console.log('Someting went wrong adding a new co-authors file, error: ', err);
+      console.log('Add co-authors to:', gitCoauthorsPath);
+    } catch (error) {
+      console.log('Someting went wrong adding a new co-authors file, error:', error);
     }
   }
 }

@@ -59,12 +59,12 @@
     "update-notifier": "^2.5.0"
   },
   "devDependencies": {
-    "ava": "*",
+    "ava": "^2.1.0",
     "env-cmd": "^8.0.1",
     "eol": "^0.9.1",
     "sinon": "^4.3.0",
     "tempy": "^0.2.1",
-    "xo": "*"
+    "xo": "^0.24.0"
   },
   "xo": {
     "space": true,

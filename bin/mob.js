@@ -61,8 +61,8 @@ async function execute(args) {
           'See git-mob readme for further instuction.'
       );
       process.exit(0);
-    } catch (ex) {
-      console.error(ex.message);
+    } catch (error) {
+      console.error(error.message);
       process.exit(1);
     }
   }
@@ -76,8 +76,8 @@ async function execute(args) {
           'Update your prepare-commit-msg hook respectively.'
       );
       process.exit(0);
-    } catch (ex) {
-      console.error(ex.message);
+    } catch (error) {
+      console.error(error.message);
       process.exit(1);
     }
   }
@@ -122,8 +122,8 @@ async function listCoAuthors() {
     const coAuthors = instance.toList(authorList);
 
     printList(coAuthors);
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
     process.exit(1);
   }
 }
@@ -143,8 +143,8 @@ async function setMob(initials) {
     );
 
     printMob();
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
     process.exit(1);
   }
 }
@@ -158,8 +158,8 @@ async function setAuthor(initials) {
     config.set('user.name', authors.name);
     config.set('user.email', authors.email);
     runMob(initials);
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
     process.exit(1);
   }
 }

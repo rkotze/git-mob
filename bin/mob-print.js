@@ -19,6 +19,7 @@ async function execute(args) {
     runMobPrintHelp();
     process.exit(0);
   }
+
   if (args.initials) {
     await printCoAuthorsInitials();
     process.exit(0);
@@ -31,8 +32,8 @@ async function printCoAuthors() {
   try {
     const coAuthors = await gitMessage(prepareCommitMsgTemplate()).readCoAuthors();
     console.log(coAuthors);
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
     process.exit(1);
   }
 }
@@ -50,8 +51,8 @@ async function printCoAuthorsInitials() {
     if (coAuthorsInitials.length > 0) {
       console.log(coAuthorsInitials.join(','));
     }
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
     process.exit(1);
   }
 }

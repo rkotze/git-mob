@@ -21,6 +21,7 @@ async function execute(argv) {
     console.error('Incorrect Number of Parameters');
     process.exit(1);
   }
+
   if (validateEmail(args[2]) === false) {
     console.error('Invalid Email Format');
     process.exit(1);

@@ -11,8 +11,8 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
     const readPromise = readFilePromise || promisify(fs.readFile);
     try {
       return await readPromise(path, 'utf8');
-    } catch (err) {
-      throw new Error(err.message);
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 
@@ -20,8 +20,8 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
     const writeToPromise = writeFilePromise || promisify(fs.appendFile);
     try {
       return await writeToPromise(path, content, 'utf8');
-    } catch (err) {
-      throw new Error(err.message);
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 
@@ -29,8 +29,8 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
     const overwritePromise = overwriteFilePromise || promisify(fs.writeFile);
     try {
       return await overwritePromise(path, content, 'utf8');
-    } catch (err) {
-      throw new Error(err.message);
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 
@@ -43,24 +43,24 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
       const authorJsonString = await readFile(gitCoauthorsPath);
       try {
         return JSON.parse(authorJsonString);
-      } catch (err) {
-        throw new Error('Invalid JSON ' + err.message);
+      } catch (error) {
+        throw new Error('Invalid JSON ' + error.message);
       }
     },
 
     write: async authorJson => {
       try {
         return writeToFile(gitCoauthorsPath, JSON.stringify(authorJson, null, 2));
-      } catch (err) {
-        throw new Error('Invalid JSON ' + err.message);
+      } catch (error) {
+        throw new Error('Invalid JSON ' + error.message);
       }
     },
 
     overwrite: async authorJson => {
       try {
         return overwriteFile(gitCoauthorsPath, JSON.stringify(authorJson, null, 2));
-      } catch (err) {
-        throw new Error('Invalid JSON ' + err.message);
+      } catch (error) {
+        throw new Error('Invalid JSON ' + error.message);
       }
     },
 
@@ -88,6 +88,7 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
         if (currentCoAuthors.includes(author(coauthors[initials]))) {
           currentCoAuthorsInitials.push(initials);
         }
+
         return currentCoAuthorsInitials;
       }, []);
     },

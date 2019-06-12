@@ -30,30 +30,30 @@ const invalidJsonString = `
 }`;
 
 const authorsJson = {
-  "coauthors": {
-    "jd": {
-      "name": "Jane Doe",
-      "email": "jane@findmypast.com"
+  coauthors: {
+    jd: {
+      name: 'Jane Doe',
+      email: 'jane@findmypast.com',
     },
-    "fb": {
-      "name": "Frances Bar",
-      "email": "frances-bar@findmypast.com"
-    }
-  }
+    fb: {
+      name: 'Frances Bar',
+      email: 'frances-bar@findmypast.com',
+    },
+  },
 };
 
 test('.git-coauthors file does not exist', async t => {
   const authors = gitAuthors(() =>
     Promise.reject(new Error('enoent: no such file or directory, open'))
   );
-  const error = await t.throws(authors.read());
+  const error = await t.throwsAsync(() => authors.read());
   t.regex(error.message, /enoent: no such file or directory, open/i);
 });
 
 test('invalid json contents from .git-coauthors', async t => {
   const authors = gitAuthors(() => Promise.resolve(invalidJsonString));
 
-  const error = await t.throws(authors.read());
+  const error = await t.throwsAsync(() => authors.read());
   t.regex(error.message, /Invalid JSON/i);
 });
 
@@ -70,8 +70,8 @@ test('create an organised string list of .git-coauthors', async t => {
   const json = await authors.read();
   const authorList = authors.toList(json);
   const expectAuthorList = [
-    "jd Jane Doe jane@findmypast.com",
-    "fb Frances Bar frances-bar@findmypast.com"
+    'jd Jane Doe jane@findmypast.com',
+    'fb Frances Bar frances-bar@findmypast.com',
   ];
   t.deepEqual(expectAuthorList, authorList);
 });
@@ -80,10 +80,7 @@ test('find and format "jd" and "fb" to an array of co-authors', t => {
   const authors = gitAuthors();
   const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson);
   t.deepEqual(
-    [
-      'Jane Doe <jane@findmypast.com>',
-      'Frances Bar <frances-bar@findmypast.com>',
-    ],
+    ['Jane Doe <jane@findmypast.com>', 'Frances Bar <frances-bar@findmypast.com>'],
     coAuthorList
   );
 });
@@ -103,7 +100,9 @@ test('Throw error if initials of author are not found', t => {
 
 test('find initials of co-authors', t => {
   const authors = gitAuthors();
-  const coAuthorsInitials = authors.coAuthorsInitials(authorsJson, ['Jane Doe <jane@findmypast.com>']);
+  const coAuthorsInitials = authors.coAuthorsInitials(authorsJson, [
+    'Jane Doe <jane@findmypast.com>',
+  ]);
 
   t.deepEqual(['jd'], coAuthorsInitials);
 });

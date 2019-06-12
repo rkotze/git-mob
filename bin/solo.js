@@ -44,8 +44,8 @@ async function runSolo(_args) {
     ).removeCoAuthors();
     resetMob();
     printAuthor();
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
     process.exit(1);
   }
 }
