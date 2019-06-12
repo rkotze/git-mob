@@ -19,6 +19,7 @@ function runHelp() {
       -h  Prints usage information
       -v  Prints current version
       -l  Prints list of available co-authors
+      -o  Overwrite the main author
 
       --installTemplate  Installs a template file for prepare-commit-msg
       --uninstallTemplate  Removes the mob template file for prepare-commit-msg
@@ -27,6 +28,7 @@ function runHelp() {
       $ git mob jd     # Set John Doe as co-author
       $ git mob jd am  # Set John & Amy as co-authors
       $ git mob -l     # Show a list of all co-authors
+      $ git mob -o jd  # Will change main author to jd
       $ git solo       # Dissipate the mob
       $ git mob-print  # Prints git-mob template to stdout. Used for prepare-commit-msg hook.
   `;

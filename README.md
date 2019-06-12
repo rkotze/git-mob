@@ -126,9 +126,9 @@ ad Amy Doe amy@example.com
 bd Bob Doe bob@example.com
 ```
 
-### Override the main author
+### Overwrite the main author
 
-Override the current author which could be useful for pairing on different machines
+Overwrite the current author which could be useful for pairing on different machines
 
 If the current author is: **Bob Doe**
 
