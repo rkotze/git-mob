@@ -166,7 +166,8 @@ $ git edit-coauthor bb --name="Barry Butterworth"
 $ git edit-coauthor bb --email="barry@butterworth.org"
 ```
 
-Add initials of current mob to `PS1`, in `~/.bashrc`
+### Add initials of current mob to `PS1`, in `~/.bashrc`
+
 ```bash
 function git_initials {
   local initials=$(git mob-print --initials)
