@@ -77,6 +77,19 @@ function runEditCoauthorHelp() {
   console.log(message);
 }
 
+function runMobPrintHelp() {
+  const message = stripIndent`
+    Usage
+      $ git mob-print
+    Options
+      -h  Prints usage information
+      -i  Prints a comma separated list of selected co-author initials
+    Examples  
+      $ git mob -i  # Prints a list of selected co-authors initials (jd,bd)
+  `;
+  console.log(message);
+}
+
 function runVersion() {
   console.log(pkg.version);
 }
@@ -105,4 +118,5 @@ module.exports = {
   runAddCoauthorHelp,
   runDeleteCoauthorHelp,
   runEditCoauthorHelp,
+  runMobPrintHelp,
 };
