@@ -73,6 +73,12 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
       });
     },
 
+    author(authorInitials, authorJson) {
+      const { coauthors } = authorJson;
+      missingAuthorError(authorInitials, coauthors);
+      return coauthors[authorInitials];
+    },
+
     toList(authors) {
       const entries = Object.entries(authors.coauthors);
       return entries.map(authorParts => {

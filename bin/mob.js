@@ -24,10 +24,13 @@ const { RED } = require('../src/constants');
 checkForUpdates();
 
 const argv = minimist(process.argv.slice(2), {
+  boolean: ['h', 'v', 'l', 'o'],
+
   alias: {
     h: 'help',
     v: 'version',
     l: 'list',
+    o: 'override'
   },
 });
 
@@ -84,7 +87,11 @@ async function execute(args) {
     process.exit(1);
   }
 
-  runMob(args._);
+  if (args.override) {
+    setAuthor(args._);
+  } else {
+    runMob(args._);
+  }
 }
 
 function runMob(args) {
@@ -136,6 +143,21 @@ async function setMob(initials) {
     );
 
     printMob();
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exit(1);
+  }
+}
+
+async function setAuthor(initials) {
+  try {
+    const instance = gitAuthors();
+    const authorList = await instance.read();
+    const authors = instance.author(initials.shift(), authorList);
+
+    config.set('user.name', authors.name);
+    config.set('user.email', authors.email);
+    runMob(initials);
   } catch (err) {
     console.error(`Error: ${err.message}`);
     process.exit(1);

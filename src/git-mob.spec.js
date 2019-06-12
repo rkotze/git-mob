@@ -115,6 +115,19 @@ test('sets mob when co-author initials found', t => {
   deleteCoauthorsFile();
 });
 
+test('sets mob and override author', t => {
+  setCoauthorsFile();
+  addAuthor('Billy the Kid', 'billy@example.com');
+
+  const actual = exec('git mob -o jd ea').stdout.trimRight();
+  const expected = stripIndent`
+    Jane Doe <jane@findmypast.com>
+    Elliot Alderson <ealderson@findmypast.com>
+  `;
+
+  t.is(actual, expected);
+});
+
 test('errors when co-author initials not found', t => {
   setCoauthorsFile();
   const { stderr, status } = exec('git mob rk');
