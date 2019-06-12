@@ -122,6 +122,18 @@ ad Amy Doe amy@example.com
 bd Bob Doe bob@example.com
 ```
 
+Override the current author which could be useful for pairing on different machines
+
+If the current author is: **Bob Doe**
+
+```
+$ git mob -o jd ad
+jd Jane Doe jane@example.com
+ad Amy Doe amy@example.com
+```
+
+Now the author has changed to **Jane Doe**.
+
 Add a new coauthor to your `.git-coauthors` file.
 
 ```
