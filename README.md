@@ -113,6 +113,10 @@ $ git solo
 Jane Doe <jane@example.com>
 ```
 
+## More commands
+
+### List all co-authors
+
 Check which co-authors you have available in your `.git-coauthors` file.
 
 ```
@@ -121,6 +125,8 @@ jd Jane Doe jane@example.com
 ad Amy Doe amy@example.com
 bd Bob Doe bob@example.com
 ```
+
+### Override the main author
 
 Override the current author which could be useful for pairing on different machines
 
@@ -134,19 +140,25 @@ ad Amy Doe amy@example.com
 
 Now the author has changed to **Jane Doe**.
 
-Add a new coauthor to your `.git-coauthors` file.
+### Add co-author
+
+Add a new co-author to your `.git-coauthors` file.
 
 ```
 $ git add-coauthor bb "Barry Butterworth" barry@butterworth.org
 ```
 
-Delete a new coauthor from your `.git-coauthors` file.
+### Delete co-author
+
+Delete a co-author from your `.git-coauthors` file.
 
 ```
 $ git delete-coauthor bb
 ```
 
-Edit a coauthor's details in your `.git-coauthors` file.
+### Edit co-author
+
+Edit a co-author's details in your `.git-coauthors` file.
 
 ```
 $ git edit-coauthor bb --name="Barry Butterworth" --email="barry@butterworth.org"
