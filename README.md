@@ -4,11 +4,22 @@
 
 Includes co-authors in commits when you collaborate on code. Use when pairing with a buddy or mobbing with your team.
 
-Read our blog post to find out why git-mob exists: http://tech.findmypast.com/co-author-commits-with-git-mob
+Read our blog post to find out why git-mob exists: [Co-author commits with Git Mob](http://tech.findmypast.com/co-author-commits-with-git-mob)
 
 [**New** Git Mob VS Code extension](https://github.com/rkotze/git-mob-vs-code)
 
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
+
+1. [Install](#install)
+1. [Prepare commit msg setup](#prepare-commit-msg-setup)
+1. [Workflow / Usage](#workflow--usage)
+1. [More commands](#more-commands)
+   1. [List all co-authors](#list-all-co-authors)
+   1. [Overwrite the main author](#list-all-co-authors)
+   1. [Add co-author](#add-co-author)
+   1. [Delete co-author](#delete-co-author)
+   1. [Edit co-author](#edit-co-author)
+   1. [Add initials of current mob to PS1, in ~/.bashrc](#add-initials-of-current-mob-to-ps1-in-bashrc)
 
 ## Install
 
