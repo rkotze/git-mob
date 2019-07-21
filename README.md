@@ -177,6 +177,15 @@ $ git edit-coauthor bb --name="Barry Butterworth"
 $ git edit-coauthor bb --email="barry@butterworth.org"
 ```
 
+### Suggest co-authors base on current repo
+
+Suggest some co-authors to add based on existing committers to your
+current repo
+
+```
+$ git suggest-coauthors
+```
+
 ### Add initials of current mob to your prompt
 
 #### Bash
