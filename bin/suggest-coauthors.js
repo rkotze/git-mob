@@ -2,7 +2,7 @@
 const os = require('os');
 const minimist = require('minimist');
 const { runSuggestCoauthorsHelp } = require('../src/helpers');
-const { authors } = require('../src/git-commands');
+const { authors, revParse } = require('../src/git-commands');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -14,6 +14,11 @@ async function execute(argv) {
   if (argv.help) {
     runSuggestCoauthorsHelp();
     process.exit(0);
+  }
+
+  if (!revParse.insideWorkTree()) {
+    console.error('Error: not a git repository');
+    process.exit(1);
   }
 
   await printCoauthorSuggestions();
