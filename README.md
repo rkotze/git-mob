@@ -177,7 +177,11 @@ $ git edit-coauthor bb --name="Barry Butterworth"
 $ git edit-coauthor bb --email="barry@butterworth.org"
 ```
 
-### Add initials of current mob to `PS1`, in `~/.bashrc`
+### Add initials of current mob to your prompt
+
+#### Bash
+
+Add the initials to `PS1`, in `~/.bashrc`
 
 ```bash
 function git_initials {
@@ -188,6 +192,23 @@ function git_initials {
 }
 
 export PS1="\$(pwd)\$(git_initials) -> "
+```
+
+#### Fish
+
+Add the following functions to `.config/fish/config.fish`
+
+```fish
+function git_initials --description 'Print the initials for who I am currently pairing with'
+  set -lx initials (git mob-print --initials)
+  if test -n "$initials"
+    printf ' [%s]' $initials
+  end
+end
+
+function fish_prompt
+  printf "%s%s ->" (pwd) (git_initials)
+end
 ```
 
 <sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/findmypast-oss/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
