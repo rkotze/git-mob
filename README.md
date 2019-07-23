@@ -192,4 +192,4 @@ export PS1="\$(pwd)\$(git_initials) -> "
 
 <sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/findmypast-oss/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
 
-Find out more with `git mob --help`
+Find out more with `git mob -h`
