@@ -15,6 +15,10 @@ if(/COMMIT_EDITMSG/g.test(commitMessage)){
         // opens .git/COMMIT_EDITMSG
         contents = fs.readFileSync(commitMessage);
 
+        if(contents.indexOf(stdout.trim()) !== -1) {
+            process.exit(0);
+        }
+
         const commentPos = contents.indexOf('# ');
         const gitMessage = contents.slice(0, commentPos);
         const gitComments = contents.slice(commentPos)
