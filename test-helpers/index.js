@@ -82,7 +82,7 @@ function setCoauthorsFile() {
     `;
     fs.writeFileSync(process.env.GITMOB_COAUTHORS_PATH, coauthorsTemplate);
   } catch (error) {
-    console.warn('Failed to create .git-coauthohrs file.', error.message);
+    console.warn('Failed to create .git-coauthors file.', error.message);
   }
 }
 
@@ -90,7 +90,7 @@ function readCoauthorsFile() {
   try {
     return eol.auto(fs.readFileSync(process.env.GITMOB_COAUTHORS_PATH, 'utf-8'));
   } catch (error) {
-    console.warn('Failed to read .git-coauthohrs file.', error.message);
+    console.warn('Failed to read .git-coauthors file.', error.message);
   }
 }
 
@@ -98,7 +98,7 @@ function deleteCoauthorsFile() {
   try {
     fs.unlinkSync(process.env.GITMOB_COAUTHORS_PATH);
   } catch (error) {
-    console.warn('Failed to delete .git-coauthohrs file.', error.message);
+    console.warn('Failed to delete .git-coauthors file.', error.message);
   }
 }
 
