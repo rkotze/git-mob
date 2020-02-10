@@ -128,6 +128,15 @@ function topLevelDirectory() {
   return silentRun('git rev-parse --show-toplevel').stdout.trim();
 }
 
+/**
+ * Returns a list of the existing authors for the git repository
+ * including their names and email addresses
+ * @returns {string} of output from git command
+ */
+function shortLogAuthorSummary() {
+  return silentRun('git shortlog --summary --email --number HEAD').stdout.trim();
+}
+
 module.exports = {
   version: gitVersion,
   config: {
@@ -142,5 +151,8 @@ module.exports = {
     gitPath,
     insideWorkTree,
     topLevelDirectory,
+  },
+  authors: {
+    shortLogAuthorSummary,
   },
 };

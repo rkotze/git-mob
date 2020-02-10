@@ -14,6 +14,7 @@ function runHelp() {
       $ git add-coauthor <co-author-initials> "Coauthor Name" <coauthor-email-address>
       $ git delete-coauthor <co-author-initials>
       $ git edit-coauthor <co-author-initials> --name="Coauthor Name" --email="coauthor-email-address"
+      $ git suggest-coauthors
 
     Options
       -h  Prints usage information
@@ -90,6 +91,18 @@ function runMobPrintHelp() {
   console.log(message);
 }
 
+function runSuggestCoauthorsHelp() {
+  const message = stripIndent`
+    Usage
+      $ git suggest-coauthors
+    Options
+      -h  Prints usage information
+    Example
+      $ git suggest-coauthors  # suggests coauthors to add based on existing committers to the repo
+  `;
+  console.log(message);
+}
+
 function runVersion() {
   console.log(pkg.version);
 }
@@ -119,4 +132,5 @@ module.exports = {
   runDeleteCoauthorHelp,
   runEditCoauthorHelp,
   runMobPrintHelp,
+  runSuggestCoauthorsHelp,
 };
