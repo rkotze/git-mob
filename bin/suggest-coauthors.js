@@ -29,7 +29,7 @@ async function printCoauthorSuggestions() {
   try {
     const shortLogAuthorSummary = authors.shortLogAuthorSummary();
     const gitAuthors = shortLogAuthorSummary
-      .split(os.EOL)
+      .split('\n')
       .filter(summary => summary !== '')
       .map(summary => convertSummaryToCoauthor(summary));
 
