@@ -19,7 +19,7 @@ Read our blog post to find out why git-mob exists: [Co-author commits with Git M
    1. [Add co-author](#add-co-author)
    1. [Delete co-author](#delete-co-author)
    1. [Edit co-author](#edit-co-author)
-   1. [Add initials of current mob to PS1, in ~/.bashrc](#add-initials-of-current-mob-to-ps1-in-bashrc)
+   1. [Add initials of current mob to PS1, in bash and fish](#add-initials-of-current-mob-to-your-prompt)
 
 ## Install
 
@@ -40,6 +40,7 @@ Do you want the co-authors appended to the message when using the command `git c
 
 1. `git mob --installTemplate`
 1. Add `prepare-commit-msg` to `.git/hooks` and see [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples)
+1. The hook will need to be executable `chmod +x prepare-commit-msg`
 
 **More details about above ^**
 
