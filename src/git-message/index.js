@@ -41,15 +41,19 @@ function read(messagePath) {
   });
 }
 
+function formatCoAuthorList(coAuthorList) {
+  return coAuthorList
+    .map(coAuthor => 'Co-authored-by: ' + coAuthor)
+    .join(os.EOL);
+}
+
 function gitMessage(messagePath, appendFilePromise, readFilePromise) {
   const appendPromise = appendFilePromise || append;
   const readPromise = readFilePromise || read;
 
   return {
     writeCoAuthors: async coAuthorList => {
-      const coAuthorText = coAuthorList
-        .map(coAuthor => 'Co-authored-by: ' + coAuthor)
-        .join(os.EOL);
+      const coAuthorText = formatCoAuthorList(coAuthorList);
 
       await appendPromise(messagePath, os.EOL + os.EOL + coAuthorText);
     },
@@ -85,4 +89,5 @@ module.exports = {
   gitMessagePath,
   commitTemplatePath,
   prepareCommitMsgTemplate,
+  formatCoAuthorList,
 };
