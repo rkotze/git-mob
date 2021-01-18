@@ -20,16 +20,16 @@ import {
   deleteCoauthorsFile,
 } from '../test-helpers';
 
+test.after.always('cleanup', () => {
+  deleteGitMessageFile();
+});
+
 test.afterEach.always('cleanup', () => {
   removeAuthor();
   removeCoAuthors();
   removeGitConfigSection('git-mob');
   safelyRemoveGitConfigSection('user');
   safelyRemoveGitConfigSection('commit');
-});
-
-test.after.always('cleanup', () => {
-  deleteGitMessageFile();
 });
 
 test('-h prints help', t => {
@@ -66,7 +66,7 @@ test('--version prints version', t => {
 
 test('--list print a list of available co-authors', t => {
   setCoauthorsFile();
-  const actual = exec('git mob --list').stdout.trimRight();
+  const actual = exec('git mob --list').stdout.trimEnd();
   const expected = [
     'jd Jane Doe jane@findmypast.com',
     'fb Frances Bar frances-bar@findmypast.com',
@@ -80,7 +80,7 @@ test('--list print a list of available co-authors', t => {
 test('prints only primary author when there is no mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
 
-  const actual = exec('git mob').stdout.trimRight();
+  const actual = exec('git mob').stdout.trimEnd();
 
   t.is(actual, 'John Doe <jdoe@example.com>');
 });
@@ -90,7 +90,7 @@ test('prints current mob', t => {
   addCoAuthor('Dennis Ideler', 'dideler@findmypast.com');
   addCoAuthor('Richard Kotze', 'rkotze@findmypast.com');
 
-  const actual = exec('git mob').stdout.trimRight();
+  const actual = exec('git mob').stdout.trimEnd();
   const expected = stripIndent`
     John Doe <jdoe@example.com>
     Dennis Ideler <dideler@findmypast.com>
@@ -104,7 +104,7 @@ test('sets mob when co-author initials found', t => {
   setCoauthorsFile();
   addAuthor('Billy the Kid', 'billy@example.com');
 
-  const actual = exec('git mob jd ea').stdout.trimRight();
+  const actual = exec('git mob jd ea').stdout.trimEnd();
   const expected = stripIndent`
     Billy the Kid <billy@example.com>
     Jane Doe <jane@findmypast.com>
@@ -119,7 +119,7 @@ test('sets mob and override author', t => {
   setCoauthorsFile();
   addAuthor('Billy the Kid', 'billy@example.com');
 
-  const actual = exec('git mob -o jd ea').stdout.trimRight();
+  const actual = exec('git mob -o jd ea').stdout.trimEnd();
   const expected = stripIndent`
     Jane Doe <jane@findmypast.com>
     Elliot Alderson <ealderson@findmypast.com>
@@ -132,7 +132,7 @@ test('errors when co-author initials not found', t => {
   setCoauthorsFile();
   const { stderr, status } = exec('git mob rk');
 
-  t.regex(stderr, /Author with initials "rk" not found!/i);
+  t.regex(stderr, /author with initials "rk" not found!/i);
   t.not(status, 0);
   deleteCoauthorsFile();
 });
@@ -144,7 +144,7 @@ test('overwrites old mob when setting a new mob', t => {
 
   exec('git mob jd');
 
-  const actualOutput = exec('git mob ea').stdout.trimRight();
+  const actualOutput = exec('git mob ea').stdout.trimEnd();
   const expectedOutput = stripIndent`
     John Doe <jdoe@example.com>
     Elliot Alderson <ealderson@findmypast.com>
@@ -212,8 +212,8 @@ test('appends co-authors to a new commit template', t => {
 
 test('warns when used outside of a git repo', t => {
   const repoDir = process.cwd();
-  const tempDir = tempy.directory();
-  process.chdir(tempDir);
+  const temporaryDir = tempy.directory();
+  process.chdir(temporaryDir);
 
   const { stderr, status } = exec('git mob');
 

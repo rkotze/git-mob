@@ -41,12 +41,12 @@ function removeGitConfigSection(section) {
 
 function setGitMessageFile() {
   try {
-    const commitMsgTemplate = stripIndent`
+    const commitMessageTemplate = stripIndent`
       A commit title
 
       A commit body that goes into more detail.
     `;
-    fs.writeFileSync(process.env.GITMOB_MESSAGE_PATH, commitMsgTemplate);
+    fs.writeFileSync(process.env.GITMOB_MESSAGE_PATH, commitMessageTemplate);
   } catch (error) {
     console.warn('Failed to create .gitmessage file.', error.message);
   }

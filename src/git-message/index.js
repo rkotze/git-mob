@@ -4,24 +4,22 @@ const path = require('path');
 
 const { config, revParse } = require('../git-commands');
 
-function fileExists(err) {
-  return err.code !== 'ENOENT';
+function fileExists(error) {
+  return error.code !== 'ENOENT';
 }
 
 function append(messagePath, newAuthors) {
   return new Promise((resolve, reject) => {
-    fs.readFile(messagePath, 'utf8', (err, data) => {
-      if (err) {
-        if (fileExists(err)) reject(err);
-      }
+    fs.readFile(messagePath, 'utf8', (error, data) => {
+      if (error && fileExists(error)) reject(error);
 
       let result = newAuthors;
       if (data) {
         result = data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
       }
 
-      fs.writeFile(messagePath, result, err => {
-        if (err) reject(err);
+      fs.writeFile(messagePath, result, error => {
+        if (error) reject(error);
 
         resolve();
       });
@@ -31,10 +29,8 @@ function append(messagePath, newAuthors) {
 
 function read(messagePath) {
   return new Promise((resolve, reject) => {
-    fs.readFile(messagePath, 'utf8', (err, data) => {
-      if (err) {
-        if (fileExists(err)) reject(err);
-      }
+    fs.readFile(messagePath, 'utf8', (error, data) => {
+      if (error && fileExists(error)) reject(error);
 
       resolve(data);
     });

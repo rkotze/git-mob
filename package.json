@@ -23,7 +23,7 @@
     "url": "git@github.com:findmypast-oss/git-mob.git"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=8.3"
   },
   "keywords": [
     "cli",
@@ -61,11 +61,11 @@
   },
   "devDependencies": {
     "ava": "^2.1.0",
-    "env-cmd": "^8.0.1",
+    "env-cmd": "^8.0.2",
     "eol": "^0.9.1",
     "sinon": "^4.3.0",
     "tempy": "^0.2.1",
-    "xo": "^0.24.0"
+    "xo": "^0.37.1"
   },
   "xo": {
     "space": true,
@@ -106,7 +106,10 @@
           "requireParamDescription": false,
           "requireReturn": false
         }
-      ]
+      ],
+      "import/extensions": "off",
+      "unicorn/no-array-reduce": "off",
+      "unicorn/no-array-callback-reference": "off"
     }
   },
   "ava": {

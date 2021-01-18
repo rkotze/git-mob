@@ -16,6 +16,10 @@ import {
   exec,
 } from '../test-helpers';
 
+test.after.always('cleanup', () => {
+  deleteGitMessageFile();
+});
+
 test.afterEach.always('cleanup', () => {
   removeAuthor();
   removeCoAuthors();
@@ -24,20 +28,16 @@ test.afterEach.always('cleanup', () => {
   safelyRemoveGitConfigSection('commit');
 });
 
-test.after.always('cleanup', () => {
-  deleteGitMessageFile();
-});
-
 test('sets the current mob to the primary author', t => {
   addAuthor('Thomas Anderson', 'neo@example.com');
   setGitMessageFile();
 
   exec('git mob jd ea');
 
-  const soloActual = exec('git solo').stdout.trimRight();
+  const soloActual = exec('git solo').stdout.trimEnd();
   const soloExpected = 'Thomas Anderson <neo@example.com>';
 
-  const mobActual = exec('git mob').stdout.trimRight();
+  const mobActual = exec('git mob').stdout.trimEnd();
   const mobExpected = 'Thomas Anderson <neo@example.com>';
 
   t.is(soloActual, soloExpected);
@@ -67,7 +67,7 @@ test('removes co-authors from commit template', t => {
 test('ignores positional arguments', t => {
   addAuthor('Thomas Anderson', 'neo@example.com');
 
-  const soloActual = exec('git solo yolo').stdout.trimRight();
+  const soloActual = exec('git solo yolo').stdout.trimEnd();
   const soloExpected = 'Thomas Anderson <neo@example.com>';
 
   t.is(soloActual, soloExpected);
@@ -75,8 +75,8 @@ test('ignores positional arguments', t => {
 
 test('warns when used outside of a git repo', t => {
   const repoDir = process.cwd();
-  const tempDir = tempy.directory();
-  process.chdir(tempDir);
+  const temporaryDir = tempy.directory();
+  process.chdir(temporaryDir);
 
   const { stderr, status } = exec('git solo');
 

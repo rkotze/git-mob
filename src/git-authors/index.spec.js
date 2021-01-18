@@ -54,7 +54,7 @@ test('invalid json contents from .git-coauthors', async t => {
   const authors = gitAuthors(() => Promise.resolve(invalidJsonString));
 
   const error = await t.throwsAsync(() => authors.read());
-  t.regex(error.message, /Invalid JSON/i);
+  t.regex(error.message, /invalid json/i);
 });
 
 test('read contents from .git-coauthors', async t => {
@@ -80,15 +80,15 @@ test('find and format "jd" and "fb" to an array of co-authors', t => {
   const authors = gitAuthors();
   const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson);
   t.deepEqual(
-    ['Jane Doe <jane@findmypast.com>', 'Frances Bar <frances-bar@findmypast.com>'],
-    coAuthorList
+    coAuthorList,
+    ['Jane Doe <jane@findmypast.com>', 'Frances Bar <frances-bar@findmypast.com>']
   );
 });
 
 test('find and format "jd" to an array of one co-author', t => {
   const authors = gitAuthors();
   const coAuthorList = authors.coAuthors(['jd'], authorsJson);
-  t.deepEqual(['Jane Doe <jane@findmypast.com>'], coAuthorList);
+  t.deepEqual(coAuthorList, ['Jane Doe <jane@findmypast.com>']);
 });
 
 test('Throw error if initials of author are not found', t => {
@@ -104,5 +104,5 @@ test('find initials of co-authors', t => {
     'Jane Doe <jane@findmypast.com>',
   ]);
 
-  t.deepEqual(['jd'], coAuthorsInitials);
+  t.deepEqual(coAuthorsInitials, ['jd']);
 });
