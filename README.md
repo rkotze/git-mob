@@ -11,15 +11,15 @@ Read our blog post to find out why git-mob exists: [Co-author commits with Git M
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
 
 1. [Install](#install)
-1. [Prepare commit msg setup](#prepare-commit-msg-setup)
-1. [Workflow / Usage](#workflow--usage)
-1. [More commands](#more-commands)
+2. [Using `git commit -m`](#using-git-commit--m-setup)
+3. [Workflow / Usage](#workflow--usage)
+4. [More commands](#more-commands)
    1. [List all co-authors](#list-all-co-authors)
-   1. [Overwrite the main author](#list-all-co-authors)
-   1. [Add co-author](#add-co-author)
-   1. [Delete co-author](#delete-co-author)
-   1. [Edit co-author](#edit-co-author)
-   1. [Add initials of current mob to PS1, in bash and fish](#add-initials-of-current-mob-to-your-prompt)
+   2. [Overwrite the main author](#list-all-co-authors)
+   3. [Add co-author](#add-co-author)
+   4. [Delete co-author](#delete-co-author)
+   5. [Edit co-author](#edit-co-author)
+   6. [Add initials of current mob to PS1, in bash and fish](#add-initials-of-current-mob-to-your-prompt)
 
 ## Install
 
@@ -31,26 +31,23 @@ npm i -g git-mob
 
 By default git-mob will use the `.gitmessage` template to append co-authors.
 
-### Prepare commit msg setup
+### Using `git commit -m` setup
 
-Do you want the co-authors appended to the message when using the command `git commit -m "commit message"`?
+How to append co-authors to the message when using message flag - `git commit -m "commit message"`?
 
-1. `git mob --installTemplate`
-1. Add `prepare-commit-msg` to `.git/hooks` and see [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples)
-1. The hook will need to be executable `chmod +x prepare-commit-msg`
+1. Add `prepare-commit-msg` hook file in `.git/hooks` dir. See [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples)
+2. The **hook** will need to be executable `chmod +x prepare-commit-msg`
 
-**More details about above ^**
+`prepare-commit-msg` will need a script to read the co-authors, which can be done via `git mob-print`. See [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples) folder for working scripts.
 
-`--installTemplate` This will create a file in your local `.git` folder where it will write the selected co-authors into.
+The command `git mob-print` will output to `stdout` the formatted co-authors.
 
-`prepare-commit-msg` will need a script to read the co-authors template. See [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples) folder for working scripts.
 
-The command `git mob-print` will output to stdout the formatted co-authors which you can use in your own git hooks.
+**Note:** > `v1.1.0` `git mob --installTemplate` and `git mob --uninstallTemplate` has been removed.
 
 ### Revert back to default setup
 
-1. `git mob --uninstallTemplate`
-1. Remove `prepare-commit-msg` file
+1. Remove relevant scripts `prepare-commit-msg` file
 
 ## Workflow / Usage
 
