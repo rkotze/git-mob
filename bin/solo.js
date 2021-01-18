@@ -7,7 +7,6 @@ const { config, revParse } = require('../src/git-commands');
 const {
   gitMessage,
   gitMessagePath,
-  prepareCommitMsgTemplate,
 } = require('../src/git-message');
 const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
 
@@ -39,8 +38,7 @@ runSolo(argv._);
 
 async function runSolo(_args) {
   try {
-    await gitMessage(
-      prepareCommitMsgTemplate() || gitMessagePath()
+    await gitMessage(gitMessagePath()
     ).removeCoAuthors();
     resetMob();
     printAuthor();

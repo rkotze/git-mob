@@ -66,12 +66,6 @@ function gitMessage(messagePath, appendFilePromise, readFilePromise) {
   };
 }
 
-function prepareCommitMsgTemplate() {
-  const mobTemplate = revParse.gitPath('.git-mob-template');
-  if (fs.existsSync(mobTemplate)) return mobTemplate;
-  return null;
-}
-
 function gitMessagePath() {
   return process.env.GITMOB_MESSAGE_PATH || revParse.gitPath('.gitmessage');
 }
@@ -88,6 +82,5 @@ module.exports = {
   gitMessage,
   gitMessagePath,
   commitTemplatePath,
-  prepareCommitMsgTemplate,
   formatCoAuthorList,
 };
