@@ -1,9 +1,10 @@
 #! /usr/bin/env node
+const os = require('os');
 const minimist = require('minimist');
 const { gitAuthors } = require('../src/git-authors');
-const { gitMessage, prepareCommitMsgTemplate } = require('../src/git-message');
 const { config } = require('../src/git-commands');
 const { runMobPrintHelp } = require('../src/helpers');
+const { formatCoAuthorList } = require('../src/git-message');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -30,8 +31,8 @@ async function execute(args) {
 
 async function printCoAuthors() {
   try {
-    const coAuthors = await gitMessage(prepareCommitMsgTemplate()).readCoAuthors();
-    console.log(coAuthors);
+    const coAuthors = formatCoAuthorList(config.getAll('git-mob.co-author').split(os.EOL).filter(x => x));
+    console.log(os.EOL + os.EOL + coAuthors);
   } catch (error) {
     console.error(`Error: ${error.message}`);
     process.exit(1);
