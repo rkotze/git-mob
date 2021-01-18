@@ -23,9 +23,6 @@ Read our blog post to find out why git-mob exists: [Co-author commits with Git M
 
 ## Install
 
-**Warning: This package hasn't reached v1.0.0 yet. There may be many missing
-features, lots of bugs, and the API could change until we reach a stable version.**
-
 git-mob is a CLI tool, so you'll need to install the package globally.
 
 ```
