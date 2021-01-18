@@ -3,8 +3,8 @@
   "version": "1.1.0",
   "description": "CLI tool for including co-authors in commits.",
   "scripts": {
-    "test": "env-cmd test-helpers/.env ava --verbose --serial && npm run js-lint",
-    "test:w": "env-cmd test-helpers/.env ava --watch",
+    "test": "env-cmd -f test-helpers/.env ava --verbose --serial && npm run js-lint",
+    "test:w": "env-cmd -f test-helpers/.env ava --watch",
     "js-lint": "xo",
     "preversion": "npm test -s",
     "postinstall": "node ./src/install/create-author-file.js"
@@ -61,10 +61,10 @@
   },
   "devDependencies": {
     "ava": "^2.1.0",
-    "env-cmd": "^8.0.2",
+    "env-cmd": "^10.1.0",
     "eol": "^0.9.1",
-    "sinon": "^4.3.0",
-    "tempy": "^0.2.1",
+    "sinon": "^9.2.3",
+    "tempy": "^1.0.0",
     "xo": "^0.37.1"
   },
   "xo": {
