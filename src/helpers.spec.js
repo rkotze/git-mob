@@ -1,6 +1,6 @@
-import test from 'ava';
+const test = require('ava');
 
-import { validateEmail } from './helpers';
+const { validateEmail } = require('./helpers');
 
 test('email validator returns true for valid emails', t => {
   const validEmail = validateEmail('johndoe@aol.org');

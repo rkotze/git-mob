@@ -1,8 +1,6 @@
-import test from 'ava';
+const test = require('ava');
 
-import {
-  exec,
-} from '../test-helpers';
+const { exec } = require('../test-helpers');
 
 test('suggests potential coauthors', t => {
   const { stdout } = exec('git suggest-coauthors');
@@ -19,4 +17,3 @@ test('-h prints help', t => {
   t.regex(stdout, /options/i);
   t.regex(stdout, /example/i);
 });
-

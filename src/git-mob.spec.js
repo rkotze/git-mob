@@ -1,10 +1,10 @@
-import os from 'os';
-import test from 'ava';
-import { stripIndent } from 'common-tags';
-import eol from 'eol';
-import tempy from 'tempy';
+const os = require('os');
+const test = require('ava');
+const { stripIndent } = require('common-tags');
+const eol = require('eol');
+const tempy = require('tempy');
 
-import {
+const {
   addAuthor,
   removeAuthor,
   addCoAuthor,
@@ -18,7 +18,7 @@ import {
   exec,
   setCoauthorsFile,
   deleteCoauthorsFile,
-} from '../test-helpers';
+} = require('../test-helpers');
 
 test.after.always('cleanup', () => {
   deleteGitMessageFile();

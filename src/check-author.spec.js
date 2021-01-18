@@ -1,7 +1,7 @@
-import os from 'os';
-import test from 'ava';
+const os = require('os');
+const test = require('ava');
 
-import { configWarning } from './check-author';
+const { configWarning } = require('./check-author');
 
 test('does not print warning when config present', t => {
   const actual = configWarning({ name: 'John Doe', email: 'jdoe@example.com' });
