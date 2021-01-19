@@ -1,6 +1,6 @@
 {
   "name": "git-mob",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "CLI tool for including co-authors in commits.",
   "scripts": {
     "test": "env-cmd -f test-helpers/.env ava --verbose --serial && npm run js-lint",
