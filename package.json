@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:findmypast-oss/git-mob.git"
+    "url": "git@github.com:rkotze/git-mob.git"
   },
   "engines": {
     "node": ">=8.3"
@@ -40,17 +40,15 @@
     "xp",
     "social coding"
   ],
-  "author": "Findmypast <oss@findmypast.com> (https://tech.findmypast.com)",
+  "author": "Richard Kotze",
   "license": "MIT",
   "contributors": [
     {
       "name": "Richard Kotze",
-      "email": "rkotze@findmypast.com",
       "url": "https://github.com/rkotze"
     },
     {
       "name": "Dennis Ideler",
-      "email": "dideler@findmypast.com",
       "url": "https://github.com/dideler"
     }
   ],

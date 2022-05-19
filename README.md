@@ -1,12 +1,14 @@
-# Git Mob ![npm downloads](https://img.shields.io/npm/dm/git-mob.svg) [![npm version](https://badge.fury.io/js/git-mob.svg)](https://www.npmjs.com/package/git-mob) [![build status](https://travis-ci.org/findmypast-oss/git-mob.svg?branch=master)](https://travis-ci.org/findmypast-oss/git-mob)
+# Git Mob ![npm downloads](https://img.shields.io/npm/dm/git-mob.svg) [![npm version](https://badge.fury.io/js/git-mob.svg)](https://www.npmjs.com/package/git-mob)
 
 > A command-line tool for social coding
 
 Includes co-authors in commits when you collaborate on code. Use when pairing with a buddy or mobbing with your team.
 
+📣 [Findmypast engineering](http://tech.findmypast.com) team have handed me **ownership** of Git-Mob. **Shout out** to them because they have a great engineering culture who enabled me to build Git Mob.
+
 Read our blog post to find out why git-mob exists: [Co-author commits with Git Mob](http://tech.findmypast.com/co-author-commits-with-git-mob)
 
-[**New** Git Mob VS Code extension](https://github.com/rkotze/git-mob-vs-code)
+[✨ Git Mob VS Code extension](https://github.com/rkotze/git-mob-vs-code)
 
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
 
