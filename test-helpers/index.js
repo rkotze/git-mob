@@ -54,7 +54,7 @@ function setGitMessageFile() {
 
 function readGitMessageFile() {
   try {
-    return eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf-8'));
+    return eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf8'));
   } catch (error) {
     console.warn('Failed to read .gitmessage file.', error.message);
   }
@@ -88,7 +88,7 @@ function setCoauthorsFile() {
 
 function readCoauthorsFile() {
   try {
-    return eol.auto(fs.readFileSync(process.env.GITMOB_COAUTHORS_PATH, 'utf-8'));
+    return eol.auto(fs.readFileSync(process.env.GITMOB_COAUTHORS_PATH, 'utf8'));
   } catch (error) {
     console.warn('Failed to read .git-coauthors file.', error.message);
   }

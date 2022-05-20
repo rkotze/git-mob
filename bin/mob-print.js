@@ -31,7 +31,7 @@ async function execute(args) {
 
 async function printCoAuthors() {
   try {
-    const coAuthors = formatCoAuthorList(config.getAll('git-mob.co-author').split(os.EOL).filter(x => x));
+    const coAuthors = formatCoAuthorList(config.getAll('git-mob.co-author').split(os.EOL).filter(Boolean));
     console.log(os.EOL + os.EOL + coAuthors);
   } catch (error) {
     console.error(`Error: ${error.message}`);

@@ -104,7 +104,10 @@ async function setMob(initials) {
     setCommitTemplate();
     resetMob();
 
-    coauthors.forEach(addCoAuthor);
+    for (const coauthor of coauthors) {
+      addCoAuthor(coauthor);
+    }
+
     gitMessage(gitMessagePath()).writeCoAuthors(
       coauthors
     );

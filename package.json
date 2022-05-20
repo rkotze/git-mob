@@ -3,9 +3,9 @@
   "version": "2.0.0",
   "description": "CLI tool for including co-authors in commits.",
   "scripts": {
-    "checks": "env-cmd -f test-helpers/.env ava --verbose --serial && npm run js-lint",
-    "test:w": "env-cmd -f test-helpers/.env ava --watch",
-    "test": "env-cmd -f test-helpers/.env ava",
+    "checks": "env-cmd -f test-helpers/.env ava --verbose --serial --no-worker-threads && npm run js-lint",
+    "test:w": "env-cmd -f test-helpers/.env ava --watch --serial --no-worker-threads",
+    "test": "env-cmd -f test-helpers/.env ava --serial --no-worker-threads",
     "js-lint": "xo",
     "preversion": "npm test -s",
     "postinstall": "node ./src/install/create-author-file.js"
@@ -59,12 +59,12 @@
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
+    "ava": "^4.2.0",
     "env-cmd": "^10.1.0",
     "eol": "^0.9.1",
     "sinon": "^9.2.3",
     "tempy": "^1.0.0",
-    "xo": "^0.37.1"
+    "xo": "^0.49.0"
   },
   "xo": {
     "space": true,
@@ -108,7 +108,11 @@
       ],
       "import/extensions": "off",
       "unicorn/no-array-reduce": "off",
-      "unicorn/no-array-callback-reference": "off"
+      "unicorn/no-array-callback-reference": "off",
+      "unicorn/prefer-module": 0,
+      "node/prefer-global/process": 0,
+      "object-shorthand": 0,
+      "arrow-body-style": 0
     }
   },
   "ava": {
