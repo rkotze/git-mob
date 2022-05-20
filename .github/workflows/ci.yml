@@ -25,6 +25,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
         
       - name: Set up Node 
         uses: actions/setup-node@v3
@@ -38,4 +40,4 @@ jobs:
         run: npm link
         
       - name: Run lint and tests 
-        run: npm run test
+        run: npm run checks
