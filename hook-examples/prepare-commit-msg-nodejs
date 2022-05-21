@@ -18,6 +18,12 @@ if(/COMMIT_EDITMSG/g.test(commitMessage)){
         if(contents.indexOf(stdout.trim()) !== -1) {
             process.exit(0);
         }
+        
+        // Show in console any co-authors that were added
+        if(stdout.trim().length) {
+            const cyan = '\x1b[36m%s\x1b[0m';
+            console.log(cyan, stdout.trim());
+        }
 
         const commentPos = contents.indexOf('# ');
         const gitMessage = contents.slice(0, commentPos);
