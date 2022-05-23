@@ -10,10 +10,19 @@
    ```
    npm link
    ```
-1. Run tests
+1. Run linter and tests
    ```
-   npm test
+   npm run checks
    ```
+ 
+Other test commands
+
+- Run a test file
+  ```
+  npm test ./src/git-mob.spec.js
+  ```
+  
+  See [Ava](https://github.com/avajs/ava) for more options.
 
 ## Releasing
 
