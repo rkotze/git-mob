@@ -6,7 +6,6 @@ const tempy = require('tempy');
 
 const {
   addAuthor,
-  removeAuthor,
   addCoAuthor,
   removeCoAuthors,
   unsetCommitTemplate,
@@ -18,14 +17,20 @@ const {
   exec,
   setCoauthorsFile,
   deleteCoauthorsFile,
+  retainLocalAuthor,
 } = require('../test-helpers');
+
+let restoreLocalAuthor = null;
+test.before('Check author', () => {
+  restoreLocalAuthor = retainLocalAuthor();
+});
 
 test.after.always('cleanup', () => {
   deleteGitMessageFile();
+  restoreLocalAuthor();
 });
 
 test.afterEach.always('cleanup', () => {
-  removeAuthor();
   removeCoAuthors();
   removeGitConfigSection('git-mob');
   safelyRemoveGitConfigSection('user');

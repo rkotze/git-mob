@@ -3,6 +3,18 @@ const { spawnSync } = require('child_process');
 const { stripIndent } = require('common-tags');
 const eol = require('eol');
 
+function retainLocalAuthor() {
+  const localName = exec('git config --local user.name').stdout.trim();
+  const localEmail = exec('git config --local user.email').stdout.trim();
+  return function () {
+    if (localEmail && localName) {
+      addAuthor(localName, localEmail);
+    } else {
+      removeAuthor();
+    }
+  };
+}
+
 function addAuthor(name, email) {
   exec(`git config user.name "${name}"`);
   exec(`git config user.email "${email}"`);
@@ -129,4 +141,5 @@ module.exports = {
   deleteGitMessageFile,
   deleteCoauthorsFile,
   exec,
+  retainLocalAuthor
 };
