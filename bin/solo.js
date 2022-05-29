@@ -3,12 +3,13 @@
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
 
-const { config, revParse } = require('../src/git-commands');
+const { revParse } = require('../src/git-commands');
 const {
   gitMessage,
   gitMessagePath,
 } = require('../src/git-message');
 const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
+const { getGitAuthor, resetMob } = require('../src/git-mob-commands');
 
 checkForUpdates();
 
@@ -53,11 +54,7 @@ function printAuthor() {
 }
 
 function author() {
-  const name = config.get('user.name');
-  const email = config.get('user.email');
+  const { name, email } = getGitAuthor();
   return oneLine`${name} <${email}>`;
 }
 
-function resetMob() {
-  config.removeSection('git-mob');
-}

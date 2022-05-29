@@ -17,6 +17,7 @@ const {
 } = require('../src/helpers');
 const { configWarning } = require('../src/check-author');
 const { RED } = require('../src/constants');
+const { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor } = require('../src/git-mob-commands');
 
 checkForUpdates();
 
@@ -74,7 +75,7 @@ function printMob() {
   console.log(author(gitAuthor));
 
   if (isCoAuthorSet()) {
-    console.log(coauthors());
+    console.log(getCoAuthors());
   }
 
   if (configWarning(gitAuthor)) {
@@ -134,30 +135,8 @@ async function setAuthor(initials) {
   }
 }
 
-function getGitAuthor() {
-  const name = config.get('user.name');
-  const email = config.get('user.email');
-  return { name, email };
-}
-
 function author({ name, email }) {
   return oneLine`${name} <${email}>`;
-}
-
-function coauthors() {
-  return config.getAll('git-mob.co-author');
-}
-
-function isCoAuthorSet() {
-  return config.has('git-mob.co-author');
-}
-
-function addCoAuthor(coAuthor) {
-  config.add('git-mob.co-author', coAuthor);
-}
-
-function resetMob() {
-  config.removeSection('git-mob');
 }
 
 function setCommitTemplate() {

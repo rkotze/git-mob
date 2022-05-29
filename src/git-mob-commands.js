@@ -1,0 +1,31 @@
+const { config } = require('../src/git-commands');
+
+function getCoAuthors() {
+  return config.getAll('git-mob.co-author');
+}
+
+function isCoAuthorSet() {
+  return config.has('git-mob.co-author');
+}
+
+function addCoAuthor(coAuthor) {
+  config.add('git-mob.co-author', coAuthor);
+}
+
+function resetMob() {
+  config.removeSection('git-mob');
+}
+
+function getGitAuthor() {
+  const name = config.get('user.name');
+  const email = config.get('user.email');
+  return { name, email };
+}
+
+module.exports = {
+  getCoAuthors,
+  getGitAuthor,
+  isCoAuthorSet,
+  addCoAuthor,
+  resetMob
+};

@@ -2,9 +2,9 @@
 const os = require('os');
 const minimist = require('minimist');
 const { gitAuthors } = require('../src/git-authors');
-const { config } = require('../src/git-commands');
 const { runMobPrintHelp } = require('../src/helpers');
 const { formatCoAuthorList } = require('../src/git-message');
+const { getCoAuthors } = require('../src/git-mob-commands');
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -31,7 +31,7 @@ async function execute(args) {
 
 async function printCoAuthors() {
   try {
-    const coAuthors = formatCoAuthorList(config.getAll('git-mob.co-author').split(os.EOL).filter(Boolean));
+    const coAuthors = formatCoAuthorList(getCoAuthors().split(os.EOL).filter(Boolean));
     console.log(os.EOL + os.EOL + coAuthors);
   } catch (error) {
     console.error(`Error: ${error.message}`);
@@ -43,7 +43,7 @@ async function printCoAuthorsInitials() {
   try {
     const instance = gitAuthors();
     const authorList = await instance.read();
-    const currentCoAuthors = config.getAll('git-mob.co-author');
+    const currentCoAuthors = getCoAuthors();
 
     const coAuthorsInitials = instance.coAuthorsInitials(
       authorList,
