@@ -22,10 +22,16 @@ function getGitAuthor() {
   return { name, email };
 }
 
+function setGitAuthor(name, email) {
+  config.set('user.name', name);
+  config.set('user.email', email);
+}
+
 module.exports = {
   getCoAuthors,
   getGitAuthor,
   isCoAuthorSet,
   addCoAuthor,
-  resetMob
+  resetMob,
+  setGitAuthor
 };

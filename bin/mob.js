@@ -17,7 +17,7 @@ const {
 } = require('../src/helpers');
 const { configWarning } = require('../src/check-author');
 const { RED } = require('../src/constants');
-const { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor } = require('../src/git-mob-commands');
+const { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor, setGitAuthor } = require('../src/git-mob-commands');
 
 checkForUpdates();
 
@@ -126,8 +126,7 @@ async function setAuthor(initials) {
     const authorList = await instance.read();
     const authors = instance.author(initials.shift(), authorList);
 
-    config.set('user.name', authors.name);
-    config.set('user.email', authors.email);
+    setGitAuthor(authors.name, authors.email);
     runMob(initials);
   } catch (error) {
     console.error(`Error: ${error.message}`);
