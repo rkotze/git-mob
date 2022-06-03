@@ -139,7 +139,7 @@ function author({ name, email }) {
 }
 
 function setCommitTemplate() {
-  if (!config.has('commit.template')) {
-    config.set('commit.template', commitTemplatePath());
+  if (!config.hasTemplatePath()) {
+    config.setTemplatePath(commitTemplatePath());
   }
 }

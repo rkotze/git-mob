@@ -137,6 +137,18 @@ function shortLogAuthorSummary() {
   return silentRun('git shortlog --summary --email --number HEAD').stdout.trim();
 }
 
+function getTemplatePath() {
+  return get('commit.template');
+}
+
+function setTemplatePath(path) {
+  set('--global commit.template', path);
+}
+
+function hasTemplatePath() {
+  return has('commit.template');
+}
+
 module.exports = {
   version: gitVersion,
   config: {
@@ -146,6 +158,9 @@ module.exports = {
     add,
     has,
     removeSection,
+    getTemplatePath,
+    setTemplatePath,
+    hasTemplatePath
   },
   revParse: {
     gitPath,

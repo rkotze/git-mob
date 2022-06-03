@@ -1,19 +1,19 @@
 const { config } = require('../src/git-commands');
 
 function getCoAuthors() {
-  return config.getAll('git-mob.co-author');
+  return config.getAll('--global git-mob.co-author');
 }
 
 function isCoAuthorSet() {
-  return config.has('git-mob.co-author');
+  return config.has('--global git-mob.co-author');
 }
 
 function addCoAuthor(coAuthor) {
-  config.add('git-mob.co-author', coAuthor);
+  config.add('--global git-mob.co-author', coAuthor);
 }
 
 function resetMob() {
-  config.removeSection('git-mob');
+  config.removeSection('--global git-mob');
 }
 
 function getGitAuthor() {

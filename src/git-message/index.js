@@ -2,7 +2,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const { config, revParse } = require('../git-commands');
+const { config } = require('../git-commands');
 
 function fileExists(error) {
   return error.code !== 'ENOENT';
@@ -63,14 +63,13 @@ function gitMessage(messagePath, appendFilePromise, readFilePromise) {
 }
 
 function gitMessagePath() {
-  return process.env.GITMOB_MESSAGE_PATH || revParse.gitPath('.gitmessage');
+  return process.env.GITMOB_MESSAGE_PATH || config.getTemplatePath();
 }
 
 function commitTemplatePath() {
   return (
     process.env.GITMOB_MESSAGE_PATH ||
-    config.get('commit.template') ||
-    path.relative(revParse.topLevelDirectory(), gitMessagePath())
+    path.join(os.homedir(), '.gitmessage')
   );
 }
 
