@@ -4,8 +4,8 @@ const { stripIndent } = require('common-tags');
 const eol = require('eol');
 
 function retainLocalAuthor() {
-  const localName = exec('git config --local user.name').stdout.trim();
-  const localEmail = exec('git config --local user.email').stdout.trim();
+  const localName = exec('git config user.name').stdout.trim();
+  const localEmail = exec('git config user.email').stdout.trim();
   return function () {
     if (localEmail && localName) {
       addAuthor(localName, localEmail);

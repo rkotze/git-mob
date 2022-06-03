@@ -1,0 +1,5 @@
+[user]
+	name = Richard Kotze
+	email = richard@gitmob.com
+[commit]
+	template = test-helpers/.gitmessage
