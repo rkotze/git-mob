@@ -5,6 +5,7 @@ const eol = require('eol');
 
 function retainLocalAuthor() {
   const localName = exec('git config user.name').stdout.trim();
+  console.log('localName:', localName);
   const localEmail = exec('git config user.email').stdout.trim();
   return function () {
     if (localEmail && localName) {
@@ -37,13 +38,19 @@ function unsetCommitTemplate() {
   exec('git config --unset commit.template');
 }
 
-function localGitConfigSectionEmpty(section) {
-  return exec(`git config --local --get-regexp '^${section}'`).status !== 0;
+function hasGitConfigSection(section) {
+  try {
+    const config = exec(`git config --get-regexp '^${section}'`);
+
+    return config.status !== 0 && config.stdout.trimEnd().length > 0;
+  } catch {
+    return false;
+  }
 }
 
 function safelyRemoveGitConfigSection(section) {
-  if (localGitConfigSectionEmpty(section)) {
-    exec(`git config --remove-section ${section}`);
+  if (hasGitConfigSection(section)) {
+    removeGitConfigSection(section);
   }
 }
 
@@ -123,7 +130,10 @@ function deleteGitMessageFile() {
 }
 
 function exec(command) {
-  return spawnSync(command, { encoding: 'utf8', shell: true });
+  const spawnString = spawnSync(command, { encoding: 'utf8', shell: true });
+
+  if (spawnString.status !== 0) throw new Error(`GitMob handleResponse: "${command}" ${spawnString.stderr.trim()}`);
+  return spawnString;
 }
 
 module.exports = {
@@ -133,7 +143,6 @@ module.exports = {
   removeCoAuthors,
   unsetCommitTemplate,
   safelyRemoveGitConfigSection,
-  removeGitConfigSection,
   setGitMessageFile,
   readGitMessageFile,
   setCoauthorsFile,

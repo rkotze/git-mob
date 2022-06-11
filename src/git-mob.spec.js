@@ -10,29 +10,21 @@ const {
   removeCoAuthors,
   unsetCommitTemplate,
   safelyRemoveGitConfigSection,
-  removeGitConfigSection,
   setGitMessageFile,
   readGitMessageFile,
   deleteGitMessageFile,
   exec,
   setCoauthorsFile,
   deleteCoauthorsFile,
-  retainLocalAuthor,
 } = require('../test-helpers');
 
-let restoreLocalAuthor = null;
-test.before('Check author', () => {
-  restoreLocalAuthor = retainLocalAuthor();
-});
-
-test.after.always('cleanup', () => {
+test.after.always('final cleanup', () => {
   deleteGitMessageFile();
-  restoreLocalAuthor();
+  deleteCoauthorsFile();
 });
 
-test.afterEach.always('cleanup', () => {
-  removeCoAuthors();
-  removeGitConfigSection('git-mob');
+test.afterEach.always('each cleanup', () => {
+  safelyRemoveGitConfigSection('git-mob');
   safelyRemoveGitConfigSection('user');
   safelyRemoveGitConfigSection('commit');
 });
@@ -103,6 +95,7 @@ test('prints current mob', t => {
   `;
 
   t.is(actual, expected);
+  removeCoAuthors();
 });
 
 test('sets mob when co-author initials found', t => {
@@ -118,6 +111,7 @@ test('sets mob when co-author initials found', t => {
 
   t.is(actual, expected);
   deleteCoauthorsFile();
+  removeCoAuthors();
 });
 
 test('sets mob and override author', t => {
@@ -131,6 +125,7 @@ test('sets mob and override author', t => {
   `;
 
   t.is(actual, expected);
+  removeCoAuthors();
 });
 
 test('errors when co-author initials not found', t => {
@@ -167,6 +162,7 @@ test('overwrites old mob when setting a new mob', t => {
 
   t.is(actualGitmessage, expectedGitmessage);
   deleteCoauthorsFile();
+  removeCoAuthors();
 });
 
 test('appends co-authors to an existing commit template', t => {
@@ -189,6 +185,7 @@ test('appends co-authors to an existing commit template', t => {
 
   unsetCommitTemplate();
   deleteCoauthorsFile();
+  removeCoAuthors();
 });
 
 test('appends co-authors to a new commit template', t => {
@@ -213,6 +210,7 @@ test('appends co-authors to a new commit template', t => {
 
   unsetCommitTemplate();
   deleteCoauthorsFile();
+  removeCoAuthors();
 });
 
 test('warns when used outside of a git repo', t => {
@@ -220,10 +218,11 @@ test('warns when used outside of a git repo', t => {
   const temporaryDir = tempy.directory();
   process.chdir(temporaryDir);
 
-  const { stderr, status } = exec('git mob');
+  const error = t.throws(() => {
+    exec('git mob');
+  });
 
-  t.regex(stderr, /not a git repository/i);
-  t.not(status, 0);
+  t.regex(error.message, /not a git repository/i);
 
   process.chdir(repoDir);
 });
