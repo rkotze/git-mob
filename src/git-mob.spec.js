@@ -16,11 +16,18 @@ const {
   exec,
   setCoauthorsFile,
   deleteCoauthorsFile,
+  setup,
+  tearDown,
 } = require('../test-helpers');
+
+test.before('setup', () => {
+  setup();
+});
 
 test.after.always('final cleanup', () => {
   deleteGitMessageFile();
-  deleteCoauthorsFile();
+  // deleteCoauthorsFile();
+  tearDown();
 });
 
 test.afterEach.always('each cleanup', () => {
@@ -91,8 +98,7 @@ test('prints current mob', t => {
   const expected = stripIndent`
     John Doe <jdoe@example.com>
     Dennis Ideler <dideler@findmypast.com>
-    Richard Kotze <rkotze@findmypast.com>
-  `;
+    Richard Kotze <rkotze@findmypast.com>`;
 
   t.is(actual, expected);
   removeCoAuthors();
@@ -130,10 +136,11 @@ test('sets mob and override author', t => {
 
 test('errors when co-author initials not found', t => {
   setCoauthorsFile();
-  const { stderr, status } = exec('git mob rk');
+  const error = t.throws(() => {
+    exec('git mob rk');
+  });
 
-  t.regex(stderr, /author with initials "rk" not found!/i);
-  t.not(status, 0);
+  t.regex(error.message, /author with initials "rk" not found!/i);
   deleteCoauthorsFile();
 });
 
@@ -208,9 +215,9 @@ test('appends co-authors to a new commit template', t => {
 
   t.is(actualGitMessage, expectedGitMessage);
 
+  removeCoAuthors();
   unsetCommitTemplate();
   deleteCoauthorsFile();
-  removeCoAuthors();
 });
 
 test('warns when used outside of a git repo', t => {

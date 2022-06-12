@@ -8,7 +8,6 @@ const {
   removeCoAuthors,
   unsetCommitTemplate,
   safelyRemoveGitConfigSection,
-  removeGitConfigSection,
   setGitMessageFile,
   readGitMessageFile,
   deleteGitMessageFile,
@@ -28,7 +27,7 @@ test.after.always('cleanup', () => {
 
 test.afterEach.always('cleanup', () => {
   removeCoAuthors();
-  removeGitConfigSection('git-mob');
+  safelyRemoveGitConfigSection('git-mob');
   safelyRemoveGitConfigSection('user');
   safelyRemoveGitConfigSection('commit');
 });

@@ -45,8 +45,9 @@ function getAll(key) {
  * @throws Raises an Error if multiple values exist for the option.
  */
 function set(key, value) {
-  const { status } = silentRun(`git config ${key} "${value}"`);
+  const { status, stderr } = silentRun(`git config ${key} "${value}"`);
   if (status !== 0) {
+    console.log(stderr);
     const message = `Option ${key} has multiple values. Cannot overwrite multiple values for option ${key} with a single value.`;
     throw new Error(message);
   }

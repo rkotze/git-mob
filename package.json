@@ -3,9 +3,9 @@
   "version": "2.0.1",
   "description": "CLI tool for including co-authors in commits.",
   "scripts": {
-    "checks": "env-cmd -f test-helpers/.env ava --verbose --serial --no-worker-threads && npm run js-lint",
-    "test:w": "env-cmd -f test-helpers/.env ava --watch --serial --no-worker-threads",
-    "test": "env-cmd -f test-helpers/.env ava --serial --no-worker-threads",
+    "checks": "env-cmd -f test-helpers/env.js ava --verbose --serial --no-worker-threads && npm run js-lint",
+    "test:w": "env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
+    "test": "env-cmd -f ./test-helpers/env.js ava --serial --no-worker-threads",
     "js-lint": "xo",
     "preversion": "npm test -s",
     "postinstall": "node ./src/install/create-author-file.js"

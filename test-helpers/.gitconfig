@@ -1,5 +1,3 @@
 [user]
-	name = Richard Kotze
-	email = richard@gitmob.com
-[commit]
-	template = test-helpers/.gitmessage
+	name = Billy the Kid
+	email = billy@example.com
