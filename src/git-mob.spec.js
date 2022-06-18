@@ -48,10 +48,11 @@ if (process.platform === 'win32') {
   test.skip('--help is intercepted by git launcher on Windows', () => {});
 } else {
   test('--help is intercepted by git launcher', t => {
-    const { status, stderr } = exec('git mob --help', { silent: true });
+    const error = t.throws(() => {
+      exec('git mob --help', { silent: true });
+    });
 
-    t.regex(stderr, /no manual entry for git-mob/i);
-    t.not(status, 0);
+    t.regex(error.message, /no manual entry for git-mob/i);
   });
 }
 
