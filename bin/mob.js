@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 const minimist = require('minimist');
-const { oneLine } = require('common-tags');
+const { oneLine, stripIndents } = require('common-tags');
 
 const { config, revParse } = require('../src/git-commands');
 const { gitAuthors } = require('../src/git-authors');
@@ -16,7 +16,7 @@ const {
   printList,
 } = require('../src/helpers');
 const { configWarning } = require('../src/check-author');
-const { RED } = require('../src/constants');
+const { red, yellow } = require('../src/colours');
 const { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor, setGitAuthor } = require('../src/git-mob-commands');
 
 checkForUpdates();
@@ -51,7 +51,7 @@ async function execute(args) {
   }
 
   if (!revParse.insideWorkTree()) {
-    console.error('Error: not a git repository');
+    console.error('Error: not a Git repository');
     process.exit(1);
   }
 
@@ -78,8 +78,13 @@ function printMob() {
     console.log(getCoAuthors());
   }
 
+  if (config.usingLocalTemplate()) {
+    console.log(yellow(stripIndents`Git Mob uses Git global config.
+    Using local commit.template could mean your template does not have selected co-authors added.`));
+  }
+
   if (configWarning(gitAuthor)) {
-    console.warn(RED, configWarning(gitAuthor));
+    console.warn(red(configWarning(gitAuthor)));
   }
 }
 

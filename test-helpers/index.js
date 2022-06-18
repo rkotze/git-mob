@@ -156,8 +156,6 @@ function setup() {
     console.log(error);
   }
 
-  // const repoDir = process.cwd();
-  // const temporaryDir = tempy.directory();
   process.chdir(testDir);
   exec('git init -q');
 }

@@ -150,6 +150,10 @@ function hasTemplatePath() {
   return has('commit.template');
 }
 
+function usingLocalTemplate() {
+  return has('--local commit.template');
+}
+
 module.exports = {
   version: gitVersion,
   config: {
@@ -161,7 +165,8 @@ module.exports = {
     removeSection,
     getTemplatePath,
     setTemplatePath,
-    hasTemplatePath
+    hasTemplatePath,
+    usingLocalTemplate
   },
   revParse: {
     gitPath,
