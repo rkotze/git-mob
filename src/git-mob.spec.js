@@ -26,7 +26,6 @@ test.before('setup', () => {
 
 test.after.always('final cleanup', () => {
   deleteGitMessageFile();
-  // deleteCoauthorsFile();
   tearDown();
 });
 

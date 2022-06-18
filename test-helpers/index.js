@@ -34,7 +34,7 @@ function removeCoAuthors() {
 }
 
 function unsetCommitTemplate() {
-  exec('git config --global --remove-section commit');
+  removeGitConfigSection('commit');
 }
 
 function hasGitConfigSection(section) {
@@ -114,7 +114,9 @@ function readCoauthorsFile() {
 
 function deleteCoauthorsFile() {
   try {
-    fs.unlinkSync(process.env.GITMOB_COAUTHORS_PATH);
+    if (fs.existsSync(process.env.GITMOB_COAUTHORS_PATH)) {
+      fs.unlinkSync(process.env.GITMOB_COAUTHORS_PATH);
+    }
   } catch (error) {
     console.warn('Failed to delete .git-coauthors file.', error.message);
   }
@@ -122,7 +124,9 @@ function deleteCoauthorsFile() {
 
 function deleteGitMessageFile() {
   try {
-    fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
+    if (fs.existsSync(process.env.GITMOB_MESSAGE_PATH)) {
+      fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
+    }
   } catch (error) {
     console.warn('Failed to delete .gitmessage file.', error.message);
   }

@@ -5,31 +5,26 @@ const tempy = require('tempy');
 
 const {
   addAuthor,
-  removeCoAuthors,
   unsetCommitTemplate,
-  safelyRemoveGitConfigSection,
   setGitMessageFile,
   readGitMessageFile,
   deleteGitMessageFile,
   exec,
-  retainLocalAuthor,
+  setCoauthorsFile,
+  deleteCoauthorsFile,
+  setup,
+  tearDown,
 } = require('../test-helpers');
 
-let restoreLocalAuthor = null;
 test.before('Check author', () => {
-  restoreLocalAuthor = retainLocalAuthor();
+  setup();
+  setCoauthorsFile();
 });
 
 test.after.always('cleanup', () => {
+  tearDown();
+  deleteCoauthorsFile();
   deleteGitMessageFile();
-  restoreLocalAuthor();
-});
-
-test.afterEach.always('cleanup', () => {
-  removeCoAuthors();
-  safelyRemoveGitConfigSection('git-mob');
-  safelyRemoveGitConfigSection('user');
-  safelyRemoveGitConfigSection('commit');
 });
 
 test('sets the current mob to the primary author', t => {
@@ -82,10 +77,11 @@ test('warns when used outside of a git repo', t => {
   const temporaryDir = tempy.directory();
   process.chdir(temporaryDir);
 
-  const { stderr, status } = exec('git solo');
+  const error = t.throws(() => {
+    exec('git solo');
+  });
 
-  t.regex(stderr, /not a git repository/i);
-  t.not(status, 0);
+  t.regex(error.message, /not a git repository/i);
 
   process.chdir(repoDir);
 });
