@@ -12,21 +12,20 @@ Read our blog post to find out why git-mob exists: [Co-author commits with Git M
 
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
 
-- [Git Mob !npm downloads [![npm version](https://badge.fury.io/js/git-mob.svg)](https://www.npmjs.com/package/git-mob)](#git-mob--)
-  - [Install](#install)
-    - [Using `git commit -m` setup](#using-git-commit--m-setup)
-    - [Revert back to default setup](#revert-back-to-default-setup)
-  - [Workflow / Usage](#workflow--usage)
-  - [More commands](#more-commands)
-    - [List all co-authors](#list-all-co-authors)
-    - [Overwrite the main author](#overwrite-the-main-author)
-    - [Add co-author](#add-co-author)
-    - [Delete co-author](#delete-co-author)
-    - [Edit co-author](#edit-co-author)
-    - [Suggest co-authors base on current repo](#suggest-co-authors-base-on-current-repo)
-    - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
-      - [Bash](#bash)
-      - [Fish](#fish)
+- [Install](#install)
+  - [Using `git commit -m` setup](#using-git-commit--m-setup)
+  - [Revert back to default setup](#revert-back-to-default-setup)
+- [Workflow / Usage](#workflow--usage)
+- [More commands](#more-commands)
+  - [List all co-authors](#list-all-co-authors)
+  - [Overwrite the main author](#overwrite-the-main-author)
+  - [Add co-author](#add-co-author)
+  - [Delete co-author](#delete-co-author)
+  - [Edit co-author](#edit-co-author)
+  - [Suggest co-authors base on current repo](#suggest-co-authors-base-on-current-repo)
+  - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
+    - [Bash](#bash)
+    - [Fish](#fish)
 
 ## Install
 
@@ -36,7 +35,7 @@ git-mob is a CLI tool, so you'll need to install the package globally.
 npm i -g git-mob
 ```
 
-By default git-mob will use the `.gitmessage` template to append co-authors.
+By default git-mob will use the **global** config `.gitmessage` template to append co-authors.
 
 ### Using `git commit -m` setup
 
@@ -48,7 +47,6 @@ How to append co-authors to the message when using message flag - `git commit -m
 `prepare-commit-msg` will need a script to read the co-authors, which can be done via `git mob-print`. See [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples) folder for working scripts.
 
 The command `git mob-print` will output to `stdout` the formatted co-authors.
-
 
 **Note:** > `v1.1.0` `git mob --installTemplate` and `git mob --uninstallTemplate` has been removed.
 
@@ -103,9 +101,7 @@ You're ready to create your mob. Tell git-mob you're pairing with Amy by using h
 
 Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same*.
 
-***Note**: If you've set a local commit template in your config then that template will be updated. This is following the priority order of [Git config](https://git-scm.com/docs/git-config#FILES). If you're only using the template for Git Mob, then it's recommend removing this `commit.template` config and using the global config.
-
-Remove local template: `git config --local --unset commit.template`
+***Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
 
 ```
 $ git mob ad

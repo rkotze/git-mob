@@ -79,8 +79,9 @@ function printMob() {
   }
 
   if (config.usingLocalTemplate()) {
-    console.log(yellow(stripIndents`Git Mob uses Git global config.
-    Using local commit.template could mean your template does not have selected co-authors added.`));
+    console.log(yellow(stripIndents`Warning: Git Mob uses Git global config.
+    Using local commit.template could mean your template does not have selected co-authors appended after switching projects.
+    See: https://github.com/rkotze/git-mob/discussions/81`));
   }
 
   if (configWarning(gitAuthor)) {
