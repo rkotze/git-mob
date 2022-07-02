@@ -7,7 +7,7 @@
     "test:w": "env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
     "test": "env-cmd -f ./test-helpers/env.js ava --serial --no-worker-threads",
     "js-lint": "xo",
-    "preversion": "npm test -s",
+    "preversion": "npm run checks",
     "postinstall": "node ./src/install/create-author-file.js"
   },
   "bin": {
