@@ -10,29 +10,27 @@ const {
   removeCoAuthors,
   unsetCommitTemplate,
   safelyRemoveGitConfigSection,
-  removeGitConfigSection,
   setGitMessageFile,
   readGitMessageFile,
   deleteGitMessageFile,
   exec,
   setCoauthorsFile,
   deleteCoauthorsFile,
-  retainLocalAuthor,
+  setup,
+  tearDown,
 } = require('../test-helpers');
 
-let restoreLocalAuthor = null;
-test.before('Check author', () => {
-  restoreLocalAuthor = retainLocalAuthor();
+test.before('setup', () => {
+  setup();
 });
 
-test.after.always('cleanup', () => {
+test.after.always('final cleanup', () => {
   deleteGitMessageFile();
-  restoreLocalAuthor();
+  tearDown();
 });
 
-test.afterEach.always('cleanup', () => {
-  removeCoAuthors();
-  removeGitConfigSection('git-mob');
+test.afterEach.always('each cleanup', () => {
+  safelyRemoveGitConfigSection('git-mob');
   safelyRemoveGitConfigSection('user');
   safelyRemoveGitConfigSection('commit');
 });
@@ -50,10 +48,11 @@ if (process.platform === 'win32') {
   test.skip('--help is intercepted by git launcher on Windows', () => {});
 } else {
   test('--help is intercepted by git launcher', t => {
-    const { status, stderr } = exec('git mob --help', { silent: true });
+    const error = t.throws(() => {
+      exec('git mob --help', { silent: true });
+    });
 
-    t.regex(stderr, /no manual entry for git-mob/i);
-    t.not(status, 0);
+    t.regex(error.message, /no manual entry for git-mob/i);
   });
 }
 
@@ -99,10 +98,10 @@ test('prints current mob', t => {
   const expected = stripIndent`
     John Doe <jdoe@example.com>
     Dennis Ideler <dideler@findmypast.com>
-    Richard Kotze <rkotze@findmypast.com>
-  `;
+    Richard Kotze <rkotze@findmypast.com>`;
 
   t.is(actual, expected);
+  removeCoAuthors();
 });
 
 test('sets mob when co-author initials found', t => {
@@ -118,6 +117,7 @@ test('sets mob when co-author initials found', t => {
 
   t.is(actual, expected);
   deleteCoauthorsFile();
+  removeCoAuthors();
 });
 
 test('sets mob and override author', t => {
@@ -131,14 +131,16 @@ test('sets mob and override author', t => {
   `;
 
   t.is(actual, expected);
+  removeCoAuthors();
 });
 
 test('errors when co-author initials not found', t => {
   setCoauthorsFile();
-  const { stderr, status } = exec('git mob rk');
+  const error = t.throws(() => {
+    exec('git mob rk');
+  });
 
-  t.regex(stderr, /author with initials "rk" not found!/i);
-  t.not(status, 0);
+  t.regex(error.message, /author with initials "rk" not found!/i);
   deleteCoauthorsFile();
 });
 
@@ -167,6 +169,7 @@ test('overwrites old mob when setting a new mob', t => {
 
   t.is(actualGitmessage, expectedGitmessage);
   deleteCoauthorsFile();
+  removeCoAuthors();
 });
 
 test('appends co-authors to an existing commit template', t => {
@@ -189,6 +192,7 @@ test('appends co-authors to an existing commit template', t => {
 
   unsetCommitTemplate();
   deleteCoauthorsFile();
+  removeCoAuthors();
 });
 
 test('appends co-authors to a new commit template', t => {
@@ -211,6 +215,7 @@ test('appends co-authors to a new commit template', t => {
 
   t.is(actualGitMessage, expectedGitMessage);
 
+  removeCoAuthors();
   unsetCommitTemplate();
   deleteCoauthorsFile();
 });
@@ -220,10 +225,11 @@ test('warns when used outside of a git repo', t => {
   const temporaryDir = tempy.directory();
   process.chdir(temporaryDir);
 
-  const { stderr, status } = exec('git mob');
+  const error = t.throws(() => {
+    exec('git mob');
+  });
 
-  t.regex(stderr, /not a git repository/i);
-  t.not(status, 0);
+  t.regex(error.message, /not a git repository/i);
 
   process.chdir(repoDir);
 });

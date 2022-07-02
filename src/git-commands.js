@@ -45,8 +45,9 @@ function getAll(key) {
  * @throws Raises an Error if multiple values exist for the option.
  */
 function set(key, value) {
-  const { status } = silentRun(`git config ${key} "${value}"`);
+  const { status, stderr } = silentRun(`git config ${key} "${value}"`);
   if (status !== 0) {
+    console.log(stderr);
     const message = `Option ${key} has multiple values. Cannot overwrite multiple values for option ${key} with a single value.`;
     throw new Error(message);
   }
@@ -137,6 +138,30 @@ function shortLogAuthorSummary() {
   return silentRun('git shortlog --summary --email --number HEAD').stdout.trim();
 }
 
+function getTemplatePath() {
+  return get('commit.template');
+}
+
+function setTemplatePath(path) {
+  set('--global commit.template', path);
+}
+
+function hasTemplatePath() {
+  return has('commit.template');
+}
+
+function usingLocalTemplate() {
+  return has('--local commit.template');
+}
+
+function usingGlobalTemplate() {
+  return has('--global commit.template');
+}
+
+function getGlobalTemplate() {
+  return get('--global commit.template');
+}
+
 module.exports = {
   version: gitVersion,
   config: {
@@ -146,6 +171,12 @@ module.exports = {
     add,
     has,
     removeSection,
+    getTemplatePath,
+    setTemplatePath,
+    hasTemplatePath,
+    usingLocalTemplate,
+    usingGlobalTemplate,
+    getGlobalTemplate
   },
   revParse: {
     gitPath,

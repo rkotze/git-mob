@@ -42,7 +42,12 @@ test('adds coauthor to coauthors file', t => {
 
 test('does not add coauthor to coauthors file if email invalid', t => {
   setCoauthorsFile();
-  exec('git add-coauthor tb "Barry Butterworth" barry.org');
+
+  const error = t.throws(() => {
+    exec('git add-coauthor tb "Barry Butterworth" barry.org');
+  });
+
+  t.regex(error.message, /invalid email format/i);
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {
@@ -67,7 +72,12 @@ test('does not add coauthor to coauthors file if email invalid', t => {
 
 test('does not add coauthor to coauthors file if wrong amount of parameters', t => {
   setCoauthorsFile();
-  exec('git add-coauthor tb "Barry Butterworth"');
+
+  const error = t.throws(() => {
+    exec('git add-coauthor tb "Barry Butterworth"');
+  });
+
+  t.regex(error.message, /incorrect number of parameters/i);
 
   const addCoauthorActual = JSON.parse(readCoauthorsFile());
   const addCoauthorExpected = {

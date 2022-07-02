@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 const minimist = require('minimist');
-const { oneLine } = require('common-tags');
+const { oneLine, stripIndents } = require('common-tags');
 
 const { config, revParse } = require('../src/git-commands');
 const { gitAuthors } = require('../src/git-authors');
@@ -16,7 +16,7 @@ const {
   printList,
 } = require('../src/helpers');
 const { configWarning } = require('../src/check-author');
-const { RED } = require('../src/constants');
+const { red, yellow } = require('../src/colours');
 const { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor, setGitAuthor } = require('../src/git-mob-commands');
 
 checkForUpdates();
@@ -51,7 +51,7 @@ async function execute(args) {
   }
 
   if (!revParse.insideWorkTree()) {
-    console.error('Error: not a git repository');
+    console.error('Error: not a Git repository');
     process.exit(1);
   }
 
@@ -78,8 +78,14 @@ function printMob() {
     console.log(getCoAuthors());
   }
 
+  if (config.usingLocalTemplate()) {
+    console.log(yellow(stripIndents`Warning: Git Mob uses Git global config.
+    Using local commit.template could mean your template does not have selected co-authors appended after switching projects.
+    See: https://github.com/rkotze/git-mob/discussions/81`));
+  }
+
   if (configWarning(gitAuthor)) {
-    console.warn(RED, configWarning(gitAuthor));
+    console.warn(red(configWarning(gitAuthor)));
   }
 }
 
@@ -113,6 +119,12 @@ async function setMob(initials) {
       coauthors
     );
 
+    if (config.usingLocalTemplate() && config.usingGlobalTemplate()) {
+      gitMessage(config.getGlobalTemplate()).writeCoAuthors(
+        coauthors
+      );
+    }
+
     printMob();
   } catch (error) {
     console.error(`Error: ${error.message}`);
@@ -139,7 +151,7 @@ function author({ name, email }) {
 }
 
 function setCommitTemplate() {
-  if (!config.has('commit.template')) {
-    config.set('commit.template', commitTemplatePath());
+  if (!config.hasTemplatePath()) {
+    config.setTemplatePath(commitTemplatePath());
   }
 }

@@ -28,16 +28,14 @@ test('Append co-authors to .gitmessage append file mock', t => {
   );
 });
 
-test('gitMessagePath is relative from the cwd in the repo', t => {
+test('gitMessagePath should return a stored path via env or gitconfig', t => {
   const { GITMOB_MESSAGE_PATH } = process.env;
-  delete process.env.GITMOB_MESSAGE_PATH;
 
-  t.is(gitMessagePath(), '.git/.gitmessage');
+  t.is(gitMessagePath(), GITMOB_MESSAGE_PATH);
 
   process.chdir('src');
 
-  t.is(gitMessagePath(), '../.git/.gitmessage');
+  t.is(gitMessagePath(), GITMOB_MESSAGE_PATH);
 
   process.chdir('..');
-  process.env.GITMOB_MESSAGE_PATH = GITMOB_MESSAGE_PATH;
 });
