@@ -3,7 +3,7 @@
 const minimist = require('minimist');
 const { oneLine } = require('common-tags');
 
-const { revParse } = require('../src/git-commands');
+const { revParse, config } = require('../src/git-commands');
 const {
   gitMessage,
   gitMessagePath,
@@ -41,6 +41,11 @@ async function runSolo(_args) {
   try {
     await gitMessage(gitMessagePath()
     ).removeCoAuthors();
+
+    if (config.usingLocalTemplate() && config.usingGlobalTemplate()) {
+      gitMessage(config.getGlobalTemplate()).removeCoAuthors();
+    }
+
     resetMob();
     printAuthor();
   } catch (error) {

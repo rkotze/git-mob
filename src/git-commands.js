@@ -154,6 +154,14 @@ function usingLocalTemplate() {
   return has('--local commit.template');
 }
 
+function usingGlobalTemplate() {
+  return has('--global commit.template');
+}
+
+function getGlobalTemplate() {
+  return get('--global commit.template');
+}
+
 module.exports = {
   version: gitVersion,
   config: {
@@ -166,7 +174,9 @@ module.exports = {
     getTemplatePath,
     setTemplatePath,
     hasTemplatePath,
-    usingLocalTemplate
+    usingLocalTemplate,
+    usingGlobalTemplate,
+    getGlobalTemplate
   },
   revParse: {
     gitPath,

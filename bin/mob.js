@@ -119,6 +119,12 @@ async function setMob(initials) {
       coauthors
     );
 
+    if (config.usingLocalTemplate() && config.usingGlobalTemplate()) {
+      gitMessage(config.getGlobalTemplate()).writeCoAuthors(
+        coauthors
+      );
+    }
+
     printMob();
   } catch (error) {
     console.error(`Error: ${error.message}`);
