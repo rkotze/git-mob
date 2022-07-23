@@ -59,12 +59,12 @@
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "ava": "^4.2.0",
+    "ava": "^4.3.1",
     "env-cmd": "^10.1.0",
     "eol": "^0.9.1",
     "sinon": "^14.0.0",
     "tempy": "^1.0.1",
-    "xo": "^0.49.0"
+    "xo": "^0.51.0"
   },
   "xo": {
     "space": true,
@@ -111,6 +111,7 @@
       "unicorn/no-array-callback-reference": "off",
       "unicorn/prefer-module": 0,
       "node/prefer-global/process": 0,
+      "n/prefer-global/process": 0,
       "object-shorthand": 0,
       "arrow-body-style": 0,
       "capitalized-comments": 0

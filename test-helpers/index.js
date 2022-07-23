@@ -162,6 +162,7 @@ function setup() {
 
 function tearDown() {
   process.chdir(repoDir);
+  /* eslint n/no-unsupported-features/node-builtins: 0 */
   fs.rmSync(testDir, { recursive: true });
 }
 
