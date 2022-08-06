@@ -16,6 +16,7 @@ Read our blog post to find out why git-mob exists: [Co-author commits with Git M
   - [Using `git commit -m` setup](#using-git-commit--m-setup)
   - [Revert back to default setup](#revert-back-to-default-setup)
 - [Workflow / Usage](#workflow--usage)
+- [Git Mob config](#git-mob-config)
 - [More commands](#more-commands)
   - [List all co-authors](#list-all-co-authors)
   - [Overwrite the main author](#overwrite-the-main-author)
