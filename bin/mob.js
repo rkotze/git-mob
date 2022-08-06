@@ -17,7 +17,7 @@ const {
 } = require('../src/helpers');
 const { configWarning } = require('../src/check-author');
 const { red, yellow } = require('../src/colours');
-const { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor, setGitAuthor } = require('../src/git-mob-commands');
+const { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor, setGitAuthor, mobConfig } = require('../src/git-mob-commands');
 
 checkForUpdates();
 
@@ -78,7 +78,7 @@ function printMob() {
     console.log(getCoAuthors());
   }
 
-  if (config.usingLocalTemplate()) {
+  if (!mobConfig.useLocalTemplate() && config.usingLocalTemplate()) {
     console.log(yellow(stripIndents`Warning: Git Mob uses Git global config.
     Using local commit.template could mean your template does not have selected co-authors appended after switching projects.
     See: https://github.com/rkotze/git-mob/discussions/81`));

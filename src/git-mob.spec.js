@@ -104,6 +104,30 @@ test('prints current mob', t => {
   removeCoAuthors();
 });
 
+test('shows warning if local commit.template is used', t => {
+  addAuthor('John Doe', 'jdoe@example.com');
+
+  exec('git config --local commit.template ".git/.gitmessage"');
+  const actual = exec('git mob').stdout.trimEnd();
+  const expected = /Warning: Git Mob uses Git global config/;
+
+  t.regex(actual, expected);
+  exec('git config --local --remove-section commit');
+});
+
+test('hides warning if local git mob config template is used true', t => {
+  addAuthor('John Doe', 'jdoe@example.com');
+  exec('git config --local commit.template ".git/.gitmessage"');
+  exec('git config --local git-mob-config.use-local-template true');
+
+  const actual = exec('git mob').stdout.trimEnd();
+  const expected = /Warning: Git Mob uses Git global config/;
+
+  t.notRegex(actual, expected);
+  exec('git config --local --remove-section git-mob-config');
+  exec('git config --local --remove-section commit');
+});
+
 test('sets mob when co-author initials found', t => {
   setCoauthorsFile();
   addAuthor('Billy the Kid', 'billy@example.com');

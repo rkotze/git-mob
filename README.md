@@ -128,6 +128,18 @@ $ git solo
 Jane Doe <jane@example.com>
 ```
 
+## Git Mob config
+
+Git Mob config is a section in the Git config.
+
+### Use local commit template
+
+If you are using a local commit template and want to remove the warning message then set this option to `true`. Only reads from the local git config.
+
+`type: Boolean`, `scope: local`, `version: 2.2.0`
+
+`git config --local git-mob-config.use-local-template true`
+
 ## More commands
 
 ### List all co-authors

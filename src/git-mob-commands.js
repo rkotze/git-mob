@@ -16,6 +16,11 @@ function resetMob() {
   config.removeSection('--global git-mob');
 }
 
+function useLocalTemplate() {
+  const localTemplate = config.get('--local git-mob-config.use-local-template');
+  return localTemplate && localTemplate === 'true';
+}
+
 function getGitAuthor() {
   const name = config.get('user.name');
   const email = config.get('user.email');
@@ -33,5 +38,8 @@ module.exports = {
   isCoAuthorSet,
   addCoAuthor,
   resetMob,
-  setGitAuthor
+  setGitAuthor,
+  mobConfig: {
+    useLocalTemplate
+  }
 };
