@@ -96,11 +96,15 @@ test('prints current mob', t => {
 
   const actual = exec('git mob').stdout.trimEnd();
   const expected = stripIndent`
-    John Doe <jdoe@example.com>
-    Dennis Ideler <dideler@findmypast.com>
-    Richard Kotze <rkotze@findmypast.com>`;
+  John Doe <jdoe@example.com>
+  Dennis Ideler <dideler@findmypast.com>
+  Richard Kotze <rkotze@findmypast.com>`;
 
   t.is(actual, expected);
+  // setting co-authors outside the git mob lifecycle the commit.template
+  // is never updated. By default git mob is global and this asserts the
+  // template is not updated as it's expect to be up to date.
+  t.is(readGitMessageFile(true), undefined);
   removeCoAuthors();
 });
 
@@ -125,6 +129,26 @@ test('hides warning if local git mob config template is used true', t => {
 
   t.notRegex(actual, expected);
   exec('git config --local --remove-section git-mob-config');
+  exec('git config --local --remove-section commit');
+});
+
+test('update local commit template if using one', t => {
+  addAuthor('John Doe', 'jdoe@example.com');
+  addCoAuthor('Richard Kotze', 'rkotze@gitmob.com');
+
+  exec('git config --local commit.template ".git/.gitmessage"');
+
+  exec('git mob').stdout.trimEnd();
+  const actualGitMessage = readGitMessageFile();
+  const expectedGitMessage = eol.auto(
+    [
+      os.EOL,
+      os.EOL,
+      'Co-authored-by: Richard Kotze <rkotze@gitmob.com>',
+    ].join('')
+  );
+
+  t.is(actualGitMessage, expectedGitMessage);
   exec('git config --local --remove-section commit');
 });
 

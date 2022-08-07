@@ -70,7 +70,11 @@ function setGitMessageFile() {
   }
 }
 
-function readGitMessageFile() {
+function readGitMessageFile(noFile = false) {
+  if (noFile && !fs.existsSync(process.env.GITMOB_MESSAGE_PATH)) {
+    return undefined;
+  }
+
   try {
     return eol.auto(fs.readFileSync(process.env.GITMOB_MESSAGE_PATH, 'utf8'));
   } catch (error) {

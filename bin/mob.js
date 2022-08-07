@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+const os = require('os');
 const minimist = require('minimist');
 const { oneLine, stripIndents } = require('common-tags');
 
@@ -65,6 +66,9 @@ async function execute(args) {
 function runMob(args) {
   if (args.length === 0) {
     printMob();
+    if (config.usingLocalTemplate() && isCoAuthorSet()) {
+      gitMessage(gitMessagePath()).writeCoAuthors(getCoAuthors().split(os.EOL));
+    }
   } else {
     setMob(args);
   }

@@ -102,7 +102,7 @@ You're ready to create your mob. Tell git-mob you're pairing with Amy by using h
 
 Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same*.
 
-***Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
+***Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. You can run `git mob` to update the commit template. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
 
 ```
 $ git mob ad
