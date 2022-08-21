@@ -1,4 +1,3 @@
-#! /usr/bin/env node
 import os from 'node:os';
 import minimist from 'minimist';
 

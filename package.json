@@ -1,15 +1,16 @@
 {
   "name": "git-mob",
   "version": "2.2.0",
-  "description": "CLI tool for including co-authors in commits.",
+  "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
     "build": "node ./build/main.js",
     "checks": "env-cmd -f test-helpers/env.js ava --verbose --serial --no-worker-threads && npm run js-lint",
     "test:w": "env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
-    "test": "env-cmd -f ./test-helpers/env.js ava --serial --no-worker-threads",
+    "test": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
     "js-lint": "xo",
     "preversion": "npm run checks",
-    "postinstall": "node ./src/install/create-author-file.js"
+    "postinstall": "node ./src/install/create-author-file.js",
+    "prepublish": "npm run build -- -m"
   },
   "bin": {
     "git-mob": "bin/mob.js",
