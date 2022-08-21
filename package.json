@@ -3,6 +3,7 @@
   "version": "2.2.0",
   "description": "CLI tool for including co-authors in commits.",
   "scripts": {
+    "build": "node ./build/main.js",
     "checks": "env-cmd -f test-helpers/env.js ava --verbose --serial --no-worker-threads && npm run js-lint",
     "test:w": "env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
     "test": "env-cmd -f ./test-helpers/env.js ava --serial --no-worker-threads",
@@ -62,12 +63,17 @@
     "ava": "^4.3.1",
     "env-cmd": "^10.1.0",
     "eol": "^0.9.1",
+    "esbuild": "^0.15.5",
     "sinon": "^14.0.0",
     "tempy": "^1.0.1",
     "xo": "^0.51.0"
   },
   "xo": {
     "space": true,
+    "ignores": [
+      "build",
+      "bin"
+    ],
     "rules": {
       "no-unused-vars": [
         "error",

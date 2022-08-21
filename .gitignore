@@ -63,3 +63,5 @@ typings/
 
 # Editor config
 .idea/
+
+dist
