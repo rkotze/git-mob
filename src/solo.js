@@ -2,14 +2,12 @@ import minimist from 'minimist';
 import { oneLine } from 'common-tags';
 
 import { revParse, config } from '../src/git-commands';
-
-const {
+import {
   gitMessage,
   gitMessagePath,
-} = require('../src/git-message');
-
-const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
-const { getGitAuthor, resetMob } = require('../src/git-mob-commands');
+} from '../src/git-message';
+import { checkForUpdates, runHelp, runVersion } from '../src/helpers';
+import { getGitAuthor, resetMob } from '../src/git-mob-commands';
 
 checkForUpdates();
 
