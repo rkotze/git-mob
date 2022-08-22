@@ -1,24 +1,23 @@
 import os from 'node:os';
 import minimist from 'minimist';
+import { oneLine, stripIndents } from 'common-tags';
 
-const { oneLine, stripIndents } = require('common-tags');
-
-const { config, revParse } = require('../src/git-commands');
-const { gitAuthors } = require('../src/git-authors');
-const {
+import { config, revParse } from '../src/git-commands';
+import { gitAuthors } from '../src/git-authors';
+import {
   gitMessage,
   gitMessagePath,
   commitTemplatePath,
-} = require('../src/git-message');
-const {
+} from '../src/git-message';
+import {
   checkForUpdates,
   runHelp,
   runVersion,
   printList,
-} = require('../src/helpers');
-const { configWarning } = require('../src/check-author');
-const { red, yellow } = require('../src/colours');
-const { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor, setGitAuthor, mobConfig } = require('../src/git-mob-commands');
+} from '../src/helpers';
+import { configWarning } from '../src/check-author';
+import { red, yellow } from '../src/colours';
+import { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor, setGitAuthor, mobConfig } from '../src/git-mob-commands';
 
 checkForUpdates();
 
