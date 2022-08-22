@@ -36,6 +36,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build Git-Mob
+        run: npm run build
+
       - name: Install Git-Mob (link)
         run: npm link
         
