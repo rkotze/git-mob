@@ -4,9 +4,9 @@
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
     "build": "node ./build/main.js",
-    "checks": "env-cmd -f test-helpers/env.js ava --verbose --serial --no-worker-threads && npm run js-lint",
-    "test:w": "env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
-    "test": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
+    "checks": "npm run test && npm run js-lint",
+    "test:w": "npm run build -- -w & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
+    "test": "npm run build && env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
     "js-lint": "xo",
     "preversion": "npm run checks",
     "postinstall": "node ./src/install/create-author-file.js",
@@ -73,7 +73,8 @@
     "space": true,
     "ignores": [
       "build",
-      "bin"
+      "bin",
+      "dist"
     ],
     "rules": {
       "no-unused-vars": [
@@ -117,8 +118,10 @@
       "unicorn/no-array-reduce": "off",
       "unicorn/no-array-callback-reference": "off",
       "unicorn/prefer-module": 0,
+      "unicorn/no-process-exit": 0,
       "node/prefer-global/process": 0,
       "n/prefer-global/process": 0,
+      "n/file-extension-in-import": 0,
       "object-shorthand": 0,
       "arrow-body-style": 0,
       "capitalized-comments": 0
@@ -126,10 +129,12 @@
   },
   "ava": {
     "files": [
-      "**/*.spec.js"
+      "src/**/*.spec.js"
     ],
-    "source": [
-      "**/*.js"
+    "ignoredByWatcher": [
+      "dist",
+      "test-env",
+      "test-helpers"
     ]
   }
 }

@@ -37,6 +37,8 @@ if(argv.watch){
 
 esbuild
   .build(baseConfig).then(result => {
-    console.log('watching...');
+    if(argv.watch){
+      console.log('watching...');
+    }
   })
   .catch(() => process.exit(1));
