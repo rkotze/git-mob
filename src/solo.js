@@ -1,11 +1,13 @@
 import minimist from 'minimist';
 import { oneLine } from 'common-tags';
 
-const { revParse, config } = require('../src/git-commands');
+import { revParse, config } from '../src/git-commands';
+
 const {
   gitMessage,
   gitMessagePath,
 } = require('../src/git-message');
+
 const { checkForUpdates, runHelp, runVersion } = require('../src/helpers');
 const { getGitAuthor, resetMob } = require('../src/git-mob-commands');
 
