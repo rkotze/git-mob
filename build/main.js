@@ -18,7 +18,8 @@ const baseConfig = {
     './src/git-mob.js',
     './src/solo.js',
     './src/git-add-coauthor.js',
-    './src/git-delete-coauthor.js'
+    './src/git-delete-coauthor.js',
+    './src/git-edit-coauthor.js',
   ],
   mainFields: ['svelte', 'browser', 'module', 'main'],
   bundle: true,
