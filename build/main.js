@@ -14,7 +14,12 @@ const argv = minimist(process.argv.slice(2), {
 });
 
 const baseConfig = {
-  entryPoints: ['./src/git-mob.js', './src/solo.js', './src/git-add-coauthor.js'],
+  entryPoints: [
+    './src/git-mob.js',
+    './src/solo.js',
+    './src/git-add-coauthor.js',
+    './src/git-delete-coauthor.js'
+  ],
   mainFields: ['svelte', 'browser', 'module', 'main'],
   bundle: true,
   platform: 'node',
