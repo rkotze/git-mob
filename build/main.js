@@ -4,7 +4,7 @@ const minimist = require('minimist');
 // Flags
 // -w: watch for file changes
 // -m: minify code - use for publish
-const argv = minimist(process.argv.slice(2),{
+const argv = minimist(process.argv.slice(2), {
   boolean: ['w', 'm'],
 
   alias: {
@@ -14,11 +14,11 @@ const argv = minimist(process.argv.slice(2),{
 });
 
 const baseConfig = {
-  entryPoints: ['./src/git-mob.js', './src/solo.js'],
+  entryPoints: ['./src/git-mob.js', './src/solo.js', './src/git-add-coauthor.js'],
   mainFields: ['svelte', 'browser', 'module', 'main'],
   bundle: true,
-  platform: "node",
-  target: ["node14"],
+  platform: 'node',
+  target: ['node14'],
   outdir: './dist',
   minify: argv.minify,
   plugins: [],
@@ -26,18 +26,18 @@ const baseConfig = {
   external: ['common-tags', 'minimist', 'update-notifier']
 };
 
-if(argv.watch){
+if (argv.watch) {
   baseConfig.watch = {
     onRebuild(error, result) {
       if (error) console.error('watch build failed:', error);
       else console.log('watch build succeeded:', result);
     },
-  }
+  };
 }
 
 esbuild
-  .build(baseConfig).then(result => {
-    if(argv.watch){
+  .build(baseConfig).then(_ => {
+    if (argv.watch) {
       console.log('watching...');
     }
   })
