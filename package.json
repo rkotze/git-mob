@@ -72,7 +72,6 @@
   "xo": {
     "space": true,
     "ignores": [
-      "build",
       "bin",
       "dist"
     ],
