@@ -1,4 +1,4 @@
-const os = require('os');
+import os from 'node:os';
 
 function configWarning({ name, email }) {
   let result;

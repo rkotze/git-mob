@@ -1,11 +1,11 @@
-const os = require('os');
-const test = require('ava');
+import os from 'node:os';
+import test from 'ava';
 
-const { configWarning } = require('./check-author');
+import { configWarning } from './check-author';
 
 test('does not print warning when config present', t => {
   const actual = configWarning({ name: 'John Doe', email: 'jdoe@example.com' });
-  t.is(actual, undefined);
+  t.is(actual, null);
 });
 
 test('prints warning and missing config when one argument is missing', t => {
