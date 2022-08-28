@@ -1,8 +1,8 @@
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
+import { readFile, writeFile } from 'node:fs';
+import { EOL, homedir } from 'node:os';
+import { join } from 'node:path';
 
-const { config } = require('../git-commands');
+import { config } from '../git-commands';
 
 function fileExists(error) {
   return error.code !== 'ENOENT';
@@ -10,7 +10,7 @@ function fileExists(error) {
 
 function append(messagePath, newAuthors) {
   return new Promise((resolve, reject) => {
-    fs.readFile(messagePath, 'utf8', (error, data) => {
+    readFile(messagePath, 'utf8', (error, data) => {
       if (error && fileExists(error)) reject(error);
 
       let result = newAuthors;
@@ -18,7 +18,7 @@ function append(messagePath, newAuthors) {
         result = data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
       }
 
-      fs.writeFile(messagePath, result, error => {
+      writeFile(messagePath, result, error => {
         if (error) reject(error);
 
         resolve();
@@ -29,7 +29,7 @@ function append(messagePath, newAuthors) {
 
 function read(messagePath) {
   return new Promise((resolve, reject) => {
-    fs.readFile(messagePath, 'utf8', (error, data) => {
+    readFile(messagePath, 'utf8', (error, data) => {
       if (error && fileExists(error)) reject(error);
 
       resolve(data);
@@ -40,7 +40,7 @@ function read(messagePath) {
 function formatCoAuthorList(coAuthorList) {
   return coAuthorList
     .map(coAuthor => 'Co-authored-by: ' + coAuthor)
-    .join(os.EOL);
+    .join(EOL);
 }
 
 function gitMessage(messagePath, appendFilePromise, readFilePromise) {
@@ -51,7 +51,7 @@ function gitMessage(messagePath, appendFilePromise, readFilePromise) {
     writeCoAuthors: async coAuthorList => {
       const coAuthorText = formatCoAuthorList(coAuthorList);
 
-      await appendPromise(messagePath, os.EOL + os.EOL + coAuthorText);
+      await appendPromise(messagePath, EOL + EOL + coAuthorText);
     },
     readCoAuthors: () => {
       return readPromise(messagePath);
@@ -69,11 +69,11 @@ function gitMessagePath() {
 function commitTemplatePath() {
   return (
     process.env.GITMOB_MESSAGE_PATH ||
-    path.join(os.homedir(), '.gitmessage')
+    join(homedir(), '.gitmessage')
   );
 }
 
-module.exports = {
+export {
   gitMessage,
   gitMessagePath,
   commitTemplatePath,

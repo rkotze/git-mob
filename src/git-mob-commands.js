@@ -1,4 +1,4 @@
-const { config } = require('../src/git-commands');
+import { config } from '../src/git-commands';
 
 function getCoAuthors() {
   return config.getAll('--global git-mob.co-author');
@@ -32,14 +32,16 @@ function setGitAuthor(name, email) {
   config.set('user.email', email);
 }
 
-module.exports = {
+const mobConfig = {
+  useLocalTemplate
+};
+
+export {
   getCoAuthors,
   getGitAuthor,
   isCoAuthorSet,
   addCoAuthor,
   resetMob,
   setGitAuthor,
-  mobConfig: {
-    useLocalTemplate
-  }
+  mobConfig
 };

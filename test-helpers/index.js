@@ -170,7 +170,7 @@ function tearDown() {
   fs.rmSync(testDir, { recursive: true });
 }
 
-module.exports = {
+export {
   addAuthor,
   removeAuthor,
   addCoAuthor,

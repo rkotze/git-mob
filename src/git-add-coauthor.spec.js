@@ -1,13 +1,8 @@
-const test = require('ava');
+import test, { afterEach } from 'ava';
 
-const {
-  setCoauthorsFile,
-  readCoauthorsFile,
-  exec,
-  deleteCoauthorsFile,
-} = require('../test-helpers');
+import { setCoauthorsFile, readCoauthorsFile, exec, deleteCoauthorsFile } from '../test-helpers';
 
-test.afterEach.always('cleanup', () => {
+afterEach.always('cleanup', () => {
   deleteCoauthorsFile();
 });
 

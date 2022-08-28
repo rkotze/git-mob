@@ -1,8 +1,8 @@
 /* eslint quotes: ["off", "double"] */
 /* eslint quote-props: ["off", "always"] */
 
-const test = require('ava');
-const { gitAuthors } = require('.');
+import test from 'ava';
+import { gitAuthors } from '.';
 
 const validJsonString = `
 {

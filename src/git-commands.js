@@ -1,4 +1,4 @@
-const { spawnSync } = require('child_process');
+import { spawnSync } from 'node:child_process';
 
 /**
  * @typedef {Object} ChildProcess.SpawnResult
@@ -162,28 +162,26 @@ function getGlobalTemplate() {
   return get('--global commit.template');
 }
 
-module.exports = {
-  version: gitVersion,
-  config: {
-    set,
-    get,
-    getAll,
-    add,
-    has,
-    removeSection,
-    getTemplatePath,
-    setTemplatePath,
-    hasTemplatePath,
-    usingLocalTemplate,
-    usingGlobalTemplate,
-    getGlobalTemplate
-  },
-  revParse: {
-    gitPath,
-    insideWorkTree,
-    topLevelDirectory,
-  },
-  authors: {
-    shortLogAuthorSummary,
-  },
+export const version = gitVersion;
+export const config = {
+  set,
+  get,
+  getAll,
+  add,
+  has,
+  removeSection,
+  getTemplatePath,
+  setTemplatePath,
+  hasTemplatePath,
+  usingLocalTemplate,
+  usingGlobalTemplate,
+  getGlobalTemplate
+};
+export const revParse = {
+  gitPath,
+  insideWorkTree,
+  topLevelDirectory,
+};
+export const authors = {
+  shortLogAuthorSummary,
 };

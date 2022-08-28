@@ -1,7 +1,7 @@
-const os = require('os');
-const { stripIndent } = require('common-tags');
-const updateNotifier = require('update-notifier');
-const pkg = require('../package.json');
+import { EOL } from 'node:os';
+import { stripIndent } from 'common-tags';
+import updateNotifier from 'update-notifier';
+import pkg from '../package.json';
 
 const weekly = 1000 * 60 * 60 * 24 * 7;
 
@@ -111,7 +111,7 @@ function checkForUpdates(intervalInMs = weekly) {
 }
 
 function printList(list) {
-  console.log(list.join(os.EOL));
+  console.log(list.join(EOL));
 }
 
 function validateEmail(email) {
@@ -119,7 +119,7 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-module.exports = {
+export {
   runHelp,
   runVersion,
   checkForUpdates,
