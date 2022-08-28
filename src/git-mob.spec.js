@@ -1,35 +1,21 @@
-const os = require('os');
-const test = require('ava');
-const { stripIndent } = require('common-tags');
-const eol = require('eol');
-const tempy = require('tempy');
+import { EOL } from 'node:os';
+import test, { before, after, afterEach, skip } from 'ava';
+import { stripIndent } from 'common-tags';
+import { auto } from 'eol';
+import { directory } from 'tempy';
 
-const {
-  addAuthor,
-  addCoAuthor,
-  removeCoAuthors,
-  unsetCommitTemplate,
-  safelyRemoveGitConfigSection,
-  setGitMessageFile,
-  readGitMessageFile,
-  deleteGitMessageFile,
-  exec,
-  setCoauthorsFile,
-  deleteCoauthorsFile,
-  setup,
-  tearDown,
-} = require('../test-helpers');
+import { addAuthor, addCoAuthor, removeCoAuthors, unsetCommitTemplate, safelyRemoveGitConfigSection, setGitMessageFile, readGitMessageFile, deleteGitMessageFile, exec, setCoauthorsFile, deleteCoauthorsFile, setup, tearDown } from '../test-helpers';
 
-test.before('setup', () => {
+before('setup', () => {
   setup();
 });
 
-test.after.always('final cleanup', () => {
+after.always('final cleanup', () => {
   deleteGitMessageFile();
   tearDown();
 });
 
-test.afterEach.always('each cleanup', () => {
+afterEach.always('each cleanup', () => {
   safelyRemoveGitConfigSection('git-mob');
   safelyRemoveGitConfigSection('user');
   safelyRemoveGitConfigSection('commit');
@@ -45,7 +31,7 @@ test('-h prints help', t => {
 
 if (process.platform === 'win32') {
   // Windows tries to open a man page at git-doc/git-mob.html which errors.
-  test.skip('--help is intercepted by git launcher on Windows', () => {});
+  skip('--help is intercepted by git launcher on Windows', () => {});
 } else {
   test('--help is intercepted by git launcher', t => {
     const error = t.throws(() => {
@@ -75,7 +61,7 @@ test('--list print a list of available co-authors', t => {
     'jd Jane Doe jane@findmypast.com',
     'fb Frances Bar frances-bar@findmypast.com',
     'ea Elliot Alderson ealderson@findmypast.com',
-  ].join(os.EOL);
+  ].join(EOL);
 
   t.is(actual, expected);
   deleteCoauthorsFile();
@@ -140,10 +126,10 @@ test('update local commit template if using one', t => {
 
   exec('git mob').stdout.trimEnd();
   const actualGitMessage = readGitMessageFile();
-  const expectedGitMessage = eol.auto(
+  const expectedGitMessage = auto(
     [
-      os.EOL,
-      os.EOL,
+      EOL,
+      EOL,
       'Co-authored-by: Richard Kotze <rkotze@gitmob.com>',
     ].join('')
   );
@@ -208,7 +194,7 @@ test('overwrites old mob when setting a new mob', t => {
   t.is(actualOutput, expectedOutput);
 
   const actualGitmessage = readGitMessageFile();
-  const expectedGitmessage = eol.auto(stripIndent`
+  const expectedGitmessage = auto(stripIndent`
     A commit title
 
     A commit body that goes into more detail.
@@ -228,7 +214,7 @@ test('appends co-authors to an existing commit template', t => {
   exec('git mob jd ea');
 
   const actualGitMessage = readGitMessageFile();
-  const expectedGitMessage = eol.auto(stripIndent`
+  const expectedGitMessage = auto(stripIndent`
     A commit title
 
     A commit body that goes into more detail.
@@ -251,12 +237,12 @@ test('appends co-authors to a new commit template', t => {
   exec('git mob jd ea');
 
   const actualGitMessage = readGitMessageFile();
-  const expectedGitMessage = eol.auto(
+  const expectedGitMessage = auto(
     [
-      os.EOL,
-      os.EOL,
+      EOL,
+      EOL,
       'Co-authored-by: Jane Doe <jane@findmypast.com>',
-      os.EOL,
+      EOL,
       'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>',
     ].join('')
   );
@@ -270,7 +256,7 @@ test('appends co-authors to a new commit template', t => {
 
 test('warns when used outside of a git repo', t => {
   const repoDir = process.cwd();
-  const temporaryDir = tempy.directory();
+  const temporaryDir = directory();
   process.chdir(temporaryDir);
 
   const error = t.throws(() => {

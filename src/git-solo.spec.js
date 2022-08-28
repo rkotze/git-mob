@@ -1,27 +1,16 @@
-const test = require('ava');
-const { stripIndent } = require('common-tags');
-const eol = require('eol');
-const tempy = require('tempy');
+import test, { before, after } from 'ava';
+import { stripIndent } from 'common-tags';
+import { auto } from 'eol';
+import { directory } from 'tempy';
 
-const {
-  addAuthor,
-  unsetCommitTemplate,
-  setGitMessageFile,
-  readGitMessageFile,
-  deleteGitMessageFile,
-  exec,
-  setCoauthorsFile,
-  deleteCoauthorsFile,
-  setup,
-  tearDown,
-} = require('../test-helpers');
+import { addAuthor, unsetCommitTemplate, setGitMessageFile, readGitMessageFile, deleteGitMessageFile, exec, setCoauthorsFile, deleteCoauthorsFile, setup, tearDown } from '../test-helpers';
 
-test.before('Check author', () => {
+before('Check author', () => {
   setup();
   setCoauthorsFile();
 });
 
-test.after.always('cleanup', () => {
+after.always('cleanup', () => {
   tearDown();
   deleteCoauthorsFile();
   deleteGitMessageFile();
@@ -53,7 +42,7 @@ test('removes co-authors from commit template', t => {
   exec('git solo');
 
   const actualGitMessage = readGitMessageFile();
-  const expectedGitMessage = eol.auto(stripIndent`
+  const expectedGitMessage = auto(stripIndent`
     A commit title
 
     A commit body that goes into more detail.`);
@@ -74,7 +63,7 @@ test('ignores positional arguments', t => {
 
 test('warns when used outside of a git repo', t => {
   const repoDir = process.cwd();
-  const temporaryDir = tempy.directory();
+  const temporaryDir = directory();
   process.chdir(temporaryDir);
 
   const error = t.throws(() => {

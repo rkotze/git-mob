@@ -1,4 +1,4 @@
-const { gitAuthors } = require('../git-authors');
+import { gitAuthors } from '../git-authors';
 
 async function deleteCoauthor(key) {
   const coauthors = gitAuthors();
@@ -12,6 +12,6 @@ async function deleteCoauthor(key) {
   }
 }
 
-module.exports = {
+export {
   deleteCoauthor,
 };

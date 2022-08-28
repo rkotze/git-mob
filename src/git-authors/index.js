@@ -1,14 +1,14 @@
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { promisify } = require('util');
+import { readFile as _readFile, appendFile, writeFile, existsSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+import { promisify } from 'node:util';
 
 const gitCoauthorsPath =
-  process.env.GITMOB_COAUTHORS_PATH || path.join(os.homedir(), '.git-coauthors');
+  process.env.GITMOB_COAUTHORS_PATH || join(homedir(), '.git-coauthors');
 
 function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {
-    const readPromise = readFilePromise || promisify(fs.readFile);
+    const readPromise = readFilePromise || promisify(_readFile);
     try {
       return await readPromise(path, 'utf8');
     } catch (error) {
@@ -17,7 +17,7 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   }
 
   async function writeToFile(path, content) {
-    const writeToPromise = writeFilePromise || promisify(fs.appendFile);
+    const writeToPromise = writeFilePromise || promisify(appendFile);
     try {
       return await writeToPromise(path, content, 'utf8');
     } catch (error) {
@@ -26,7 +26,7 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   }
 
   async function overwriteFile(path, content) {
-    const overwritePromise = overwriteFilePromise || promisify(fs.writeFile);
+    const overwritePromise = overwriteFilePromise || promisify(writeFile);
     try {
       return await overwritePromise(path, content, 'utf8');
     } catch (error) {
@@ -65,7 +65,7 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
     },
 
     fileExists: () => {
-      return fs.existsSync(gitCoauthorsPath);
+      return existsSync(gitCoauthorsPath);
     },
 
     coAuthors(authorInitials, authorJson) {
@@ -109,4 +109,4 @@ function missingAuthorError(initials, coauthors) {
   }
 }
 
-module.exports = { gitAuthors, gitCoauthorsPath };
+export { gitAuthors, gitCoauthorsPath };

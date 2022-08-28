@@ -1,11 +1,11 @@
-const os = require('os');
-const test = require('ava');
-const sinon = require('sinon');
+import { EOL } from 'node:os';
+import test from 'ava';
+import { spy } from 'sinon';
 
-const { gitMessage, gitMessagePath } = require('.');
+import { gitMessage, gitMessagePath } from '.';
 
 test('Append co-authors to .gitmessage append file mock', t => {
-  const appendSpy = sinon.spy();
+  const appendSpy = spy();
   const message = gitMessage(process.env.GITMOB_MESSAGE_PATH, appendSpy);
   message.writeCoAuthors([
     'Jane Doe <jane@findmypast.com>',
@@ -19,10 +19,10 @@ test('Append co-authors to .gitmessage append file mock', t => {
   t.is(
     argContent,
     [
-      os.EOL,
-      os.EOL,
+      EOL,
+      EOL,
       'Co-authored-by: Jane Doe <jane@findmypast.com>',
-      os.EOL,
+      EOL,
       'Co-authored-by: Frances Bar <frances-bar@findmypast.com>',
     ].join('')
   );

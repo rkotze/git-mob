@@ -1,6 +1,6 @@
-const test = require('ava');
+import test from 'ava';
 
-const { exec } = require('../test-helpers');
+import { exec } from '../test-helpers';
 
 test('suggests potential coauthors', t => {
   const { stdout } = exec('git suggest-coauthors');

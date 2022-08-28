@@ -1,4 +1,4 @@
-const { gitAuthors } = require('../git-authors');
+import { gitAuthors } from '../git-authors';
 
 async function editCoauthor({ _, ...props }) {
   if ('name' in props || 'email' in props) {
@@ -26,6 +26,6 @@ async function editCoauthor({ _, ...props }) {
   }
 }
 
-module.exports = {
+export {
   editCoauthor,
 };

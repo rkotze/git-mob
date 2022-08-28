@@ -10,7 +10,7 @@ function yellow(text) {
   return YELLOW + text + RESET;
 }
 
-module.exports = {
+export {
   red,
   yellow
 };

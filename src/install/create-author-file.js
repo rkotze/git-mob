@@ -1,4 +1,4 @@
-const { gitAuthors, gitCoauthorsPath } = require('../git-authors');
+import { gitAuthors, gitCoauthorsPath } from '../git-authors';
 
 const SAMPLE_CONTENT = {
   coauthors: {

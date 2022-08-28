@@ -1,4 +1,4 @@
-const { gitAuthors } = require('../git-authors');
+import { gitAuthors } from '../git-authors';
 
 async function addCoauthor([key, name, email]) {
   const coauthors = gitAuthors();
@@ -12,6 +12,6 @@ async function addCoauthor([key, name, email]) {
   }
 }
 
-module.exports = {
+export {
   addCoauthor,
 };

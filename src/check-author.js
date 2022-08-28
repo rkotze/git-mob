@@ -17,6 +17,6 @@ function configWarning({ name, email }) {
   return result;
 }
 
-module.exports = {
+export {
   configWarning,
 };

@@ -5,7 +5,7 @@ import { configWarning } from './check-author';
 
 test('does not print warning when config present', t => {
   const actual = configWarning({ name: 'John Doe', email: 'jdoe@example.com' });
-  t.is(actual, null);
+  t.is(actual, undefined);
 });
 
 test('prints warning and missing config when one argument is missing', t => {
