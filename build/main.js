@@ -1,15 +1,17 @@
 const esbuild = require('esbuild');
 const minimist = require('minimist');
+const glob = require('glob');
 
 // Flags
 // -w: watch for file changes
 // -m: minify code - use for publish
 const argv = minimist(process.argv.slice(2), {
-  boolean: ['w', 'm'],
+  boolean: ['w', 'm', 't'],
 
   alias: {
     w: 'watch',
-    m: 'minify'
+    m: 'minify',
+    t: 'test'
   },
 });
 
@@ -31,8 +33,19 @@ const baseConfig = {
   minify: argv.minify,
   plugins: [],
   logLevel: 'info',
-  external: ['common-tags', 'minimist', 'update-notifier']
+  external: ['common-tags',
+    'minimist',
+    'update-notifier',
+    'ava',
+    'sinon',
+    'tempy']
 };
+
+if (argv.test) {
+  const specFiles = glob.sync('./src/**/*.spec.js');
+  baseConfig.entryPoints = [...baseConfig.entryPoints, ...specFiles];
+  baseConfig.sourcemap = true;
+}
 
 if (argv.watch) {
   baseConfig.watch = {
