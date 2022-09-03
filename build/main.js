@@ -24,6 +24,7 @@ const baseConfig = {
     './src/git-edit-coauthor.js',
     './src/git-mob-print.js',
     './src/git-suggest-coauthors.js',
+    './src/install/create-author-file.js'
   ],
   mainFields: ['module', 'main'],
   bundle: true,

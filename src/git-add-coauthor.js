@@ -1,6 +1,6 @@
 import minimist from 'minimist';
-import { runAddCoauthorHelp, validateEmail } from '../src/helpers';
-import { addCoauthor } from '../src/manage-authors/add-coauthor';
+import { runAddCoauthorHelp, validateEmail } from './helpers';
+import { addCoauthor } from './manage-authors/add-coauthor';
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
