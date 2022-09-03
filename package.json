@@ -1,15 +1,18 @@
 {
   "name": "git-mob",
-  "version": "2.2.1",
+  "version": "2.2.0",
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
     "build": "rimraf dist && node ./build/main.js",
     "checks": "npm run test && npm run js-lint",
     "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
     "pretest": "npm run build -- -t",
-    "test": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
+    "test": "npm run testbase",
+    "testbase": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
+    "minifytest": "npm run build -- -m -t && npm run testbase",
     "js-lint": "xo",
     "preversion": "npm run checks",
+    "postversion": "git push --follow-tags",
     "postinstall": "npm run build",
     "prepack": "npm run build -- -m",
     "prepare": "node ./dist/install/create-author-file.js"

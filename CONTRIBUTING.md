@@ -36,8 +36,5 @@ This section is for maintainers with push access to git-mob on npm.
    ```
    git push --follow-tags
    ```
-1. Publish the package
-   ```
-   npm publish
-   ```
-1. Add release notes at https://github.com/findmypast-oss/git-mob/releases
+1. Run the publish CI GitHub actions
+1. Release notes added here https://github.com/rkotze/git-mob/releases
