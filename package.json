@@ -1,17 +1,18 @@
 {
   "name": "git-mob",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
-    "build": "node ./build/main.js",
+    "build": "rimraf dist && node ./build/main.js",
     "checks": "npm run test && npm run js-lint",
-    "test:w": "npm run build -- -w & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
-    "test": "npm run testbuild && env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
-    "testbuild": "npm run build -- -t",
+    "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
+    "pretest": "npm run build -- -t",
+    "test": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
     "js-lint": "xo",
     "preversion": "npm run checks",
-    "postinstall": "node ./dist/install/create-author-file.js",
-    "prepublish": "npm run build -- -m"
+    "postinstall": "npm run build",
+    "prepack": "npm run build -- -m",
+    "prepare": "node ./dist/install/create-author-file.js"
   },
   "bin": {
     "git-mob": "bin/mob.js",
@@ -67,6 +68,7 @@
     "eol": "^0.9.1",
     "esbuild": "^0.15.5",
     "glob": "^8.0.3",
+    "rimraf": "^3.0.2",
     "sinon": "^14.0.0",
     "tempy": "^1.0.1",
     "xo": "^0.51.0"
