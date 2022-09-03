@@ -73,7 +73,7 @@
     "glob": "^8.0.3",
     "rimraf": "^3.0.2",
     "sinon": "^14.0.0",
-    "tempy": "^1.0.1",
+    "tempy": "^3.0.0",
     "xo": "^0.51.0"
   },
   "xo": {
@@ -132,9 +132,13 @@
       "arrow-body-style": 0,
       "capitalized-comments": 0,
       "ava/no-ignored-test-files": [
-        "error", 
-        {"files": ["src/**/*.spec.js"]
-      }]
+        "error",
+        {
+          "files": [
+            "src/**/*.spec.js"
+          ]
+        }
+      ]
     }
   },
   "ava": {

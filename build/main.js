@@ -39,8 +39,7 @@ const baseConfig = {
     'minimist',
     'update-notifier',
     'ava',
-    'sinon',
-    'tempy']
+    'sinon']
 };
 
 if (argv.test) {

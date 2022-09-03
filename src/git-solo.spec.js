@@ -1,7 +1,7 @@
 import test, { before, after } from 'ava';
 import { stripIndent } from 'common-tags';
 import { auto } from 'eol';
-import { directory } from 'tempy';
+import { temporaryDirectory } from 'tempy';
 
 import { addAuthor, unsetCommitTemplate, setGitMessageFile, readGitMessageFile, deleteGitMessageFile, exec, setCoauthorsFile, deleteCoauthorsFile, setup, tearDown } from '../test-helpers';
 
@@ -63,7 +63,7 @@ test('ignores positional arguments', t => {
 
 test('warns when used outside of a git repo', t => {
   const repoDir = process.cwd();
-  const temporaryDir = directory();
+  const temporaryDir = temporaryDirectory();
   process.chdir(temporaryDir);
 
   const error = t.throws(() => {

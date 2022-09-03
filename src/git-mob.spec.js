@@ -2,7 +2,7 @@ import { EOL } from 'node:os';
 import test, { before, after, afterEach, skip } from 'ava';
 import { stripIndent } from 'common-tags';
 import { auto } from 'eol';
-import { directory } from 'tempy';
+import { temporaryDirectory } from 'tempy';
 
 import { addAuthor, addCoAuthor, removeCoAuthors, unsetCommitTemplate, safelyRemoveGitConfigSection, setGitMessageFile, readGitMessageFile, deleteGitMessageFile, exec, setCoauthorsFile, deleteCoauthorsFile, setup, tearDown } from '../test-helpers';
 
@@ -256,7 +256,7 @@ test('appends co-authors to a new commit template', t => {
 
 test('warns when used outside of a git repo', t => {
   const repoDir = process.cwd();
-  const temporaryDir = directory();
+  const temporaryDir = temporaryDirectory();
   process.chdir(temporaryDir);
 
   const error = t.throws(() => {
