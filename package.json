@@ -127,7 +127,11 @@
       "n/file-extension-in-import": 0,
       "object-shorthand": 0,
       "arrow-body-style": 0,
-      "capitalized-comments": 0
+      "capitalized-comments": 0,
+      "ava/no-ignored-test-files": [
+        "error", 
+        {"files": ["src/**/*.spec.js"]
+      }]
     }
   },
   "ava": {
