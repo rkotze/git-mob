@@ -5,6 +5,7 @@ const glob = require('glob');
 // Flags
 // -w: watch for file changes
 // -m: minify code - use for publish
+// -t: test flow to include sourcemaps
 const argv = minimist(process.argv.slice(2), {
   boolean: ['w', 'm', 't'],
 

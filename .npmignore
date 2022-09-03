@@ -1,8 +1,13 @@
 **/*.spec.js
 **/*.md
+**/*.tgz
+src
+hook-examples
 test-helpers/
 .prettierrc
 .prettierignore
 .travis.yml
-.vscode/
-.idea/
+.vscode
+.idea
+.yarn
+.github
