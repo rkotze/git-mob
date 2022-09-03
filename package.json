@@ -10,7 +10,7 @@
     "testbuild": "npm run build -- -t",
     "js-lint": "xo",
     "preversion": "npm run checks",
-    "postinstall": "node ./src/install/create-author-file.js",
+    "postinstall": "node ./dist/install/create-author-file.js",
     "prepublish": "npm run build -- -m"
   },
   "bin": {
