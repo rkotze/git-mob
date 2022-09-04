@@ -66,6 +66,7 @@
     "update-notifier": "^5.1.0"
   },
   "devDependencies": {
+    "@types/node": "^18.7.14",
     "ava": "^4.3.3",
     "env-cmd": "^10.1.0",
     "eol": "^0.9.1",
@@ -74,6 +75,7 @@
     "rimraf": "^3.0.2",
     "sinon": "^14.0.0",
     "tempy": "^3.0.0",
+    "typescript": "^4.8.2",
     "xo": "^0.52.3"
   },
   "xo": {

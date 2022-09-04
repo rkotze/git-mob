@@ -11,3 +11,4 @@ test-helpers/
 .idea
 .yarn
 .github
+tsconfig.json

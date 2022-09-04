@@ -20,7 +20,7 @@ const baseConfig = {
   entryPoints: [
     './src/git-mob.js',
     './src/solo.js',
-    './src/git-add-coauthor.js',
+    './src/git-add-coauthor.ts',
     './src/git-delete-coauthor.js',
     './src/git-edit-coauthor.js',
     './src/git-mob-print.js',
