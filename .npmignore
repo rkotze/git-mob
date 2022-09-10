@@ -1,4 +1,5 @@
 **/*.spec.js
+**/*.spec.ts
 **/*.md
 **/*.tgz
 src

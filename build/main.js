@@ -43,7 +43,7 @@ const baseConfig = {
 };
 
 if (argv.test) {
-  const specFiles = glob.sync('./src/**/*.spec.js');
+  const specFiles = glob.sync('./src/**/*.spec.*');
   baseConfig.entryPoints = [...baseConfig.entryPoints, ...specFiles];
   baseConfig.sourcemap = true;
 }

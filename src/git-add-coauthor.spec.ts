@@ -1,16 +1,29 @@
-import test, { afterEach } from 'ava';
+/* eslint @typescript-eslint/object-curly-spacing: ["error", "always"] */
+import test from 'ava';
+import {
+  setCoauthorsFile,
+  readCoauthorsFile,
+  exec,
+  deleteCoauthorsFile,
+} from '../test-helpers';
 
-import { setCoauthorsFile, readCoauthorsFile, exec, deleteCoauthorsFile } from '../test-helpers';
-
-afterEach.always('cleanup', () => {
+test.afterEach.always('cleanup', () => {
   deleteCoauthorsFile();
 });
 
-test('adds coauthor to coauthors file', t => {
+type CoAuthorList = {
+  coauthors: Record<string, unknown>;
+};
+
+function loadCoauthors(): CoAuthorList {
+  return JSON.parse(readCoauthorsFile()) as CoAuthorList;
+}
+
+test('adds a coauthor to coauthors file', t => {
   setCoauthorsFile();
   exec('git add-coauthor tb "Barry Butterworth" barry@butterworth.org');
 
-  const addCoauthorActual = JSON.parse(readCoauthorsFile());
+  const addCoauthorActual = loadCoauthors();
   const addCoauthorExpected = {
     coauthors: {
       jd: {
@@ -35,16 +48,17 @@ test('adds coauthor to coauthors file', t => {
   t.deepEqual(addCoauthorActual, addCoauthorExpected);
 });
 
-test('does not add coauthor to coauthors file if email invalid', t => {
+test('does not add a coauthor to coauthors file if email invalid', t => {
   setCoauthorsFile();
 
-  const error = t.throws(() => {
-    exec('git add-coauthor tb "Barry Butterworth" barry.org');
-  });
+  const error =
+    t.throws(() => {
+      exec('git add-coauthor tb "Barry Butterworth" barry.org');
+    }) || new Error('No error');
 
   t.regex(error.message, /invalid email format/i);
 
-  const addCoauthorActual = JSON.parse(readCoauthorsFile());
+  const addCoauthorActual = loadCoauthors();
   const addCoauthorExpected = {
     coauthors: {
       jd: {
@@ -68,13 +82,14 @@ test('does not add coauthor to coauthors file if email invalid', t => {
 test('does not add coauthor to coauthors file if wrong amount of parameters', t => {
   setCoauthorsFile();
 
-  const error = t.throws(() => {
-    exec('git add-coauthor tb "Barry Butterworth"');
-  });
+  const error =
+    t.throws(() => {
+      exec('git add-coauthor tb "Barry Butterworth"');
+    }) || new Error('No error');
 
   t.regex(error.message, /incorrect number of parameters/i);
 
-  const addCoauthorActual = JSON.parse(readCoauthorsFile());
+  const addCoauthorActual = loadCoauthors();
   const addCoauthorExpected = {
     coauthors: {
       jd: {
@@ -99,7 +114,7 @@ test('does not add coauthor to coauthors file if key already exists', t => {
   setCoauthorsFile();
   exec('git add-coauthor ea "Emily Anderson" "emily@anderson.org"');
 
-  const addCoauthorActual = JSON.parse(readCoauthorsFile());
+  const addCoauthorActual = loadCoauthors();
   const addCoauthorExpected = {
     coauthors: {
       jd: {

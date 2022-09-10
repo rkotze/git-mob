@@ -66,6 +66,7 @@
     "update-notifier": "^5.1.0"
   },
   "devDependencies": {
+    "@ava/typescript": "^3.0.1",
     "@types/node": "^18.7.14",
     "ava": "^4.3.3",
     "env-cmd": "^10.1.0",
@@ -82,7 +83,8 @@
     "space": true,
     "ignores": [
       "bin",
-      "dist"
+      "dist",
+      "test-helpers"
     ],
     "rules": {
       "no-unused-vars": [
@@ -137,10 +139,11 @@
         "error",
         {
           "files": [
-            "src/**/*.spec.js"
+            "src/**/*.spec.*"
           ]
         }
-      ]
+      ],
+      "@typescript-eslint/prefer-nullish-coalescing": 0
     }
   },
   "ava": {
@@ -151,6 +154,12 @@
       "dist",
       "test-env",
       "test-helpers"
-    ]
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "build/"
+      },
+      "compile": false
+    }
   }
 }
