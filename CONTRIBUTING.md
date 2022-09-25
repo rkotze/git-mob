@@ -19,7 +19,7 @@ Other test commands
 
 - Run a test file
   ```
-  npm test ./src/git-mob.spec.js
+  npm test ./dist/git-mob.spec.js
   ```
   
   See [Ava](https://github.com/avajs/ava) for more options.
