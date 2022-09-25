@@ -2,6 +2,7 @@ import { readFile as _readFile, appendFile, writeFile, existsSync } from 'node:f
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
+import { authorBaseFormat } from './create-author';
 
 const gitCoauthorsPath =
   process.env.GITMOB_COAUTHORS_PATH || join(homedir(), '.git-coauthors');
@@ -32,10 +33,6 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
     } catch (error) {
       throw new Error(error.message);
     }
-  }
-
-  function author({ name, email }) {
-    return `${name} <${email}>`;
   }
 
   return {
@@ -72,7 +69,7 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
       const { coauthors } = authorJson;
       return authorInitials.map(initials => {
         missingAuthorError(initials, coauthors);
-        return author(coauthors[initials]);
+        return authorBaseFormat(coauthors[initials]);
       });
     },
 
@@ -85,7 +82,7 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
     coAuthorsInitials(authorJson, currentCoAuthors) {
       const { coauthors } = authorJson;
       return Object.keys(coauthors).reduce((currentCoAuthorsInitials, initials) => {
-        if (currentCoAuthors.includes(author(coauthors[initials]))) {
+        if (currentCoAuthors.includes(authorBaseFormat(coauthors[initials]))) {
           currentCoAuthorsInitials.push(initials);
         }
 

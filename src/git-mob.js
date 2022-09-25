@@ -100,7 +100,7 @@ async function listCoAuthors() {
 
     printList(coAuthors);
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error(red(`Error: ${error.message}`));
     process.exit(1);
   }
 }
@@ -109,6 +109,12 @@ async function setMob(initials) {
   try {
     const instance = gitAuthors();
     const authorList = await instance.read();
+    // coauthors = []
+    // missing = findMissingAuthors(initials, authorList);
+    // if missing.length < 0 {
+    //   coauthors.concat(searchGitHub())
+    // }
+    // coautors.concat(coAuthors(initials.filter(), authorList))
     const coauthors = instance.coAuthors(initials, authorList);
 
     setCommitTemplate();
@@ -130,7 +136,7 @@ async function setMob(initials) {
 
     printMob();
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error(red(`Error: ${error.message}`));
     process.exit(1);
   }
 }
@@ -144,7 +150,7 @@ async function setAuthor(initials) {
     setGitAuthor(authors.name, authors.email);
     runMob(initials);
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error(red(`Error: ${error.message}`));
     process.exit(1);
   }
 }
