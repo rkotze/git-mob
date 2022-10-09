@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/object-curly-spacing */
 import https from 'node:https';
 
 type BasicResponse = {

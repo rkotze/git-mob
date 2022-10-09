@@ -93,18 +93,12 @@
           "argsIgnorePattern": "^_"
         }
       ],
-      "object-curly-spacing": [
-        "error",
-        "always"
-      ],
+      "object-curly-spacing": "off",
       "curly": [
         "error",
         "multi-line"
       ],
-      "comma-dangle": [
-        "error",
-        "only-multiline"
-      ],
+      "comma-dangle": "off",
       "ava/no-skip-test": "off",
       "linebreak-style": "off",
       "operator-linebreak": [
@@ -143,6 +137,8 @@
           ]
         }
       ],
+      "@typescript-eslint/object-curly-spacing": "off",
+      "@typescript-eslint/comma-dangle": "off",
       "@typescript-eslint/prefer-nullish-coalescing": 0
     }
   },

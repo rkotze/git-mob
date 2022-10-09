@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/object-curly-spacing */
 type Author = {
   name: string;
   email: string;
@@ -21,8 +20,8 @@ function missingAuthor(initials: string, coauthors: Authorlist): boolean {
   return !(initials in coauthors);
 }
 
-function noAuthorFoundError(initials: string): Error {
-  return new Error(`Author with initials "${initials}" not found!`);
-}
+// function noAuthorFoundError(initials: string): Error {
+//   return new Error(`Author with initials "${initials}" not found!`);
+// }
 
 export { authorBaseFormat, findMissingAuthors };
