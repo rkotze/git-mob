@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/object-curly-spacing */
 import test from 'ava';
 import { findMissingAuthors } from './create-author';
 
@@ -18,7 +17,7 @@ const authorsJson = {
 test('find missing author initials "rkotze" and "dideler" to an array', t => {
   const missingCoAuthor = findMissingAuthors(
     ['rkotze', 'dideler', 'jd'],
-    authorsJson.coauthors
+    authorsJson.coauthors,
   );
   t.deepEqual(missingCoAuthor, ['rkotze', 'dideler']);
 });

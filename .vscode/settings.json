@@ -1,8 +1,5 @@
 {
   "editor.formatOnSave": true,
-	"xo.enable": true,
-	"xo.format.enable": true,
-  "[javascript]": {
-    "editor.defaultFormatter": "samverschueren.linter-xo"
-  }
+  "xo.enable": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
