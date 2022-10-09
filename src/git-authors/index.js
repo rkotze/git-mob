@@ -2,7 +2,7 @@ import { readFile as _readFile, appendFile, writeFile, existsSync } from 'node:f
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
-import { authorBaseFormat } from './create-author';
+import { authorBaseFormat } from './compose-authors';
 
 const gitCoauthorsPath =
   process.env.GITMOB_COAUTHORS_PATH || join(homedir(), '.git-coauthors');

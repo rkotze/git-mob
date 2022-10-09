@@ -4,20 +4,19 @@ import { oneLine, stripIndents } from 'common-tags';
 
 import { config, revParse } from '../src/git-commands';
 import { gitAuthors } from '../src/git-authors';
-import {
-  gitMessage,
-  gitMessagePath,
-  commitTemplatePath,
-} from '../src/git-message';
-import {
-  checkForUpdates,
-  runHelp,
-  runVersion,
-  printList,
-} from '../src/helpers';
+import { gitMessage, gitMessagePath, commitTemplatePath } from '../src/git-message';
+import { checkForUpdates, runHelp, runVersion, printList } from '../src/helpers';
 import { configWarning } from '../src/check-author';
 import { red, yellow } from '../src/colours';
-import { getCoAuthors, isCoAuthorSet, resetMob, addCoAuthor, getGitAuthor, setGitAuthor, mobConfig } from '../src/git-mob-commands';
+import {
+  getCoAuthors,
+  isCoAuthorSet,
+  resetMob,
+  addCoAuthor,
+  getGitAuthor,
+  setGitAuthor,
+  mobConfig,
+} from '../src/git-mob-commands';
 
 checkForUpdates();
 
@@ -28,7 +27,7 @@ const argv = minimist(process.argv.slice(2), {
     h: 'help',
     v: 'version',
     l: 'list',
-    o: 'override'
+    o: 'override',
   },
 });
 
@@ -82,9 +81,11 @@ function printMob() {
   }
 
   if (!mobConfig.useLocalTemplate() && config.usingLocalTemplate()) {
-    console.log(yellow(stripIndents`Warning: Git Mob uses Git global config.
+    console.log(
+      yellow(stripIndents`Warning: Git Mob uses Git global config.
     Using local commit.template could mean your template does not have selected co-authors appended after switching projects.
-    See: https://github.com/rkotze/git-mob/discussions/81`));
+    See: https://github.com/rkotze/git-mob/discussions/81`)
+    );
   }
 
   if (configWarning(gitAuthor)) {
@@ -109,12 +110,6 @@ async function setMob(initials) {
   try {
     const instance = gitAuthors();
     const authorList = await instance.read();
-    // coauthors = []
-    // missing = findMissingAuthors(initials, authorList);
-    // if missing.length < 0 {
-    //   coauthors.concat(searchGitHub())
-    // }
-    // coautors.concat(coAuthors(initials.filter(), authorList))
     const coauthors = instance.coAuthors(initials, authorList);
 
     setCommitTemplate();
@@ -124,14 +119,10 @@ async function setMob(initials) {
       addCoAuthor(coauthor);
     }
 
-    gitMessage(gitMessagePath()).writeCoAuthors(
-      coauthors
-    );
+    gitMessage(gitMessagePath()).writeCoAuthors(coauthors);
 
     if (config.usingLocalTemplate() && config.usingGlobalTemplate()) {
-      gitMessage(config.getGlobalTemplate()).writeCoAuthors(
-        coauthors
-      );
+      gitMessage(config.getGlobalTemplate()).writeCoAuthors(coauthors);
     }
 
     printMob();
