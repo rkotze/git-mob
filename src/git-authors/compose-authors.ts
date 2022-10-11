@@ -1,37 +1,49 @@
 import { fetchAuthors } from './fetch-authors';
 
-function composeAuthors(
+async function composeAuthors(
   initials: string[],
   coAuthorList: AuthorList,
   getAuthors = fetchAuthors
-) {
-  // let coauthors: Author[] = [];
+): Promise<string[]> {
   const missing = findMissingAuthors(initials, coAuthorList);
   if (missing.length > 0) {
-    getAuthors(missing);
+    const fetchedAuthors = await getAuthors(missing);
+    return buildFormatAuthorList(initials, { ...coAuthorList, ...fetchedAuthors });
   }
-  //   coauthors.concat(searchGitHub())
-  // }
-  // coautors.concat(coAuthors(initials.filter(), authorList))
+
+  return buildFormatAuthorList(initials, coAuthorList);
 }
 
 function findMissingAuthors(
   initialList: string[],
   coAuthorList: AuthorList
 ): string[] {
-  return initialList.filter(initials => missingAuthor(initials, coAuthorList));
+  return initialList.filter(initials => !containsAuthor(initials, coAuthorList));
 }
 
 function authorBaseFormat({ name, email }: Author): string {
   return `${name} <${email}>`;
 }
 
-function missingAuthor(initials: string, coauthors: AuthorList): boolean {
-  return !(initials in coauthors);
+function containsAuthor(initials: string, coauthors: AuthorList): boolean {
+  return initials in coauthors;
 }
 
-// function noAuthorFoundError(initials: string): Error {
-//   return new Error(`Author with initials "${initials}" not found!`);
-// }
+function buildFormatAuthorList(
+  initialsList: string[],
+  coAuthorList: AuthorList
+): string[] {
+  return initialsList.map(initials => {
+    if (!containsAuthor(initials, coAuthorList)) {
+      noAuthorFoundError(initials);
+    }
+
+    return authorBaseFormat(coAuthorList[initials]);
+  });
+}
+
+function noAuthorFoundError(initials: string): Error {
+  return new Error(`Author with initials "${initials}" not found!`);
+}
 
 export { authorBaseFormat, findMissingAuthors, composeAuthors };
