@@ -1,7 +1,5 @@
 import { fetchAuthors } from './fetch-authors';
 
-type AuthorList = Record<string, Author>;
-
 function composeAuthors(
   initials: string[],
   coAuthorList: AuthorList,

@@ -85,7 +85,8 @@
     "ignores": [
       "bin",
       "dist",
-      "test-helpers"
+      "test-helpers",
+      "*.d.ts"
     ],
     "rules": {
       "no-unused-vars": [
