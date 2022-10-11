@@ -28,20 +28,22 @@ test('No missing author initials', t => {
   t.deepEqual(missingCoAuthor, []);
 });
 
-test('Search GitHub for missing co-authors', t => {
-  const sandbox = createSandbox();
-  const fetchAuthorsStub = sandbox.stub().resolves([
-    {
-      name: 'Richard Kotze',
-      email: 'rich@gitmob.com',
-    },
-    {
-      name: 'Denis',
-      email: 'denis@gitmob.com',
-    },
-  ]);
+const gitHubAuthors = {
+  rkotze: {
+    name: 'Richard',
+    email: 'rich@gitmob.com',
+  },
+  dideler: {
+    name: 'Denis',
+    email: 'denis@gitmob.com',
+  },
+};
 
-  composeAuthors(
+test('Search GitHub for missing co-authors', async t => {
+  const sandbox = createSandbox();
+  const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
+
+  await composeAuthors(
     ['rkotze', 'dideler', 'jd'],
     authorsJson.coauthors,
     fetchAuthorsStub
@@ -49,5 +51,26 @@ test('Search GitHub for missing co-authors', t => {
   t.notThrows(() => {
     assert.calledWith(fetchAuthorsStub, ['rkotze', 'dideler']);
   }, 'Not called with ["rkotze", "dideler"]');
+  sandbox.restore();
+});
+
+test('Create author list from GitHub and co-author file', async t => {
+  const sandbox = createSandbox();
+  const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
+
+  const authorList = await composeAuthors(
+    ['rkotze', 'dideler', 'jd'],
+    authorsJson.coauthors,
+    fetchAuthorsStub
+  );
+
+  const expectedAuthorList = [
+    'Richard <rich@gitmob.com>',
+    'Denis <denis@gitmob.com>',
+    'Jane Doe <jane@findmypast.com>',
+  ];
+
+  t.deepEqual(authorList, expectedAuthorList);
+
   sandbox.restore();
 });
