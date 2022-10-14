@@ -98,11 +98,23 @@ $ cat <<-EOF > ~/.git-coauthors
 EOF
 ```
 
+For GitHub repos, you can generate this file from existing collaborators data with the following script:
+
+```shell
+gh api \
+    repos/{owner}/{repo}/collaborators \
+    --jq 'map(.login) | .[]' |
+(xargs -L1 -I {} \
+    gh api users/{} \
+    --jq '{(.login): {email,name}}') |
+jq -s 'add'
+```
+
 You're ready to create your mob. Tell git-mob you're pairing with Amy by using her initials. `git mob ad`
 
-Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same*.
+Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same\*.
 
-***Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. You can run `git mob` to update the commit template. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
+**\*Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. You can run `git mob` to update the commit template. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
 
 ```
 $ git mob ad
