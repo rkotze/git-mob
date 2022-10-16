@@ -17,6 +17,7 @@ import {
   setGitAuthor,
   mobConfig,
 } from '../src/git-mob-commands';
+import { composeAuthors } from './git-authors/compose-authors';
 
 checkForUpdates();
 
@@ -110,7 +111,7 @@ async function setMob(initials) {
   try {
     const instance = gitAuthors();
     const authorList = await instance.read();
-    const coauthors = instance.coAuthors(initials, authorList);
+    const coauthors = await composeAuthors(initials, authorList.coauthors);
 
     setCommitTemplate();
     resetMob();

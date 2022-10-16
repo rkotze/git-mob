@@ -1,10 +1,13 @@
+import type { RequestOptions } from 'https';
 import { httpFetch } from '../http-fetch';
 
 const gitHubUserUrl = 'https://api.github.com/users';
-const getHeaders = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  Accept: 'application/vnd.github.v3+json',
-  method: 'GET',
+const getHeaders: RequestOptions = {
+  headers: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    Accept: 'application/vnd.github.v3+json',
+    method: 'GET',
+  },
 };
 
 type GitHubUser = {

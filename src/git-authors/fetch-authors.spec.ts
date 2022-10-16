@@ -47,7 +47,9 @@ test('Query for one GitHub user and check RESTful url', async t => {
   await fetchAuthors(['rkotze'], httpFetchStub);
 
   t.notThrows(() => {
-    assert.calledWith(httpFetchStub, 'https://api.github.com/users/rkotze', headers);
+    assert.calledWith(httpFetchStub, 'https://api.github.com/users/rkotze', {
+      headers,
+    });
   }, 'Not called with ["rkotze"]');
 });
 

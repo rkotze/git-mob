@@ -4,7 +4,21 @@ import { stripIndent } from 'common-tags';
 import { auto } from 'eol';
 import { temporaryDirectory } from 'tempy';
 
-import { addAuthor, addCoAuthor, removeCoAuthors, unsetCommitTemplate, safelyRemoveGitConfigSection, setGitMessageFile, readGitMessageFile, deleteGitMessageFile, exec, setCoauthorsFile, deleteCoauthorsFile, setup, tearDown } from '../test-helpers';
+import {
+  addAuthor,
+  addCoAuthor,
+  removeCoAuthors,
+  unsetCommitTemplate,
+  safelyRemoveGitConfigSection,
+  setGitMessageFile,
+  readGitMessageFile,
+  deleteGitMessageFile,
+  exec,
+  setCoauthorsFile,
+  deleteCoauthorsFile,
+  setup,
+  tearDown,
+} from '../test-helpers';
 
 before('setup', () => {
   setup();
@@ -127,11 +141,7 @@ test('update local commit template if using one', t => {
   exec('git mob').stdout.trimEnd();
   const actualGitMessage = readGitMessageFile();
   const expectedGitMessage = auto(
-    [
-      EOL,
-      EOL,
-      'Co-authored-by: Richard Kotze <rkotze@gitmob.com>',
-    ].join('')
+    [EOL, EOL, 'Co-authored-by: Richard Kotze <rkotze@gitmob.com>'].join('')
   );
 
   t.is(actualGitMessage, expectedGitMessage);
@@ -166,16 +176,6 @@ test('sets mob and override author', t => {
 
   t.is(actual, expected);
   removeCoAuthors();
-});
-
-test('errors when co-author initials not found', t => {
-  setCoauthorsFile();
-  const error = t.throws(() => {
-    exec('git mob rk');
-  });
-
-  t.regex(error.message, /author with initials "rk" not found!/i);
-  deleteCoauthorsFile();
 });
 
 test('overwrites old mob when setting a new mob', t => {

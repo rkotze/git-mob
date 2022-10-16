@@ -11,8 +11,9 @@ async function httpFetch(
 ): Promise<BasicResponse> {
   const mergedOptions = {
     ...options,
-    header: appendAgentHeader(options.headers),
+    headers: appendAgentHeader(options.headers),
   };
+
   return new Promise((fulfil, reject) => {
     const httpRequest = https
       .request(url, mergedOptions, response => {
