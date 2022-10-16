@@ -1,4 +1,4 @@
-import type { RequestOptions } from 'https';
+import type { RequestOptions } from 'node:https';
 import { httpFetch } from '../http-fetch';
 
 const gitHubUserUrl = 'https://api.github.com/users';
