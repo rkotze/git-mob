@@ -1,11 +1,11 @@
 import https from 'node:https';
 
-type BasicResponse = {
+export type BasicResponse = {
   statusCode: number | undefined;
-  data: JSON;
+  data: Record<string, unknown>;
 };
 
-async function fetch(
+async function httpFetch(
   url: string,
   options: https.RequestOptions
 ): Promise<BasicResponse> {
@@ -25,7 +25,8 @@ async function fetch(
         response.on('end', () => {
           fulfil({
             statusCode: response.statusCode,
-            data: JSON.parse(chunkedData) as JSON,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            data: JSON.parse(chunkedData),
           });
         });
       })
@@ -49,4 +50,4 @@ function appendAgentHeader(headers: https.RequestOptions['headers']) {
   return userAgentHeader;
 }
 
-export { fetch };
+export { httpFetch };

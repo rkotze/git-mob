@@ -54,7 +54,7 @@ test('Search GitHub for missing co-authors', async t => {
   sandbox.restore();
 });
 
-test('Create author list from GitHub and co-author file', async t => {
+test('Create author list only from co-author file', async t => {
   const sandbox = createSandbox();
   const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
 
@@ -69,6 +69,23 @@ test('Create author list from GitHub and co-author file', async t => {
     'Denis <denis@gitmob.com>',
     'Jane Doe <jane@findmypast.com>',
   ];
+
+  t.deepEqual(authorList, expectedAuthorList);
+
+  sandbox.restore();
+});
+
+test('Create author list from GitHub and co-author file', async t => {
+  const sandbox = createSandbox();
+  const fetchAuthorsStub = sandbox.stub().resolves({});
+
+  const authorList = await composeAuthors(
+    ['jd'],
+    authorsJson.coauthors,
+    fetchAuthorsStub
+  );
+
+  const expectedAuthorList = ['Jane Doe <jane@findmypast.com>'];
 
   t.deepEqual(authorList, expectedAuthorList);
 
