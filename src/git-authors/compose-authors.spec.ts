@@ -74,3 +74,18 @@ test('Create author list from GitHub and co-author file', async t => {
 
   sandbox.restore();
 });
+
+test('Throw error if author not found', async t => {
+  const sandbox = createSandbox();
+  const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
+
+  await t.throwsAsync(async () =>
+    composeAuthors(
+      ['rkotze', 'dideler', 'james'],
+      authorsJson.coauthors,
+      fetchAuthorsStub
+    )
+  );
+
+  sandbox.restore();
+});
