@@ -30,6 +30,8 @@ async function fetchAuthors(
   const authorAuthorList: AuthorList = {};
 
   for (const ghUser of ghUsers) {
+    throwStatusCodeErrors(ghUser.statusCode);
+
     if (validateGhUser(ghUser.data)) {
       const { login, id, name } = ghUser.data;
       authorAuthorList[login] = {
@@ -40,6 +42,16 @@ async function fetchAuthors(
   }
 
   return authorAuthorList;
+}
+
+function throwStatusCodeErrors(statusCode: number | undefined) {
+  if (statusCode === 404) {
+    throw new Error('GitHub user not found!');
+  }
+
+  if (statusCode && statusCode > 299) {
+    throw new Error(`Error failed to fetch GitHub user! Status code ${statusCode}.`);
+  }
 }
 
 export { fetchAuthors };

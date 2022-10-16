@@ -87,3 +87,25 @@ test('Query for two GitHub users and build AuthorList', async t => {
     },
   });
 });
+
+test('Http status code 404 throws error', async t => {
+  const httpFetchStub = sandbox.stub().resolves({
+    statusCode: 404,
+    data: {},
+  });
+
+  await t.throwsAsync(async () => fetchAuthors(['notaUser'], httpFetchStub), {
+    message: 'GitHub user not found!',
+  });
+});
+
+test('Http status code not 200 or 404 throws generic error', async t => {
+  const httpFetchStub = sandbox.stub().resolves({
+    statusCode: 500,
+    data: {},
+  });
+
+  await t.throwsAsync(async () => fetchAuthors(['badrequestuser'], httpFetchStub), {
+    message: 'Error failed to fetch GitHub user! Status code 500.',
+  });
+});
