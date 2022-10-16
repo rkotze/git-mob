@@ -65,14 +65,6 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
       return existsSync(gitCoauthorsPath);
     },
 
-    coAuthors(authorInitials, authorJson) {
-      const { coauthors } = authorJson;
-      return authorInitials.map(initials => {
-        missingAuthorError(initials, coauthors);
-        return authorBaseFormat(coauthors[initials]);
-      });
-    },
-
     author(authorInitials, authorJson) {
       const { coauthors } = authorJson;
       missingAuthorError(authorInitials, coauthors);
