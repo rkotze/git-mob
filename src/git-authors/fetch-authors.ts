@@ -18,21 +18,28 @@ function validateGhUser(o: any): o is GitHubUser {
 }
 
 async function fetchAuthors(
-  initials: string[],
+  initialList: string[],
   fetch = httpFetch
 ): Promise<AuthorList> {
-  const ghUser = await fetch(gitHubUserUrl + '/' + initials[0], getHeaders);
-  if (validateGhUser(ghUser.data)) {
-    const { login, id, name } = ghUser.data;
-    return {
-      [login]: {
+  const ghUsers = await Promise.all(
+    initialList.map(async initials =>
+      fetch(gitHubUserUrl + '/' + initials, getHeaders)
+    )
+  );
+
+  const authorAuthorList: AuthorList = {};
+
+  for (const ghUser of ghUsers) {
+    if (validateGhUser(ghUser.data)) {
+      const { login, id, name } = ghUser.data;
+      authorAuthorList[login] = {
         name,
         email: `${id}+${login}@users.noreply.github.com`,
-      },
-    };
+      };
+    }
   }
 
-  return {};
+  return authorAuthorList;
 }
 
 export { fetchAuthors };
