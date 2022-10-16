@@ -1,18 +1,8 @@
 import test from 'ava';
 import { createSandbox, assert } from 'sinon';
+import type { SinonSandbox } from 'sinon';
 import type { BasicResponse } from '../http-fetch';
 import { fetchAuthors } from './fetch-authors';
-
-// const gitHubAuthors = {
-//   rkotze: {
-//     name: 'Richard',
-//     email: 'rich@gitmob.com',
-//   },
-//   dideler: {
-//     name: 'Denis',
-//     email: 'denis@gitmob.com',
-//   },
-// };
 
 const ghRkotzeResponse = {
   id: 123,
@@ -39,8 +29,17 @@ const headers = {
   method: 'GET',
 };
 
-test('Query for one GitHub user and check RESTFUL api', async t => {
-  const sandbox = createSandbox();
+let sandbox: SinonSandbox;
+
+test.before(() => {
+  sandbox = createSandbox();
+});
+
+test.afterEach(() => {
+  sandbox.restore();
+});
+
+test('Query for one GitHub user and check RESTful url', async t => {
   const httpFetchStub = sandbox
     .stub()
     .resolves(buildBasicResponse(ghRkotzeResponse));
@@ -50,12 +49,9 @@ test('Query for one GitHub user and check RESTFUL api', async t => {
   t.notThrows(() => {
     assert.calledWith(httpFetchStub, 'https://api.github.com/users/rkotze', headers);
   }, 'Not called with ["rkotze"]');
-
-  sandbox.restore();
 });
 
-test('Query for one GitHub user and return user in AuthorList', async t => {
-  const sandbox = createSandbox();
+test('Query for one GitHub user and return in AuthorList', async t => {
   const httpFetchStub = sandbox
     .stub()
     .resolves(buildBasicResponse(ghDidelerResponse));
@@ -68,6 +64,26 @@ test('Query for one GitHub user and return user in AuthorList', async t => {
       email: '345+dideler@users.noreply.github.com',
     },
   });
+});
 
-  sandbox.restore();
+test('Query for two GitHub users and build AuthorList', async t => {
+  const httpFetchStub = sandbox
+    .stub()
+    .onCall(0)
+    .resolves(buildBasicResponse(ghDidelerResponse))
+    .onCall(1)
+    .resolves(buildBasicResponse(ghRkotzeResponse));
+
+  const actualAuthorList = await fetchAuthors(['dideler', 'rkotze'], httpFetchStub);
+
+  t.deepEqual(actualAuthorList, {
+    dideler: {
+      name: 'Dennis',
+      email: '345+dideler@users.noreply.github.com',
+    },
+    rkotze: {
+      name: 'Richard Kotze',
+      email: '123+rkotze@users.noreply.github.com',
+    },
+  });
 });
