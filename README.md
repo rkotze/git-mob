@@ -12,21 +12,24 @@ Read our blog post to find out why git-mob exists: [Co-author commits with Git M
 
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
 
-- [Install](#install)
-  - [Using `git commit -m` setup](#using-git-commit--m-setup)
-  - [Revert back to default setup](#revert-back-to-default-setup)
-- [Workflow / Usage](#workflow--usage)
-- [Git Mob config](#git-mob-config)
-- [More commands](#more-commands)
-  - [List all co-authors](#list-all-co-authors)
-  - [Overwrite the main author](#overwrite-the-main-author)
-  - [Add co-author](#add-co-author)
-  - [Delete co-author](#delete-co-author)
-  - [Edit co-author](#edit-co-author)
-  - [Suggest co-authors base on current repo](#suggest-co-authors-base-on-current-repo)
-  - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
-    - [Bash](#bash)
-    - [Fish](#fish)
+- [Git Mob !npm downloads [![npm version](https://badge.fury.io/js/git-mob.svg)](https://www.npmjs.com/package/git-mob)](#git-mob--)
+  - [Install](#install)
+    - [Using `git commit -m` setup](#using-git-commit--m-setup)
+    - [Revert back to default setup](#revert-back-to-default-setup)
+  - [Workflow / Usage](#workflow--usage)
+    - [Add co-author from GitHub](#add-co-author-from-github)
+  - [Git Mob config](#git-mob-config)
+    - [Use local commit template](#use-local-commit-template)
+  - [More commands](#more-commands)
+    - [List all co-authors](#list-all-co-authors)
+    - [Overwrite the main author](#overwrite-the-main-author)
+    - [Add co-author](#add-co-author)
+    - [Delete co-author](#delete-co-author)
+    - [Edit co-author](#edit-co-author)
+    - [Suggest co-authors base on current repo](#suggest-co-authors-base-on-current-repo)
+    - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
+      - [Bash](#bash)
+      - [Fish](#fish)
 
 ## Install
 
@@ -100,9 +103,9 @@ EOF
 
 You're ready to create your mob. Tell git-mob you're pairing with Amy by using her initials. `git mob ad`
 
-Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same*.
+Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same\*.
 
-***Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. You can run `git mob` to update the commit template. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
+**\*Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. You can run `git mob` to update the commit template. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
 
 ```
 $ git mob ad
@@ -127,6 +130,16 @@ Once you're done mobbing, switch back to developing solo.<sup>\*</sup>
 ```
 $ git solo
 Jane Doe <jane@example.com>
+```
+
+### Add co-author from GitHub
+
+Provide the GitHub username to generate their co-author details. The _anonymous_ GitHub email is used.
+
+```
+$ git mob rkotze
+Jane Doe <jane@example.com>
+Richard Kotze <10422117+rkotze@users.noreply.github.com>
 ```
 
 ## Git Mob config
