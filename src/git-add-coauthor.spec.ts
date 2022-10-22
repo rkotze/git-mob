@@ -1,4 +1,3 @@
-/* eslint @typescript-eslint/object-curly-spacing: ["error", "always"] */
 import test from 'ava';
 import {
   setCoauthorsFile,
@@ -16,7 +15,7 @@ type CoAuthorList = {
 };
 
 function loadCoauthors(): CoAuthorList {
-  return JSON.parse(readCoauthorsFile()) as CoAuthorList;
+  return JSON.parse(readCoauthorsFile() || '') as CoAuthorList;
 }
 
 test('adds a coauthor to coauthors file', t => {
@@ -112,7 +111,12 @@ test('does not add coauthor to coauthors file if wrong amount of parameters', t 
 
 test('does not add coauthor to coauthors file if key already exists', t => {
   setCoauthorsFile();
-  exec('git add-coauthor ea "Emily Anderson" "emily@anderson.org"');
+  const error =
+    t.throws(() => {
+      exec('git add-coauthor ea "Emily Anderson" "emily@anderson.org"');
+    }) || new Error('No error');
+
+  t.regex(error.message, /ea already exists in .git-coauthors/i);
 
   const addCoauthorActual = loadCoauthors();
   const addCoauthorExpected = {
