@@ -1,7 +1,7 @@
-/* eslint @typescript-eslint/object-curly-spacing: ["error", "always"] */
 import minimist from 'minimist';
 import { runAddCoauthorHelp, validateEmail } from './helpers';
 import { addCoauthor } from './manage-authors/add-coauthor';
+import { red } from './colours';
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -27,7 +27,10 @@ async function execute(argv: minimist.ParsedArgs): Promise<void> {
     return;
   }
 
-  await addCoauthor(buildInputs(argv._));
+  const coauthorDetails = buildInputs(argv._);
+  await addCoauthor(coauthorDetails);
+  const [, name] = coauthorDetails;
+  console.log(name + ' has been added to the .git-coauthors file');
 }
 
 execute(argv)
@@ -35,6 +38,6 @@ execute(argv)
     process.exit(0);
   })
   .catch((error: Error) => {
-    console.error(error.message);
+    console.error(red(error.message));
     process.exit(1);
   });
