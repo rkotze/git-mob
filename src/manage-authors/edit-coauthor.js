@@ -26,6 +26,4 @@ async function editCoauthor({ _, ...props }) {
   }
 }
 
-export {
-  editCoauthor,
-};
+export { editCoauthor };

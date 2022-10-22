@@ -30,7 +30,9 @@ async function execute(args) {
 
 async function printCoAuthors() {
   try {
-    const coAuthors = formatCoAuthorList(getCoAuthors().split(os.EOL).filter(Boolean));
+    const coAuthors = formatCoAuthorList(
+      getCoAuthors().split(os.EOL).filter(Boolean)
+    );
     console.log(os.EOL + os.EOL + coAuthors);
   } catch (error) {
     console.error(`Error: ${error.message}`);

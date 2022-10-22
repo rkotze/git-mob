@@ -2,10 +2,7 @@ import minimist from 'minimist';
 import { oneLine } from 'common-tags';
 
 import { revParse, config } from '../src/git-commands';
-import {
-  gitMessage,
-  gitMessagePath,
-} from '../src/git-message';
+import { gitMessage, gitMessagePath } from '../src/git-message';
 import { checkForUpdates, runHelp, runVersion } from '../src/helpers';
 import { getGitAuthor, resetMob } from '../src/git-mob-commands';
 
@@ -37,8 +34,7 @@ runSolo(argv._);
 
 async function runSolo(_args) {
   try {
-    await gitMessage(gitMessagePath()
-    ).removeCoAuthors();
+    await gitMessage(gitMessagePath()).removeCoAuthors();
 
     if (config.usingLocalTemplate() && config.usingGlobalTemplate()) {
       gitMessage(config.getGlobalTemplate()).removeCoAuthors();

@@ -20,7 +20,10 @@ async function createFileIfNotExist() {
       await instance.write(SAMPLE_CONTENT);
       console.log('Add co-authors to:', gitCoauthorsPath);
     } catch (error) {
-      console.log('Something went wrong adding a new co-authors file, error:', error);
+      console.log(
+        'Something went wrong adding a new co-authors file, error:',
+        error
+      );
     }
   }
 }

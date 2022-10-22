@@ -12,6 +12,4 @@ async function deleteCoauthor(key) {
   }
 }
 
-export {
-  deleteCoauthor,
-};
+export { deleteCoauthor };

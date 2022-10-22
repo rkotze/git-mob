@@ -175,7 +175,7 @@ export const config = {
   hasTemplatePath,
   usingLocalTemplate,
   usingGlobalTemplate,
-  getGlobalTemplate
+  getGlobalTemplate,
 };
 export const revParse = {
   gitPath,
