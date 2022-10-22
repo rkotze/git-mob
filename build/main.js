@@ -12,7 +12,7 @@ const argv = minimist(process.argv.slice(2), {
   alias: {
     w: 'watch',
     m: 'minify',
-    t: 'test'
+    t: 'test',
   },
 });
 
@@ -25,7 +25,7 @@ const baseConfig = {
     './src/git-edit-coauthor.js',
     './src/git-mob-print.js',
     './src/git-suggest-coauthors.js',
-    './src/install/create-author-file.js'
+    './src/install/create-author-file.js',
   ],
   mainFields: ['module', 'main'],
   bundle: true,
@@ -35,11 +35,7 @@ const baseConfig = {
   minify: argv.minify,
   plugins: [],
   logLevel: 'info',
-  external: ['common-tags',
-    'minimist',
-    'update-notifier',
-    'ava',
-    'sinon']
+  external: ['common-tags', 'minimist', 'update-notifier', 'ava', 'sinon'],
 };
 
 if (argv.test) {
@@ -58,7 +54,8 @@ if (argv.watch) {
 }
 
 esbuild
-  .build(baseConfig).then(_ => {
+  .build(baseConfig)
+  .then(_ => {
     if (argv.watch) {
       console.log('watching...');
     }

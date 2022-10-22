@@ -10,7 +10,4 @@ function yellow(text) {
   return YELLOW + text + RESET;
 }
 
-export {
-  red,
-  yellow
-};
+export { red, yellow };

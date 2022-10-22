@@ -33,7 +33,7 @@ function setGitAuthor(name, email) {
 }
 
 const mobConfig = {
-  useLocalTemplate
+  useLocalTemplate,
 };
 
 export {
@@ -43,5 +43,5 @@ export {
   addCoAuthor,
   resetMob,
   setGitAuthor,
-  mobConfig
+  mobConfig,
 };

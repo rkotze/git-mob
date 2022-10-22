@@ -3,7 +3,18 @@ import { stripIndent } from 'common-tags';
 import { auto } from 'eol';
 import { temporaryDirectory } from 'tempy';
 
-import { addAuthor, unsetCommitTemplate, setGitMessageFile, readGitMessageFile, deleteGitMessageFile, exec, setCoauthorsFile, deleteCoauthorsFile, setup, tearDown } from '../test-helpers';
+import {
+  addAuthor,
+  unsetCommitTemplate,
+  setGitMessageFile,
+  readGitMessageFile,
+  deleteGitMessageFile,
+  exec,
+  setCoauthorsFile,
+  deleteCoauthorsFile,
+  setup,
+  tearDown,
+} from '../test-helpers';
 
 before('Check author', () => {
   setup();

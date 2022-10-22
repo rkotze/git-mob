@@ -38,9 +38,7 @@ function read(messagePath) {
 }
 
 function formatCoAuthorList(coAuthorList) {
-  return coAuthorList
-    .map(coAuthor => 'Co-authored-by: ' + coAuthor)
-    .join(EOL);
+  return coAuthorList.map(coAuthor => 'Co-authored-by: ' + coAuthor).join(EOL);
 }
 
 function gitMessage(messagePath, appendFilePromise, readFilePromise) {
@@ -67,15 +65,7 @@ function gitMessagePath() {
 }
 
 function commitTemplatePath() {
-  return (
-    process.env.GITMOB_MESSAGE_PATH ||
-    join(homedir(), '.gitmessage')
-  );
+  return process.env.GITMOB_MESSAGE_PATH || join(homedir(), '.gitmessage');
 }
 
-export {
-  gitMessage,
-  gitMessagePath,
-  commitTemplatePath,
-  formatCoAuthorList,
-};
+export { gitMessage, gitMessagePath, commitTemplatePath, formatCoAuthorList };

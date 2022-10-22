@@ -17,6 +17,4 @@ function configWarning({ name, email }) {
   return result;
 }
 
-export {
-  configWarning,
-};
+export { configWarning };

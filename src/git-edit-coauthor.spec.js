@@ -1,6 +1,11 @@
 import test, { afterEach } from 'ava';
 
-import { setCoauthorsFile, readCoauthorsFile, exec, deleteCoauthorsFile } from '../test-helpers';
+import {
+  setCoauthorsFile,
+  readCoauthorsFile,
+  exec,
+  deleteCoauthorsFile,
+} from '../test-helpers';
 
 afterEach.always('cleanup', () => {
   deleteCoauthorsFile();

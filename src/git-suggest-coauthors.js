@@ -33,15 +33,19 @@ async function printCoauthorSuggestions() {
       .map(summary => convertSummaryToCoauthor(summary));
 
     if (gitAuthors.length > 0) {
-      console.log(os.EOL +
-        'Here are some suggestions for coauthors based on existing authors of this repository' +
-        os.EOL);
+      console.log(
+        os.EOL +
+          'Here are some suggestions for coauthors based on existing authors of this repository' +
+          os.EOL
+      );
 
       console.log(suggestedCoauthorAddCommands(gitAuthors));
 
-      console.log(os.EOL +
-        'Paste any line above into your console to add them as an author' +
-        os.EOL);
+      console.log(
+        os.EOL +
+          'Paste any line above into your console to add them as an author' +
+          os.EOL
+      );
     } else {
       console.log('Unable to find existing authors');
     }
@@ -56,19 +60,29 @@ function convertSummaryToCoauthor(summaryLine) {
   return {
     name,
     email: emailFromSummaryLine(summaryLine),
-    initials: initialsFromName(name)
+    initials: initialsFromName(name),
   };
 }
 
 function suggestedCoauthorAddCommands(coauthors) {
   return coauthors
     .sort()
-    .map(coauthor => ['git add-coauthor', coauthor.initials, JSON.stringify(coauthor.name), coauthor.email].join(' '))
+    .map(coauthor =>
+      [
+        'git add-coauthor',
+        coauthor.initials,
+        JSON.stringify(coauthor.name),
+        coauthor.email,
+      ].join(' ')
+    )
     .join(os.EOL);
 }
 
 function initialsFromName(name) {
-  return name.split(' ').map(word => word[0].toLowerCase()).join('');
+  return name
+    .split(' ')
+    .map(word => word[0].toLowerCase())
+    .join('');
 }
 
 function nameFromSummaryLine(summaryLine) {

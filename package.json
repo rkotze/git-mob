@@ -88,6 +88,7 @@
       "test-helpers",
       "*.d.ts"
     ],
+    "prettier": true,
     "rules": {
       "no-unused-vars": [
         "error",
