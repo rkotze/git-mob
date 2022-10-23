@@ -16,4 +16,9 @@ async function addCoauthor([key, name, email]: [
   }
 }
 
-export { addCoauthor };
+async function saveAuthorList(gitMobCoauthors: GitMobCoauthors): Promise<void> {
+  const coauthors = gitAuthors();
+  await coauthors.overwrite(gitMobCoauthors);
+}
+
+export { addCoauthor, saveAuthorList };

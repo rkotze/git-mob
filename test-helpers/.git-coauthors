@@ -1,0 +1,20 @@
+{
+  "coauthors": {
+    "jd": {
+      "name": "Jane Doe",
+      "email": "jane@findmypast.com"
+    },
+    "fb": {
+      "name": "Frances Bar",
+      "email": "frances-bar@findmypast.com"
+    },
+    "rkotze": {
+      "name": "Richard",
+      "email": "rich@gitmob.com"
+    },
+    "dideler": {
+      "name": "Denis",
+      "email": "denis@gitmob.com"
+    }
+  }
+}
