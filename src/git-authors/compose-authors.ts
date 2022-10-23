@@ -1,14 +1,19 @@
+import { saveAuthorList } from '../manage-authors/add-coauthor';
+import { authorBaseFormat } from './author-base-format';
 import { fetchAuthors } from './fetch-authors';
 
 async function composeAuthors(
   initials: string[],
   coAuthorList: AuthorList,
-  getAuthors = fetchAuthors
+  getAuthors = fetchAuthors,
+  saveAuthors = saveAuthorList
 ): Promise<string[]> {
   const missing = findMissingAuthors(initials, coAuthorList);
   if (missing.length > 0) {
     const fetchedAuthors = await getAuthors(missing);
-    return buildFormatAuthorList(initials, { ...coAuthorList, ...fetchedAuthors });
+    const gitMobList = { coauthors: { ...coAuthorList, ...fetchedAuthors } };
+    await saveAuthors(gitMobList);
+    return buildFormatAuthorList(initials, gitMobList.coauthors);
   }
 
   return buildFormatAuthorList(initials, coAuthorList);
@@ -19,10 +24,6 @@ function findMissingAuthors(
   coAuthorList: AuthorList
 ): string[] {
   return initialList.filter(initials => !containsAuthor(initials, coAuthorList));
-}
-
-function authorBaseFormat({ name, email }: Author): string {
-  return `${name} <${email}>`;
 }
 
 function containsAuthor(initials: string, coauthors: AuthorList): boolean {
@@ -46,4 +47,4 @@ function noAuthorFoundError(initials: string): Error {
   return new Error(`Author with initials "${initials}" not found!`);
 }
 
-export { authorBaseFormat, findMissingAuthors, composeAuthors };
+export { findMissingAuthors, composeAuthors };

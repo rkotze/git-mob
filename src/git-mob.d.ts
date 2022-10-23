@@ -4,3 +4,5 @@ type Author = {
 };
 
 type AuthorList = Record<string, Author>;
+
+type GitMobCoauthors = { coauthors: AuthorList };
