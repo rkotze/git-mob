@@ -1,6 +1,6 @@
-name: "Publish"
+name: 'Publish'
 
-on: 
+on:
   workflow_dispatch:
 
 jobs:
@@ -9,20 +9,14 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      
-      - name: Set up Node 
+
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-        
+
       - name: Install dependencies
         run: npm install
-
-      - name: Install Git-Mob (link)
-        run: npm link
-
-      - name: Minify test
-        run: npm run minifytest
 
       - uses: JS-DevTools/npm-publish@v1
         with:
