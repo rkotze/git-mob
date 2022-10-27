@@ -16,7 +16,7 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --ignore-scripts
 
       - uses: JS-DevTools/npm-publish@v1
         with:
