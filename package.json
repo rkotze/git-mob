@@ -13,9 +13,8 @@
     "js-lint": "xo",
     "preversion": "npm run checks",
     "postversion": "git push --follow-tags",
-    "postinstall": "npm run build",
     "prepack": "npm run build -- -m",
-    "prepare": "node ./dist/install/create-author-file.js"
+    "postinstall": "node ./dist/install/create-author-file.js"
   },
   "bin": {
     "git-mob": "bin/mob.js",
