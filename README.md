@@ -2,21 +2,19 @@
 
 > A command-line tool for social coding
 
-Includes co-authors in commits when you collaborate on code. Use when pairing with a buddy or mobbing with your team.
-
-📣 [Findmypast engineering](http://tech.findmypast.com) team have handed me **ownership** of Git-Mob. **Shout out** to them because they have a great engineering culture who enabled me to build Git Mob.
-
-Read our blog post to find out why git-mob exists: [Co-author commits with Git Mob](http://tech.findmypast.com/co-author-commits-with-git-mob)
+_Add co-authors to commits_ when you collaborate on code. Use when pairing with a buddy or mobbing with your team.
 
 [✨ Git Mob VS Code extension](https://github.com/rkotze/git-mob-vs-code)
 
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
 
 - [Install](#install)
-  - [Using `git commit -m` setup](#using-git-commit--m-setup)
-  - [Revert back to default setup](#revert-back-to-default-setup)
 - [Workflow / Usage](#workflow--usage)
   - [Add co-author from GitHub](#add-co-author-from-github)
+- [Custom setup](#custom-setup)
+  - [Using `git commit -m` setup](#using-git-commit--m-setup)
+    - [Using pre-commit to install](#using-pre-commit-to-install)
+  - [Revert back to default setup](#revert-back-to-default-setup)
 - [Git Mob config](#git-mob-config)
   - [Use local commit template](#use-local-commit-template)
 - [More commands](#more-commands)
@@ -26,9 +24,11 @@ Read our blog post to find out why git-mob exists: [Co-author commits with Git M
   - [Delete co-author](#delete-co-author)
   - [Edit co-author](#edit-co-author)
   - [Suggest co-authors base on current repo](#suggest-co-authors-base-on-current-repo)
+  - [Help](#help)
   - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
     - [Bash](#bash)
     - [Fish](#fish)
+- [More info](#more-info)
 
 ## Install
 
@@ -39,37 +39,6 @@ npm i -g git-mob
 ```
 
 By default git-mob will use the **global** config `.gitmessage` template to append co-authors.
-
-### Using `git commit -m` setup
-
-How to append co-authors to the message when using message flag - `git commit -m "commit message"`?
-
-1. Add `prepare-commit-msg` hook file in `.git/hooks` dir. See [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples)
-2. The **hook** will need to be executable `chmod +x prepare-commit-msg`
-
-`prepare-commit-msg` will need a script to read the co-authors, which can be done via `git mob-print`. See [hook-examples](https://github.com/findmypast-oss/git-mob/tree/master/hook-examples) folder for working scripts.
-
-The command `git mob-print` will output to `stdout` the formatted co-authors.
-
-**Note:** > `v1.1.0` `git mob --installTemplate` and `git mob --uninstallTemplate` has been removed.
-
-#### Using pre-commit to install
-You can install the githook using pre-commit. Add the following to your `pre-commit-config.yaml`
-```yaml
-repos:
-  - repo: https://github.com/findmypast-oss/git-mob
-    rev: {tag-version}
-    hooks:
-      - id: add-coauthors
-        stages: ["prepare-commit-msg"]
-```
-And install with: `pre-commit install --hook-type prepare-commit-msg`.
-
-Removing the above snippet and running `git commit` will uninstall the pre-commit hook
-
-### Revert back to default setup
-
-1. Remove relevant scripts `prepare-commit-msg` file
 
 ## Workflow / Usage
 
@@ -95,7 +64,7 @@ Here's a template of its structure.
 }
 ```
 
-Start by adding a few co-authors that you work with.
+Start by adding a few co-authors that you work with. Also see [add co-author](#add-co-author) command.
 
 ```
 $ cat <<-EOF > ~/.git-coauthors
@@ -115,10 +84,6 @@ EOF
 ```
 
 You're ready to create your mob. Tell git-mob you're pairing with Amy by using her initials. `git mob ad`
-
-Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same\*.
-
-**\*Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. You can run `git mob` to update the commit template. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
 
 ```
 $ git mob ad
@@ -145,6 +110,10 @@ $ git solo
 Jane Doe <jane@example.com>
 ```
 
+Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same\*.
+
+**\*Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. You can run `git mob` to update the commit template. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
+
 ### Add co-author from GitHub
 
 Provide the GitHub username to generate their co-author details. The _anonymous_ GitHub email is used.
@@ -154,6 +123,42 @@ $ git mob rkotze
 Jane Doe <jane@example.com>
 Richard Kotze <10422117+rkotze@users.noreply.github.com>
 ```
+
+## Custom setup
+
+### Using `git commit -m` setup
+
+How to append co-authors to the message when using message flag - `git commit -m "commit message"`?
+
+1. Add `prepare-commit-msg` hook file in `.git/hooks` dir. See [hook-examples](https://github.com/rkotze/git-mob/tree/master/hook-examples)
+2. The **hook** will need to be executable `chmod +x prepare-commit-msg`
+
+`prepare-commit-msg` will need a script to read the co-authors, which can be done via `git mob-print`. See [hook-examples](https://github.com/rkotze/git-mob/tree/master/hook-examples) folder for working scripts.
+
+The command `git mob-print` will output to `stdout` the formatted co-authors.
+
+**Note:** > `v1.1.0` `git mob --installTemplate` and `git mob --uninstallTemplate` has been removed.
+
+#### Using pre-commit to install
+
+You can install the git hook using `[pre-commit](https://pre-commit.com/)`. Add the following to your `pre-commit-config.yaml`
+
+```yaml
+repos:
+  - repo: https://github.com/rkotze/git-mob
+    rev: { tag-version }
+    hooks:
+      - id: add-coauthors
+        stages: ['prepare-commit-msg']
+```
+
+And install with: `pre-commit install --hook-type prepare-commit-msg`.
+
+Removing the above snippet and running `git commit` will uninstall the pre-commit hook
+
+### Revert back to default setup
+
+1. Remove relevant scripts `prepare-commit-msg` file
 
 ## Git Mob config
 
@@ -229,6 +234,10 @@ current repo
 $ git suggest-coauthors
 ```
 
+### Help
+
+Find out more with `git mob -h`
+
 ### Add initials of current mob to your prompt
 
 #### Bash
@@ -263,6 +272,10 @@ function fish_prompt
 end
 ```
 
-<sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/findmypast-oss/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
+## More info
 
-Find out more with `git mob -h`
+[See git-mob discussions](https://github.com/rkotze/git-mob/discussions)
+
+Read our blog post to find out why git-mob exists: [Co-author commits with Git Mob](http://tech.findmypast.com/co-author-commits-with-git-mob)
+
+<sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/rkotze/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
