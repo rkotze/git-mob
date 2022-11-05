@@ -53,6 +53,20 @@ The command `git mob-print` will output to `stdout` the formatted co-authors.
 
 **Note:** > `v1.1.0` `git mob --installTemplate` and `git mob --uninstallTemplate` has been removed.
 
+#### Using pre-commit to install
+You can install the githook using pre-commit. Add the following to your `pre-commit-config.yaml`
+```yaml
+repos:
+  - repo: https://github.com/findmypast-oss/git-mob
+    rev: {tag-version}
+    hooks:
+      - id: add-coauthors
+        stages: ["prepare-commit-msg"]
+```
+And install with: `pre-commit install --hook-type prepare-commit-msg`.
+
+Removing the above snippet and running `git commit` will uninstall the pre-commit hook
+
 ### Revert back to default setup
 
 1. Remove relevant scripts `prepare-commit-msg` file
