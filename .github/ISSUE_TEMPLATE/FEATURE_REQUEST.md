@@ -5,7 +5,7 @@ about: Suggest an idea for this project
 
 <!--
 Have you read our Code of Conduct?
-By filing an Issue, you are expected to comply with it, including treating everyone with respect: https://github.com/findmypast-oss/git-mob/blob/master/CODE_OF_CONDUCT.md
+By filing an Issue, you are expected to comply with it, including treating everyone with respect: https://github.com/rkotze/git-mob/blob/master/CODE_OF_CONDUCT.md
 
 We're unable to work on every feature request. If we're interested in a particular
 feature however, we'll follow up and ask you to talk about it in more detail.
