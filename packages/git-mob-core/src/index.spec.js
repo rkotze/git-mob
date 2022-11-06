@@ -1,19 +1,17 @@
-const { setCoAuthors, updateGitTemplate } = require(".");
-const { mob } = require("../commands");
-const { Author } = require("./author");
-const { gitAuthors } = require("./git-authors");
-const { gitMessage } = require("./git-message");
+const { setCoAuthors, updateGitTemplate } = require('.');
+const { mob } = require('./commands');
+const { Author } = require('./git-mob-api/author');
+const { gitAuthors } = require('./git-mob-api/git-authors');
+const { gitMessage } = require('./git-mob-api/git-message');
 
-jest.mock("../commands");
-jest.mock("./git-authors");
-jest.mock("./git-message");
-jest.mock("./resolve-git-message-path");
+jest.mock('./commands');
+jest.mock('./git-mob-api/git-authors');
+jest.mock('./git-mob-api/git-message');
+jest.mock('./git-mob-api/resolve-git-message-path');
 
-describe("Git Mob API", () => {
+describe('Git Mob API', () => {
   function buildAuthors(keys) {
-    return keys.map(
-      (key) => new Author(key, key + " lastName", key + "@email.com")
-    );
+    return keys.map(key => new Author(key, key + ' lastName', key + '@email.com'));
   }
   function buildMockGitAuthors(keys) {
     const authors = buildAuthors(keys);
@@ -25,12 +23,12 @@ describe("Git Mob API", () => {
     };
   }
 
-  it("apply co-authors to git config and git message", async () => {
-    const authorKeys = ["ab", "cd"];
+  it('apply co-authors to git config and git message', async () => {
+    const authorKeys = ['ab', 'cd'];
     const authorList = buildAuthors(authorKeys);
     const mockWriteCoAuthors = jest.fn();
     const mockRemoveCoAuthors = jest.fn();
-    gitAuthors.mockImplementation(buildMockGitAuthors([...authorKeys, "ef"]));
+    gitAuthors.mockImplementation(buildMockGitAuthors([...authorKeys, 'ef']));
     gitMessage.mockImplementation(() => ({
       writeCoAuthors: mockWriteCoAuthors,
       removeCoAuthors: mockRemoveCoAuthors,
@@ -45,8 +43,8 @@ describe("Git Mob API", () => {
     expect(coAuthors).toEqual(authorList);
   });
 
-  it("update git template by adding co-authors", async () => {
-    const authorKeys = ["ab", "cd"];
+  it('update git template by adding co-authors', async () => {
+    const authorKeys = ['ab', 'cd'];
     const authorList = buildAuthors(authorKeys);
     const mockWriteCoAuthors = jest.fn();
     gitMessage.mockImplementation(() => ({
@@ -58,7 +56,7 @@ describe("Git Mob API", () => {
     expect(mockWriteCoAuthors).toBeCalledWith(authorList);
   });
 
-  it("update git template by removing all co-authors", async () => {
+  it('update git template by removing all co-authors', async () => {
     const mockRemoveCoAuthors = jest.fn();
     gitMessage.mockImplementation(() => ({
       removeCoAuthors: mockRemoveCoAuthors,

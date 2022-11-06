@@ -1,8 +1,6 @@
-const { exec } = require("child_process");
-const { promisify } = require("util");
-const { logIssue } = require("../errors/log-issue");
-const { GitExt } = require("../vscode-git-extension/git-ext");
-const { silentRun } = require("./silent-run");
+const { exec } = require('child_process');
+const { promisify } = require('util');
+const { silentRun } = require('./silent-run');
 
 /**
  * Runs the given command in a shell.
@@ -16,8 +14,7 @@ async function silentExec(command) {
 
     return response.stdout;
   } catch (err) {
-    logIssue(`GitMob silentExec: "${command}" ${err.message}`);
-    return "";
+    return `GitMob silentExec: "${command}" ${err.message}`;
   }
 }
 
@@ -25,14 +22,14 @@ function handleResponse(query) {
   try {
     const response = silentRun(query);
     if (response.status !== 0) {
-      logIssue(`GitMob handleResponse: "${query}" ${response.stderr.trim()}`);
-      return "";
+      return `GitMob handleResponse: "${query}" ${response.stderr.trim()}`;
+      return '';
     }
 
     return response.stdout.trim();
   } catch (err) {
-    logIssue(`GitMob catch: "${query}" ${err.message}`);
-    return "";
+    return `GitMob catch: "${query}" ${err.message}`;
+    return '';
   }
 }
 
@@ -53,7 +50,7 @@ function add(key, value) {
 }
 
 function usingLocalTemplate() {
-  return has("--local commit.template");
+  return has('--local commit.template');
 }
 
 // Sets the option, overwriting the existing value if one exists.
@@ -66,7 +63,7 @@ function set(key, value) {
 }
 
 function gitAddCoAuthor(coAuthor) {
-  return add("--global git-mob.co-author", coAuthor);
+  return add('--global git-mob.co-author', coAuthor);
 }
 
 async function getRepoAuthors() {
@@ -78,11 +75,9 @@ function removeGitMobSection() {
 }
 
 function cmdOptions(extendOptions = {}) {
-  const gitExt = new GitExt();
   return {
     ...extendOptions,
-    encoding: "utf8",
-    cwd: gitExt.rootPath,
+    encoding: 'utf8',
   };
 }
 

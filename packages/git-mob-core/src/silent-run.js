@@ -1,5 +1,4 @@
-const { spawnSync } = require("child_process");
-const { GitExt } = require("../vscode-git-extension/git-ext");
+const { spawnSync } = require('child_process');
 
 /**
  * @typedef {Object} ChildProcess.SpawnResult
@@ -21,11 +20,9 @@ function silentRun(command) {
 }
 
 function cmdOptions(extendOptions = {}) {
-  const gitExt = new GitExt();
   return {
     ...extendOptions,
-    encoding: "utf8",
-    cwd: gitExt.rootPath,
+    encoding: 'utf8',
   };
 }
 
