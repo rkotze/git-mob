@@ -1,0 +1,56 @@
+{
+  "name": "@git-mob/core",
+  "version": "2.3.1",
+  "description": "Core Git Mob library to manage co-authoring",
+  "scripts": {
+    "build": "rimraf dist && node ./build/main.js",
+    "checks": "npm run test && npm run js-lint",
+    "test:w": "npm run build -- -w -t & npm run test",
+    "pretest": "npm run build -- -t",
+    "test": "jest",
+    "minifytest": "npm run build -- -m -t && npm run test",
+    "js-lint": "xo",
+    "preversion": "npm run checks",
+    "postversion": "git push --follow-tags",
+    "prepack": "npm run build -- -m"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rkotze/git-mob.git",
+    "directory": "packages/git-mob-core"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "keywords": [
+    "cli",
+    "cli-app",
+    "git-pair",
+    "git-duet",
+    "git",
+    "github",
+    "co-author",
+    "pairing",
+    "pair programming",
+    "mob programming",
+    "extreme programming",
+    "xp",
+    "social coding"
+  ],
+  "author": "Richard Kotze",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@ava/typescript": "^3.0.1",
+    "@types/node": "^18.7.14",
+    "@types/sinon": "^10.0.13",
+    "env-cmd": "^10.1.0",
+    "esbuild": "^0.15.6",
+    "glob": "^8.0.3",
+    "rimraf": "^3.0.2",
+    "tempy": "^3.0.0",
+    "typescript": "^4.8.2",
+    "xo": "^0.52.3"
+  }
+}
