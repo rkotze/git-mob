@@ -1,8 +1,8 @@
-const { setCoAuthors, updateGitTemplate } = require('.');
 const { mob } = require('./commands');
 const { Author } = require('./git-mob-api/author');
 const { gitAuthors } = require('./git-mob-api/git-authors');
 const { gitMessage } = require('./git-mob-api/git-message');
+const { setCoAuthors, updateGitTemplate } = require('.');
 
 jest.mock('./commands');
 jest.mock('./git-mob-api/git-authors');
@@ -13,9 +13,10 @@ describe('Git Mob API', () => {
   function buildAuthors(keys) {
     return keys.map(key => new Author(key, key + ' lastName', key + '@email.com'));
   }
+
   function buildMockGitAuthors(keys) {
     const authors = buildAuthors(keys);
-    return function mockGitAuthors() {
+    return function () {
       return {
         toList: jest.fn(() => authors),
         read: jest.fn(() => Promise.resolve()),

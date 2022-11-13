@@ -1,9 +1,10 @@
-const { Author } = require("../author");
-const { gitAuthors } = require("../git-authors");
+const { Author } = require('../author');
+const { gitAuthors } = require('../git-authors');
 
 async function saveNewCoAuthors(authors) {
-  if (!Array.isArray(authors))
-    throw new Error("saveNewCoAuthors argument should be an Array of Authors");
+  if (!Array.isArray(authors)) {
+    throw new TypeError('saveNewCoAuthors argument should be an Array of Authors');
+  }
 
   const coauthors = gitAuthors();
   const authorList = await coauthors.read();

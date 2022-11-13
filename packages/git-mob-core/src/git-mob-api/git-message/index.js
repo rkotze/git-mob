@@ -1,22 +1,21 @@
-const fs = require("fs");
-const os = require("os");
+const fs = require('fs');
+const os = require('os');
 
 function fileExists(error) {
-  return error.code !== "ENOENT";
+  return error.code !== 'ENOENT';
 }
 
 function append(messagePath, newAuthors) {
   return new Promise((resolve, reject) => {
-    fs.readFile(messagePath, "utf8", (error, data) => {
+    fs.readFile(messagePath, 'utf8', (error, data) => {
       if (error && fileExists(error)) reject(error);
 
       let result = newAuthors;
       if (data) {
-        result =
-          data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, "") + newAuthors;
+        result = data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
       }
 
-      fs.writeFile(messagePath, result, (error) => {
+      fs.writeFile(messagePath, result, error => {
         if (error) reject(error);
 
         resolve();
@@ -27,7 +26,7 @@ function append(messagePath, newAuthors) {
 
 function read(messagePath) {
   return new Promise((resolve, reject) => {
-    fs.readFile(messagePath, "utf8", (error, data) => {
+    fs.readFile(messagePath, 'utf8', (error, data) => {
       if (error && fileExists(error)) reject(error);
 
       resolve(data);
@@ -36,7 +35,7 @@ function read(messagePath) {
 }
 
 function formatCoAuthorList(coAuthorList) {
-  return coAuthorList.map((coAuthor) => coAuthor.format()).join(os.EOL);
+  return coAuthorList.map(coAuthor => coAuthor.format()).join(os.EOL);
 }
 
 function gitMessage(messagePath, appendFilePromise, readFilePromise) {
@@ -44,7 +43,7 @@ function gitMessage(messagePath, appendFilePromise, readFilePromise) {
   const readPromise = readFilePromise || read;
 
   return {
-    writeCoAuthors: async (coAuthorList) => {
+    writeCoAuthors: async coAuthorList => {
       const coAuthorText = formatCoAuthorList(coAuthorList);
 
       await appendPromise(messagePath, os.EOL + os.EOL + coAuthorText);
@@ -53,7 +52,7 @@ function gitMessage(messagePath, appendFilePromise, readFilePromise) {
       return readPromise(messagePath);
     },
     removeCoAuthors: async () => {
-      return appendPromise(messagePath, "");
+      return appendPromise(messagePath, '');
     },
   };
 }

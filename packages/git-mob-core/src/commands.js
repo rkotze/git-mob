@@ -5,7 +5,7 @@ const { silentRun } = require('./silent-run');
 /**
  * Runs the given command in a shell.
  * @param {string} command The command to execute
- * @returns {Promise}
+ * @returns {Promise} stdout string
  */
 async function silentExec(command) {
   const execAsync = promisify(exec);
@@ -13,8 +13,8 @@ async function silentExec(command) {
     const response = await execAsync(command, cmdOptions());
 
     return response.stdout;
-  } catch (err) {
-    return `GitMob silentExec: "${command}" ${err.message}`;
+  } catch (error) {
+    return `GitMob silentExec: "${command}" ${error.message}`;
   }
 }
 
@@ -23,13 +23,11 @@ function handleResponse(query) {
     const response = silentRun(query);
     if (response.status !== 0) {
       return `GitMob handleResponse: "${query}" ${response.stderr.trim()}`;
-      return '';
     }
 
     return response.stdout.trim();
-  } catch (err) {
-    return `GitMob catch: "${query}" ${err.message}`;
-    return '';
+  } catch (error) {
+    return `GitMob catch: "${query}" ${error.message}`;
   }
 }
 
@@ -58,7 +56,7 @@ function set(key, value) {
   const { status } = silentRun(`git config ${key} "${value}"`);
   if (status !== 0) {
     const message = `Option ${key} has multiple values. Cannot overwrite multiple values for option ${key} with a single value.`;
-    logIssue(`GitMob set: ${message}`);
+    console.log(`GitMob set: ${message}`);
   }
 }
 

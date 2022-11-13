@@ -13,7 +13,7 @@
     "postversion": "git push --follow-tags",
     "prepack": "npm run build -- -m"
   },
-  "workspaces":[
+  "workspaces": [
     "packages/*"
   ],
   "repository": {
@@ -50,13 +50,13 @@
       "url": "https://github.com/dideler"
     }
   ],
-  "dependencies": {},
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
     "@types/node": "^18.7.14",
     "env-cmd": "^10.1.0",
     "typescript": "^4.8.2",
-    "xo": "^0.52.3"
+    "xo": "^0.52.3",
+    "eslint-plugin-jest": "^27.1.5"
   },
   "xo": {
     "space": true,
@@ -67,6 +67,12 @@
       "*.d.ts"
     ],
     "prettier": true,
+    "plugins": [
+      "jest"
+    ],
+    "envs": [
+      "jest"
+    ],
     "rules": {
       "no-unused-vars": [
         "error",

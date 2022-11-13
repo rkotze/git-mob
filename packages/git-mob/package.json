@@ -4,13 +4,11 @@
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
     "build": "rimraf dist && node ./build/main.js",
-    "checks": "npm run test && npm run js-lint",
     "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
     "pretest": "npm run build -- -t",
     "test": "npm run testbase",
     "testbase": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
     "minifytest": "npm run build -- -m -t && npm run testbase",
-    "js-lint": "xo",
     "preversion": "npm run checks",
     "postversion": "git push --follow-tags",
     "prepack": "npm run build -- -m",
@@ -77,8 +75,7 @@
     "rimraf": "^3.0.2",
     "sinon": "^14.0.0",
     "tempy": "^3.0.0",
-    "typescript": "^4.8.2",
-    "xo": "^0.52.3"
+    "typescript": "^4.8.2"
   },
   "ava": {
     "files": [

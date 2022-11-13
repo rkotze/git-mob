@@ -21,6 +21,7 @@ async function setCoAuthors(keys) {
   for (const author of selectedAuthors) {
     mob.gitAddCoAuthor(author.toString());
   }
+
   await updateGitTemplate(selectedAuthors);
   return selectedAuthors;
 }
@@ -29,9 +30,10 @@ async function updateGitTemplate(selectedAuthors) {
   const gitTemplate = gitMessage(
     resolveGitMessagePath(config.get('commit.template'))
   );
-  if (selectedAuthors && selectedAuthors.length) {
+  if (selectedAuthors && selectedAuthors.length > 0) {
     return gitTemplate.writeCoAuthors(selectedAuthors);
   }
+
   return gitTemplate.removeCoAuthors();
 }
 
@@ -60,6 +62,7 @@ function getPrimaryAuthor() {
   if (name && email) {
     return new Author('prime', name, email);
   }
+
   return null;
 }
 
