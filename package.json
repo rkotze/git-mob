@@ -3,7 +3,7 @@
   "version": "2.3.1",
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
-    "build": "npm run build --workspaces",
+    "build": "npm run build --workspaces --if-present",
     "checks": "npm run test && npm run js-lint",
     "test:w": "npm run test:w --workspaces",
     "test": "npm run test --workspaces",

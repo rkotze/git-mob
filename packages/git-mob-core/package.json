@@ -4,7 +4,6 @@
   "description": "Core Git Mob library to manage co-authoring",
   "scripts": {
     "checks": "npm run test",
-    "build": "exit 0",
     "test": "jest",
     "preversion": "npm run checks",
     "postversion": "git push --follow-tags"
