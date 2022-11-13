@@ -1,5 +1,5 @@
 {
-  "name": "git-mob",
+  "name": "git-mob-workspace",
   "version": "2.3.1",
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
@@ -7,6 +7,7 @@
     "checks": "npm run test && npm run js-lint",
     "test:w": "npm run test:w --workspaces",
     "test": "npm run test --workspaces",
+    "minifytest": "npm run minifytest --workspaces --if-present",
     "install": "npm install --ignore-scripts",
     "js-lint": "xo",
     "preversion": "npm run checks",
