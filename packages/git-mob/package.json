@@ -27,7 +27,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:rkotze/git-mob.git"
+    "url": "git@github.com:rkotze/git-mob.git",
+    "directory": "packages/git-mob"
   },
   "engines": {
     "node": ">=10"

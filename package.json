@@ -3,8 +3,7 @@
   "version": "2.3.1",
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
-    "setup": "npm i --ignore-scripts",
-    "build": "rimraf dist && node ../../build/main.js",
+    "build": "npm run build --workspaces",
     "checks": "npm run test && npm run js-lint",
     "test:w": "npm run test:w --workspaces",
     "test": "npm run test --workspaces",
@@ -56,10 +55,6 @@
     "@ava/typescript": "^3.0.1",
     "@types/node": "^18.7.14",
     "env-cmd": "^10.1.0",
-    "esbuild": "^0.15.6",
-    "glob": "^8.0.3",
-    "rimraf": "^3.0.2",
-    "tempy": "^3.0.0",
     "typescript": "^4.8.2",
     "xo": "^0.52.3"
   },
