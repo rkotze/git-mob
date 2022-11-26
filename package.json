@@ -18,9 +18,6 @@
     "postversion": "git push --follow-tags",
     "prepack": "npm run build -- -m"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:rkotze/git-mob.git"

@@ -1,0 +1,16 @@
+**/*.spec.js
+**/*.spec.ts
+**/*.tgz
+src
+hook-examples
+test-helpers/
+node_modules/
+.prettierrc
+.prettierignore
+.travis.yml
+.vscode
+.idea
+.yarn
+.github
+tsconfig.json
+.pre-commit-hooks.yaml
