@@ -9,8 +9,7 @@
     "test": "npm run testbase",
     "testbase": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
     "minifytest": "npm run build -- -m -t && npm run testbase",
-    "preversion": "npm run checks",
-    "postversion": "git push --follow-tags",
+    "preversion": "npm run test",
     "prepack": "npm run build -- -m",
     "postinstall": "node ./dist/install/create-author-file.js"
   },
