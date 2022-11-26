@@ -2,6 +2,7 @@ import os from 'node:os';
 import minimist from 'minimist';
 import { oneLine, stripIndents } from 'common-tags';
 
+import { getPrimaryAuthor } from 'git-mob-core';
 import { config, revParse } from '../src/git-commands';
 import { gitAuthors } from '../src/git-authors';
 import { gitMessage, gitMessagePath, commitTemplatePath } from '../src/git-message';
@@ -13,7 +14,6 @@ import {
   isCoAuthorSet,
   resetMob,
   addCoAuthor,
-  getGitAuthor,
   setGitAuthor,
   mobConfig,
 } from '../src/git-mob-commands';
@@ -74,7 +74,7 @@ function runMob(args) {
 }
 
 function printMob() {
-  const gitAuthor = getGitAuthor();
+  const gitAuthor = getPrimaryAuthor();
   console.log(author(gitAuthor));
 
   if (isCoAuthorSet()) {

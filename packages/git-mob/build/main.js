@@ -35,7 +35,14 @@ const baseConfig = {
   minify: argv.minify,
   plugins: [],
   logLevel: 'info',
-  external: ['common-tags', 'minimist', 'update-notifier', 'ava', 'sinon'],
+  external: [
+    'git-mob-core',
+    'common-tags',
+    'minimist',
+    'update-notifier',
+    'ava',
+    'sinon',
+  ],
 };
 
 if (argv.test) {

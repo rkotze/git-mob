@@ -2,6 +2,7 @@
   "name": "git-mob-core",
   "version": "2.3.1",
   "description": "Core Git Mob library to manage co-authoring",
+  "main": "src/index.js",
   "scripts": {
     "checks": "npm run test",
     "test": "jest",
