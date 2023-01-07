@@ -21,12 +21,6 @@ function useLocalTemplate() {
   return localTemplate && localTemplate === 'true';
 }
 
-function getGitAuthor() {
-  const name = config.get('user.name');
-  const email = config.get('user.email');
-  return { name, email };
-}
-
 function setGitAuthor(name, email) {
   config.set('user.name', name);
   config.set('user.email', email);
@@ -38,7 +32,6 @@ const mobConfig = {
 
 export {
   getCoAuthors,
-  getGitAuthor,
   isCoAuthorSet,
   addCoAuthor,
   resetMob,
