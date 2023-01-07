@@ -31,9 +31,24 @@ Git Mob uses workspaces now and the flags below are needed to version each of th
 
 Read more about [workspaces](https://docs.npmjs.com/cli/v8/commands/npm-version?v=true#workspaces) for version command. Using workspaces flag runs the version command in all packages
 
-1. Bump the version at the appropriate level (major, minor, patch); e.g.
+### Versioning
+
+1. Version a package
    ```
-   npm version patch --workspaces --include-workspace-root
+   npm version minor --workspace=git-mob
    ```
-2. Run the publish CI GitHub actions
-3. Release notes added here https://github.com/rkotze/git-mob/releases
+2. Or all packages
+   ```
+   npm version patch --workspaces
+   ```
+3. Commit and push
+
+### Releasing
+
+1. Bump the root package version and this will make a git tag (major, minor, patch); e.g.
+   ```
+   npm version patch
+   ```
+2. Git Push
+3. Run the publish CI GitHub actions
+4. Release notes added here https://github.com/rkotze/git-mob/releases

@@ -7,9 +7,11 @@
     "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
     "pretest": "npm run build -- -t",
     "test": "npm run testbase",
+    "checks": "npm run test && npm run js-lint",
+    "js-lint":"xo --cwd=../../",
     "testbase": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
     "minifytest": "npm run build -- -m -t && npm run testbase",
-    "preversion": "npm run test",
+    "preversion": "npm run checks",
     "prepack": "npm run build -- -m",
     "postinstall": "node ./dist/install/create-author-file.js"
   },
@@ -61,7 +63,7 @@
     "common-tags": "^1.8.0",
     "minimist": "^1.2.6",
     "update-notifier": "^5.1.0",
-    "git-mob-core": "^2.3.1"
+    "git-mob-core": "^0.1.0"
   },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",

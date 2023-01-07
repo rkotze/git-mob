@@ -1,0 +1,57 @@
+{
+  "space": true,
+  "ignores": ["bin", "dist", "test-helpers", "*.d.ts"],
+  "prettier": true,
+  "plugins": ["jest"],
+  "envs": ["jest"],
+  "rules": {
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "object-curly-spacing": "off",
+    "curly": ["error", "multi-line"],
+    "comma-dangle": "off",
+    "ava/no-skip-test": "off",
+    "linebreak-style": "off",
+    "operator-linebreak": [
+      "error",
+      "after",
+      {
+        "overrides": {
+          "?": "ignore",
+          ":": "ignore"
+        }
+      }
+    ],
+    "valid-jsdoc": [
+      "warn",
+      {
+        "requireParamDescription": false,
+        "requireReturn": false
+      }
+    ],
+    "import/extensions": "off",
+    "unicorn/no-array-reduce": "off",
+    "unicorn/no-array-callback-reference": "off",
+    "unicorn/prefer-module": 0,
+    "unicorn/no-process-exit": 0,
+    "node/prefer-global/process": 0,
+    "n/prefer-global/process": 0,
+    "n/file-extension-in-import": 0,
+    "object-shorthand": 0,
+    "arrow-body-style": 0,
+    "capitalized-comments": 0,
+    "ava/no-ignored-test-files": [
+      "error",
+      {
+        "files": ["src/**/*.spec.*"]
+      }
+    ],
+    "@typescript-eslint/object-curly-spacing": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": 0
+  }
+}

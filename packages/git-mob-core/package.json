@@ -1,12 +1,13 @@
 {
   "name": "git-mob-core",
-  "version": "2.3.1",
+  "version": "0.1.0",
   "description": "Core Git Mob library to manage co-authoring",
   "main": "src/index.js",
   "scripts": {
-    "checks": "npm run test",
+    "checks": "npm run test && npm run js-lint",
+    "js-lint":"xo --cwd=../../",
     "test": "jest",
-    "preversion": "npm run test"
+    "preversion": "npm run checks"
   },
   "repository": {
     "type": "git",
