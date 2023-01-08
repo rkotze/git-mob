@@ -2,7 +2,7 @@ import os from 'node:os';
 import minimist from 'minimist';
 import { oneLine, stripIndents } from 'common-tags';
 
-import { getPrimaryAuthor } from 'git-mob-core';
+import { getAllAuthors, getPrimaryAuthor } from 'git-mob-core';
 import { config, revParse } from '../src/git-commands';
 import { gitAuthors } from '../src/git-authors';
 import { gitMessage, gitMessagePath, commitTemplatePath } from '../src/git-message';
@@ -96,9 +96,7 @@ function printMob() {
 
 async function listCoAuthors() {
   try {
-    const instance = gitAuthors();
-    const authorList = await instance.read();
-    const coAuthors = instance.toList(authorList);
+    const coAuthors = await getAllAuthors();
 
     printList(coAuthors);
   } catch (error) {

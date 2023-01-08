@@ -110,7 +110,7 @@ function checkForUpdates(intervalInMs = weekly) {
 }
 
 function printList(list) {
-  console.log(list.join(EOL));
+  console.log(list.map(a => `${a.key} ${a.name} ${a.email}`).join(EOL));
 }
 
 function validateEmail(email) {

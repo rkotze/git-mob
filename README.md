@@ -10,7 +10,7 @@ Git Mob repository is organised into workspaces
 
 🌟 [Git Mob CLI](packages/git-mob) documentation: Main npm package to install & see list of features
 
-🌟 [Git Mob core](packages/git-mob-core) documentation: An API contain core Git Mob functions
+🌟 [Git Mob core](packages/git-mob-core) documentation: An npm package containing core Git Mob functions
 
 ## More info
 
