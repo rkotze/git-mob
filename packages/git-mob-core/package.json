@@ -1,0 +1,40 @@
+{
+  "name": "git-mob-core",
+  "version": "0.1.0",
+  "description": "Core Git Mob library to manage co-authoring",
+  "main": "src/index.js",
+  "scripts": {
+    "checks": "npm run test && npm run js-lint",
+    "js-lint":"xo --cwd=../../",
+    "test": "jest",
+    "preversion": "npm run checks"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rkotze/git-mob.git",
+    "directory": "packages/git-mob-core"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "keywords": [
+    "cli",
+    "cli-app",
+    "git-pair",
+    "git-duet",
+    "git",
+    "github",
+    "co-author",
+    "pairing",
+    "pair programming",
+    "mob programming",
+    "extreme programming",
+    "xp",
+    "social coding"
+  ],
+  "author": "Richard Kotze",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.2.2"
+  }
+}

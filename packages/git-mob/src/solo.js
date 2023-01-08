@@ -1,10 +1,11 @@
 import minimist from 'minimist';
 import { oneLine } from 'common-tags';
+import { getPrimaryAuthor } from 'git-mob-core';
 
 import { revParse, config } from '../src/git-commands';
 import { gitMessage, gitMessagePath } from '../src/git-message';
 import { checkForUpdates, runHelp, runVersion } from '../src/helpers';
-import { getGitAuthor, resetMob } from '../src/git-mob-commands';
+import { resetMob } from '../src/git-mob-commands';
 
 checkForUpdates();
 
@@ -53,6 +54,6 @@ function printAuthor() {
 }
 
 function author() {
-  const { name, email } = getGitAuthor();
+  const { name, email } = getPrimaryAuthor();
   return oneLine`${name} <${email}>`;
 }
