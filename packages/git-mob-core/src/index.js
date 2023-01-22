@@ -1,5 +1,6 @@
+const os = require('os');
 const { mob, config } = require('./commands');
-const { Author } = require('./git-mob-api/author');
+const { Author, parseToAuthor, parseToString } = require('./git-mob-api/author');
 const { gitAuthors } = require('./git-mob-api/git-authors');
 const { gitMessage } = require('./git-mob-api/git-message');
 const {
@@ -19,7 +20,7 @@ async function setCoAuthors(keys) {
   await solo();
   const selectedAuthors = pickSelectedAuthors(keys, await getAllAuthors());
   for (const author of selectedAuthors) {
-    mob.gitAddCoAuthor(author.toString());
+    mob.gitAddCoAuthor(parseToString(author));
   }
 
   await updateGitTemplate(selectedAuthors);
@@ -41,12 +42,16 @@ function pickSelectedAuthors(keys, authorMap) {
   return authorMap.filter(author => keys.includes(author.key));
 }
 
-function getSelectedCoAuthors(allAuthors) {
+function getSelectedCoAuthors() {
+  const coAuthorsString = getSelectedCoAuthorsRaw();
+  return coAuthorsString.split(os.EOL).map(parseToAuthor);
+}
+
+function getSelectedCoAuthorsRaw() {
   let coAuthorsString = '';
   const CO_AUTHOR_KEY = '--global git-mob.co-author';
   if (config.has(CO_AUTHOR_KEY)) coAuthorsString = config.getAll(CO_AUTHOR_KEY);
-
-  return allAuthors.filter(author => coAuthorsString.includes(author.email));
+  return coAuthorsString;
 }
 
 async function solo() {

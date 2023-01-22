@@ -2,7 +2,7 @@ import os from 'node:os';
 import minimist from 'minimist';
 import { oneLine, stripIndents } from 'common-tags';
 
-import { getAllAuthors, getPrimaryAuthor } from 'git-mob-core';
+import { getAllAuthors, getPrimaryAuthor, getSelectedCoAuthors } from 'git-mob-core';
 import { config, revParse } from '../src/git-commands';
 import { gitAuthors } from '../src/git-authors';
 import { gitMessage, gitMessagePath, commitTemplatePath } from '../src/git-message';
@@ -78,7 +78,7 @@ function printMob() {
   console.log(author(gitAuthor));
 
   if (isCoAuthorSet()) {
-    console.log(getCoAuthors());
+    console.log(getSelectedCoAuthors().join(os.EOL));
   }
 
   if (!mobConfig.useLocalTemplate() && config.usingLocalTemplate()) {

@@ -61,9 +61,9 @@
   ],
   "dependencies": {
     "common-tags": "^1.8.0",
+    "git-mob-core": "^0.1.0",
     "minimist": "^1.2.6",
-    "update-notifier": "^5.1.0",
-    "git-mob-core": "^0.1.0"
+    "update-notifier": "^5.1.0"
   },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
