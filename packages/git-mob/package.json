@@ -3,7 +3,7 @@
   "version": "2.3.2",
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
-    "build": "rimraf dist && node ./build/main.js",
+    "build": "rimraf dist && bob",
     "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
     "pretest": "npm run build -- -t",
     "test": "npm run testbase",
@@ -61,19 +61,18 @@
   ],
   "dependencies": {
     "common-tags": "^1.8.0",
+    "git-mob-core": "^0.1.0",
     "minimist": "^1.2.6",
-    "update-notifier": "^5.1.0",
-    "git-mob-core": "^0.1.0"
+    "update-notifier": "^5.1.0"
   },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
     "@types/node": "^18.7.14",
     "@types/sinon": "^10.0.13",
     "ava": "^5.0.1",
+    "bob": "file:../../packages/bob",
     "env-cmd": "^10.1.0",
     "eol": "^0.9.1",
-    "esbuild": "^0.15.6",
-    "glob": "^8.0.3",
     "rimraf": "^3.0.2",
     "sinon": "^14.0.0",
     "tempy": "^3.0.0",

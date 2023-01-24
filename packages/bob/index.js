@@ -1,49 +1,28 @@
+#! /usr/bin/env node
+
 const esbuild = require('esbuild');
 const minimist = require('minimist');
 const glob = require('glob');
+const { gitMobConfig } = require('./git-mob.config');
 
 // Flags
 // -w: watch for file changes
 // -m: minify code - use for publish
 // -t: test flow to include sourcemaps
 const argv = minimist(process.argv.slice(2), {
-  boolean: ['w', 'm', 't'],
+  boolean: ['w', 'm', 't', 'c'],
 
   alias: {
     w: 'watch',
     m: 'minify',
     t: 'test',
+    c: 'config',
   },
 });
 
-const baseConfig = {
-  entryPoints: [
-    './src/git-mob.js',
-    './src/solo.js',
-    './src/git-add-coauthor.ts',
-    './src/git-delete-coauthor.js',
-    './src/git-edit-coauthor.js',
-    './src/git-mob-print.js',
-    './src/git-suggest-coauthors.js',
-    './src/install/create-author-file.js',
-  ],
-  mainFields: ['module', 'main'],
-  bundle: true,
-  platform: 'node',
-  target: ['node14'],
-  outdir: './dist',
-  minify: argv.minify,
-  plugins: [],
-  logLevel: 'info',
-  external: [
-    'git-mob-core',
-    'common-tags',
-    'minimist',
-    'update-notifier',
-    'ava',
-    'sinon',
-  ],
-};
+const baseConfig = gitMobConfig;
+
+baseConfig.minify = argv.minify;
 
 if (argv.test) {
   const specFiles = glob.sync('./src/**/*.spec.*');

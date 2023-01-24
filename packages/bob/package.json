@@ -1,0 +1,26 @@
+{
+  "name": "bob",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "bin": {
+    "bob": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkotze/git-mob.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rkotze/git-mob/issues"
+  },
+  "homepage": "https://github.com/rkotze/git-mob#readme",
+  "dependencies": {
+    "esbuild": "^0.17.4",
+    "glob": "^8.1.0",
+    "minimist": "^1.2.7"
+  }
+}
