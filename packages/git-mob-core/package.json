@@ -2,11 +2,14 @@
   "name": "git-mob-core",
   "version": "0.1.1",
   "description": "Core Git Mob library to manage co-authoring",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "rimraf dist && bob -c=core",
+    "pretest": "npm run build -- -t",
+    "test": "jest",
+    "prepack": "npm run build -- -m",
     "checks": "npm run test && npm run js-lint",
     "js-lint": "xo --cwd=../../",
-    "test": "jest",
     "preversion": "npm run checks"
   },
   "repository": {
@@ -35,6 +38,7 @@
   "author": "Richard Kotze",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^29.2.2"
+    "jest": "^29.2.2",
+    "rimraf": "^4.1.2"
   }
 }

@@ -2,8 +2,8 @@
 
 const esbuild = require('esbuild');
 const minimist = require('minimist');
-const glob = require('glob');
 const { gitMobConfig } = require('./git-mob.config');
+const { gitMobCoreConfig } = require('./git-mob-core.config');
 
 // Flags
 // -w: watch for file changes
@@ -20,15 +20,13 @@ const argv = minimist(process.argv.slice(2), {
   },
 });
 
-const baseConfig = gitMobConfig;
+let baseConfig = gitMobConfig(argv);
+
+if (argv.config === 'core') {
+  baseConfig = gitMobCoreConfig(argv);
+}
 
 baseConfig.minify = argv.minify;
-
-if (argv.test) {
-  const specFiles = glob.sync('./src/**/*.spec.*');
-  baseConfig.entryPoints = [...baseConfig.entryPoints, ...specFiles];
-  baseConfig.sourcemap = true;
-}
 
 if (argv.watch) {
   baseConfig.watch = {

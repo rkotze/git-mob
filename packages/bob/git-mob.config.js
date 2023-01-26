@@ -1,4 +1,6 @@
-const gitMobConfig = {
+const glob = require('glob');
+
+const baseConfig = {
   entryPoints: [
     './src/git-mob.js',
     './src/solo.js',
@@ -25,5 +27,15 @@ const gitMobConfig = {
     'sinon',
   ],
 };
+
+function gitMobConfig(argv) {
+  if (argv.test) {
+    const specFiles = glob.sync('./src/**/*.spec.*');
+    baseConfig.entryPoints = [...baseConfig.entryPoints, ...specFiles];
+    baseConfig.sourcemap = true;
+  }
+
+  return baseConfig;
+}
 
 module.exports = { gitMobConfig };
