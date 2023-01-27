@@ -2,9 +2,10 @@ const glob = require('glob');
 
 const baseConfig = {
   entryPoints: ['./src/index.js'],
-  mainFields: ['main'],
+  mainFields: ['module', 'main'],
   platform: 'node',
   target: ['node14'],
+  format: 'cjs',
   outdir: './dist',
   plugins: [],
   logLevel: 'info',

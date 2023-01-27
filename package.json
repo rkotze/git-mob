@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "checks": "npm run test && npm run js-lint",
-    "test:w": "npm run test:w --workspaces",
+    "test:w": "echo \"Run per workspace.\"",
     "test": "npm run test --workspaces",
     "minifytest": "npm run minifytest --workspaces",
     "install": "npm install --ignore-scripts",

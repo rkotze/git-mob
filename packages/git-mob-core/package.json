@@ -38,6 +38,7 @@
   "author": "Richard Kotze",
   "license": "MIT",
   "devDependencies": {
+    "@jest/globals": "^29.4.1",
     "jest": "^29.2.2",
     "rimraf": "^4.1.2"
   }
