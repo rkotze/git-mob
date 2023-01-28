@@ -1,9 +1,18 @@
 {
   "space": true,
-  "ignores": ["bin", "dist", "test-helpers", "*.d.ts"],
+  "ignores": [
+    "bin",
+    "dist",
+    "test-helpers",
+    "*.d.ts"
+  ],
   "prettier": true,
-  "plugins": ["jest"],
-  "envs": ["jest"],
+  "plugins": [
+    "jest"
+  ],
+  "envs": [
+    "jest"
+  ],
   "rules": {
     "no-unused-vars": [
       "error",
@@ -12,7 +21,10 @@
       }
     ],
     "object-curly-spacing": "off",
-    "curly": ["error", "multi-line"],
+    "curly": [
+      "error",
+      "multi-line"
+    ],
     "comma-dangle": "off",
     "ava/no-skip-test": "off",
     "linebreak-style": "off",
@@ -47,7 +59,9 @@
     "ava/no-ignored-test-files": [
       "error",
       {
-        "files": ["src/**/*.spec.*"]
+        "files": [
+          "src/**/*.spec.*"
+        ]
       }
     ],
     "@typescript-eslint/object-curly-spacing": "off",
