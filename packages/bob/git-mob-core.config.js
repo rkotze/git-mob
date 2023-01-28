@@ -9,6 +9,7 @@ const baseConfig = {
   outdir: './dist',
   plugins: [],
   logLevel: 'info',
+  bundle: true,
   external: [],
 };
 

@@ -53,46 +53,41 @@ test('Query for one GitHub user and return in AuthorList', async () => {
   });
 });
 
-// test('Query for two GitHub users and build AuthorList', async t => {
-//   const httpFetchStub = sandbox
-//     .stub()
-//     .onCall(0)
-//     .resolves(buildBasicResponse(ghDidelerResponse))
-//     .onCall(1)
-//     .resolves(buildBasicResponse(ghRkotzeResponse));
+test('Query for two GitHub users and build AuthorList', async () => {
+  mockedFetch
+    .mockResolvedValueOnce(buildBasicResponse(ghDidelerResponse))
+    .mockResolvedValueOnce(buildBasicResponse(ghRkotzeResponse));
 
-//   const actualAuthorList = await fetchAuthors(['dideler', 'rkotze'], httpFetchStub);
+  const actualAuthorList = await fetchAuthors(['dideler', 'rkotze']);
 
-//   t.deepEqual(actualAuthorList, {
-//     dideler: {
-//       name: 'Dennis',
-//       email: '345+dideler@users.noreply.github.com',
-//     },
-//     rkotze: {
-//       name: 'Richard Kotze',
-//       email: '123+rkotze@users.noreply.github.com',
-//     },
-//   });
-// });
+  expect(actualAuthorList).toEqual({
+    dideler: {
+      name: 'Dennis',
+      email: '345+dideler@users.noreply.github.com',
+    },
+    rkotze: {
+      name: 'Richard Kotze',
+      email: '123+rkotze@users.noreply.github.com',
+    },
+  });
+});
 
-// test('Http status code 404 throws error', async t => {
-//   const httpFetchStub = sandbox.stub().resolves({
-//     statusCode: 404,
-//     data: {},
-//   });
+test('Http status code 404 throws error', async () => {
+  mockedFetch.mockResolvedValue({
+    statusCode: 404,
+    data: {},
+  });
 
-//   await t.throwsAsync(async () => fetchAuthors(['notaUser'], httpFetchStub), {
-//     message: 'GitHub user not found!',
-//   });
-// });
+  await expect(fetchAuthors(['notaUser'])).rejects.toThrow(/GitHub user not found!/);
+});
 
-// test('Http status code not 200 or 404 throws generic error', async t => {
-//   const httpFetchStub = sandbox.stub().resolves({
-//     statusCode: 500,
-//     data: {},
-//   });
+test('Http status code not 200 or 404 throws generic error', async () => {
+  mockedFetch.mockResolvedValue({
+    statusCode: 500,
+    data: {},
+  });
 
-//   await t.throwsAsync(async () => fetchAuthors(['badrequestuser'], httpFetchStub), {
-//     message: 'Error failed to fetch GitHub user! Status code 500.',
-//   });
-// });
+  await expect(fetchAuthors(['badrequestuser'])).rejects.toThrow(
+    /Error failed to fetch GitHub user! Status code 500./
+  );
+});
