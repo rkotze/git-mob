@@ -1,6 +1,9 @@
-import { jest, test, expect } from '@jest/globals';
 import type { BasicResponse } from '../fetch/http-fetch';
+import { httpFetch } from '../fetch/http-fetch';
 import { fetchAuthors } from './fetch-authors';
+
+jest.mock('../fetch/http-fetch');
+const mockedFetch = jest.mocked(httpFetch);
 
 const ghRkotzeResponse = {
   id: 123,
@@ -28,10 +31,9 @@ const headers = {
 };
 
 test('Query for one GitHub user and check RESTful url', async () => {
-  const mockedFetch = jest.fn<() => Promise<BasicResponse>>();
   mockedFetch.mockResolvedValue(buildBasicResponse(ghRkotzeResponse));
 
-  await fetchAuthors(['rkotze'], mockedFetch);
+  await fetchAuthors(['rkotze']);
 
   expect(mockedFetch).toHaveBeenCalledWith('https://api.github.com/users/rkotze', {
     headers,
@@ -39,10 +41,9 @@ test('Query for one GitHub user and check RESTful url', async () => {
 });
 
 test('Query for one GitHub user and return in AuthorList', async () => {
-  const mockedFetch = jest.fn<() => Promise<BasicResponse>>();
   mockedFetch.mockResolvedValue(buildBasicResponse(ghDidelerResponse));
 
-  const actualAuthorList = await fetchAuthors(['dideler'], mockedFetch);
+  const actualAuthorList = await fetchAuthors(['dideler']);
 
   expect(actualAuthorList).toEqual({
     dideler: {
