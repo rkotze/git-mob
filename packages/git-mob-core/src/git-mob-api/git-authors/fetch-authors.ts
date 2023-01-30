@@ -1,4 +1,5 @@
 import type { RequestOptions } from 'node:https';
+import { Author } from '../author';
 import { httpFetch } from '../fetch/http-fetch';
 
 const gitHubUserUrl = 'https://api.github.com/users';
@@ -23,24 +24,23 @@ function validateGhUser(o: any): o is GitHubUser {
 async function fetchAuthors(
   initialList: string[],
   fetch = httpFetch
-): Promise<AuthorList> {
+): Promise<Author[]> {
   const ghUsers = await Promise.all(
     initialList.map(async initials =>
       fetch(gitHubUserUrl + '/' + initials, getHeaders)
     )
   );
 
-  const authorAuthorList: AuthorList = {};
+  const authorAuthorList: Author[] = [];
 
   for (const ghUser of ghUsers) {
     throwStatusCodeErrors(ghUser.statusCode);
 
     if (validateGhUser(ghUser.data)) {
       const { login, id, name } = ghUser.data;
-      authorAuthorList[login] = {
-        name,
-        email: `${id}+${login}@users.noreply.github.com`,
-      };
+      authorAuthorList.push(
+        new Author(login, name, `${id}+${login}@users.noreply.github.com`)
+      );
     }
   }
 

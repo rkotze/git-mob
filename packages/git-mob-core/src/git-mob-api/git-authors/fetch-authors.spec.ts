@@ -45,12 +45,13 @@ test('Query for one GitHub user and return in AuthorList', async () => {
 
   const actualAuthorList = await fetchAuthors(['dideler']);
 
-  expect(actualAuthorList).toEqual({
-    dideler: {
+  expect(actualAuthorList).toEqual([
+    {
+      key: 'dideler',
       name: 'Dennis',
       email: '345+dideler@users.noreply.github.com',
     },
-  });
+  ]);
 });
 
 test('Query for two GitHub users and build AuthorList', async () => {
@@ -60,16 +61,18 @@ test('Query for two GitHub users and build AuthorList', async () => {
 
   const actualAuthorList = await fetchAuthors(['dideler', 'rkotze']);
 
-  expect(actualAuthorList).toEqual({
-    dideler: {
+  expect(actualAuthorList).toEqual([
+    {
+      key: 'dideler',
       name: 'Dennis',
       email: '345+dideler@users.noreply.github.com',
     },
-    rkotze: {
+    {
+      key: 'rkotze',
       name: 'Richard Kotze',
       email: '123+rkotze@users.noreply.github.com',
     },
-  });
+  ]);
 });
 
 test('Http status code 404 throws error', async () => {
