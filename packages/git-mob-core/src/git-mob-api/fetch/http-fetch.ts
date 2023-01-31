@@ -9,14 +9,9 @@ async function httpFetch(
   url: string,
   options: https.RequestOptions
 ): Promise<BasicResponse> {
-  const mergedOptions = {
-    ...options,
-    headers: appendAgentHeader(options.headers),
-  };
-
   return new Promise((fulfil, reject) => {
     const httpRequest = https
-      .request(url, mergedOptions, response => {
+      .request(url, options, response => {
         let chunkedData = '';
 
         response.on('data', (chunk: string) => {
@@ -37,18 +32,6 @@ async function httpFetch(
 
     httpRequest.end();
   });
-}
-
-function appendAgentHeader(headers: https.RequestOptions['headers']) {
-  const userAgentHeader = { 'User-Agent': 'git-mob-cli' };
-  if (headers) {
-    return {
-      ...headers,
-      ...userAgentHeader,
-    };
-  }
-
-  return userAgentHeader;
 }
 
 export { httpFetch };

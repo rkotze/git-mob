@@ -23,8 +23,18 @@ function validateGhUser(o: any): o is GitHubUser {
 
 async function fetchAuthors(
   initialList: string[],
+  userAgentHeader: string,
   fetch = httpFetch
 ): Promise<Author[]> {
+  if (!userAgentHeader) {
+    throw new Error('Error no user-agent header string given.');
+  }
+
+  getHeaders.headers = {
+    ...getHeaders.headers,
+    'user-agent': userAgentHeader,
+  };
+
   const ghUsers = await Promise.all(
     initialList.map(async initials =>
       fetch(gitHubUserUrl + '/' + initials, getHeaders)
