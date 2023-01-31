@@ -1,6 +1,6 @@
 import type { BasicResponse } from '../fetch/http-fetch';
 import { httpFetch } from '../fetch/http-fetch';
-import { fetchAuthors } from './fetch-authors';
+import { fetchGitHubAuthors } from './fetch-github-authors';
 
 jest.mock('../fetch/http-fetch');
 const mockedFetch = jest.mocked(httpFetch);
@@ -35,7 +35,7 @@ const agentHeader = 'random-agent';
 test('Query for one GitHub user and check RESTful url', async () => {
   mockedFetch.mockResolvedValue(buildBasicResponse(ghRkotzeResponse));
 
-  await fetchAuthors(['rkotze'], agentHeader);
+  await fetchGitHubAuthors(['rkotze'], agentHeader);
 
   expect(mockedFetch).toHaveBeenCalledWith('https://api.github.com/users/rkotze', {
     headers: {
@@ -48,7 +48,7 @@ test('Query for one GitHub user and check RESTful url', async () => {
 test('Query for one GitHub user and return in AuthorList', async () => {
   mockedFetch.mockResolvedValue(buildBasicResponse(ghDidelerResponse));
 
-  const actualAuthorList = await fetchAuthors(['dideler'], agentHeader);
+  const actualAuthorList = await fetchGitHubAuthors(['dideler'], agentHeader);
 
   expect(actualAuthorList).toEqual([
     {
@@ -64,7 +64,10 @@ test('Query for two GitHub users and build AuthorList', async () => {
     .mockResolvedValueOnce(buildBasicResponse(ghDidelerResponse))
     .mockResolvedValueOnce(buildBasicResponse(ghRkotzeResponse));
 
-  const actualAuthorList = await fetchAuthors(['dideler', 'rkotze'], agentHeader);
+  const actualAuthorList = await fetchGitHubAuthors(
+    ['dideler', 'rkotze'],
+    agentHeader
+  );
 
   expect(actualAuthorList).toEqual([
     {
@@ -81,7 +84,7 @@ test('Query for two GitHub users and build AuthorList', async () => {
 });
 
 test('Error if no user agent specified', async () => {
-  await expect(fetchAuthors(['badrequestuser'], '')).rejects.toThrow(
+  await expect(fetchGitHubAuthors(['badrequestuser'], '')).rejects.toThrow(
     /Error no user-agent header string given./
   );
 });
@@ -92,7 +95,7 @@ test('Http status code 404 throws error', async () => {
     data: {},
   });
 
-  await expect(fetchAuthors(['notaUser'], agentHeader)).rejects.toThrow(
+  await expect(fetchGitHubAuthors(['notaUser'], agentHeader)).rejects.toThrow(
     /GitHub user not found!/
   );
 });
@@ -103,7 +106,7 @@ test('Http status code not 200 or 404 throws generic error', async () => {
     data: {},
   });
 
-  await expect(fetchAuthors(['badrequestuser'], agentHeader)).rejects.toThrow(
+  await expect(fetchGitHubAuthors(['badrequestuser'], agentHeader)).rejects.toThrow(
     /Error failed to fetch GitHub user! Status code 500./
   );
 });

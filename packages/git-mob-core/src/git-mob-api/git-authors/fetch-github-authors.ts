@@ -21,7 +21,7 @@ function validateGhUser(o: any): o is GitHubUser {
   return 'id' in o && 'login' in o && 'name' in o;
 }
 
-async function fetchAuthors(
+async function fetchGitHubAuthors(
   initialList: string[],
   userAgentHeader: string,
   fetch = httpFetch
@@ -67,4 +67,4 @@ function throwStatusCodeErrors(statusCode: number | undefined) {
   }
 }
 
-export { fetchAuthors };
+export { fetchGitHubAuthors };
