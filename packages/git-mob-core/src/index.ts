@@ -1,21 +1,18 @@
-const { mob, config } = require('./commands');
-const { Author } = require('./git-mob-api/author');
-const { gitAuthors } = require('./git-mob-api/git-authors');
-const { gitMessage } = require('./git-mob-api/git-message');
-const {
-  saveNewCoAuthors,
-} = require('./git-mob-api/manage-authors/add-new-coauthor');
-const {
+import { mob, config } from './commands';
+import { Author } from './git-mob-api/author';
+import { gitAuthors } from './git-mob-api/git-authors';
+import { gitMessage } from './git-mob-api/git-message';
+import {
   resolveGitMessagePath,
   setCommitTemplate,
-} = require('./git-mob-api/resolve-git-message-path');
+} from './git-mob-api/resolve-git-message-path';
 
 async function getAllAuthors() {
   const gitMobAuthors = gitAuthors();
   return gitMobAuthors.toList(await gitMobAuthors.read());
 }
 
-async function setCoAuthors(keys) {
+async function setCoAuthors(keys: string[]) {
   await solo();
   const selectedAuthors = pickSelectedAuthors(keys, await getAllAuthors());
   for (const author of selectedAuthors) {
@@ -26,7 +23,7 @@ async function setCoAuthors(keys) {
   return selectedAuthors;
 }
 
-async function updateGitTemplate(selectedAuthors) {
+async function updateGitTemplate(selectedAuthors?: Author[]) {
   const gitTemplate = gitMessage(
     resolveGitMessagePath(config.get('commit.template'))
   );
@@ -37,14 +34,16 @@ async function updateGitTemplate(selectedAuthors) {
   return gitTemplate.removeCoAuthors();
 }
 
-function pickSelectedAuthors(keys, authorMap) {
+function pickSelectedAuthors(keys: string[], authorMap: Author[]): Author[] {
   return authorMap.filter(author => keys.includes(author.key));
 }
 
-function getSelectedCoAuthors(allAuthors) {
+function getSelectedCoAuthors(allAuthors: Author[]) {
   let coAuthorsString = '';
-  const CO_AUTHOR_KEY = '--global git-mob.co-author';
-  if (config.has(CO_AUTHOR_KEY)) coAuthorsString = config.getAll(CO_AUTHOR_KEY);
+  const coauthorKey = '--global git-mob.co-author';
+  if (config.has(coauthorKey)) {
+    coAuthorsString = config.getAll(coauthorKey) as string;
+  }
 
   return allAuthors.filter(author => coAuthorsString.includes(author.email));
 }
@@ -56,8 +55,8 @@ async function solo() {
 }
 
 function getPrimaryAuthor() {
-  const name = config.get('user.name');
-  const email = config.get('user.email');
+  const name = config.get('user.name') as string;
+  const email = config.get('user.email') as string;
 
   if (name && email) {
     return new Author('prime', name, email);
@@ -66,15 +65,14 @@ function getPrimaryAuthor() {
   return null;
 }
 
-function setPrimaryAuthor(author) {
+function setPrimaryAuthor(author: Author): void {
   if (author) {
     config.set('user.name', author.name);
     config.set('user.email', author.email);
   }
 }
 
-module.exports = {
-  saveNewCoAuthors,
+export {
   getAllAuthors,
   getPrimaryAuthor,
   getSelectedCoAuthors,
@@ -83,3 +81,7 @@ module.exports = {
   solo,
   updateGitTemplate,
 };
+
+export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor';
+export { fetchGitHubAuthors } from './git-mob-api/git-authors/fetch-github-authors';
+export { Author } from './git-mob-api/author';

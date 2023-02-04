@@ -16,16 +16,18 @@ const authorsJson = {
   },
 };
 
-const gitHubAuthors = {
-  rkotze: {
+const gitHubAuthors = [
+  {
+    key: 'rkotze',
     name: 'Richard',
     email: 'rich@gitmob.com',
   },
-  dideler: {
+  {
+    key: 'dideler',
     name: 'Denis',
     email: 'denis@gitmob.com',
   },
-};
+];
 
 let sandbox: SinonSandbox;
 let saveCoauthorStub: SinonStub;
@@ -86,12 +88,13 @@ test('Create author list only from co-author file', async t => {
 });
 
 test('Save missing co-author', async t => {
-  const rkotzeAuthor = {
-    rkotze: {
+  const rkotzeAuthor = [
+    {
+      key: 'rkotze',
       name: 'Richard',
       email: 'rich@gitmob.com',
     },
-  };
+  ];
   const fetchAuthorsStub = sandbox.stub().resolves(rkotzeAuthor);
 
   await composeAuthors(
@@ -101,18 +104,25 @@ test('Save missing co-author', async t => {
     saveCoauthorStub
   );
 
+  const rkotzeAuthorList = {
+    rkotze: {
+      name: 'Richard',
+      email: 'rich@gitmob.com',
+    },
+  };
+
   t.notThrows(() => {
     assert.calledWith(saveCoauthorStub, {
       coauthors: {
         ...authorsJson.coauthors,
-        ...rkotzeAuthor,
+        ...rkotzeAuthorList,
       },
     });
   }, 'Not called with GitMobCoauthors type');
 });
 
 test('Create author list from GitHub and co-author file', async t => {
-  const fetchAuthorsStub = sandbox.stub().resolves({});
+  const fetchAuthorsStub = sandbox.stub().resolves([]);
 
   const authorList = await composeAuthors(
     ['jd'],
