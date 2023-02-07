@@ -18,7 +18,12 @@ function resetMob() {
 
 function useLocalTemplate() {
   const localTemplate = config.get('--local git-mob-config.use-local-template');
-  return localTemplate && localTemplate === 'true';
+  return localTemplate === 'true';
+}
+
+function fetchFromGitHub() {
+  const githubFetch = config.get('--global git-mob-config.github-fetch');
+  return githubFetch === 'true';
 }
 
 function setGitAuthor(name, email) {
@@ -28,6 +33,7 @@ function setGitAuthor(name, email) {
 
 const mobConfig = {
   useLocalTemplate,
+  fetchFromGitHub,
 };
 
 export {

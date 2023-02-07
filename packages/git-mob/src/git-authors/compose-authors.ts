@@ -1,6 +1,7 @@
 import type { Author } from 'git-mob-core';
 import { fetchGitHubAuthors } from 'git-mob-core';
 import { saveAuthorList } from '../manage-authors/add-coauthor';
+import { mobConfig } from '../git-mob-commands';
 import { authorBaseFormat } from './author-base-format';
 
 async function composeAuthors(
@@ -10,7 +11,7 @@ async function composeAuthors(
   saveAuthors = saveAuthorList
 ): Promise<string[]> {
   const missing = findMissingAuthors(initials, coAuthorList);
-  if (missing.length > 0) {
+  if (missing.length > 0 && mobConfig.fetchFromGitHub()) {
     const fetchedAuthors = await getAuthors(missing, 'git-mob-cli');
     const gitMobList = {
       coauthors: { ...coAuthorList, ...transformToAuthorList(fetchedAuthors) },
@@ -60,7 +61,7 @@ function buildFormatAuthorList(
 }
 
 function noAuthorFoundError(initials: string): Error {
-  return new Error(`Author with initials "${initials}" not found!`);
+  throw new Error(`Author with initials "${initials}" not found!`);
 }
 
 export { findMissingAuthors, composeAuthors };

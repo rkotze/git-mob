@@ -2,6 +2,7 @@ import test from 'ava';
 import type { SinonSandbox, SinonStub } from 'sinon';
 import { createSandbox, assert } from 'sinon';
 import { composeAuthors, findMissingAuthors } from './compose-authors';
+import { mobConfig } from '../git-mob-commands';
 
 const authorsJson = {
   coauthors: {
@@ -56,6 +57,7 @@ test('No missing author initials', t => {
 
 test('Search GitHub for missing co-authors', async t => {
   const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
+  sandbox.stub(mobConfig, 'fetchFromGitHub').returns(true);
 
   await composeAuthors(
     ['rkotze', 'dideler', 'jd'],
@@ -68,8 +70,9 @@ test('Search GitHub for missing co-authors', async t => {
   }, 'Not called with ["rkotze", "dideler"]');
 });
 
-test('Create author list only from co-author file', async t => {
+test('Create author list from GitHub and co-author file', async t => {
   const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
+  sandbox.stub(mobConfig, 'fetchFromGitHub').returns(true);
 
   const authorList = await composeAuthors(
     ['rkotze', 'dideler', 'jd'],
@@ -96,6 +99,7 @@ test('Save missing co-author', async t => {
     },
   ];
   const fetchAuthorsStub = sandbox.stub().resolves(rkotzeAuthor);
+  sandbox.stub(mobConfig, 'fetchFromGitHub').returns(true);
 
   await composeAuthors(
     ['rkotze', 'jd'],
@@ -121,7 +125,7 @@ test('Save missing co-author', async t => {
   }, 'Not called with GitMobCoauthors type');
 });
 
-test('Create author list from GitHub and co-author file', async t => {
+test('Create author list from co-author file only', async t => {
   const fetchAuthorsStub = sandbox.stub().resolves([]);
 
   const authorList = await composeAuthors(
@@ -146,4 +150,18 @@ test('Throw error if author not found', async t => {
       fetchAuthorsStub
     )
   );
+});
+
+test('Throw error if author not found because fetch from GitHub is false', async t => {
+  const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
+
+  const error = await t.throwsAsync(async () =>
+    composeAuthors(
+      ['rkotze', 'dideler', 'jd'],
+      authorsJson.coauthors,
+      fetchAuthorsStub
+    )
+  );
+
+  t.regex(error ? error.message : '', /author with initials "rkotze" not found!/i);
 });
