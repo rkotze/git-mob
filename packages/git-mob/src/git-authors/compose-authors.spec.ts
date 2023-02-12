@@ -1,8 +1,8 @@
 import test from 'ava';
 import type { SinonSandbox, SinonStub } from 'sinon';
 import { createSandbox, assert } from 'sinon';
-import { composeAuthors, findMissingAuthors } from './compose-authors';
 import { mobConfig } from '../git-mob-commands';
+import { composeAuthors, findMissingAuthors } from './compose-authors';
 
 const authorsJson = {
   coauthors: {
