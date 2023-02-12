@@ -127,6 +127,14 @@ async function setMob(initials) {
     printMob();
   } catch (error) {
     console.error(red(`Error: ${error.message}`));
+    if (error.message.includes('not found!')) {
+      console.log(
+        yellow(
+          'Run "git config --global git-mob-config.github-fetch true" to fetch GitHub authors.'
+        )
+      );
+    }
+
     process.exit(1);
   }
 }

@@ -118,7 +118,7 @@ Selected co-authors are **stored globally** meaning when switching between proje
 
 ### Add co-author from GitHub
 
-Provide the GitHub username to generate their co-author details. The _anonymous_ GitHub email is used.
+Provide the GitHub username to generate their co-author details. The _anonymous_ GitHub email is used. You need to enable it [see config](#enable-github-author-fetch).
 
 ```
 $ git mob rkotze
@@ -173,6 +173,14 @@ If you are using a local commit template and want to remove the warning message 
 `type: Boolean`, `scope: local`, `version: 2.2.0`
 
 `git config --local git-mob-config.use-local-template true`
+
+### Enable GitHub author fetch
+
+To fetch authors from GitHub you need to enable it using the config.
+
+`type: Boolean`, `scope: global`, `version: 2.3.3`
+
+`git config --global git-mob-config.github-fetch true`
 
 ## More commands
 
