@@ -1,6 +1,6 @@
 {
   "name": "git-mob",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "CLI tool for adding co-authors to commits.",
   "scripts": {
     "build": "rimraf dist && bob",

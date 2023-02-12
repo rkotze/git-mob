@@ -1,6 +1,6 @@
 {
   "name": "git-mob-core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Core Git Mob library to manage co-authoring",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
