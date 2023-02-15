@@ -5,4 +5,7 @@ test-helpers/
 node_modules/
 .prettierrc
 .prettierignore
-tsconfig.json
+tsconfig.*
+jest.config.json
+src
+!dist

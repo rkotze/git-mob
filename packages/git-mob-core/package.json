@@ -1,14 +1,14 @@
 {
   "name": "git-mob-core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Core Git Mob library to manage co-authoring",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc --project tsconfig.json && bob -c=core",
+    "build": "rimraf dist && tsc --project tsconfig.test.json && bob -c=core",
     "pretest": "npm run build -- -t",
     "test": "jest",
-    "prepack": "npm run build -- -m",
+    "prepack": "rimraf dist && tsc --project tsconfig.prod.json && bob -c=core -m",
     "checks": "npm run test && npm run lint",
     "lint": "xo --cwd=../../",
     "preversion": "npm run checks"
