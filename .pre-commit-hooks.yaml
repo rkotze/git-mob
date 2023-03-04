@@ -1,0 +1,5 @@
+- id: add-coauthors
+  name: add-coauthors
+  entry: ./blob/master/packages/git-mob/hook-examples/prepare-commit-msg-nodejs
+  language: script
+  stages: [prepare-commit-msg]

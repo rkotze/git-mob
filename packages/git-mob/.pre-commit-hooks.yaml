@@ -1,5 +1,0 @@
--   id: add-coauthors
-    name: add-coauthors
-    entry: ./hook-examples/prepare-commit-msg-nodejs
-    language: script 
-    stages: [prepare-commit-msg]
