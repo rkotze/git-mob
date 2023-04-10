@@ -31,9 +31,9 @@ if (!revParse.insideWorkTree()) {
   process.exit(1);
 }
 
-runSolo(argv._);
+runSolo();
 
-async function runSolo(_args) {
+async function runSolo() {
   try {
     await gitMessage(gitMessagePath()).removeCoAuthors();
 
