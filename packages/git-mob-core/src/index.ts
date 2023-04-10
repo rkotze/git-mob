@@ -24,11 +24,20 @@ async function setCoAuthors(keys: string[]) {
 }
 
 async function updateGitTemplate(selectedAuthors?: Author[]) {
+  const usingLocal = mob.usingLocalTemplate() && mob.usingGlobalTemplate();
   const gitTemplate = gitMessage(
     resolveGitMessagePath(config.get('commit.template'))
   );
+
   if (selectedAuthors && selectedAuthors.length > 0) {
+    if (usingLocal) {
+      await gitMessage(mob.getGlobalTemplate()).writeCoAuthors(selectedAuthors);
+    }
     return gitTemplate.writeCoAuthors(selectedAuthors);
+  }
+
+  if (usingLocal) {
+    await gitMessage(mob.getGlobalTemplate()).removeCoAuthors();
   }
 
   return gitTemplate.removeCoAuthors();

@@ -51,6 +51,14 @@ function usingLocalTemplate() {
   return has('--local commit.template');
 }
 
+function usingGlobalTemplate() {
+  return has('--global commit.template');
+}
+
+function getGlobalTemplate() {
+  return get('--global commit.template');
+}
+
 // Sets the option, overwriting the existing value if one exists.
 function set(key, value) {
   const { status } = silentRun(`git config ${key} "${value}"`);
@@ -90,6 +98,8 @@ module.exports = {
     removeGitMobSection,
     gitAddCoAuthor,
     usingLocalTemplate,
+    usingGlobalTemplate,
+    getGlobalTemplate,
   },
   getRepoAuthors,
 };
