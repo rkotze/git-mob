@@ -11,6 +11,7 @@ jest.mock('./git-mob-api/resolve-git-message-path');
 
 const mockedGitAuthors = jest.mocked(gitAuthors);
 const mockedGitMessage = jest.mocked(gitMessage);
+const mockedMob = jest.mocked(mob);
 
 describe('Git Mob API', () => {
   function buildAuthors(keys: string[]) {
@@ -30,6 +31,11 @@ describe('Git Mob API', () => {
       toList: jest.fn(() => authors),
     };
   }
+
+  afterEach(() => {
+    mockedMob.usingLocalTemplate.mockReset();
+    mockedMob.usingGlobalTemplate.mockReset();
+  });
 
   it('apply co-authors to git config and git message', async () => {
     const authorKeys = ['ab', 'cd'];
@@ -66,6 +72,27 @@ describe('Git Mob API', () => {
 
     await updateGitTemplate(authorList);
 
+    expect(mockWriteCoAuthors).toBeCalledWith(authorList);
+  });
+
+  // GitMob is Global by default: https://github.com/rkotze/git-mob/discussions/81
+  it('using local gitmessage updates local & global gitmessage with co-authors', async () => {
+    const authorKeys = ['ab', 'cd'];
+    const authorList = buildAuthors(authorKeys);
+    const mockWriteCoAuthors = jest.fn();
+
+    mockedMob.usingLocalTemplate.mockReturnValue(true);
+    mockedGitMessage.mockReturnValue({
+      writeCoAuthors: mockWriteCoAuthors,
+      readCoAuthors: () => '',
+      removeCoAuthors: jest.fn(async () => ''),
+    });
+
+    await updateGitTemplate(authorList);
+
+    expect(mockedMob.usingLocalTemplate).toBeCalledTimes(1);
+    expect(mockedMob.getGlobalTemplate).toBeCalledTimes(1);
+    expect(mockWriteCoAuthors).toBeCalledTimes(2);
     expect(mockWriteCoAuthors).toBeCalledWith(authorList);
   });
 
