@@ -1,11 +1,9 @@
 import minimist from 'minimist';
 import { oneLine } from 'common-tags';
-import { getPrimaryAuthor } from 'git-mob-core';
+import { getPrimaryAuthor, solo } from 'git-mob-core';
 
-import { revParse, config } from '../src/git-commands';
-import { gitMessage, gitMessagePath } from '../src/git-message';
+import { revParse } from '../src/git-commands';
 import { checkForUpdates, runHelp, runVersion } from '../src/helpers';
-import { resetMob } from '../src/git-mob-commands';
 
 checkForUpdates();
 
@@ -35,13 +33,7 @@ runSolo();
 
 async function runSolo() {
   try {
-    await gitMessage(gitMessagePath()).removeCoAuthors();
-
-    if (config.usingLocalTemplate() && config.usingGlobalTemplate()) {
-      gitMessage(config.getGlobalTemplate()).removeCoAuthors();
-    }
-
-    resetMob();
+    await solo();
     printAuthor();
   } catch (error) {
     console.error(`Error: ${error.message}`);
