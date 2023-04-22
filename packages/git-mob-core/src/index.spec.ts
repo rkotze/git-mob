@@ -80,12 +80,13 @@ describe('Git Mob API', () => {
     const authorKeys = ['ab', 'cd'];
     const authorList = buildAuthors(authorKeys);
     const mockWriteCoAuthors = jest.fn();
+    const mockRemoveCoAuthors = jest.fn();
 
     mockedMob.usingLocalTemplate.mockReturnValue(true);
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
       readCoAuthors: () => '',
-      removeCoAuthors: jest.fn(async () => ''),
+      removeCoAuthors: mockRemoveCoAuthors,
     });
 
     await updateGitTemplate(authorList);
@@ -94,13 +95,15 @@ describe('Git Mob API', () => {
     expect(mockedMob.getGlobalTemplate).toBeCalledTimes(1);
     expect(mockWriteCoAuthors).toBeCalledTimes(2);
     expect(mockWriteCoAuthors).toBeCalledWith(authorList);
+    expect(mockRemoveCoAuthors).not.toHaveBeenCalled();
   });
 
   it('update git template by removing all co-authors', async () => {
     const mockRemoveCoAuthors = jest.fn();
+    const mockWriteCoAuthors = jest.fn();
 
     mockedGitMessage.mockReturnValue({
-      writeCoAuthors: jest.fn(async () => undefined),
+      writeCoAuthors: mockWriteCoAuthors,
       readCoAuthors: () => '',
       removeCoAuthors: mockRemoveCoAuthors,
     });
@@ -108,5 +111,6 @@ describe('Git Mob API', () => {
     await updateGitTemplate();
 
     expect(mockRemoveCoAuthors).toBeCalledTimes(1);
+    expect(mockWriteCoAuthors).not.toHaveBeenCalled();
   });
 });
