@@ -24,7 +24,7 @@ async function setCoAuthors(keys: string[]) {
 }
 
 async function updateGitTemplate(selectedAuthors?: Author[]) {
-  const usingLocal = mob.usingLocalTemplate() && mob.usingGlobalTemplate();
+  const usingLocal = mob.usingLocalTemplate();
   const gitTemplate = gitMessage(
     resolveGitMessagePath(config.get('commit.template'))
   );
