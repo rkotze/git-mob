@@ -70,6 +70,8 @@ test('ignores positional arguments', t => {
   const soloExpected = 'Thomas Anderson <neo@example.com>';
 
   t.is(soloActual, soloExpected);
+
+  unsetCommitTemplate();
 });
 
 test('warns when used outside of a git repo', t => {
