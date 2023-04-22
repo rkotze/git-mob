@@ -33,6 +33,7 @@ async function updateGitTemplate(selectedAuthors?: Author[]) {
     if (usingLocal) {
       await gitMessage(mob.getGlobalTemplate()).writeCoAuthors(selectedAuthors);
     }
+
     return gitTemplate.writeCoAuthors(selectedAuthors);
   }
 
