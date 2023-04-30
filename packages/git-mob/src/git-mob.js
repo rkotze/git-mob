@@ -2,7 +2,7 @@ import os from 'node:os';
 import minimist from 'minimist';
 import { oneLine, stripIndents } from 'common-tags';
 
-import { getAllAuthors, getPrimaryAuthor } from 'git-mob-core';
+import { getAllAuthors, getPrimaryAuthor, setPrimaryAuthor } from 'git-mob-core';
 import { config, revParse } from '../src/git-commands';
 import { gitAuthors } from '../src/git-authors';
 import { gitMessage, gitMessagePath, commitTemplatePath } from '../src/git-message';
@@ -14,7 +14,6 @@ import {
   isCoAuthorSet,
   resetMob,
   addCoAuthor,
-  setGitAuthor,
   mobConfig,
 } from '../src/git-mob-commands';
 import { composeAuthors } from './git-authors/compose-authors';
@@ -56,7 +55,9 @@ async function execute(args) {
   }
 
   if (args.override) {
-    setAuthor(args._);
+    const initial = args._.shift();
+    setAuthor(initial);
+    runMob(args._);
   } else {
     runMob(args._);
   }
@@ -139,14 +140,12 @@ async function setMob(initials) {
   }
 }
 
-async function setAuthor(initials) {
+async function setAuthor(initial) {
   try {
-    const instance = gitAuthors();
-    const authorList = await instance.read();
-    const authors = instance.author(initials.shift(), authorList);
+    const authorList = await getAllAuthors();
+    const author = authorList.find(author => author.key === initial);
 
-    setGitAuthor(authors.name, authors.email);
-    runMob(initials);
+    setPrimaryAuthor(author);
   } catch (error) {
     console.error(red(`Error: ${error.message}`));
     process.exit(1);
