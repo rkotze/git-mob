@@ -178,6 +178,17 @@ test('sets mob and override author', t => {
   removeCoAuthors();
 });
 
+test('Incorrect override author key will show error', t => {
+  setCoauthorsFile();
+  addAuthor('Billy the Kid', 'billy@example.com');
+
+  const error = t.throws(() => {
+    exec('git mob -o kl ea');
+  });
+
+  t.regex(error.message, /error: kl author key not found!/i);
+});
+
 test('overwrites old mob when setting a new mob', t => {
   setCoauthorsFile();
   setGitMessageFile();

@@ -56,7 +56,7 @@ async function execute(args) {
 
   if (args.override) {
     const initial = args._.shift();
-    setAuthor(initial);
+    await setAuthor(initial);
     runMob(args._);
   } else {
     runMob(args._);
@@ -144,6 +144,10 @@ async function setAuthor(initial) {
   try {
     const authorList = await getAllAuthors();
     const author = authorList.find(author => author.key === initial);
+
+    if (!author) {
+      throw new Error(`${initial} author key not found!`);
+    }
 
     setPrimaryAuthor(author);
   } catch (error) {
