@@ -2,6 +2,7 @@ import { mob } from './commands';
 import { Author } from './git-mob-api/author';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
+import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
 import { setCoAuthors, updateGitTemplate } from '.';
 
 jest.mock('./commands');
@@ -35,6 +36,26 @@ describe('Git Mob API', () => {
   afterEach(() => {
     mockedMob.usingLocalTemplate.mockReset();
     mockedMob.usingGlobalTemplate.mockReset();
+    mockedMob.removeGitMobSection.mockReset();
+  });
+
+  it('missing author to pick for list throws error', async () => {
+    const authorKeys = ['ab', 'cd'];
+    const mockWriteCoAuthors = jest.fn(async () => undefined);
+    const mockRemoveCoAuthors = jest.fn(async () => '');
+    mockedGitAuthors.mockReturnValue(buildMockGitAuthors([...authorKeys, 'ef']));
+
+    mockedGitMessage.mockReturnValue({
+      writeCoAuthors: mockWriteCoAuthors,
+      readCoAuthors: () => '',
+      removeCoAuthors: mockRemoveCoAuthors,
+    });
+
+    await expect(async () => {
+      await setCoAuthors([...authorKeys, 'rk']);
+    }).rejects.toThrow(AuthorNotFound);
+
+    expect(mob.removeGitMobSection).not.toHaveBeenCalled();
   });
 
   it('apply co-authors to git config and git message', async () => {

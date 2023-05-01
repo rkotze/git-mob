@@ -1,5 +1,6 @@
 import { mob, config } from './commands';
 import { Author } from './git-mob-api/author';
+import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
 import {
@@ -13,8 +14,9 @@ async function getAllAuthors() {
 }
 
 async function setCoAuthors(keys: string[]) {
-  await solo();
   const selectedAuthors = pickSelectedAuthors(keys, await getAllAuthors());
+  await solo();
+
   for (const author of selectedAuthors) {
     mob.gitAddCoAuthor(author.toString());
   }
@@ -45,7 +47,15 @@ async function updateGitTemplate(selectedAuthors?: Author[]) {
 }
 
 function pickSelectedAuthors(keys: string[], authorMap: Author[]): Author[] {
-  return authorMap.filter(author => keys.includes(author.key));
+  const selectedAuthors = [];
+  for (const key of keys) {
+    const author = authorMap.find(author => author.key === key);
+
+    if (!author) throw new AuthorNotFound(key);
+    selectedAuthors.push(author);
+  }
+
+  return selectedAuthors;
 }
 
 function getSelectedCoAuthors(allAuthors: Author[]) {
