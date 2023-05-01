@@ -3,6 +3,7 @@ import { Author } from './git-mob-api/author';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
+import { fetchFromGitHub, localTemplate } from './git-mob-api/git-mob-config';
 import {
   resolveGitMessagePath,
   setCommitTemplate,
@@ -101,6 +102,13 @@ export {
   solo,
   updateGitTemplate,
 };
+
+const gitMobConfig = {
+  localTemplate,
+  fetchFromGitHub,
+};
+
+export { gitMobConfig };
 
 export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor';
 export { pathToCoAuthors } from './git-mob-api/git-authors';
