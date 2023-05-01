@@ -2,7 +2,12 @@ import os from 'node:os';
 import minimist from 'minimist';
 import { oneLine, stripIndents } from 'common-tags';
 
-import { getAllAuthors, getPrimaryAuthor, setPrimaryAuthor } from 'git-mob-core';
+import {
+  getAllAuthors,
+  getPrimaryAuthor,
+  setCoAuthors,
+  setPrimaryAuthor,
+} from 'git-mob-core';
 import { config, revParse } from '../src/git-commands';
 import { gitAuthors } from '../src/git-authors';
 import { gitMessage, gitMessagePath, commitTemplatePath } from '../src/git-message';
@@ -108,22 +113,10 @@ async function listCoAuthors() {
 
 async function setMob(initials) {
   try {
-    const instance = gitAuthors();
-    const authorList = await instance.read();
-    const coauthors = await composeAuthors(initials, authorList.coauthors);
+    const authorList = await getAllAuthors();
+    const coauthors = await composeAuthors(initials, authorList);
 
-    setCommitTemplate();
-    resetMob();
-
-    for (const coauthor of coauthors) {
-      addCoAuthor(coauthor);
-    }
-
-    gitMessage(gitMessagePath()).writeCoAuthors(coauthors);
-
-    if (config.usingLocalTemplate() && config.usingGlobalTemplate()) {
-      gitMessage(config.getGlobalTemplate()).writeCoAuthors(coauthors);
-    }
+    setCoAuthors(initials);
 
     printMob();
   } catch (error) {

@@ -4,34 +4,38 @@ import { saveAuthorList } from '../manage-authors/add-coauthor';
 import { mobConfig } from '../git-mob-commands';
 import { authorBaseFormat } from './author-base-format';
 
+// todo: CHANGE function name
+// Only need to find & save missing authors
 async function composeAuthors(
   initials: string[],
-  coAuthorList: AuthorList,
+  coAuthorList: Author[],
   getAuthors = fetchGitHubAuthors,
   saveAuthors = saveAuthorList
-): Promise<string[]> {
+): Promise<string[] | null> {
+  if (!mobConfig.fetchFromGitHub()) {
+    return null;
+  }
+
   const missing = findMissingAuthors(initials, coAuthorList);
-  if (missing.length > 0 && mobConfig.fetchFromGitHub()) {
+  if (missing.length > 0) {
     const fetchedAuthors = await getAuthors(missing, 'git-mob-cli');
+    // use Author[] to save new authors git mob core saveNewCoAuthors() should do the trick
     const gitMobList = {
       coauthors: { ...coAuthorList, ...transformToAuthorList(fetchedAuthors) },
     };
     await saveAuthors(gitMobList);
-    return buildFormatAuthorList(initials, gitMobList.coauthors);
   }
-
-  return buildFormatAuthorList(initials, coAuthorList);
 }
 
 function findMissingAuthors(
   initialList: string[],
-  coAuthorList: AuthorList
+  coAuthorList: Author[]
 ): string[] {
   return initialList.filter(initials => !containsAuthor(initials, coAuthorList));
 }
 
-function containsAuthor(initials: string, coauthors: AuthorList): boolean {
-  return initials in coauthors;
+function containsAuthor(initials: string, coauthors: Author[]): boolean {
+  return coauthors.some(author => author.key === initials);
 }
 
 function transformToAuthorList(authors: Author[]): AuthorList {
@@ -49,7 +53,7 @@ function transformToAuthorList(authors: Author[]): AuthorList {
 
 function buildFormatAuthorList(
   initialsList: string[],
-  coAuthorList: AuthorList
+  coAuthorList: Author[]
 ): string[] {
   return initialsList.map(initials => {
     if (!containsAuthor(initials, coAuthorList)) {
