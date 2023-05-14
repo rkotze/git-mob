@@ -9,19 +9,12 @@ import {
   setPrimaryAuthor,
 } from 'git-mob-core';
 import { config, revParse } from '../src/git-commands';
-import { gitAuthors } from '../src/git-authors';
 import { gitMessage, gitMessagePath, commitTemplatePath } from '../src/git-message';
 import { checkForUpdates, runHelp, runVersion, printList } from '../src/helpers';
 import { configWarning } from '../src/check-author';
 import { red, yellow } from '../src/colours';
-import {
-  getCoAuthors,
-  isCoAuthorSet,
-  resetMob,
-  addCoAuthor,
-  mobConfig,
-} from '../src/git-mob-commands';
-import { composeAuthors } from './git-authors/compose-authors';
+import { getCoAuthors, isCoAuthorSet, mobConfig } from '../src/git-mob-commands';
+import { saveMissingAuthors } from './git-authors/save-missing-authors';
 
 checkForUpdates();
 
@@ -114,9 +107,9 @@ async function listCoAuthors() {
 async function setMob(initials) {
   try {
     const authorList = await getAllAuthors();
-    const coauthors = await composeAuthors(initials, authorList);
+    await saveMissingAuthors(initials, authorList);
 
-    setCoAuthors(initials);
+    await setCoAuthors(initials);
 
     printMob();
   } catch (error) {
@@ -151,10 +144,4 @@ async function setAuthor(initial) {
 
 function author({ name, email }) {
   return oneLine`${name} <${email}>`;
-}
-
-function setCommitTemplate() {
-  if (!config.hasTemplatePath()) {
-    config.setTemplatePath(commitTemplatePath());
-  }
 }
