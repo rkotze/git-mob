@@ -9,7 +9,7 @@ import {
   setPrimaryAuthor,
 } from 'git-mob-core';
 import { config, revParse } from '../src/git-commands';
-import { gitMessage, gitMessagePath, commitTemplatePath } from '../src/git-message';
+import { gitMessage, gitMessagePath } from '../src/git-message';
 import { checkForUpdates, runHelp, runVersion, printList } from '../src/helpers';
 import { configWarning } from '../src/check-author';
 import { red, yellow } from '../src/colours';
