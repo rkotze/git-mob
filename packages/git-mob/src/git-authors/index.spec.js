@@ -2,7 +2,7 @@
 /* eslint quote-props: ["off", "always"] */
 
 import test from 'ava';
-import { gitAuthors } from '.';
+import { gitAuthors, gitCoauthorsPath } from '.';
 
 const validJsonString = `
 {
@@ -48,6 +48,25 @@ test('.git-coauthors file does not exist', async t => {
   );
   const error = await t.throwsAsync(() => authors.read());
   t.regex(error.message, /enoent: no such file or directory, open/i);
+});
+
+test('.git-coauthors by default is in the home directory', async t => {
+  t.deepEqual(gitCoauthorsPath(), "~/.git-coauthors");
+});
+
+test('.git-coauthors is set to the repo root if one exists', async t => {
+  t.deepEqual(gitCoauthorsPath(() => '~/Repo/Path'), "~/Repo/Path/.git-coauthors");
+});
+
+test('.git-coauthors can be overwritten by the env var', async t => {
+  const oldEnv = process.env.GITMOB_COAUTHORS_PATH;
+  try {
+    process.env.GITMOB_COAUTHORS_PATH = "~/Env/Path/.git-co-authors";
+    t.deepEqual(gitCoauthorsPath(), "~/Env/Path/.git-co-authors")
+  } finally {
+    process.env.GITMOB_COAUTHORS_PATH = oldEnv;
+  }
+  
 });
 
 test('invalid json contents from .git-coauthors', async t => {
