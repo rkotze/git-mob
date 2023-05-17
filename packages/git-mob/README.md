@@ -52,10 +52,15 @@ $ git config --global user.name "Jane Doe"
 $ git config --global user.email "jane@example.com"
 ```
 
-To keep track of potential co-authors, git-mob uses a JSON file called `~/.git-coauthors`.
-Here's a template of its structure.
+To keep track of potential co-authors, git-mob uses a JSON file called `.git-coauthors`, which will try to find it in the following directories:
 
-```
+1. If `GITMOB_COAUTHORS_PATH` is set this will override any other settings.
+1. Else if the current git repo has a `<repo>/.git-coauthors` file in the git root directory.
+1. Else it will default to users home directory at `~/.git-coauthors`, if nothing else is set.
+
+Here's a template of its structure:
+
+```json
 {
   "coauthors": {
     "<initials>": {
@@ -68,7 +73,7 @@ Here's a template of its structure.
 
 Start by adding a few co-authors that you work with. Also see [add co-author](#add-co-author) command.
 
-```
+```bash
 $ cat <<-EOF > ~/.git-coauthors
 {
   "coauthors": {

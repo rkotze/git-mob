@@ -105,13 +105,13 @@ function missingAuthorError(initials, coauthors) {
   }
 }
 
-function pathToCoAuthors(repoDirectory = topLevelDirectory) {
+function pathToCoAuthors() {
   if (process.env.GITMOB_COAUTHORS_PATH) {
     return process.env.GITMOB_COAUTHORS_PATH;
   }
 
   const gitCoauthorsFileName = ".git-coauthors";
-  const repoAuthorsFile = path.join(repoDirectory(), gitCoauthorsFileName);
+  const repoAuthorsFile = path.join(topLevelDirectory(), gitCoauthorsFileName);
 
   return fs.existsSync(repoAuthorsFile)
     ? repoAuthorsFile

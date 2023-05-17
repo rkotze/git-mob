@@ -5,7 +5,7 @@ import { promisify } from 'node:util';
 import { authorBaseFormat } from './author-base-format';
 import { topLevelDirectory } from 'git-mob-core';
 
-function gitCoauthorsPath(repoDirectory = topLevelDirectory) {
+function gitCoauthorsPath() {
   if (process.env.GITMOB_COAUTHORS_PATH) {
     return process.env.GITMOB_COAUTHORS_PATH;
   }

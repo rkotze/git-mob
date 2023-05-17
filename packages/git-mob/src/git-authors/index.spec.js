@@ -51,22 +51,21 @@ test('.git-coauthors file does not exist', async t => {
 });
 
 test('.git-coauthors by default is in the home directory', async t => {
-  t.deepEqual(gitCoauthorsPath(), "~/.git-coauthors");
+  t.is(gitCoauthorsPath(), "~/.git-coauthors");
 });
 
 test('.git-coauthors is set to the repo root if one exists', async t => {
-  t.deepEqual(gitCoauthorsPath(() => '~/Repo/Path'), "~/Repo/Path/.git-coauthors");
+  t.regex(gitCoauthorsPath(), /.+git-mob\/\.git-coauthors$/);
 });
 
 test('.git-coauthors can be overwritten by the env var', async t => {
   const oldEnv = process.env.GITMOB_COAUTHORS_PATH;
   try {
     process.env.GITMOB_COAUTHORS_PATH = "~/Env/Path/.git-co-authors";
-    t.deepEqual(gitCoauthorsPath(), "~/Env/Path/.git-co-authors")
+    t.is(gitCoauthorsPath(), "~/Env/Path/.git-co-authors")
   } finally {
     process.env.GITMOB_COAUTHORS_PATH = oldEnv;
   }
-  
 });
 
 test('invalid json contents from .git-coauthors', async t => {
