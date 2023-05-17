@@ -2,20 +2,20 @@ import { readFile as _readFile, appendFile, writeFile, existsSync } from 'node:f
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
-import { authorBaseFormat } from './author-base-format';
 import { topLevelDirectory } from 'git-mob-core';
+import { authorBaseFormat } from './author-base-format';
 
 function gitCoauthorsPath() {
   if (process.env.GITMOB_COAUTHORS_PATH) {
     return process.env.GITMOB_COAUTHORS_PATH;
   }
 
-  const gitCoauthorsFileName = ".git-coauthors";
-  const repoAuthorsFile = path.join(topLevelDirectory(), gitCoauthorsFileName);
+  const gitCoauthorsFileName = '.git-coauthors';
+  const repoAuthorsFile = join(topLevelDirectory(), gitCoauthorsFileName);
 
   return existsSync(repoAuthorsFile)
     ? repoAuthorsFile
-    : path.join(os.homedir(), gitCoauthorsFileName);
+    : join(homedir(), gitCoauthorsFileName);
 }
 
 function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
@@ -66,7 +66,10 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
 
     overwrite: async authorJson => {
       try {
-        return overwriteFile(gitCoauthorsPath(), JSON.stringify(authorJson, null, 2));
+        return overwriteFile(
+          gitCoauthorsPath(),
+          JSON.stringify(authorJson, null, 2)
+        );
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }

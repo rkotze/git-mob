@@ -14,11 +14,11 @@ createFileIfNotExist();
 async function createFileIfNotExist() {
   const instance = gitAuthors();
   if (instance.fileExists()) {
-    console.log(`${gitCoauthorsPath} file already exists`);
+    console.log(`${gitCoauthorsPath()} file already exists`);
   } else {
     try {
       await instance.write(SAMPLE_CONTENT);
-      console.log('Add co-authors to:', gitCoauthorsPath);
+      console.log('Add co-authors to:', gitCoauthorsPath());
     } catch (error) {
       console.log(
         'Something went wrong adding a new co-authors file, error:',

@@ -110,7 +110,7 @@ function pathToCoAuthors() {
     return process.env.GITMOB_COAUTHORS_PATH;
   }
 
-  const gitCoauthorsFileName = ".git-coauthors";
+  const gitCoauthorsFileName = '.git-coauthors';
   const repoAuthorsFile = path.join(topLevelDirectory(), gitCoauthorsFileName);
 
   return fs.existsSync(repoAuthorsFile)
