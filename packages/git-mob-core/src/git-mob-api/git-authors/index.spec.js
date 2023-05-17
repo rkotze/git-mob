@@ -1,3 +1,4 @@
+const path = require('path');
 const { Author } = require('../author');
 const { gitAuthors, pathToCoAuthors } = require('.');
 
@@ -50,19 +51,15 @@ test('.git-coauthors file does not exist', async () => {
   );
 });
 
-test('.git-coauthors by default is in the home directory', async t => {
-  t.is(pathToCoAuthors(), "~/.git-coauthors");
+test('.git-coauthors by default is in the home directory', () => {
+  expect(pathToCoAuthors()).toEqual(path.join(process.env.HOME, '.git-coauthors'));
 });
 
-test('.git-coauthors is set to the repo root if one exists', async t => {
-  t.regex(gitCoauthorsPath(), /.+git-mob\/\.git-coauthors$/);
-});
-
-test('.git-coauthors can be overwritten by the env var', async t => {
+test('.git-coauthors can be overwritten by the env var', () => {
   const oldEnv = process.env.GITMOB_COAUTHORS_PATH;
   try {
-    process.env.GITMOB_COAUTHORS_PATH = "~/Env/Path/.git-co-authors";
-    t.is(pathToCoAuthors(), "~/Env/Path/.git-co-authors")
+    process.env.GITMOB_COAUTHORS_PATH = '~/Env/Path/.git-co-authors';
+    expect(pathToCoAuthors()).toEqual('~/Env/Path/.git-co-authors');
   } finally {
     process.env.GITMOB_COAUTHORS_PATH = oldEnv;
   }

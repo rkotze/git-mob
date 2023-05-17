@@ -50,19 +50,18 @@ test('.git-coauthors file does not exist', async t => {
   t.regex(error.message, /enoent: no such file or directory, open/i);
 });
 
-test('.git-coauthors by default is in the home directory', async t => {
-  t.is(gitCoauthorsPath(), "~/.git-coauthors");
+test('.git-coauthors is set to the repo root if one exists', t => {
+  t.regex(
+    gitCoauthorsPath(),
+    /.+git-mob\/packages\/git-mob\/test-helpers\/\.git-coauthors$/
+  );
 });
 
-test('.git-coauthors is set to the repo root if one exists', async t => {
-  t.regex(gitCoauthorsPath(), /.+git-mob\/\.git-coauthors$/);
-});
-
-test('.git-coauthors can be overwritten by the env var', async t => {
+test('.git-coauthors can be overwritten by the env var', t => {
   const oldEnv = process.env.GITMOB_COAUTHORS_PATH;
   try {
-    process.env.GITMOB_COAUTHORS_PATH = "~/Env/Path/.git-co-authors";
-    t.is(gitCoauthorsPath(), "~/Env/Path/.git-co-authors")
+    process.env.GITMOB_COAUTHORS_PATH = '~/Env/Path/.git-co-authors';
+    t.is(gitCoauthorsPath(), '~/Env/Path/.git-co-authors');
   } finally {
     process.env.GITMOB_COAUTHORS_PATH = oldEnv;
   }
