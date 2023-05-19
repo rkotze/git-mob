@@ -1,4 +1,5 @@
-import { gitAuthors, gitCoauthorsPath } from '../git-authors';
+import { gitAuthors } from '../git-authors';
+import { pathToCoAuthors } from 'git-mob-core';
 
 const SAMPLE_CONTENT = {
   coauthors: {
@@ -14,11 +15,11 @@ createFileIfNotExist();
 async function createFileIfNotExist() {
   const instance = gitAuthors();
   if (instance.fileExists()) {
-    console.log(`${gitCoauthorsPath()} file already exists`);
+    console.log(`${pathToCoAuthors()} file already exists`);
   } else {
     try {
       await instance.write(SAMPLE_CONTENT);
-      console.log('Add co-authors to:', gitCoauthorsPath());
+      console.log('Add co-authors to:', pathToCoAuthors());
     } catch (error) {
       console.log(
         'Something went wrong adding a new co-authors file, error:',

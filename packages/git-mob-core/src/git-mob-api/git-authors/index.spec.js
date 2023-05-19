@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const { Author } = require('../author');
 const { gitAuthors, pathToCoAuthors } = require('.');
 
@@ -53,6 +54,11 @@ test('.git-coauthors file does not exist', async () => {
 
 test('.git-coauthors by default is in the home directory', () => {
   expect(pathToCoAuthors()).toEqual(path.join(process.env.HOME, '.git-coauthors'));
+});
+
+test('.git-coauthors can be overwritten by a repo file', () => {
+  jest.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
+  expect(pathToCoAuthors()).toMatch(/.+\/git-mob\/\.git-coauthors$/);
 });
 
 test('.git-coauthors can be overwritten by the env var', () => {

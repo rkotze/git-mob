@@ -1,24 +1,9 @@
 import { readFile as _readFile, appendFile, writeFile, existsSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { join } from 'node:path';
 import { promisify } from 'node:util';
-import { topLevelDirectory } from 'git-mob-core';
+import { pathToCoAuthors } from 'git-mob-core';
 import { authorBaseFormat } from './author-base-format';
 
-function gitCoauthorsPath() {
-  if (process.env.GITMOB_COAUTHORS_PATH) {
-    return process.env.GITMOB_COAUTHORS_PATH;
-  }
-
-  const gitCoauthorsFileName = '.git-coauthors';
-  const repoAuthorsFile = join(topLevelDirectory(), gitCoauthorsFileName);
-
-  return existsSync(repoAuthorsFile)
-    ? repoAuthorsFile
-    : join(homedir(), gitCoauthorsFileName);
-}
-
-function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
+export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {
     const readPromise = readFilePromise || promisify(_readFile);
     try {
@@ -48,7 +33,7 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
 
   return {
     read: async () => {
-      const authorJsonString = await readFile(gitCoauthorsPath());
+      const authorJsonString = await readFile(pathToCoAuthors());
       try {
         return JSON.parse(authorJsonString);
       } catch (error) {
@@ -58,7 +43,7 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
 
     write: async authorJson => {
       try {
-        return writeToFile(gitCoauthorsPath(), JSON.stringify(authorJson, null, 2));
+        return writeToFile(pathToCoAuthors(), JSON.stringify(authorJson, null, 2));
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }
@@ -66,17 +51,14 @@ function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
 
     overwrite: async authorJson => {
       try {
-        return overwriteFile(
-          gitCoauthorsPath(),
-          JSON.stringify(authorJson, null, 2)
-        );
+        return overwriteFile(pathToCoAuthors(), JSON.stringify(authorJson, null, 2));
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }
     },
 
     fileExists: () => {
-      return existsSync(gitCoauthorsPath());
+      return existsSync(pathToCoAuthors());
     },
 
     author(authorInitials, authorJson) {
@@ -111,5 +93,3 @@ function missingAuthorError(initials, coauthors) {
     throw new Error(`Author with initials "${initials}" not found!`);
   }
 }
-
-export { gitAuthors, gitCoauthorsPath };
