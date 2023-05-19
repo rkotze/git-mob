@@ -1,5 +1,5 @@
-import { gitAuthors } from '../git-authors';
 import { pathToCoAuthors } from 'git-mob-core';
+import { gitAuthors } from '../git-authors';
 
 const SAMPLE_CONTENT = {
   coauthors: {
