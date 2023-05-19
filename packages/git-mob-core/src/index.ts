@@ -93,5 +93,6 @@ export {
 };
 
 export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor';
+export { pathToCoAuthors } from './git-mob-api/git-authors';
 export { fetchGitHubAuthors } from './git-mob-api/git-authors/fetch-github-authors';
 export { Author } from './git-mob-api/author';
