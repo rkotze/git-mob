@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { spawnSync } = require('child_process');
 const { stripIndent } = require('common-tags');
 const eol = require('eol');
@@ -104,7 +105,10 @@ function setCoauthorsFile() {
     `;
     fs.writeFileSync(process.env.GITMOB_COAUTHORS_PATH, coauthorsTemplate);
   } catch (error) {
-    console.warn('Failed to create .git-coauthors file.', error.message);
+    console.warn(
+      'Test Helpers: Failed to create global .git-coauthors file.',
+      error.message
+    );
   }
 }
 
@@ -122,17 +126,24 @@ function deleteCoauthorsFile() {
       fs.unlinkSync(process.env.GITMOB_COAUTHORS_PATH);
     }
   } catch (error) {
-    console.warn('Failed to delete .git-coauthors file.', error.message);
+    console.warn(
+      'Test helpers: Failed to delete .git-coauthors file.',
+      error.message
+    );
   }
 }
 
 function deleteGitMessageFile() {
+  const filePath = process.env.GITMOB_MESSAGE_PATH;
   try {
-    if (fs.existsSync(process.env.GITMOB_MESSAGE_PATH)) {
-      fs.unlinkSync(process.env.GITMOB_MESSAGE_PATH);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
     }
   } catch (error) {
-    console.warn('Failed to delete .gitmessage file.', error.message);
+    console.warn(
+      'Test helpers: Failed to delete global .gitmessage file.',
+      error.message
+    );
   }
 }
 
@@ -149,9 +160,53 @@ function exec(command) {
   return spawnString;
 }
 
-const testDir = './test-env';
-const repoDir = process.cwd();
+const testDir = process.env.GITMOB_TEST_ENV_FOLDER;
+const coAuthorsFilename = '.git-coauthors';
+
+function setLocalCoauthorsFile() {
+  try {
+    const coauthorsTemplate = stripIndent`
+    {
+      "coauthors": {
+        "dd": {
+          "name": "Din Djarin",
+          "email": "din@mando.com"
+        },
+        "bk": {
+          "name": "Bo-Katan Kryze",
+          "email": "bo-katan@dwatch.com"
+        }
+      }
+    }
+    `;
+    fs.writeFileSync(
+      path.join(process.env.HOME, testDir, coAuthorsFilename),
+      coauthorsTemplate
+    );
+  } catch (error) {
+    console.warn(
+      'Test Helpers: Failed to create local .git-coauthors file.',
+      error.message
+    );
+  }
+}
+
+function deleteLocalCoauthorsFile() {
+  const filePath = path.join(process.env.HOME, testDir, coAuthorsFilename);
+  try {
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  } catch (error) {
+    console.warn(
+      'Test helpers: Failed to delete local .git-coauthors file.',
+      error.message
+    );
+  }
+}
+
 function setup() {
+  process.chdir(process.env.GITMOB_TEST_HELPER_FOLDER);
   try {
     if (!fs.existsSync(testDir)) {
       fs.mkdirSync(testDir);
@@ -165,7 +220,7 @@ function setup() {
 }
 
 function tearDown() {
-  process.chdir(repoDir);
+  process.chdir(process.env.HOME);
   /* eslint n/no-unsupported-features/node-builtins: 0 */
   fs.rmSync(testDir, { recursive: true });
 }
@@ -180,11 +235,13 @@ export {
   setGitMessageFile,
   readGitMessageFile,
   setCoauthorsFile,
+  setLocalCoauthorsFile,
   readCoauthorsFile,
   deleteGitMessageFile,
   deleteCoauthorsFile,
+  deleteLocalCoauthorsFile,
   exec,
   retainLocalAuthor,
   setup,
-  tearDown
+  tearDown,
 };
