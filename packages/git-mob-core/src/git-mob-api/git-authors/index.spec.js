@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const { Author } = require('../author');
+const { topLevelDirectory } = require('../../git-rev-parse');
 const { gitAuthors, pathToCoAuthors } = require('.');
 
 const validJsonString = `
@@ -58,7 +59,9 @@ test('.git-coauthors by default is in the home directory', () => {
 
 test('.git-coauthors can be overwritten by a repo file', () => {
   jest.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
-  expect(pathToCoAuthors()).toMatch(/.+\/git-mob\/\.git-coauthors$/);
+  expect(pathToCoAuthors()).toEqual(
+    path.join(topLevelDirectory(), '.git-coauthors')
+  );
 });
 
 test('.git-coauthors can be overwritten by the env var', () => {
