@@ -10,27 +10,29 @@ _Add co-authors to commits_ when you collaborate on code. Use when pairing with 
 
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
 
-- [Install](#install)
-- [Workflow / Usage](#workflow--usage)
-  - [Add co-author from GitHub](#add-co-author-from-github)
-- [Custom setup](#custom-setup)
-  - [Using `git commit -m` setup](#using-git-commit--m-setup)
-    - [Using pre-commit to install](#using-pre-commit-to-install)
-  - [Revert back to default setup](#revert-back-to-default-setup)
-- [Git Mob config](#git-mob-config)
-  - [Use local commit template](#use-local-commit-template)
-- [More commands](#more-commands)
-  - [List all co-authors](#list-all-co-authors)
-  - [Overwrite the main author](#overwrite-the-main-author)
-  - [Add co-author](#add-co-author)
-  - [Delete co-author](#delete-co-author)
-  - [Edit co-author](#edit-co-author)
-  - [Suggest co-authors base on current repo](#suggest-co-authors-base-on-current-repo)
-  - [Help](#help)
-  - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
-    - [Bash](#bash)
-    - [Fish](#fish)
-- [More info](#more-info)
+- [Git Mob - Co-author commits](#git-mob---co-author-commits)
+  - [Install](#install)
+  - [Workflow / Usage](#workflow--usage)
+    - [Add co-author from GitHub](#add-co-author-from-github)
+  - [Custom setup](#custom-setup)
+    - [Using `git commit -m` setup](#using-git-commit--m-setup)
+      - [Using pre-commit to install](#using-pre-commit-to-install)
+    - [Revert back to default setup](#revert-back-to-default-setup)
+  - [Git Mob config](#git-mob-config)
+    - [Use local commit template](#use-local-commit-template)
+    - [Enable GitHub author fetch](#enable-github-author-fetch)
+  - [More commands](#more-commands)
+    - [List all co-authors](#list-all-co-authors)
+    - [Overwrite the main author](#overwrite-the-main-author)
+    - [Add co-author](#add-co-author)
+    - [Delete co-author](#delete-co-author)
+    - [Edit co-author](#edit-co-author)
+    - [Suggest co-authors base on current repo](#suggest-co-authors-base-on-current-repo)
+    - [Help](#help)
+    - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
+      - [Bash](#bash)
+      - [Fish](#fish)
+  - [More info](#more-info)
 
 ## Install
 
@@ -52,11 +54,11 @@ $ git config --global user.name "Jane Doe"
 $ git config --global user.email "jane@example.com"
 ```
 
-To keep track of potential co-authors, git-mob uses a JSON file called `.git-coauthors`, which will try to find it in the following directories:
+To keep track of co-authors git-mob uses a JSON file called `.git-coauthors`, and will try to find it in the following directories:
 
-1. If `GITMOB_COAUTHORS_PATH` is set this will override any other settings.
-1. Else if the current git repo has a `<repo>/.git-coauthors` file in the git root directory.
-1. Else it will default to users home directory at `~/.git-coauthors`, if nothing else is set.
+1. If `GITMOB_COAUTHORS_PATH` environment variable is set this will override any other settings.
+2. If the current Git repository has a `.git-coauthors` file in the root directory.
+3. The default is the users home directory at `~/.git-coauthors`.
 
 Here's a template of its structure:
 

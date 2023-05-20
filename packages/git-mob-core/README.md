@@ -22,6 +22,7 @@ setPrimaryAuthor(author): void
 solo(): void
 updateGitTemplate(selectedAuthors): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
+pathToCoAuthors(): string
 class Author
 ```
 
