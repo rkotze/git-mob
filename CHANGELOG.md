@@ -2,12 +2,12 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
-## git-mob 2.3.6 Next
+## git-mob 2.4.0 Next
 
 ### Added
 
 - Integrated git-mob-core solo function
-- Override the global `.git-coauthors` file with one specified in root folder of a Git repository.
+- Override the global `.git-coauthors` file with one specified in root folder of a Git repository. Thanks to @tlabeeuw
 
 ## git-mob-core 0.4.0 Next
 
