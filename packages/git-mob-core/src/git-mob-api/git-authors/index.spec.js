@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const { Author } = require('../author');
-const { topLevelDirectory } = require('../../git-rev-parse');
+const { topLevelDirectory } = require('../git-rev-parse');
 const { gitAuthors, pathToCoAuthors } = require('.');
 
 const validJsonString = `
