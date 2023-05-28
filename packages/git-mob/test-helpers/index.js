@@ -151,7 +151,7 @@ function exec(command) {
   const spawnString = spawnSync(command, { encoding: 'utf8', shell: true });
 
   if (spawnString.status !== 0) {
-    throw new Error(`GitMob handleResponse: "${command}" 
+    throw new Error(`GitMob test helper: "${command}" 
     stdout: ${spawnString.stdout}
     ---
     stderr: ${spawnString.stderr}`);

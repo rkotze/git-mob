@@ -1,15 +1,11 @@
-import { execCommand } from './exec-command';
-
-async function get(key: string) {
-  return execCommand(`git config --get ${key}`);
-}
+import { getConfig } from './exec-command';
 
 export async function localTemplate() {
-  const localTemplate = await get('--local git-mob-config.use-local-template');
+  const localTemplate = await getConfig('--local git-mob-config.use-local-template');
   return localTemplate === 'true';
 }
 
 export async function fetchFromGitHub() {
-  const githubFetch = await get('--global git-mob-config.github-fetch');
+  const githubFetch = await getConfig('--global git-mob-config.github-fetch');
   return githubFetch === 'true';
 }

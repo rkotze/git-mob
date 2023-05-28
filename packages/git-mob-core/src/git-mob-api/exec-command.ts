@@ -12,3 +12,11 @@ export async function execCommand(command: string): Promise<string> {
 
   return stdout.trim();
 }
+
+export async function getConfig(key: string) {
+  try {
+    return await execCommand(`git config --get ${key}`);
+  } catch {
+    return undefined;
+  }
+}
