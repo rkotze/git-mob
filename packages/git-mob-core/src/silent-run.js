@@ -16,14 +16,7 @@ const { spawnSync } = require('child_process');
  * @returns {ChildProcess.SpawnResult} object from child_process.spawnSync
  */
 function silentRun(command) {
-  return spawnSync(command, cmdOptions({ shell: true }));
-}
-
-function cmdOptions(extendOptions = {}) {
-  return {
-    ...extendOptions,
-    encoding: 'utf8',
-  };
+  return spawnSync(command, { shell: true, encoding: 'utf8' });
 }
 
 exports.silentRun = silentRun;

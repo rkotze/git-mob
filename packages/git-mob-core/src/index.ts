@@ -12,6 +12,7 @@ import {
   resolveGitMessagePath,
   setCommitTemplate,
 } from './git-mob-api/resolve-git-message-path';
+import { insideWorkTree, topLevelDirectory } from './git-mob-api/git-rev-parse';
 
 async function getAllAuthors() {
   const gitMobAuthors = gitAuthors();
@@ -115,6 +116,11 @@ export const gitMobConfig = {
 export const gitConfig = {
   getLocalCommitTemplate,
   getGlobalCommitTemplate,
+};
+
+export const gitRevParse = {
+  insideWorkTree,
+  topLevelDirectory,
 };
 
 export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor';

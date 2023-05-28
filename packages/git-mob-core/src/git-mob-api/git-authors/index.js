@@ -3,7 +3,7 @@ const os = require('os');
 const path = require('path');
 const { promisify } = require('util');
 const { Author } = require('../author');
-const { topLevelDirectory } = require('../../git-rev-parse');
+const { topLevelDirectory } = require('../git-rev-parse');
 
 function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {

@@ -7,10 +7,10 @@ import {
   getPrimaryAuthor,
   gitMobConfig,
   gitConfig,
+  gitRevParse,
   setCoAuthors,
   setPrimaryAuthor,
 } from 'git-mob-core';
-import { revParse } from '../src/git-commands';
 import { gitMessage, gitMessagePath } from '../src/git-message';
 import { checkForUpdates, runHelp, runVersion, printList } from '../src/helpers';
 import { configWarning } from '../src/check-author';
@@ -49,8 +49,8 @@ async function execute(args) {
     process.exit(0);
   }
 
-  if (!revParse.insideWorkTree()) {
-    console.error('Error: not a Git repository');
+  if (!gitRevParse.insideWorkTree()) {
+    console.error(red('Error: not a Git repository'));
     process.exit(1);
   }
 
