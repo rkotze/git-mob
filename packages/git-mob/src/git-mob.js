@@ -15,7 +15,6 @@ import { gitMessage, gitMessagePath } from '../src/git-message';
 import { checkForUpdates, runHelp, runVersion, printList } from '../src/helpers';
 import { configWarning } from '../src/check-author';
 import { red, yellow } from '../src/colours';
-import { getCoAuthors, isCoAuthorSet } from '../src/git-mob-commands';
 import { saveMissingAuthors } from './git-authors/save-missing-authors';
 
 checkForUpdates();
@@ -67,9 +66,10 @@ async function runMob(args) {
   if (args.length === 0) {
     await printMob();
     const template = await gitConfig.getLocalCommitTemplate();
-    if (template && isCoAuthorSet()) {
+    const selectedCoAuthors = await gitMobConfig.getSetCoAuthors();
+    if (template && selectedCoAuthors) {
       await gitMessage(gitMessagePath()).writeCoAuthors(
-        getCoAuthors().split(os.EOL)
+        selectedCoAuthors.split(os.EOL)
       );
     }
   } else {
@@ -81,8 +81,9 @@ async function printMob() {
   const gitAuthor = getPrimaryAuthor();
   console.log(author(gitAuthor));
 
-  if (isCoAuthorSet()) {
-    console.log(getCoAuthors());
+  const selectedCoAuthors = await gitMobConfig.getSetCoAuthors();
+  if (selectedCoAuthors) {
+    console.log(selectedCoAuthors);
   }
 
   const [useLocalTemplate, template] = await Promise.all([

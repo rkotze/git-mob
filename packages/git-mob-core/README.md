@@ -23,12 +23,28 @@ solo(): void
 updateGitTemplate(selectedAuthors): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
 pathToCoAuthors(): string
-class Author
+
+gitMobConfig = {
+  localTemplate(): <Promise<boolean>>,
+  fetchFromGitHub(): <Promise<boolean>>,
+};
+
+gitConfig = {
+  getLocalCommitTemplate(): <Promise<string>>,
+  getGlobalCommitTemplate(): <Promise<string>>,
+};
+
+gitRevParse = {
+  insideWorkTree(): string,
+  topLevelDirectory(): boolean,
+};
 ```
 
 ## Author class
 
 ```TS
+class Author;
+
 // Properties
 Author.key: string
 Author.name: string

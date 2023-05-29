@@ -7,7 +7,7 @@ export async function execCommand(command: string): Promise<string> {
   const { stderr, stdout } = await execAsync(command, { encoding: 'utf8' });
 
   if (stderr) {
-    throw new Error(`GitMob execCommand: "${command}" ${stdout.trim()}`);
+    throw new Error(`GitMob execCommand: "${command}" ${stderr.trim()}`);
   }
 
   return stdout.trim();
@@ -16,6 +16,14 @@ export async function execCommand(command: string): Promise<string> {
 export async function getConfig(key: string) {
   try {
     return await execCommand(`git config --get ${key}`);
+  } catch {
+    return undefined;
+  }
+}
+
+export async function getAllConfig(key: string) {
+  try {
+    return await execCommand(`git config --get-all ${key}`);
   } catch {
     return undefined;
   }
