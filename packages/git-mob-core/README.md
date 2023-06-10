@@ -23,6 +23,8 @@ solo(): void
 updateGitTemplate(selectedAuthors): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
 pathToCoAuthors(): string
+getConfig(prop: string): string | undefined
+updateConfig(prop: string, value: string): void
 class Author
 ```
 

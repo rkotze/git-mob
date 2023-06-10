@@ -1,6 +1,7 @@
 const { exec } = require('child_process');
 const { promisify } = require('util');
 const { silentRun } = require('./silent-run');
+const { getConfig } = require('./config-manager');
 
 /**
  * Runs the given command in a shell.
@@ -10,7 +11,10 @@ const { silentRun } = require('./silent-run');
 async function silentExec(command) {
   const execAsync = promisify(exec);
   try {
-    const response = await execAsync(command, cmdOptions());
+    const cmdConfig = {};
+    const processCwd = getConfig('processCwd');
+    if (processCwd) cmdConfig.cwd = processCwd;
+    const response = await execAsync(command, cmdOptions(cmdConfig));
 
     return response.stdout;
   } catch (error) {
