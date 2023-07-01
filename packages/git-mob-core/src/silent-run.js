@@ -1,4 +1,5 @@
 const { spawnSync } = require('child_process');
+const { getConfig } = require('./config-manager');
 
 /**
  * @typedef {Object} ChildProcess.SpawnResult
@@ -16,7 +17,10 @@ const { spawnSync } = require('child_process');
  * @returns {ChildProcess.SpawnResult} object from child_process.spawnSync
  */
 function silentRun(command) {
-  return spawnSync(command, { shell: true, encoding: 'utf8' });
+  const cmdConfig = { shell: true, encoding: 'utf8' };
+  const processCwd = getConfig('processCwd');
+  if (processCwd) cmdConfig.cwd = processCwd;
+  return spawnSync(command, cmdConfig);
 }
 
 exports.silentRun = silentRun;
