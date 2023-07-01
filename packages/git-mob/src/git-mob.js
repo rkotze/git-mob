@@ -64,9 +64,15 @@ async function execute(args) {
 
 async function runMob(args) {
   if (args.length === 0) {
-    await printMob();
-    const template = await gitConfig.getLocalCommitTemplate();
-    const selectedCoAuthors = await gitMobConfig.getSetCoAuthors();
+    const [{ gitAuthor, selectedCoAuthors }, useLocalTemplate, template] =
+      await Promise.all([
+        getMob(),
+        gitMobConfig.localTemplate(),
+        gitConfig.getLocalCommitTemplate(),
+      ]);
+
+    printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template);
+
     if (template && selectedCoAuthors) {
       await gitMessage(gitMessagePath()).writeCoAuthors(
         selectedCoAuthors.split(os.EOL)
@@ -77,19 +83,18 @@ async function runMob(args) {
   }
 }
 
-async function printMob() {
+async function getMob() {
   const gitAuthor = getPrimaryAuthor();
+  const selectedCoAuthors = await gitMobConfig.getSetCoAuthors();
+  return { gitAuthor, selectedCoAuthors };
+}
+
+function printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template) {
   console.log(author(gitAuthor));
 
-  const selectedCoAuthors = await gitMobConfig.getSetCoAuthors();
   if (selectedCoAuthors) {
     console.log(selectedCoAuthors);
   }
-
-  const [useLocalTemplate, template] = await Promise.all([
-    gitMobConfig.localTemplate(),
-    gitConfig.getLocalCommitTemplate(),
-  ]);
 
   if (!useLocalTemplate && template) {
     console.log(
@@ -119,10 +124,16 @@ async function setMob(initials) {
   try {
     const authorList = await getAllAuthors();
     await saveMissingAuthors(initials, authorList);
-
     await setCoAuthors(initials);
 
-    await printMob();
+    const [{ gitAuthor, selectedCoAuthors }, useLocalTemplate, template] =
+      await Promise.all([
+        getMob(),
+        gitMobConfig.localTemplate(),
+        gitConfig.getLocalCommitTemplate(),
+      ]);
+
+    await printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template);
   } catch (error) {
     console.error(red(`setMob error: ${error.message}`));
     if (error.message.includes('not found!')) {

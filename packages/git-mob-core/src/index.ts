@@ -23,7 +23,7 @@ async function getAllAuthors() {
   return gitMobAuthors.toList(await gitMobAuthors.read());
 }
 
-async function setCoAuthors(keys: string[]) {
+async function setCoAuthors(keys: string[]): Promise<Author[]> {
   const selectedAuthors = pickSelectedAuthors(keys, await getAllAuthors());
   await solo();
 
