@@ -1,22 +1,5 @@
-const { exec } = require('child_process');
-const { promisify } = require('util');
 const { silentRun } = require('./silent-run');
-
-/**
- * Runs the given command in a shell.
- * @param {string} command The command to execute
- * @returns {Promise} stdout string
- */
-async function silentExec(command) {
-  const execAsync = promisify(exec);
-  try {
-    const response = await execAsync(command, cmdOptions());
-
-    return response.stdout;
-  } catch (error) {
-    return `GitMob silentExec: "${command}" ${error.message}`;
-  }
-}
+const { execCommand } = require('./git-mob-api/exec-command');
 
 function handleResponse(query) {
   try {
@@ -73,18 +56,11 @@ function gitAddCoAuthor(coAuthor) {
 }
 
 async function getRepoAuthors() {
-  return silentExec(`git shortlog -sen HEAD`);
+  return execCommand('git shortlog -sen HEAD');
 }
 
 function removeGitMobSection() {
   return silentRun(`git config --global --remove-section git-mob`);
-}
-
-function cmdOptions(extendOptions = {}) {
-  return {
-    ...extendOptions,
-    encoding: 'utf8',
-  };
 }
 
 module.exports = {
