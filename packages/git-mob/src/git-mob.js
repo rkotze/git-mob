@@ -5,13 +5,14 @@ import { oneLine, stripIndents } from 'common-tags';
 import {
   getAllAuthors,
   getPrimaryAuthor,
+  getSelectedCoAuthors,
   gitMobConfig,
   gitConfig,
   gitRevParse,
   setCoAuthors,
   setPrimaryAuthor,
+  updateGitTemplate,
 } from 'git-mob-core';
-import { gitMessage, gitMessagePath } from '../src/git-message';
 import { checkForUpdates, runHelp, runVersion, printList } from '../src/helpers';
 import { configWarning } from '../src/check-author';
 import { red, yellow } from '../src/colours';
@@ -64,36 +65,29 @@ async function execute(args) {
 
 async function runMob(args) {
   if (args.length === 0) {
-    const [{ gitAuthor, selectedCoAuthors }, useLocalTemplate, template] =
-      await Promise.all([
-        getMob(),
-        gitMobConfig.localTemplate(),
-        gitConfig.getLocalCommitTemplate(),
-      ]);
+    const gitAuthor = getPrimaryAuthor();
+    const [authorList, useLocalTemplate, template] = await Promise.all([
+      getAllAuthors(),
+      gitMobConfig.localTemplate(),
+      gitConfig.getLocalCommitTemplate(),
+    ]);
+    const selectedCoAuthors = getSelectedCoAuthors(authorList);
 
     printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template);
 
     if (template && selectedCoAuthors) {
-      await gitMessage(gitMessagePath()).writeCoAuthors(
-        selectedCoAuthors.split(os.EOL)
-      );
+      await updateGitTemplate(selectedCoAuthors);
     }
   } else {
     await setMob(args);
   }
 }
 
-async function getMob() {
-  const gitAuthor = getPrimaryAuthor();
-  const selectedCoAuthors = await gitMobConfig.getSetCoAuthors();
-  return { gitAuthor, selectedCoAuthors };
-}
-
 function printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template) {
   console.log(author(gitAuthor));
 
-  if (selectedCoAuthors) {
-    console.log(selectedCoAuthors);
+  if (selectedCoAuthors && selectedCoAuthors.length > 0) {
+    console.log(selectedCoAuthors.join(os.EOL));
   }
 
   if (!useLocalTemplate && template) {
@@ -124,16 +118,15 @@ async function setMob(initials) {
   try {
     const authorList = await getAllAuthors();
     await saveMissingAuthors(initials, authorList);
-    await setCoAuthors(initials);
+    const selectedCoAuthors = await setCoAuthors(initials);
 
-    const [{ gitAuthor, selectedCoAuthors }, useLocalTemplate, template] =
-      await Promise.all([
-        getMob(),
-        gitMobConfig.localTemplate(),
-        gitConfig.getLocalCommitTemplate(),
-      ]);
+    const [useLocalTemplate, template] = await Promise.all([
+      gitMobConfig.localTemplate(),
+      gitConfig.getLocalCommitTemplate(),
+    ]);
 
-    await printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template);
+    const gitAuthor = getPrimaryAuthor();
+    printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template);
   } catch (error) {
     console.error(red(`setMob error: ${error.message}`));
     if (error.message.includes('not found!')) {

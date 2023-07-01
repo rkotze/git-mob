@@ -22,9 +22,11 @@ import {
 
 before('setup', () => {
   setup();
+  setCoauthorsFile();
 });
 
 after.always('final cleanup', () => {
+  deleteCoauthorsFile();
   deleteGitMessageFile();
   tearDown();
 });
@@ -69,7 +71,6 @@ test('--version prints version', t => {
 });
 
 test('--list print a list of available co-authors', t => {
-  setCoauthorsFile();
   const actual = exec('git mob --list').stdout.trimEnd();
   const expected = [
     'jd, Jane Doe, jane@findmypast.com',
@@ -78,7 +79,6 @@ test('--list print a list of available co-authors', t => {
   ].join(EOL);
 
   t.is(actual, expected);
-  deleteCoauthorsFile();
 });
 
 test('prints only primary author when there is no mob', t => {
@@ -91,14 +91,14 @@ test('prints only primary author when there is no mob', t => {
 
 test('prints current mob', t => {
   addAuthor('John Doe', 'jdoe@example.com');
-  addCoAuthor('Dennis Ideler', 'dideler@findmypast.com');
-  addCoAuthor('Richard Kotze', 'rkotze@findmypast.com');
+  addCoAuthor('Jane Doe', 'jane@findmypast.com');
+  addCoAuthor('Elliot Alderson', 'ealderson@findmypast.com>');
 
   const actual = exec('git mob').stdout.trimEnd();
   const expected = stripIndent`
   John Doe <jdoe@example.com>
-  Dennis Ideler <dideler@findmypast.com>
-  Richard Kotze <rkotze@findmypast.com>`;
+  Jane Doe <jane@findmypast.com>
+  Elliot Alderson <ealderson@findmypast.com>`;
 
   t.is(actual, expected);
   // setting co-authors outside the git mob lifecycle the commit.template
@@ -134,14 +134,14 @@ test('hides warning if local git mob config template is used true', t => {
 
 test('update local commit template if using one', t => {
   addAuthor('John Doe', 'jdoe@example.com');
-  addCoAuthor('Richard Kotze', 'rkotze@gitmob.com');
+  addCoAuthor('Elliot Alderson', 'ealderson@findmypast.com');
 
   exec('git config --local commit.template ".git/.gitmessage"');
 
   exec('git mob').stdout.trimEnd();
   const actualGitMessage = readGitMessageFile();
   const expectedGitMessage = auto(
-    [EOL, EOL, 'Co-authored-by: Richard Kotze <rkotze@gitmob.com>'].join('')
+    [EOL, EOL, 'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>'].join('')
   );
 
   t.is(actualGitMessage, expectedGitMessage);
@@ -149,7 +149,6 @@ test('update local commit template if using one', t => {
 });
 
 test('sets mob when co-author initials found', t => {
-  setCoauthorsFile();
   addAuthor('Billy the Kid', 'billy@example.com');
 
   const actual = exec('git mob jd ea').stdout.trimEnd();
@@ -160,12 +159,10 @@ test('sets mob when co-author initials found', t => {
   `;
 
   t.is(actual, expected);
-  deleteCoauthorsFile();
   removeCoAuthors();
 });
 
 test('sets mob and override author', t => {
-  setCoauthorsFile();
   addAuthor('Billy the Kid', 'billy@example.com');
 
   const actual = exec('git mob -o jd ea').stdout.trimEnd();
@@ -179,7 +176,6 @@ test('sets mob and override author', t => {
 });
 
 test('Incorrect override author key will show error', t => {
-  setCoauthorsFile();
   addAuthor('Billy the Kid', 'billy@example.com');
 
   const error = t.throws(() => {
@@ -190,7 +186,6 @@ test('Incorrect override author key will show error', t => {
 });
 
 test('overwrites old mob when setting a new mob', t => {
-  setCoauthorsFile();
   setGitMessageFile();
   addAuthor('John Doe', 'jdoe@example.com');
 
@@ -213,12 +208,10 @@ test('overwrites old mob when setting a new mob', t => {
     Co-authored-by: Elliot Alderson <ealderson@findmypast.com>`);
 
   t.is(actualGitmessage, expectedGitmessage);
-  deleteCoauthorsFile();
   removeCoAuthors();
 });
 
 test('appends co-authors to an existing commit template', t => {
-  setCoauthorsFile();
   setGitMessageFile();
   addAuthor('Thomas Anderson', 'neo@example.com');
 
@@ -236,13 +229,11 @@ test('appends co-authors to an existing commit template', t => {
   t.is(actualGitMessage, expectedGitMessage);
 
   unsetCommitTemplate();
-  deleteCoauthorsFile();
   removeCoAuthors();
 });
 
 test('appends co-authors to a new commit template', t => {
   deleteGitMessageFile();
-  setCoauthorsFile();
   addAuthor('Thomas Anderson', 'neo@example.com');
 
   exec('git mob jd ea');
@@ -262,7 +253,6 @@ test('appends co-authors to a new commit template', t => {
 
   removeCoAuthors();
   unsetCommitTemplate();
-  deleteCoauthorsFile();
 });
 
 test('warns when used outside of a git repo', t => {
