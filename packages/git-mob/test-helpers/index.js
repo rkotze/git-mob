@@ -30,6 +30,11 @@ function addCoAuthor(name, email) {
   exec(`git config --global --add git-mob.co-author "${name} <${email}>"`);
 }
 
+function globalCommitTemplate() {
+  const tempGlobal = path.join(process.cwd(), '.gitglobalmessage');
+  exec(`git config --global --add commit.template ${tempGlobal}`);
+}
+
 function removeCoAuthors() {
   removeGitConfigSection('git-mob');
 }
@@ -65,9 +70,17 @@ function setGitMessageFile() {
 
       A commit body that goes into more detail.
     `;
-    fs.writeFileSync(process.env.GITMOB_MESSAGE_PATH, commitMessageTemplate);
+    writeNewFile(process.env.GITMOB_MESSAGE_PATH, commitMessageTemplate);
   } catch (error) {
     console.warn('Failed to create .gitmessage file.', error.message);
+  }
+}
+
+function writeNewFile(filePath, text) {
+  try {
+    fs.writeFileSync(filePath, text);
+  } catch (error) {
+    console.warn(`Failed to create ${filePath} file.`, error.message);
   }
 }
 
@@ -121,27 +134,22 @@ function readCoauthorsFile() {
 }
 
 function deleteCoauthorsFile() {
-  try {
-    if (fs.existsSync(process.env.GITMOB_COAUTHORS_PATH)) {
-      fs.unlinkSync(process.env.GITMOB_COAUTHORS_PATH);
-    }
-  } catch (error) {
-    console.warn(
-      'Test helpers: Failed to delete .git-coauthors file.',
-      error.message
-    );
-  }
+  deleteFile(process.env.GITMOB_COAUTHORS_PATH);
 }
 
 function deleteGitMessageFile() {
   const filePath = process.env.GITMOB_MESSAGE_PATH;
+  deleteFile(filePath);
+}
+
+function deleteFile(filePath) {
   try {
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
   } catch (error) {
     console.warn(
-      'Test helpers: Failed to delete global .gitmessage file.',
+      `Test helpers: Failed to delete global ${filePath} file.`,
       error.message
     );
   }
@@ -214,12 +222,15 @@ function setup() {
   } catch (error) {
     console.log(error);
   }
-
+  writeNewFile(process.env.GITMOB_GLOBAL_MESSAGE_PATH, '');
+  globalCommitTemplate();
   process.chdir(testDir);
   exec('git init -q');
 }
 
 function tearDown() {
+  safelyRemoveGitConfigSection('commit');
+  deleteFile(process.env.GITMOB_GLOBAL_MESSAGE_PATH);
   process.chdir(process.env.HOME);
   /* eslint n/no-unsupported-features/node-builtins: 0 */
   fs.rmSync(testDir, { recursive: true });

@@ -3,16 +3,23 @@ import { Author } from './git-mob-api/author';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
+import {
+  getGlobalCommitTemplate,
+  getLocalCommitTemplate,
+} from './git-mob-api/git-config';
 import { setCoAuthors, updateGitTemplate } from '.';
 
 jest.mock('./commands');
 jest.mock('./git-mob-api/git-authors');
 jest.mock('./git-mob-api/git-message');
 jest.mock('./git-mob-api/resolve-git-message-path');
+jest.mock('./git-mob-api/git-config');
 
 const mockedGitAuthors = jest.mocked(gitAuthors);
 const mockedGitMessage = jest.mocked(gitMessage);
 const mockedMob = jest.mocked(mob);
+const mockedGetGlobalCommitTemplate = jest.mocked(getGlobalCommitTemplate);
+const mockedGetLocalCommitTemplate = jest.mocked(getLocalCommitTemplate);
 
 describe('Git Mob API', () => {
   function buildAuthors(keys: string[]) {
@@ -34,9 +41,9 @@ describe('Git Mob API', () => {
   }
 
   afterEach(() => {
-    mockedMob.usingLocalTemplate.mockReset();
-    mockedMob.usingGlobalTemplate.mockReset();
     mockedMob.removeGitMobSection.mockReset();
+    mockedGetGlobalCommitTemplate.mockReset();
+    mockedGetLocalCommitTemplate.mockReset();
   });
 
   it('missing author to pick for list throws error', async () => {
@@ -103,7 +110,7 @@ describe('Git Mob API', () => {
     const mockWriteCoAuthors = jest.fn();
     const mockRemoveCoAuthors = jest.fn();
 
-    mockedMob.usingLocalTemplate.mockReturnValue(true);
+    mockedGetLocalCommitTemplate.mockResolvedValueOnce('template/path');
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
       readCoAuthors: () => '',
@@ -112,8 +119,8 @@ describe('Git Mob API', () => {
 
     await updateGitTemplate(authorList);
 
-    expect(mockedMob.usingLocalTemplate).toBeCalledTimes(1);
-    expect(mockedMob.getGlobalTemplate).toBeCalledTimes(1);
+    expect(mockedGetLocalCommitTemplate).toBeCalledTimes(1);
+    expect(mockedGetGlobalCommitTemplate).toBeCalledTimes(1);
     expect(mockWriteCoAuthors).toBeCalledTimes(2);
     expect(mockWriteCoAuthors).toBeCalledWith(authorList);
     expect(mockRemoveCoAuthors).not.toHaveBeenCalled();

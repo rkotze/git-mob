@@ -17,6 +17,7 @@ import {
   setCommitTemplate,
 } from './git-mob-api/resolve-git-message-path';
 import { insideWorkTree, topLevelDirectory } from './git-mob-api/git-rev-parse';
+import { getConfig } from './git-mob-api/exec-command';
 
 async function getAllAuthors() {
   const gitMobAuthors = gitAuthors();
@@ -36,21 +37,25 @@ async function setCoAuthors(keys: string[]): Promise<Author[]> {
 }
 
 async function updateGitTemplate(selectedAuthors?: Author[]) {
-  const usingLocal = mob.usingLocalTemplate();
-  const gitTemplate = gitMessage(
-    resolveGitMessagePath(config.get('commit.template'))
-  );
+  const [usingLocal, templatePath] = await Promise.all([
+    getLocalCommitTemplate(),
+    getConfig('commit.template'),
+  ]);
+
+  const gitTemplate = gitMessage(resolveGitMessagePath(templatePath));
 
   if (selectedAuthors && selectedAuthors.length > 0) {
     if (usingLocal) {
-      await gitMessage(mob.getGlobalTemplate()).writeCoAuthors(selectedAuthors);
+      await gitMessage(await getGlobalCommitTemplate()).writeCoAuthors(
+        selectedAuthors
+      );
     }
 
     return gitTemplate.writeCoAuthors(selectedAuthors);
   }
 
   if (usingLocal) {
-    await gitMessage(mob.getGlobalTemplate()).removeCoAuthors();
+    await gitMessage(await getGlobalCommitTemplate()).removeCoAuthors();
   }
 
   return gitTemplate.removeCoAuthors();
