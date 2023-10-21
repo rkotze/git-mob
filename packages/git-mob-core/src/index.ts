@@ -96,8 +96,6 @@ function getPrimaryAuthor() {
   if (name && email) {
     return new Author('prime', name, email);
   }
-
-  return null;
 }
 
 function setPrimaryAuthor(author: Author): void {
