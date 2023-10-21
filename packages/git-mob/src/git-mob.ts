@@ -12,10 +12,11 @@ import {
   setCoAuthors,
   setPrimaryAuthor,
   updateGitTemplate,
+  Author,
 } from 'git-mob-core';
-import { checkForUpdates, runHelp, runVersion, printList } from '../src/helpers';
-import { configWarning } from '../src/check-author';
-import { red, yellow } from '../src/colours';
+import { checkForUpdates, runHelp, runVersion, printList } from './helpers';
+import { configWarning } from './check-author';
+import { red, yellow } from './colours';
 import { saveMissingAuthors } from './git-authors/save-missing-authors';
 
 checkForUpdates();
@@ -31,9 +32,9 @@ const argv = minimist(process.argv.slice(2), {
   },
 });
 
-execute(argv);
+execute(argv).catch(() => null);
 
-async function execute(args) {
+async function execute(args: minimist.ParsedArgs) {
   if (args.help) {
     runHelp();
     process.exit(0);
@@ -56,14 +57,17 @@ async function execute(args) {
 
   if (args.override) {
     const initial = args._.shift();
-    await setAuthor(initial);
+    if (initial) {
+      await setAuthor(initial);
+    }
+
     await runMob(args._);
   } else {
     await runMob(args._);
   }
 }
 
-async function runMob(args) {
+async function runMob(args: string[]) {
   if (args.length === 0) {
     const gitAuthor = getPrimaryAuthor();
     const [authorList, useLocalTemplate, template] = await Promise.all([
@@ -83,8 +87,20 @@ async function runMob(args) {
   }
 }
 
-function printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template) {
-  console.log(gitAuthor.toString());
+function printMob(
+  gitAuthor: Author | undefined,
+  selectedCoAuthors: Author[],
+  useLocalTemplate: boolean,
+  template: string | undefined
+) {
+  const theAuthor = gitAuthor || new Author('', '', '');
+  const authorWarnConfig = configWarning(theAuthor);
+  if (authorWarnConfig) {
+    console.log(red(authorWarnConfig));
+    process.exit(1);
+  }
+
+  console.log(theAuthor.toString());
 
   if (selectedCoAuthors && selectedCoAuthors.length > 0) {
     console.log(selectedCoAuthors.join(os.EOL));
@@ -97,11 +113,6 @@ function printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template) {
     See: https://github.com/rkotze/git-mob/discussions/81`)
     );
   }
-
-  const authorWarnConfig = configWarning(gitAuthor);
-  if (authorWarnConfig) {
-    console.log(red(authorWarnConfig));
-  }
 }
 
 async function listCoAuthors() {
@@ -109,13 +120,14 @@ async function listCoAuthors() {
     const coAuthors = await getAllAuthors();
 
     printList(coAuthors);
-  } catch (error) {
-    console.error(red(`listCoAuthors error: ${error.message}`));
+  } catch (error: unknown) {
+    const authorListError = error as Error;
+    console.error(red(`listCoAuthors error: ${authorListError.message}`));
     process.exit(1);
   }
 }
 
-async function setMob(initials) {
+async function setMob(initials: string[]) {
   try {
     const authorList = await getAllAuthors();
     await saveMissingAuthors(initials, authorList);
@@ -128,9 +140,10 @@ async function setMob(initials) {
 
     const gitAuthor = getPrimaryAuthor();
     printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template);
-  } catch (error) {
-    console.error(red(`setMob error: ${error.message}`));
-    if (error.message.includes('not found!')) {
+  } catch (error: unknown) {
+    const setMobError = error as Error;
+    console.error(red(`setMob error: ${setMobError.message}`));
+    if (setMobError.message.includes('not found!')) {
       console.log(
         yellow(
           'Run "git config --global git-mob-config.github-fetch true" to fetch GitHub authors.'
@@ -142,7 +155,7 @@ async function setMob(initials) {
   }
 }
 
-async function setAuthor(initial) {
+async function setAuthor(initial: string) {
   try {
     const authorList = await getAllAuthors();
     const author = authorList.find(author => author.key === initial);
@@ -152,8 +165,9 @@ async function setAuthor(initial) {
     }
 
     setPrimaryAuthor(author);
-  } catch (error) {
-    console.error(red(`setAuthor error: ${error.message}`));
+  } catch (error: unknown) {
+    const setAuthorError = error as Error;
+    console.error(red(`setAuthor error: ${setAuthorError.message}`));
     process.exit(1);
   }
 }
