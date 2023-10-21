@@ -98,8 +98,9 @@ function printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template) {
     );
   }
 
-  if (configWarning(gitAuthor)) {
-    console.warn(red(configWarning(gitAuthor)));
+  const authorWarnConfig = configWarning(gitAuthor);
+  if (authorWarnConfig) {
+    console.log(red(authorWarnConfig));
   }
 }
 
