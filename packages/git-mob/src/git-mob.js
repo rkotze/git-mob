@@ -1,6 +1,6 @@
 import os from 'node:os';
 import minimist from 'minimist';
-import { oneLine, stripIndents } from 'common-tags';
+import { stripIndents } from 'common-tags';
 
 import {
   getAllAuthors,
@@ -84,7 +84,7 @@ async function runMob(args) {
 }
 
 function printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template) {
-  console.log(author(gitAuthor));
+  console.log(gitAuthor.toString());
 
   if (selectedCoAuthors && selectedCoAuthors.length > 0) {
     console.log(selectedCoAuthors.join(os.EOL));
@@ -155,8 +155,4 @@ async function setAuthor(initial) {
     console.error(red(`setAuthor error: ${error.message}`));
     process.exit(1);
   }
-}
-
-function author({ name, email }) {
-  return oneLine`${name} <${email}>`;
 }
