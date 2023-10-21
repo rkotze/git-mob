@@ -29,6 +29,7 @@ gitRevParse = {
 
 - Integrated git-mob-core for main `git mob` features
 - Reduced the calls to `git` CLI to speed up command execution for `git mob`
+- Convert src git-mob and spec files from JS to TS
 
 ## git-mob-core 0.5.0 10-06-2023
 

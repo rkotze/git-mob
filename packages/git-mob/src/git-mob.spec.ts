@@ -1,5 +1,5 @@
 import { EOL } from 'node:os';
-import test, { before, after, afterEach, skip } from 'ava';
+import test from 'ava';
 import { stripIndent } from 'common-tags';
 import { auto } from 'eol';
 import { temporaryDirectory } from 'tempy';
@@ -19,6 +19,8 @@ import {
   setup,
   tearDown,
 } from '../test-helpers';
+
+const { before, after, afterEach, skip } = test;
 
 before('setup', () => {
   setup();
@@ -47,12 +49,13 @@ test('-h prints help', t => {
 
 if (process.platform === 'win32') {
   // Windows tries to open a man page at git-doc/git-mob.html which errors.
-  skip('--help is intercepted by git launcher on Windows', () => {});
+  skip('--help is intercepted by git launcher on Windows', () => null);
 } else {
   test('--help is intercepted by git launcher', t => {
-    const error = t.throws(() => {
-      exec('git mob --help', { silent: true });
-    });
+    const error =
+      t.throws(() => {
+        exec('git mob --help');
+      }) || new Error('No error');
 
     t.regex(error.message, /no manual entry for git-mob/i);
   });
@@ -178,9 +181,10 @@ test('sets mob and override author', t => {
 test('Incorrect override author key will show error', t => {
   addAuthor('Billy the Kid', 'billy@example.com');
 
-  const error = t.throws(() => {
-    exec('git mob -o kl ea');
-  });
+  const error =
+    t.throws(() => {
+      exec('git mob -o kl ea');
+    }) || new Error('No error');
 
   t.regex(error.message, /error: kl author key not found!/i);
 });
@@ -260,9 +264,10 @@ test('warns when used outside of a git repo', t => {
   const temporaryDir = temporaryDirectory();
   process.chdir(temporaryDir);
 
-  const error = t.throws(() => {
-    exec('git mob');
-  });
+  const error =
+    t.throws(() => {
+      exec('git mob');
+    }) || new Error('No error');
 
   t.regex(error.message, /not a git repository/i);
 
