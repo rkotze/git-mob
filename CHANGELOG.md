@@ -28,6 +28,7 @@ gitRevParse = {
 ### Added
 
 - Integrated git-mob-core for main `git mob` features
+- Reduced the calls to `git` CLI to speed up command execution for `git mob`
 
 ## git-mob-core 0.5.0 10-06-2023
 

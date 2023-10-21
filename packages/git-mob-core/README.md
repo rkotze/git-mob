@@ -19,7 +19,7 @@ getPrimaryAuthor(): Author | null
 getSelectedCoAuthors(allAuthors): Author[]
 setCoAuthors(keys): <Promise<Author[]>>
 setPrimaryAuthor(author): void
-solo(): void
+solo(): <Promise<void>>
 updateGitTemplate(selectedAuthors): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
 pathToCoAuthors(): string
