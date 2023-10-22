@@ -2,6 +2,7 @@
   "name": "git-mob",
   "version": "2.4.0",
   "description": "CLI tool for adding co-authors to commits.",
+  "homepage": "https://github.com/rkotze/git-mob/blob/master/packages/git-mob/README.md",
   "scripts": {
     "build": "rimraf dist && bob",
     "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
@@ -61,12 +62,13 @@
   ],
   "dependencies": {
     "common-tags": "^1.8.0",
-    "git-mob-core": "^0.4.0",
+    "git-mob-core": "^0.5.0",
     "minimist": "^1.2.6",
     "update-notifier": "^5.1.0"
   },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
+    "@types/common-tags": "^1.8.3",
     "@types/node": "^18.7.14",
     "@types/sinon": "^10.0.13",
     "ava": "^5.0.1",

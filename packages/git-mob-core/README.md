@@ -15,22 +15,38 @@ npm i git-mob-core
 ```TS
 saveNewCoAuthors(authors): <Promise<Author[]>>
 getAllAuthors(): <Promise<Author[]>>
-getPrimaryAuthor(): Author | null
+getPrimaryAuthor(): Author | undefined
 getSelectedCoAuthors(allAuthors): Author[]
 setCoAuthors(keys): <Promise<Author[]>>
 setPrimaryAuthor(author): void
-solo(): void
+solo(): <Promise<void>>
 updateGitTemplate(selectedAuthors): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
 pathToCoAuthors(): string
 getConfig(prop: string): string | undefined
 updateConfig(prop: string, value: string): void
+gitMobConfig = {
+  localTemplate(): <Promise<boolean>>,
+  fetchFromGitHub(): <Promise<boolean>>,
+};
+
+gitConfig = {
+  getLocalCommitTemplate(): <Promise<string>>,
+  getGlobalCommitTemplate(): <Promise<string>>,
+};
+
+gitRevParse = {
+  insideWorkTree(): string,
+  topLevelDirectory(): boolean,
+};
 class Author
 ```
 
 ## Author class
 
 ```TS
+class Author;
+
 // Properties
 Author.key: string
 Author.name: string

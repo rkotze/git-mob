@@ -1,7 +1,8 @@
 import os from 'node:os';
+import type { Author } from 'git-mob-core';
 
-function configWarning({ name, email }) {
-  let result;
+function configWarning({ name, email }: Author) {
+  let result = '';
   if (name === '' || email === '') {
     result = 'Warning: Missing information for the primary author. Set with:';
   }

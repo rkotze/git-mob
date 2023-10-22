@@ -2,7 +2,7 @@ const path = require('path');
 const os = require('os');
 
 const { config } = require('../commands');
-const { topLevelDirectory } = require('../git-rev-parse');
+const { topLevelDirectory } = require('./git-rev-parse');
 
 function setCommitTemplate() {
   if (!config.has('commit.template')) {

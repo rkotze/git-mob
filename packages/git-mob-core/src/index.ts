@@ -1,20 +1,33 @@
 import { mob, config } from './commands';
 import { Author } from './git-mob-api/author';
+import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
+import {
+  localTemplate,
+  fetchFromGitHub,
+  getSetCoAuthors,
+} from './git-mob-api/git-mob-config';
+import {
+  getLocalCommitTemplate,
+  getGlobalCommitTemplate,
+} from './git-mob-api/git-config';
 import {
   resolveGitMessagePath,
   setCommitTemplate,
 } from './git-mob-api/resolve-git-message-path';
+import { insideWorkTree, topLevelDirectory } from './git-mob-api/git-rev-parse';
+import { getConfig } from './git-mob-api/exec-command';
 
 async function getAllAuthors() {
   const gitMobAuthors = gitAuthors();
   return gitMobAuthors.toList(await gitMobAuthors.read());
 }
 
-async function setCoAuthors(keys: string[]) {
-  await solo();
+async function setCoAuthors(keys: string[]): Promise<Author[]> {
   const selectedAuthors = pickSelectedAuthors(keys, await getAllAuthors());
+  await solo();
+
   for (const author of selectedAuthors) {
     mob.gitAddCoAuthor(author.toString());
   }
@@ -24,28 +37,40 @@ async function setCoAuthors(keys: string[]) {
 }
 
 async function updateGitTemplate(selectedAuthors?: Author[]) {
-  const usingLocal = mob.usingLocalTemplate();
-  const gitTemplate = gitMessage(
-    resolveGitMessagePath(config.get('commit.template'))
-  );
+  const [usingLocal, templatePath] = await Promise.all([
+    getLocalCommitTemplate(),
+    getConfig('commit.template'),
+  ]);
+
+  const gitTemplate = gitMessage(resolveGitMessagePath(templatePath));
 
   if (selectedAuthors && selectedAuthors.length > 0) {
     if (usingLocal) {
-      await gitMessage(mob.getGlobalTemplate()).writeCoAuthors(selectedAuthors);
+      await gitMessage(await getGlobalCommitTemplate()).writeCoAuthors(
+        selectedAuthors
+      );
     }
 
     return gitTemplate.writeCoAuthors(selectedAuthors);
   }
 
   if (usingLocal) {
-    await gitMessage(mob.getGlobalTemplate()).removeCoAuthors();
+    await gitMessage(await getGlobalCommitTemplate()).removeCoAuthors();
   }
 
   return gitTemplate.removeCoAuthors();
 }
 
 function pickSelectedAuthors(keys: string[], authorMap: Author[]): Author[] {
-  return authorMap.filter(author => keys.includes(author.key));
+  const selectedAuthors = [];
+  for (const key of keys) {
+    const author = authorMap.find(author => author.key === key);
+
+    if (!author) throw new AuthorNotFound(key);
+    selectedAuthors.push(author);
+  }
+
+  return selectedAuthors;
 }
 
 function getSelectedCoAuthors(allAuthors: Author[]) {
@@ -71,8 +96,6 @@ function getPrimaryAuthor() {
   if (name && email) {
     return new Author('prime', name, email);
   }
-
-  return null;
 }
 
 function setPrimaryAuthor(author: Author): void {
@@ -90,6 +113,22 @@ export {
   setPrimaryAuthor,
   solo,
   updateGitTemplate,
+};
+
+export const gitMobConfig = {
+  localTemplate,
+  fetchFromGitHub,
+  getSetCoAuthors,
+};
+
+export const gitConfig = {
+  getLocalCommitTemplate,
+  getGlobalCommitTemplate,
+};
+
+export const gitRevParse = {
+  insideWorkTree,
+  topLevelDirectory,
 };
 
 export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor';
