@@ -39,9 +39,6 @@ jobs:
       - name: Build package
         run: npm run build
 
-      - name: Install Git-Mob (link)
-        run: npm link
-
       - name: Run lint and tests
         run: npm run checks
 

@@ -2,6 +2,7 @@
   "name": "git-mob-core",
   "version": "0.5.0",
   "description": "Core Git Mob library to manage co-authoring",
+  "homepage": "https://github.com/rkotze/git-mob/blob/master/packages/git-mob-core/README.md",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -39,9 +40,9 @@
   "author": "Richard Kotze",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^29.5.0",
-    "jest": "^29.5.0",
-    "jest-config": "^29.5.0",
+    "@types/jest": "^29.5.6",
+    "jest": "^29.7.0",
+    "jest-config": "^29.7.0",
     "rimraf": "^5.0.0"
   }
 }

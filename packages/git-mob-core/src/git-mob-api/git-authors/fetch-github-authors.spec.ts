@@ -9,6 +9,7 @@ const ghRkotzeResponse = {
   id: 123,
   login: 'rkotze',
   name: 'Richard Kotze',
+  stars: 2,
 };
 
 const ghDidelerResponse = {
@@ -79,6 +80,26 @@ test('Query for two GitHub users and build AuthorList', async () => {
       key: 'rkotze',
       name: 'Richard Kotze',
       email: '123+rkotze@users.noreply.github.com',
+    },
+  ]);
+});
+
+test('Handle GitHub user with no name', async () => {
+  mockedFetch.mockResolvedValue(
+    buildBasicResponse({
+      id: 329,
+      name: null,
+      login: 'kotze',
+    })
+  );
+
+  const actualAuthorList = await fetchGitHubAuthors(['kotze'], agentHeader);
+
+  expect(actualAuthorList).toEqual([
+    {
+      key: 'kotze',
+      name: 'kotze',
+      email: '329+kotze@users.noreply.github.com',
     },
   ]);
 });

@@ -1,11 +1,12 @@
-const { silentRun } = require('./silent-run');
+import { silentRun } from '../silent-run';
 
 /**
  * Computes the path to the top-level directory of the git repository.
  * @returns {string} Path to the top-level directory of the git repository.
  */
-function topLevelDirectory() {
-  return silentRun('git rev-parse --show-toplevel').stdout.trim();
+function topLevelDirectory(): string {
+  const { stdout } = silentRun('git rev-parse --show-toplevel');
+  return stdout.toString().trim();
 }
 
 /**
@@ -16,7 +17,4 @@ function insideWorkTree() {
   return silentRun('git rev-parse --is-inside-work-tree').status === 0;
 }
 
-module.exports = {
-  topLevelDirectory,
-  insideWorkTree,
-};
+export { topLevelDirectory, insideWorkTree };

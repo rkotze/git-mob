@@ -14,7 +14,7 @@ const getHeaders: RequestOptions = {
 type GitHubUser = {
   id: number;
   login: string;
-  name: string;
+  name?: string;
 };
 
 function validateGhUser(o: any): o is GitHubUser {
@@ -49,7 +49,7 @@ async function fetchGitHubAuthors(
     if (validateGhUser(ghUser.data)) {
       const { login, id, name } = ghUser.data;
       authorAuthorList.push(
-        new Author(login, name, `${id}+${login}@users.noreply.github.com`)
+        new Author(login, name || login, `${id}+${login}@users.noreply.github.com`)
       );
     }
   }

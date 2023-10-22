@@ -17,17 +17,10 @@ const { getConfig } = require('./config-manager');
  * @returns {ChildProcess.SpawnResult} object from child_process.spawnSync
  */
 function silentRun(command) {
-  const cmdConfig = { shell: true };
+  const cmdConfig = { shell: true, encoding: 'utf8' };
   const processCwd = getConfig('processCwd');
   if (processCwd) cmdConfig.cwd = processCwd;
-  return spawnSync(command, cmdOptions(cmdConfig));
-}
-
-function cmdOptions(extendOptions = {}) {
-  return {
-    ...extendOptions,
-    encoding: 'utf8',
-  };
+  return spawnSync(command, cmdConfig);
 }
 
 exports.silentRun = silentRun;

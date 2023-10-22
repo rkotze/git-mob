@@ -2,7 +2,7 @@ const glob = require('glob');
 
 const baseConfig = {
   entryPoints: [
-    './src/git-mob.js',
+    './src/git-mob.ts',
     './src/solo.js',
     './src/git-add-coauthor.ts',
     './src/git-delete-coauthor.js',
