@@ -1,7 +1,7 @@
-const { Author } = require('../author');
-const { gitAuthors } = require('../git-authors');
+import { Author } from '../author';
+import { gitAuthors } from '../git-authors';
 
-async function saveNewCoAuthors(authors) {
+export async function saveNewCoAuthors(authors) {
   if (!Array.isArray(authors)) {
     throw new TypeError('saveNewCoAuthors argument should be an Array of Authors');
   }
@@ -23,7 +23,3 @@ async function saveNewCoAuthors(authors) {
   await coauthors.overwrite(authorList);
   return newAuthors;
 }
-
-module.exports = {
-  saveNewCoAuthors,
-};

@@ -5,7 +5,7 @@ const { promisify } = require('util');
 const { Author } = require('../author');
 const { topLevelDirectory } = require('../git-rev-parse');
 
-function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
+export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {
     const readPromise = readFilePromise || promisify(fs.readFile);
     try {
@@ -105,7 +105,7 @@ function missingAuthorError(initials, coauthors) {
   }
 }
 
-function pathToCoAuthors() {
+export function pathToCoAuthors() {
   if (process.env.GITMOB_COAUTHORS_PATH) {
     return process.env.GITMOB_COAUTHORS_PATH;
   }
@@ -117,5 +117,3 @@ function pathToCoAuthors() {
     ? repoAuthorsFile
     : path.join(os.homedir(), gitCoauthorsFileName);
 }
-
-module.exports = { gitAuthors, pathToCoAuthors };

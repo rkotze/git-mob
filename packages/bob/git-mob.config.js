@@ -16,6 +16,7 @@ const baseConfig = {
   platform: 'node',
   target: ['node14'],
   outdir: './dist',
+  format: 'esm',
   plugins: [],
   logLevel: 'info',
   external: [

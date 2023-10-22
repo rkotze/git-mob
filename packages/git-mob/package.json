@@ -3,6 +3,7 @@
   "version": "2.5.0",
   "description": "CLI tool for adding co-authors to commits.",
   "homepage": "https://github.com/rkotze/git-mob/blob/master/packages/git-mob/README.md",
+  "type": "commonjs",
   "scripts": {
     "build": "rimraf dist && bob",
     "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
@@ -31,7 +32,7 @@
     "directory": "packages/git-mob"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "keywords": [
     "cli",

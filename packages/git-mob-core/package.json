@@ -5,6 +5,7 @@
   "homepage": "https://github.com/rkotze/git-mob/blob/master/packages/git-mob-core/README.md",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "rimraf dist && tsc --project tsconfig.test.json && bob -c=core",
     "pretest": "npm run build -- -t",
@@ -20,7 +21,7 @@
     "directory": "packages/git-mob-core"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "keywords": [
     "cli",

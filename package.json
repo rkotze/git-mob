@@ -6,6 +6,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "type": "module",
   "scripts": {
     "build": "npm run build --workspaces",
     "checks": "npm run test && npm run lint",
@@ -22,7 +23,7 @@
     "url": "git@github.com:rkotze/git-mob.git"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "keywords": [
     "cli",
