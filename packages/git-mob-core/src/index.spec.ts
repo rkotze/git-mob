@@ -1,19 +1,39 @@
-import { mob } from './commands';
+import { jest } from '@jest/globals';
 import { Author } from './git-mob-api/author';
-import { gitAuthors } from './git-mob-api/git-authors';
-import { gitMessage } from './git-mob-api/git-message';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
-import {
-  getGlobalCommitTemplate,
-  getLocalCommitTemplate,
-} from './git-mob-api/git-config';
-import { setCoAuthors, updateGitTemplate } from '.';
 
-jest.mock('./commands');
-jest.mock('./git-mob-api/git-authors');
-jest.mock('./git-mob-api/git-message');
-jest.mock('./git-mob-api/resolve-git-message-path');
-jest.mock('./git-mob-api/git-config');
+jest.unstable_mockModule('./commands', () => ({
+  mob: {
+    removeGitMobSection: jest.fn(),
+    gitAddCoAuthor: jest.fn(),
+  },
+  config: jest.fn(),
+}));
+jest.unstable_mockModule('./git-mob-api/git-authors', () => ({
+  gitAuthors: jest.fn(),
+  pathToCoAuthors: jest.fn(),
+}));
+jest.unstable_mockModule('./git-mob-api/git-message', () => ({
+  gitMessage: jest.fn(),
+}));
+jest.unstable_mockModule('./git-mob-api/resolve-git-message-path', () => ({
+  resolveGitMessagePath: jest.fn(),
+  setCommitTemplate: jest.fn(),
+}));
+jest.unstable_mockModule('./git-mob-api/git-config', () => ({
+  getGlobalCommitTemplate: jest.fn(),
+  getLocalCommitTemplate: jest.fn(),
+  pathToCoAuthors: jest.fn(),
+  setCommitTemplate: jest.fn(),
+}));
+
+const { mob } = await import('./commands');
+const { gitAuthors } = await import('./git-mob-api/git-authors');
+const { gitMessage } = await import('./git-mob-api/git-message');
+const { getGlobalCommitTemplate, getLocalCommitTemplate } = await import(
+  './git-mob-api/git-config'
+);
+const { setCoAuthors, updateGitTemplate } = await import('.');
 
 const mockedGitAuthors = jest.mocked(gitAuthors);
 const mockedGitMessage = jest.mocked(gitMessage);
