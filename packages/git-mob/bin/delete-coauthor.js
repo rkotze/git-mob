@@ -1,2 +1,2 @@
 #! /usr/bin/env node
-require('../dist/git-delete-coauthor');
+import '../dist/git-delete-coauthor';

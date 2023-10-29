@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rimraf dist && tsc --project tsconfig.test.json && bob -c=core",
     "pretest": "npm run build -- -t",
-    "test": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "prepack": "rimraf dist && tsc --project tsconfig.prod.json && bob -c=core -m",
     "checks": "npm run test && npm run lint",
     "lint": "xo --cwd=../../",
@@ -21,7 +21,7 @@
     "directory": "packages/git-mob-core"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "keywords": [
     "cli",
@@ -45,5 +45,8 @@
     "jest": "^29.7.0",
     "jest-config": "^29.7.0",
     "rimraf": "^5.0.0"
+  },
+  "dependencies": {
+    "@jest/globals": "^29.7.0"
   }
 }

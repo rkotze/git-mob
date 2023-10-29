@@ -1,35 +1,34 @@
 #!/usr/bin/env node
-let exec = require('child_process').exec,
-    fs = require('fs');
+import { exec } from 'node:child_process';
+import { readFileSync, writeFileSync } from 'node:fs';
 
 const commitMessage = process.argv[2];
 // expect .git/COMMIT_EDITMSG
-if(/COMMIT_EDITMSG/g.test(commitMessage)){
-    let contents = "";
-    exec("git mob-print",
-      function (err, stdout) {
-        if(err) {
-            process.exit(0);
-        }
+if (/COMMIT_EDITMSG/g.test(commitMessage)) {
+  let contents = '';
+  exec('git mob-print', function (err, stdout) {
+    if (err) {
+      process.exit(0);
+    }
 
-        // opens .git/COMMIT_EDITMSG
-        contents = fs.readFileSync(commitMessage);
+    // opens .git/COMMIT_EDITMSG
+    contents = readFileSync(commitMessage);
 
-        if(contents.indexOf(stdout.trim()) !== -1) {
-            process.exit(0);
-        }
-        
-        // Show in console any co-authors that were added
-        if(stdout.trim().length) {
-            const cyan = '\x1b[36m%s\x1b[0m';
-            console.log(cyan, stdout.trim());
-        }
+    if (contents.indexOf(stdout.trim()) !== -1) {
+      process.exit(0);
+    }
 
-        const commentPos = contents.indexOf('# ');
-        const gitMessage = contents.slice(0, commentPos);
-        const gitComments = contents.slice(commentPos)
+    // Show in console any co-authors that were added
+    if (stdout.trim().length) {
+      const cyan = '\x1b[36m%s\x1b[0m';
+      console.log(cyan, stdout.trim());
+    }
 
-        fs.writeFileSync(commitMessage, gitMessage + stdout + gitComments);
-        process.exit(0);
-    });
+    const commentPos = contents.indexOf('# ');
+    const gitMessage = contents.slice(0, commentPos);
+    const gitComments = contents.slice(commentPos);
+
+    writeFileSync(commitMessage, gitMessage + stdout + gitComments);
+    process.exit(0);
+  });
 }

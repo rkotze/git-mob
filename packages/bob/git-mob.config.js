@@ -14,7 +14,7 @@ const baseConfig = {
   mainFields: ['module', 'main'],
   bundle: true,
   platform: 'node',
-  target: ['node14'],
+  target: ['node16'],
   outdir: './dist',
   format: 'esm',
   plugins: [],

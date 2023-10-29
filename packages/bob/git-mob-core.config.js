@@ -4,7 +4,7 @@ const baseConfig = {
   entryPoints: ['./src/index.js'],
   mainFields: ['module', 'main'],
   platform: 'node',
-  target: ['node14'],
+  target: ['node16'],
   format: 'esm',
   outdir: './dist',
   plugins: [],

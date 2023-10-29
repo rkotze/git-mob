@@ -1,7 +1,8 @@
-const path = require('path');
+import path from 'path';
 
 const testHelperPath = path.join(process.cwd(), '/test-helpers');
-module.exports = {
+
+export {
   GITMOB_COAUTHORS_PATH: path.join(testHelperPath, '.git-coauthors'),
   GITMOB_MESSAGE_PATH: path.join(testHelperPath, '.gitmessage'),
   GITMOB_GLOBAL_MESSAGE_PATH: path.join(testHelperPath, '.gitglobalmessage'),

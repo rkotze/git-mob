@@ -1,3 +1,3 @@
 #! /usr/bin/env node
 
-require('../dist/git-mob');
+import '../dist/git-mob';

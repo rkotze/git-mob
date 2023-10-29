@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const { spawnSync } = require('child_process');
-const { stripIndent } = require('common-tags');
-const eol = require('eol');
+import fs from 'fs';
+import path from 'path';
+import { spawnSync } from 'child_process';
+import { stripIndent } from 'common-tags';
+import eol from 'eol';
 
 function retainLocalAuthor() {
   const localName = exec('git config user.name').stdout.trim();

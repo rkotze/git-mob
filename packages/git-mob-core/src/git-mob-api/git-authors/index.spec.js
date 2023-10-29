@@ -1,8 +1,9 @@
-const path = require('path');
-const fs = require('fs');
-const { Author } = require('../author');
-const { topLevelDirectory } = require('../git-rev-parse');
-const { gitAuthors, pathToCoAuthors } = require('.');
+import { join } from 'node:path';
+import fs from 'node:fs';
+import { jest } from '@jest/globals';
+import { Author } from '../author';
+import { topLevelDirectory } from '../git-rev-parse';
+import { gitAuthors, pathToCoAuthors } from '.';
 
 const validJsonString = `
 {
@@ -54,14 +55,12 @@ test('.git-coauthors file does not exist', async () => {
 });
 
 test('.git-coauthors by default is in the home directory', () => {
-  expect(pathToCoAuthors()).toEqual(path.join(process.env.HOME, '.git-coauthors'));
+  expect(pathToCoAuthors()).toEqual(join(process.env.HOME, '.git-coauthors'));
 });
 
 test('.git-coauthors can be overwritten by a repo file', () => {
   jest.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
-  expect(pathToCoAuthors()).toEqual(
-    path.join(topLevelDirectory(), '.git-coauthors')
-  );
+  expect(pathToCoAuthors()).toEqual(join(topLevelDirectory(), '.git-coauthors'));
 });
 
 test('.git-coauthors can be overwritten by the env var', () => {

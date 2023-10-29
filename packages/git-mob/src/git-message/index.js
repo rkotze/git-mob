@@ -1,7 +1,6 @@
 import { readFile, writeFile } from 'node:fs';
 import { EOL, homedir } from 'node:os';
 import { join } from 'node:path';
-
 import { config } from '../git-commands';
 
 function fileExists(error) {

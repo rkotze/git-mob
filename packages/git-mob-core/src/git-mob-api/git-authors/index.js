@@ -1,9 +1,9 @@
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const { promisify } = require('util');
-const { Author } = require('../author');
-const { topLevelDirectory } = require('../git-rev-parse');
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { promisify } from 'node:util';
+import { Author } from '../author';
+import { topLevelDirectory } from '../git-rev-parse';
 
 export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {
