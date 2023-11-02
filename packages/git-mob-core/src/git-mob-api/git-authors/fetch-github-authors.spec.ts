@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import type { BasicResponse } from '../fetch/http-fetch';
+import type { BasicResponse } from '../fetch/http-fetch.js';
 
 jest.unstable_mockModule('../fetch/http-fetch', () => ({
   httpFetch: jest.fn(),

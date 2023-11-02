@@ -1,2 +1,2 @@
 #! /usr/bin/env node
-import '../dist/git-mob-print';
+import '../dist/git-mob-print.js';

@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
-import { Author } from '../author';
-import { topLevelDirectory } from '../git-rev-parse';
+import { Author } from '../author.js';
+import { topLevelDirectory } from '../git-rev-parse.js';
 
 export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {

@@ -1,4 +1,4 @@
-import { getConfig, getAllConfig } from './exec-command';
+import { getConfig, getAllConfig } from './exec-command.js';
 
 export async function localTemplate() {
   const localTemplate = await getConfig('--local git-mob-config.use-local-template');

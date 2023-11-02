@@ -2,7 +2,7 @@ import { EOL } from 'node:os';
 import test from 'ava';
 import { spy } from 'sinon';
 
-import { gitMessage, gitMessagePath } from '.';
+import { gitMessage, gitMessagePath } from './index.js';
 
 test('Append co-authors to .gitmessage append file mock', t => {
   const appendSpy = spy();

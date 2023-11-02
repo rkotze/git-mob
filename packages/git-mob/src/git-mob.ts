@@ -14,10 +14,10 @@ import {
   updateGitTemplate,
   Author,
 } from 'git-mob-core';
-import { checkForUpdates, runHelp, runVersion, printList } from './helpers';
-import { configWarning } from './check-author';
-import { red, yellow } from './colours';
-import { saveMissingAuthors } from './git-authors/save-missing-authors';
+import { checkForUpdates, runHelp, runVersion, printList } from './helpers.js';
+import { configWarning } from './check-author.js';
+import { red, yellow } from './colours.js';
+import { saveMissingAuthors } from './git-authors/save-missing-authors.js';
 
 checkForUpdates();
 

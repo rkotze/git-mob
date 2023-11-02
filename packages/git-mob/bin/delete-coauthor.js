@@ -1,2 +1,2 @@
 #! /usr/bin/env node
-import '../dist/git-delete-coauthor';
+import '../dist/git-delete-coauthor.js';

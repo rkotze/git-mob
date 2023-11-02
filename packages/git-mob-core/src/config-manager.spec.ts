@@ -1,4 +1,4 @@
-import { getConfig, updateConfig } from './config-manager';
+import { getConfig, updateConfig } from './config-manager.js';
 
 it('change the processCwd config property', () => {
   expect(getConfig('processCwd')).toBeUndefined();

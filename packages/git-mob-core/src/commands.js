@@ -1,5 +1,5 @@
-import { silentRun } from './silent-run';
-import { execCommand } from './git-mob-api/exec-command';
+import { silentRun } from './silent-run.js';
+import { execCommand } from './git-mob-api/exec-command.js';
 
 function handleResponse(query) {
   try {

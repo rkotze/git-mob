@@ -1,6 +1,6 @@
 import type { RequestOptions } from 'node:https';
-import { Author } from '../author';
-import { httpFetch } from '../fetch/http-fetch';
+import { Author } from '../author.js';
+import { httpFetch } from '../fetch/http-fetch.js';
 
 const gitHubUserUrl = 'https://api.github.com/users';
 const getHeaders: RequestOptions = {

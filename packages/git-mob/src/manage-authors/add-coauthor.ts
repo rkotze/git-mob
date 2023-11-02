@@ -1,4 +1,4 @@
-import { gitAuthors } from '../git-authors';
+import { gitAuthors } from '../git-authors/index.js';
 
 async function addCoauthor([key, name, email]: [
   string,

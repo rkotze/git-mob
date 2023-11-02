@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
-import { Author } from './git-mob-api/author';
-import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
+import { Author } from './git-mob-api/author.js';
+import { AuthorNotFound } from './git-mob-api/errors/author-not-found.js';
 
 jest.unstable_mockModule('./commands', () => ({
   mob: {

@@ -2,8 +2,8 @@ import minimist from 'minimist';
 import { oneLine } from 'common-tags';
 import { getPrimaryAuthor, solo } from 'git-mob-core';
 
-import { revParse } from '../src/git-commands';
-import { checkForUpdates, runHelp, runVersion } from '../src/helpers';
+import { revParse } from '../src/git-commands.js';
+import { checkForUpdates, runHelp, runVersion } from '../src/helpers.js';
 
 checkForUpdates();
 

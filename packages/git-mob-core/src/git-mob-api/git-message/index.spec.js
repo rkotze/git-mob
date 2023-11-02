@@ -1,7 +1,7 @@
 import { EOL } from 'node:os';
 import { jest } from '@jest/globals';
-import { Author } from '../author';
-import { gitMessage } from './index';
+import { Author } from '../author.js';
+import { gitMessage } from './index.js';
 
 test('Append co-authors to .gitmessage append file mock', () => {
   const appendMock = jest.fn();

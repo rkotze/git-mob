@@ -6,12 +6,12 @@
   "type": "module",
   "scripts": {
     "build": "rimraf dist && bob",
-    "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
+    "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.cjs ava --watch --serial --no-worker-threads",
     "pretest": "npm run build -- -t",
     "test": "npm run testbase",
     "checks": "npm run test && npm run lint",
     "lint": "xo --cwd=../../",
-    "testbase": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
+    "testbase": "ava --serial --no-worker-threads",
     "minifytest": "npm run build -- -m -t && npm run testbase",
     "preversion": "npm run checks",
     "prepack": "npm run build -- -m",
@@ -74,7 +74,6 @@
     "@types/sinon": "^10.0.20",
     "ava": "^5.3.1",
     "bob": "file:../bob",
-    "env-cmd": "^10.1.0",
     "eol": "^0.9.1",
     "rimraf": "^5.0.5",
     "sinon": "^14.0.2",
@@ -85,6 +84,7 @@
     "files": [
       "dist/**/*.spec.js"
     ],
+    "require": ["./test-helpers/env.cjs"],
     "ignoredByWatcher": [
       "dist",
       "test-env",
@@ -95,6 +95,9 @@
         "src/": "build/"
       },
       "compile": false
-    }
+    },
+    "nodeArguments": [
+      "--experimental-vm-modules"
+    ]
   }
 }

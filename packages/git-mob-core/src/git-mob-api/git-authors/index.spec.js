@@ -1,9 +1,9 @@
 import { join } from 'node:path';
 import fs from 'node:fs';
 import { jest } from '@jest/globals';
-import { Author } from '../author';
-import { topLevelDirectory } from '../git-rev-parse';
-import { gitAuthors, pathToCoAuthors } from '.';
+import { Author } from '../author.js';
+import { topLevelDirectory } from '../git-rev-parse.js';
+import { gitAuthors, pathToCoAuthors } from './index.js';
 
 const validJsonString = `
 {

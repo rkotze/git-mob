@@ -1,23 +1,23 @@
-import { mob, config } from './commands';
-import { Author } from './git-mob-api/author';
-import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
-import { gitAuthors } from './git-mob-api/git-authors';
-import { gitMessage } from './git-mob-api/git-message';
+import { mob, config } from './commands.js';
+import { Author } from './git-mob-api/author.js';
+import { AuthorNotFound } from './git-mob-api/errors/author-not-found.js';
+import { gitAuthors } from './git-mob-api/git-authors/index.js';
+import { gitMessage } from './git-mob-api/git-message/index.js';
 import {
   localTemplate,
   fetchFromGitHub,
   getSetCoAuthors,
-} from './git-mob-api/git-mob-config';
+} from './git-mob-api/git-mob-config.js';
 import {
   getLocalCommitTemplate,
   getGlobalCommitTemplate,
-} from './git-mob-api/git-config';
+} from './git-mob-api/git-config.js';
 import {
   resolveGitMessagePath,
   setCommitTemplate,
-} from './git-mob-api/resolve-git-message-path';
-import { insideWorkTree, topLevelDirectory } from './git-mob-api/git-rev-parse';
-import { getConfig } from './git-mob-api/exec-command';
+} from './git-mob-api/resolve-git-message-path.js';
+import { insideWorkTree, topLevelDirectory } from './git-mob-api/git-rev-parse.js';
+import { getConfig } from './git-mob-api/exec-command.js';
 
 async function getAllAuthors() {
   const gitMobAuthors = gitAuthors();
@@ -131,8 +131,8 @@ export const gitRevParse = {
   topLevelDirectory,
 };
 
-export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor';
-export { pathToCoAuthors } from './git-mob-api/git-authors';
-export { fetchGitHubAuthors } from './git-mob-api/git-authors/fetch-github-authors';
-export { getConfig, updateConfig } from './config-manager';
-export { Author } from './git-mob-api/author';
+export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor.js';
+export { pathToCoAuthors } from './git-mob-api/git-authors/index.js';
+export { fetchGitHubAuthors } from './git-mob-api/git-authors/fetch-github-authors.js';
+export { getConfig, updateConfig } from './config-manager.js';
+export { Author } from './git-mob-api/author.js';

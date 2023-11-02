@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { validateEmail } from './helpers';
+import { validateEmail } from './helpers.js';
 
 test('email validator returns true for valid emails', t => {
   const validEmail = validateEmail('johndoe@aol.org');

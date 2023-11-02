@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs';
 import { EOL, homedir } from 'node:os';
 import { join } from 'node:path';
-import { config } from '../git-commands';
+import { config } from '../git-commands.js';
 
 function fileExists(error) {
   return error.code !== 'ENOENT';

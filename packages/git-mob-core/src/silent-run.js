@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { getConfig } from './config-manager';
+import { getConfig } from './config-manager.js';
 
 /**
  * @typedef {Object} ChildProcess.SpawnResult

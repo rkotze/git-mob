@@ -2,7 +2,7 @@
 /* eslint quote-props: ["off", "always"] */
 
 import test from 'ava';
-import { gitAuthors } from '.';
+import { gitAuthors } from './index.js';
 
 const validJsonString = `
 {

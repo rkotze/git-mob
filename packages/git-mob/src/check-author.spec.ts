@@ -1,7 +1,7 @@
 import os from 'node:os';
 import test from 'ava';
 import type { Author } from 'git-mob-core';
-import { configWarning } from './check-author';
+import { configWarning } from './check-author.js';
 
 test('does not print warning when config present', t => {
   const actual = configWarning({

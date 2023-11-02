@@ -1,5 +1,5 @@
-import { Author } from '../author';
-import { gitAuthors } from '../git-authors';
+import { Author } from '../author.js';
+import { gitAuthors } from '../git-authors/index.js';
 
 export async function saveNewCoAuthors(authors) {
   if (!Array.isArray(authors)) {

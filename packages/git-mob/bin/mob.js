@@ -1,3 +1,3 @@
 #! /usr/bin/env node
 
-import '../dist/git-mob';
+import '../dist/git-mob.js';

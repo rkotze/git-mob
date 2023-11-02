@@ -6,7 +6,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "type": "module",
   "scripts": {
     "build": "npm run build --workspaces",
     "checks": "npm run test && npm run lint",

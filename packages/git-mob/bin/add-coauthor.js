@@ -1,3 +1,3 @@
 #! /usr/bin/env node
 
-import '../dist/git-add-coauthor';
+import '../dist/git-add-coauthor.js';
