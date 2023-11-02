@@ -81,9 +81,10 @@ test('warns when used outside of a git repo', t => {
   const temporaryDir = temporaryDirectory();
   process.chdir(temporaryDir);
 
-  const error = t.throws(() => {
-    exec('git solo');
-  });
+  const error =
+    t.throws(() => {
+      exec('git solo');
+    }) || new Error('No error');
 
   t.regex(error.message, /not a git repository/i);
 

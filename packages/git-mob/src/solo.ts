@@ -28,19 +28,20 @@ if (!revParse.insideWorkTree()) {
   process.exit(1);
 }
 
-runSolo();
+await runSolo();
 
 async function runSolo() {
   try {
     await solo();
     printAuthor();
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
+  } catch (error: unknown) {
+    const soloError = error as Error;
+    console.error(`Error: ${soloError.message}`);
     process.exit(1);
   }
 }
 
 function printAuthor() {
   const author = getPrimaryAuthor();
-  console.log(author.toString());
+  console.log(author?.toString());
 }
