@@ -1,9 +1,8 @@
 import minimist from 'minimist';
-import { oneLine } from 'common-tags';
 import { getPrimaryAuthor, solo } from 'git-mob-core';
 
-import { revParse } from '../src/git-commands.js';
-import { checkForUpdates, runHelp, runVersion } from '../src/helpers.js';
+import { revParse } from './git-commands.js';
+import { checkForUpdates, runHelp, runVersion } from './helpers.js';
 
 checkForUpdates();
 
@@ -42,10 +41,6 @@ async function runSolo() {
 }
 
 function printAuthor() {
-  console.log(author());
-}
-
-function author() {
-  const { name, email } = getPrimaryAuthor();
-  return oneLine`${name} <${email}>`;
+  const author = getPrimaryAuthor();
+  console.log(author.toString());
 }
