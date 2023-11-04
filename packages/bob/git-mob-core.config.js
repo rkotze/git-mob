@@ -5,7 +5,7 @@ const baseConfig = {
   mainFields: ['module', 'main'],
   platform: 'node',
   target: ['node16'],
-  format: 'esm',
+  format: 'cjs',
   outdir: './dist',
   plugins: [],
   logLevel: 'info',

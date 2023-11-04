@@ -1,11 +1,8 @@
-import { jest } from '@jest/globals';
-import type { BasicResponse } from '../fetch/http-fetch.js';
+import type { BasicResponse } from '../fetch/http-fetch';
+import { httpFetch } from '../fetch/http-fetch';
+import { fetchGitHubAuthors } from './fetch-github-authors';
 
-jest.unstable_mockModule('../fetch/http-fetch', () => ({
-  httpFetch: jest.fn(),
-}));
-const { httpFetch } = await import('../fetch/http-fetch');
-const { fetchGitHubAuthors } = await import('./fetch-github-authors');
+jest.mock('../fetch/http-fetch');
 const mockedFetch = jest.mocked(httpFetch);
 
 const ghRkotzeResponse = {
