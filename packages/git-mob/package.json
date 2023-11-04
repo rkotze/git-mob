@@ -62,9 +62,7 @@
     }
   ],
   "dependencies": {
-    "@types/jest": "^29.5.7",
     "common-tags": "^1.8.2",
-    "eslint-plugin-jest": "^27.6.0",
     "git-mob-core": "^0.6.0",
     "minimist": "^1.2.8",
     "update-notifier": "^6.0.2"
