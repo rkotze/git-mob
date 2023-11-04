@@ -9,6 +9,7 @@
     "build": "rimraf dist && tsc --project tsconfig.test.json && bob -c=core",
     "pretest": "npm run build -- -t",
     "test": "jest",
+    "minifytest": "npm run build -- -m -t && npm run test",
     "prepack": "rimraf dist && tsc --project tsconfig.prod.json && bob -c=core -m",
     "checks": "npm run test && npm run lint",
     "lint": "xo --cwd=../../",
