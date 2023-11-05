@@ -1,8 +1,8 @@
 import os from 'node:os';
 import minimist from 'minimist';
+import { getAllAuthors, getSelectedCoAuthors } from 'git-mob-core';
 import { gitAuthors } from './git-authors/index.js';
 import { runMobPrintHelp } from './helpers.js';
-import { formatCoAuthorList } from './git-message/index.js';
 import { getCoAuthors } from './git-mob-commands.js';
 
 const argv = minimist(process.argv.slice(2), {
@@ -25,14 +25,14 @@ async function execute(args) {
     process.exit(0);
   }
 
-  printCoAuthors();
+  return printCoAuthors();
 }
 
 async function printCoAuthors() {
   try {
-    const coAuthors = formatCoAuthorList(
-      getCoAuthors().split(os.EOL).filter(Boolean)
-    );
+    const allAuthors = await getAllAuthors();
+    const selectedAuthors = getSelectedCoAuthors(allAuthors);
+    const coAuthors = selectedAuthors.map(author => author.format()).join(os.EOL);
     console.log(os.EOL + os.EOL + coAuthors);
   } catch (error) {
     console.error(`Error: ${error.message}`);
