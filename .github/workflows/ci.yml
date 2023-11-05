@@ -45,11 +45,11 @@ jobs:
         if: ${{ matrix.node-version == 14 }}
         run: npm install -g npm@7.24.2
 
-      - name: Build minify
-        run: npm run prepack
-
       - name: Install dependencies
         run: npm install --ignore-scripts
+
+      - name: Build minify
+        run: npm run prepack
 
       - name: Run lint and tests
         run: npm run checks
