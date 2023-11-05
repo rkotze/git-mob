@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { exec } from '../test-helpers';
+import { exec } from '../test-helpers/index.js';
 
 test('suggests potential coauthors', t => {
   const { stdout } = exec('git suggest-coauthors');

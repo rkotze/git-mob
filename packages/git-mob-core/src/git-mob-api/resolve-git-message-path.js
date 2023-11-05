@@ -1,8 +1,8 @@
-const path = require('path');
-const os = require('os');
+import { resolve, relative, join } from 'node:path';
+import { homedir } from 'node:os';
 
-const { config } = require('../commands');
-const { topLevelDirectory } = require('./git-rev-parse');
+import { config } from '../commands.js';
+import { topLevelDirectory } from './git-rev-parse.js';
 
 function setCommitTemplate() {
   if (!config.has('commit.template')) {
@@ -12,19 +12,16 @@ function setCommitTemplate() {
 
 function resolveGitMessagePath(templatePath) {
   if (process.env.GITMOB_MESSAGE_PATH) {
-    return path.resolve(process.env.GITMOB_MESSAGE_PATH);
+    return resolve(process.env.GITMOB_MESSAGE_PATH);
   }
 
-  if (templatePath) return path.resolve(topLevelDirectory(), templatePath);
+  if (templatePath) return resolve(topLevelDirectory(), templatePath);
 
-  return path.relative(topLevelDirectory(), gitMessagePath());
+  return relative(topLevelDirectory(), gitMessagePath());
 }
 
 function gitMessagePath() {
-  return process.env.GITMOB_MESSAGE_PATH || path.join(os.homedir(), '.gitmessage');
+  return process.env.GITMOB_MESSAGE_PATH || join(homedir(), '.gitmessage');
 }
 
-module.exports = {
-  resolveGitMessagePath,
-  setCommitTemplate,
-};
+export { resolveGitMessagePath, setCommitTemplate };

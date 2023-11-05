@@ -1,6 +1,7 @@
-const os = require('os');
-const { Author } = require('../author');
-const { gitMessage } = require('./index');
+import { EOL } from 'node:os';
+import { jest } from '@jest/globals';
+import { Author } from '../author.js';
+import { gitMessage } from './index.js';
 
 test('Append co-authors to .gitmessage append file mock', () => {
   const appendMock = jest.fn();
@@ -14,10 +15,10 @@ test('Append co-authors to .gitmessage append file mock', () => {
   expect(appendMock).toBeCalledWith(
     expect.stringContaining('.gitmessage'),
     [
-      os.EOL,
-      os.EOL,
+      EOL,
+      EOL,
       'Co-authored-by: Jane Doe <jane@findmypast.com>',
-      os.EOL,
+      EOL,
       'Co-authored-by: Frances Bar <frances-bar@findmypast.com>',
     ].join('')
   );

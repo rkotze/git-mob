@@ -1,5 +1,5 @@
 import { EOL } from 'node:os';
-import test, { before, after } from 'ava';
+import test from 'ava';
 
 import {
   exec,
@@ -9,7 +9,9 @@ import {
   tearDown,
   setLocalCoauthorsFile,
   deleteLocalCoauthorsFile,
-} from '../test-helpers';
+} from '../test-helpers/index.js';
+
+const { before, after } = test;
 
 before('setup', () => {
   setup();

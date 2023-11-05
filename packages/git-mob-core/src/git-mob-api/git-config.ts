@@ -1,4 +1,4 @@
-import { getConfig } from './exec-command';
+import { getConfig } from './exec-command.js';
 
 export async function getLocalCommitTemplate() {
   return getConfig('--local commit.template');

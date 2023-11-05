@@ -1,6 +1,6 @@
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
-import { getConfig as cmGetConfig } from '../config-manager';
+import { getConfig as cmGetConfig } from '../config-manager.js';
 
 type ExecCommandOptions = {
   encoding: string;

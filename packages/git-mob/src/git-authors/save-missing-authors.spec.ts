@@ -2,8 +2,8 @@ import test from 'ava';
 import type { SinonSandbox, SinonStub } from 'sinon';
 import { createSandbox, assert } from 'sinon';
 import { Author } from 'git-mob-core';
-import { mobConfig } from '../git-mob-commands';
-import { saveMissingAuthors, findMissingAuthors } from './save-missing-authors';
+import { mobConfig } from '../git-mob-commands.js';
+import { saveMissingAuthors, findMissingAuthors } from './save-missing-authors.js';
 
 const savedAuthors = [
   new Author('jd', 'Jane Doe', 'jane@findmypast.com'),

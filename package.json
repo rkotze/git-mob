@@ -4,7 +4,9 @@
   "description": "CLI tool for adding co-authors to commits.",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/git-mob-core",
+    "packages/git-mob",
+    "packages/bob"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
@@ -14,6 +16,7 @@
     "lint": "xo",
     "minifytest": "npm run minifytest --workspaces",
     "install": "npm install --ignore-scripts",
+    "prepack": "npm run prepack --workspaces",
     "preversion": "npm run checks --workspaces",
     "postversion": "git push --follow-tags"
   },
@@ -22,7 +25,7 @@
     "url": "git@github.com:rkotze/git-mob.git"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "keywords": [
     "cli",
@@ -52,7 +55,7 @@
     }
   ],
   "devDependencies": {
-    "eslint-plugin-jest": "^27.4.3",
+    "eslint-plugin-jest": "^27.6.0",
     "xo": "^0.52.4"
   }
 }

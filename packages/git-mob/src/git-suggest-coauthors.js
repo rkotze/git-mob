@@ -1,7 +1,7 @@
 import os from 'node:os';
 import minimist from 'minimist';
-import { runSuggestCoauthorsHelp } from './helpers';
-import { authors, revParse } from './git-commands';
+import { runSuggestCoauthorsHelp } from './helpers.js';
+import { authors, revParse } from './git-commands.js';
 
 const argv = minimist(process.argv.slice(2), {
   alias: {

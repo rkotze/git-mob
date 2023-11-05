@@ -1,4 +1,4 @@
-import { silentRun } from '../silent-run';
+import { silentRun } from '../silent-run.js';
 
 /**
  * Computes the path to the top-level directory of the git repository.

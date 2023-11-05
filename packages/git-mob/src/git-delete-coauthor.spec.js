@@ -1,11 +1,13 @@
-import test, { afterEach } from 'ava';
+import test from 'ava';
 
 import {
   setCoauthorsFile,
   readCoauthorsFile,
   exec,
   deleteCoauthorsFile,
-} from '../test-helpers';
+} from '../test-helpers/index.js';
+
+const { afterEach } = test;
 
 afterEach.always('cleanup', () => {
   deleteCoauthorsFile();

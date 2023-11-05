@@ -1,4 +1,4 @@
-import test, { before, after } from 'ava';
+import test from 'ava';
 import { stripIndent } from 'common-tags';
 import { auto } from 'eol';
 import { temporaryDirectory } from 'tempy';
@@ -14,7 +14,9 @@ import {
   deleteCoauthorsFile,
   setup,
   tearDown,
-} from '../test-helpers';
+} from '../test-helpers/index.js';
+
+const { before, after } = test;
 
 before('Check author', () => {
   setup();
@@ -79,9 +81,10 @@ test('warns when used outside of a git repo', t => {
   const temporaryDir = temporaryDirectory();
   process.chdir(temporaryDir);
 
-  const error = t.throws(() => {
-    exec('git solo');
-  });
+  const error =
+    t.throws(() => {
+      exec('git solo');
+    }) || new Error('No error');
 
   t.regex(error.message, /not a git repository/i);
 

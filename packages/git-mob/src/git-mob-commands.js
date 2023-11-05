@@ -1,4 +1,4 @@
-import { config } from '../src/git-commands';
+import { config } from '../src/git-commands.js';
 
 function getCoAuthors() {
   return config.getAll('--global git-mob.co-author');

@@ -1,16 +1,17 @@
 {
   "name": "git-mob",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "CLI tool for adding co-authors to commits.",
   "homepage": "https://github.com/rkotze/git-mob/blob/master/packages/git-mob/README.md",
+  "type": "module",
   "scripts": {
     "build": "rimraf dist && bob",
-    "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.js ava --watch --serial --no-worker-threads",
+    "test:w": "npm run build -- -w -t & env-cmd -f test-helpers/env.cjs ava --watch --serial --no-worker-threads",
     "pretest": "npm run build -- -t",
     "test": "npm run testbase",
     "checks": "npm run test && npm run lint",
     "lint": "xo --cwd=../../",
-    "testbase": "env-cmd -f test-helpers/env.js ava --serial --no-worker-threads",
+    "testbase": "ava --serial --no-worker-threads",
     "minifytest": "npm run build -- -m -t && npm run testbase",
     "preversion": "npm run checks",
     "prepack": "npm run build -- -m",
@@ -31,7 +32,7 @@
     "directory": "packages/git-mob"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=16"
   },
   "keywords": [
     "cli",
@@ -62,9 +63,9 @@
   ],
   "dependencies": {
     "common-tags": "^1.8.2",
-    "git-mob-core": "^0.6.0",
+    "git-mob-core": "^0.7.0",
     "minimist": "^1.2.8",
-    "update-notifier": "^5.1.0"
+    "update-notifier": "^6.0.2"
   },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
@@ -73,16 +74,18 @@
     "@types/sinon": "^10.0.20",
     "ava": "^5.3.1",
     "bob": "file:../bob",
-    "env-cmd": "^10.1.0",
     "eol": "^0.9.1",
     "rimraf": "^5.0.5",
     "sinon": "^14.0.2",
-    "tempy": "^3.0.0",
+    "tempy": "^3.1.0",
     "typescript": "^4.9.5"
   },
   "ava": {
     "files": [
       "dist/**/*.spec.js"
+    ],
+    "require": [
+      "./test-helpers/env.cjs"
     ],
     "ignoredByWatcher": [
       "dist",
@@ -94,6 +97,9 @@
         "src/": "build/"
       },
       "compile": false
-    }
+    },
+    "nodeArguments": [
+      "--experimental-vm-modules"
+    ]
   }
 }

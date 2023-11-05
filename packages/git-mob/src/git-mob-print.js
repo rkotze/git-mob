@@ -1,9 +1,9 @@
 import os from 'node:os';
 import minimist from 'minimist';
-import { gitAuthors } from './git-authors';
-import { runMobPrintHelp } from './helpers';
-import { formatCoAuthorList } from './git-message';
-import { getCoAuthors } from './git-mob-commands';
+import { gitAuthors } from './git-authors/index.js';
+import { runMobPrintHelp } from './helpers.js';
+import { formatCoAuthorList } from './git-message/index.js';
+import { getCoAuthors } from './git-mob-commands.js';
 
 const argv = minimist(process.argv.slice(2), {
   alias: {

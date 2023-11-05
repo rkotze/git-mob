@@ -18,7 +18,7 @@ import {
   deleteCoauthorsFile,
   setup,
   tearDown,
-} from '../test-helpers';
+} from '../test-helpers/index.js';
 
 const { before, after, afterEach, skip } = test;
 

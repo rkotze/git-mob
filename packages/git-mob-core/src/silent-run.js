@@ -1,5 +1,5 @@
-const { spawnSync } = require('child_process');
-const { getConfig } = require('./config-manager');
+import { spawnSync } from 'node:child_process';
+import { getConfig } from './config-manager.js';
 
 /**
  * @typedef {Object} ChildProcess.SpawnResult
@@ -23,4 +23,4 @@ function silentRun(command) {
   return spawnSync(command, cmdConfig);
 }
 
-exports.silentRun = silentRun;
+export { silentRun };

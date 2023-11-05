@@ -1,6 +1,6 @@
 import minimist from 'minimist';
-import { runDeleteCoauthorHelp } from '../src/helpers';
-import { deleteCoauthor } from '../src/manage-authors/delete-coauthor';
+import { runDeleteCoauthorHelp } from '../src/helpers.js';
+import { deleteCoauthor } from '../src/manage-authors/delete-coauthor.js';
 
 const argv = minimist(process.argv.slice(2), {
   alias: {

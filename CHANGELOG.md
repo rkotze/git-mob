@@ -2,7 +2,21 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
-## git-mob-core 0.6.0 current
+## git-mob 3.0.0
+
+### Added
+
+- Now uses ESM modules and requires Node 16+ (Most parts work with Node 14)
+- CI run tests in 3 Node environments 14, 16, 18
+- Updated dependencies and dev dependencies to patch security issues
+- Updated tests to support ESM
+
+## git-mob-core 0.7.0
+
+- Requires Node 16+
+- Module systems support ESM and CJS
+
+## git-mob-core 0.6.0
 
 ### Added
 
@@ -23,7 +37,7 @@ gitRevParse = {
 };
 ```
 
-## git-mob 2.5.0 current
+## git-mob 2.5.0
 
 ### Added
 

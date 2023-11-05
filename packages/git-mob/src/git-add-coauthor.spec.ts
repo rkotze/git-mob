@@ -4,7 +4,7 @@ import {
   readCoauthorsFile,
   exec,
   deleteCoauthorsFile,
-} from '../test-helpers';
+} from '../test-helpers/index.js';
 
 test.afterEach.always('cleanup', () => {
   deleteCoauthorsFile();

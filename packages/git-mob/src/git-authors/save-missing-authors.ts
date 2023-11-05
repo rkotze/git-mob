@@ -1,6 +1,6 @@
 import type { Author } from 'git-mob-core';
 import { fetchGitHubAuthors, saveNewCoAuthors } from 'git-mob-core';
-import { mobConfig } from '../git-mob-commands';
+import { mobConfig } from '../git-mob-commands.js';
 
 async function saveMissingAuthors(
   initials: string[],

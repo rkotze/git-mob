@@ -1,5 +1,5 @@
-const { silentRun } = require('./silent-run');
-const { execCommand } = require('./git-mob-api/exec-command');
+import { silentRun } from './silent-run.js';
+import { execCommand } from './git-mob-api/exec-command.js';
 
 function handleResponse(query) {
   try {
@@ -55,27 +55,25 @@ function gitAddCoAuthor(coAuthor) {
   return add('--global git-mob.co-author', coAuthor);
 }
 
-async function getRepoAuthors() {
-  return execCommand('git shortlog -sen HEAD');
-}
-
 function removeGitMobSection() {
   return silentRun(`git config --global --remove-section git-mob`);
 }
 
-module.exports = {
-  config: {
-    getAll,
-    get,
-    has,
-    set,
-  },
-  mob: {
-    removeGitMobSection,
-    gitAddCoAuthor,
-    usingLocalTemplate,
-    usingGlobalTemplate,
-    getGlobalTemplate,
-  },
-  getRepoAuthors,
+export async function getRepoAuthors() {
+  return execCommand('git shortlog -sen HEAD');
+}
+
+export const config = {
+  getAll,
+  get,
+  has,
+  set,
+};
+
+export const mob = {
+  removeGitMobSection,
+  gitAddCoAuthor,
+  usingLocalTemplate,
+  usingGlobalTemplate,
+  getGlobalTemplate,
 };
