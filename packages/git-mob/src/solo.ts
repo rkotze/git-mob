@@ -1,6 +1,5 @@
 import minimist from 'minimist';
 import { getPrimaryAuthor, solo } from 'git-mob-core';
-
 import { revParse } from './git-commands.js';
 import { checkForUpdates, runHelp, runVersion } from './helpers.js';
 

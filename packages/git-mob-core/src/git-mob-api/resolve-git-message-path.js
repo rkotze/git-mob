@@ -1,6 +1,5 @@
 import { resolve, relative, join } from 'node:path';
 import { homedir } from 'node:os';
-
 import { config } from '../commands.js';
 import { topLevelDirectory } from './git-rev-parse.js';
 

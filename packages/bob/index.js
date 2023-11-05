@@ -44,4 +44,5 @@ esbuild
       console.log('watching...');
     }
   })
+  // eslint-disable-next-line unicorn/prefer-top-level-await
   .catch(() => process.exit(1));

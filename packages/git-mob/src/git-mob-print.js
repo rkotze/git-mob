@@ -12,7 +12,7 @@ const argv = minimist(process.argv.slice(2), {
   },
 });
 
-execute(argv);
+await execute(argv);
 
 async function execute(args) {
   if (args.help) {

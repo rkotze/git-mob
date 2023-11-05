@@ -1,5 +1,4 @@
 import test from 'ava';
-
 import { exec } from '../test-helpers/index.js';
 
 test('suggests potential coauthors', t => {

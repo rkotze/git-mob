@@ -10,7 +10,7 @@ const SAMPLE_CONTENT = {
   },
 };
 
-createFileIfNotExist();
+await createFileIfNotExist();
 
 async function createFileIfNotExist() {
   const instance = gitAuthors();

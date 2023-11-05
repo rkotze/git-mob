@@ -1,6 +1,5 @@
 import { EOL } from 'node:os';
 import test from 'ava';
-
 import {
   exec,
   setCoauthorsFile,

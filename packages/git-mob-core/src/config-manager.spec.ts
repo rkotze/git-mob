@@ -12,11 +12,11 @@ it('throw error for invalid config property', () => {
 
   expect(() => {
     updateConfig('cwd', dir);
-  }).toThrowError(
+  }).toThrow(
     expect.objectContaining({
       message: expect.stringMatching(
         'Invalid Git Mob Core config property "cwd"'
       ) as string,
-    })
+    }) as Error
   );
 });

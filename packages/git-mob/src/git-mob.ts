@@ -1,7 +1,6 @@
 import os from 'node:os';
 import minimist from 'minimist';
 import { stripIndents } from 'common-tags';
-
 import {
   getAllAuthors,
   getPrimaryAuthor,
@@ -32,7 +31,7 @@ const argv = minimist(process.argv.slice(2), {
   },
 });
 
-execute(argv).catch(() => null);
+await execute(argv).catch(() => null);
 
 async function execute(args: minimist.ParsedArgs) {
   if (args.help) {

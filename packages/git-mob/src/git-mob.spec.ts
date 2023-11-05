@@ -3,7 +3,6 @@ import test from 'ava';
 import { stripIndent } from 'common-tags';
 import { auto } from 'eol';
 import { temporaryDirectory } from 'tempy';
-
 import {
   addAuthor,
   addCoAuthor,

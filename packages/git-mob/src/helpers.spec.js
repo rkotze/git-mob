@@ -1,5 +1,4 @@
 import test from 'ava';
-
 import { validateEmail } from './helpers.js';
 
 test('email validator returns true for valid emails', t => {

@@ -33,7 +33,7 @@ async function execute(argv: minimist.ParsedArgs): Promise<void> {
   console.log(name + ' has been added to the .git-coauthors file');
 }
 
-execute(argv)
+await execute(argv)
   .then(() => {
     process.exit(0);
   })

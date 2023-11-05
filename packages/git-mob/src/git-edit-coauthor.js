@@ -18,4 +18,4 @@ async function execute(argv) {
   process.exit(0);
 }
 
-execute(argv);
+await execute(argv);

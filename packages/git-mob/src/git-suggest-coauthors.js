@@ -93,4 +93,4 @@ function emailFromSummaryLine(summaryLine) {
   return summaryLine.split('\t')[1].split(' ').pop().slice(1, -1);
 }
 
-execute(argv);
+await execute(argv);

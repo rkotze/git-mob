@@ -1,5 +1,4 @@
-import type { BasicResponse } from '../fetch/http-fetch';
-import { httpFetch } from '../fetch/http-fetch';
+import { type BasicResponse, httpFetch } from '../fetch/http-fetch';
 import { fetchGitHubAuthors } from './fetch-github-authors';
 
 jest.mock('../fetch/http-fetch');
