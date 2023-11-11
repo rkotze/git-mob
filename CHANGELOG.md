@@ -6,7 +6,8 @@ Follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Remove legacy git-message API and replace it with git-mob-core API
+- Remove legacy git-message API and replace it with git-mob-core `git-message` API
+- Remove legacy git-add-coauthor API and replace it with git-mob-core `saveNewCoAuthors`
 
 ## git-mob-core next
 
