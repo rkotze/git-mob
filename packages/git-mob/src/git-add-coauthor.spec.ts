@@ -116,7 +116,7 @@ test('does not add coauthor to coauthors file if key already exists', t => {
       exec('git add-coauthor ea "Emily Anderson" "emily@anderson.org"');
     }) || new Error('No error');
 
-  t.regex(error.message, /ea already exists in .git-coauthors/i);
+  t.regex(error.message, /duplicate key ea exists in .git-coauthors/i);
 
   const addCoauthorActual = loadCoauthors();
   const addCoauthorExpected = {
