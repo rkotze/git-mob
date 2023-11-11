@@ -2,6 +2,16 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## git-mob Next
+
+### Added
+
+- Remove legacy git-message API and replace it with git-mob-core API
+
+## git-mob-core next
+
+- Add new co-author module migrated to TypeScript and tested
+
 ## git-mob 3.0.0
 
 ### Added

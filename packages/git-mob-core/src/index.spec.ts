@@ -1,5 +1,4 @@
 import { mob } from './commands';
-import { Author } from './git-mob-api/author';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
@@ -7,6 +6,7 @@ import {
   getGlobalCommitTemplate,
   getLocalCommitTemplate,
 } from './git-mob-api/git-config';
+import { buildAuthorList, mockGitAuthors } from './test-helpers/author-mocks';
 import { setCoAuthors, updateGitTemplate } from '.';
 
 jest.mock('./commands');
@@ -21,25 +21,7 @@ const mockedMob = jest.mocked(mob);
 const mockedGetGlobalCommitTemplate = jest.mocked(getGlobalCommitTemplate);
 const mockedGetLocalCommitTemplate = jest.mocked(getLocalCommitTemplate);
 
-describe('Git Mob API', () => {
-  function buildAuthors(keys: string[]) {
-    return keys.map(key => new Author(key, key + ' lastName', key + '@email.com'));
-  }
-
-  function buildMockGitAuthors(keys: string[]) {
-    const authors = buildAuthors(keys);
-    return {
-      read: jest.fn(async () => ''),
-      write: jest.fn(async () => ''),
-      overwrite: jest.fn(async () => ''),
-      fileExists: jest.fn(() => true),
-      coAuthors: jest.fn(() => []),
-      author: jest.fn(() => ({})),
-      coAuthorsInitials: jest.fn(() => []),
-      toList: jest.fn(() => authors),
-    };
-  }
-
+describe('Git Mob core API', () => {
   afterEach(() => {
     mockedMob.removeGitMobSection.mockReset();
     mockedGetGlobalCommitTemplate.mockReset();
@@ -50,7 +32,7 @@ describe('Git Mob API', () => {
     const authorKeys = ['ab', 'cd'];
     const mockWriteCoAuthors = jest.fn(async () => undefined);
     const mockRemoveCoAuthors = jest.fn(async () => '');
-    mockedGitAuthors.mockReturnValue(buildMockGitAuthors([...authorKeys, 'ef']));
+    mockedGitAuthors.mockReturnValue(mockGitAuthors([...authorKeys, 'ef']));
 
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
@@ -67,10 +49,10 @@ describe('Git Mob API', () => {
 
   it('apply co-authors to git config and git message', async () => {
     const authorKeys = ['ab', 'cd'];
-    const authorList = buildAuthors(authorKeys);
+    const authorList = buildAuthorList(authorKeys);
     const mockWriteCoAuthors = jest.fn(async () => undefined);
     const mockRemoveCoAuthors = jest.fn(async () => '');
-    mockedGitAuthors.mockReturnValue(buildMockGitAuthors([...authorKeys, 'ef']));
+    mockedGitAuthors.mockReturnValue(mockGitAuthors([...authorKeys, 'ef']));
 
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
@@ -89,7 +71,7 @@ describe('Git Mob API', () => {
 
   it('update git template by adding co-authors', async () => {
     const authorKeys = ['ab', 'cd'];
-    const authorList = buildAuthors(authorKeys);
+    const authorList = buildAuthorList(authorKeys);
     const mockWriteCoAuthors = jest.fn();
 
     mockedGitMessage.mockReturnValue({
@@ -106,7 +88,7 @@ describe('Git Mob API', () => {
   // GitMob is Global by default: https://github.com/rkotze/git-mob/discussions/81
   it('using local gitmessage updates local & global gitmessage with co-authors', async () => {
     const authorKeys = ['ab', 'cd'];
-    const authorList = buildAuthors(authorKeys);
+    const authorList = buildAuthorList(authorKeys);
     const mockWriteCoAuthors = jest.fn();
     const mockRemoveCoAuthors = jest.fn();
 
