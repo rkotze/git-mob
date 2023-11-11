@@ -55,3 +55,19 @@ test('Save multiple new authors', async () => {
   );
   expect(savedAuthors).toEqual(newAuthors);
 });
+
+test('Duplicated error when saving multiple new authors', async () => {
+  const newAuthorKeys = ['joe', 'dim'];
+  const newAuthors = mockAuthorList(newAuthorKeys);
+  const mockGitAuthorsObject = mockGitAuthors(coAuthorKeys);
+  mockedGitAuthors.mockReturnValue(mockGitAuthorsObject);
+
+  await expect(saveNewCoAuthors(newAuthors)).rejects.toThrow(
+    expect.objectContaining({
+      message: expect.stringMatching(
+        'Duplicate key joe exists in .git-coauthors'
+      ) as string,
+    }) as Error
+  );
+  expect(mockGitAuthorsObject.overwrite).not.toHaveBeenCalled();
+});
