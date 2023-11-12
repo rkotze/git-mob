@@ -1,6 +1,5 @@
 import minimist from 'minimist';
-import { getPrimaryAuthor, solo } from 'git-mob-core';
-import { revParse } from './git-commands.js';
+import { gitRevParse, getPrimaryAuthor, solo } from 'git-mob-core';
 import { checkForUpdates, runHelp, runVersion } from './helpers.js';
 
 checkForUpdates();
@@ -22,7 +21,8 @@ if (argv.version) {
   process.exit(0);
 }
 
-if (!revParse.insideWorkTree()) {
+const isGitRepo = await gitRevParse.insideWorkTree();
+if (!isGitRepo) {
   console.error('Error: not a git repository');
   process.exit(1);
 }

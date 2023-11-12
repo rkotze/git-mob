@@ -1,7 +1,8 @@
 import os from 'node:os';
 import minimist from 'minimist';
+import { gitRevParse } from 'git-mob-core';
 import { runSuggestCoauthorsHelp } from './helpers.js';
-import { authors, revParse } from './git-commands.js';
+import { authors } from './git-commands.js';
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -15,7 +16,8 @@ async function execute(argv) {
     process.exit(0);
   }
 
-  if (!revParse.insideWorkTree()) {
+  const isGitRepo = await gitRevParse.insideWorkTree();
+  if (!isGitRepo) {
     console.error('Error: not a git repository');
     process.exit(1);
   }
