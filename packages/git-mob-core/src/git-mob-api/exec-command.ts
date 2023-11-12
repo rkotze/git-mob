@@ -16,7 +16,7 @@ export async function execCommand(command: string): Promise<string> {
   const { stderr, stdout } = await execAsync(command, cmdConfig);
 
   if (stderr) {
-    throw new Error(`GitMob execCommand: "${command}" ${stderr.trim()}`);
+    throw new Error(`Git mob core execCommand: "${command}" ${stderr.trim()}`);
   }
 
   return stdout.trim();
@@ -35,5 +35,14 @@ export async function getAllConfig(key: string) {
     return await execCommand(`git config --get-all ${key}`);
   } catch {
     return undefined;
+  }
+}
+
+export async function setConfig(key: string, value: string) {
+  try {
+    await execCommand(`git config ${key} "${value}"`);
+  } catch {
+    const message = `Option ${key} has multiple values. Cannot overwrite multiple values for option ${key} with a single value.`;
+    throw new Error(`Git mob core setConfig: ${message}`);
   }
 }

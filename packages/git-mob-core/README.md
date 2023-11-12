@@ -22,7 +22,7 @@ setPrimaryAuthor(author): void
 solo(): <Promise<void>>
 updateGitTemplate(selectedAuthors): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
-pathToCoAuthors(): string
+pathToCoAuthors(): <Promise<string>>
 getConfig(prop: string): string | undefined
 updateConfig(prop: string, value: string): void
 gitMobConfig = {
@@ -36,8 +36,8 @@ gitConfig = {
 };
 
 gitRevParse = {
-  insideWorkTree(): string,
-  topLevelDirectory(): boolean,
+  insideWorkTree(): <Promise<string>>,
+  topLevelDirectory(): <Promise<boolean>>,
 };
 class Author
 ```

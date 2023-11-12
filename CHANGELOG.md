@@ -12,6 +12,9 @@ Follows [Semantic Versioning](https://semver.org/).
 ## git-mob-core next
 
 - Add new co-author module migrated to TypeScript and tested
+- Change to async `topLevelDirectory`, `insideWorkTree` - may not be needed in future versions
+- Resolve-git-message-path migrated to TypeScript
+- Changed to async `resolveGitMessagePath`, `setCommitTemplate`
 
 ## git-mob 3.0.0
 

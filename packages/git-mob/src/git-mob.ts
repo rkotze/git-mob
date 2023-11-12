@@ -49,7 +49,8 @@ async function execute(args: minimist.ParsedArgs) {
     process.exit(0);
   }
 
-  if (!gitRevParse.insideWorkTree()) {
+  const isGitRepo = await gitRevParse.insideWorkTree();
+  if (!isGitRepo) {
     console.error(red('Error: not a Git repository'));
     process.exit(1);
   }

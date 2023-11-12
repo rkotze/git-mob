@@ -39,7 +39,7 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
 
   return {
     read: async () => {
-      const authorJsonString = await readFile(pathToCoAuthors());
+      const authorJsonString = await readFile(await pathToCoAuthors());
       try {
         return JSON.parse(authorJsonString);
       } catch (error) {
@@ -49,7 +49,10 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
 
     write: async authorJson => {
       try {
-        return writeToFile(pathToCoAuthors(), JSON.stringify(authorJson, null, 2));
+        return writeToFile(
+          await pathToCoAuthors(),
+          JSON.stringify(authorJson, null, 2)
+        );
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }
@@ -57,14 +60,17 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
 
     overwrite: async authorJson => {
       try {
-        return overwriteFile(pathToCoAuthors(), JSON.stringify(authorJson, null, 2));
+        return overwriteFile(
+          await pathToCoAuthors(),
+          JSON.stringify(authorJson, null, 2)
+        );
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }
     },
 
-    fileExists: () => {
-      return fs.existsSync(pathToCoAuthors());
+    fileExists: async () => {
+      return fs.existsSync(await pathToCoAuthors());
     },
 
     coAuthors(authorInitials, authorJson) {
@@ -105,13 +111,13 @@ function missingAuthorError(initials, coauthors) {
   }
 }
 
-export function pathToCoAuthors() {
+export async function pathToCoAuthors() {
   if (process.env.GITMOB_COAUTHORS_PATH) {
     return process.env.GITMOB_COAUTHORS_PATH;
   }
 
   const gitCoauthorsFileName = '.git-coauthors';
-  const repoAuthorsFile = path.join(topLevelDirectory(), gitCoauthorsFileName);
+  const repoAuthorsFile = path.join(await topLevelDirectory(), gitCoauthorsFileName);
 
   return fs.existsSync(repoAuthorsFile)
     ? repoAuthorsFile

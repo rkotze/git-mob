@@ -1,20 +1,16 @@
-import { silentRun } from '../silent-run.js';
+import { execCommand } from './exec-command.js';
 
-/**
- * Computes the path to the top-level directory of the git repository.
- * @returns {string} Path to the top-level directory of the git repository.
- */
-function topLevelDirectory(): string {
-  const { stdout } = silentRun('git rev-parse --show-toplevel');
-  return stdout.toString().trim();
+async function topLevelDirectory(): Promise<string> {
+  return execCommand('git rev-parse --show-toplevel');
 }
 
-/**
- * Checks if the current working directory is inside the working tree of a git repository.
- * @returns {boolean} Is the cwd in a git repository?
- */
-function insideWorkTree() {
-  return silentRun('git rev-parse --is-inside-work-tree').status === 0;
+async function insideWorkTree(): Promise<boolean> {
+  try {
+    const isGitRepo = await execCommand('git rev-parse --is-inside-work-tree');
+    return isGitRepo === 'true';
+  } catch {
+    return false;
+  }
 }
 
 export { topLevelDirectory, insideWorkTree };

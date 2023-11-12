@@ -14,7 +14,7 @@ await createFileIfNotExist();
 
 async function createFileIfNotExist() {
   const instance = gitAuthors();
-  if (instance.fileExists()) {
+  if (await instance.fileExists()) {
     console.log(`${pathToCoAuthors()} file already exists`);
   } else {
     try {

@@ -42,7 +42,7 @@ async function updateGitTemplate(selectedAuthors?: Author[]) {
     getConfig('commit.template'),
   ]);
 
-  const gitTemplate = gitMessage(resolveGitMessagePath(templatePath));
+  const gitTemplate = gitMessage(await resolveGitMessagePath(templatePath));
 
   if (selectedAuthors && selectedAuthors.length > 0) {
     if (usingLocal) {
@@ -84,7 +84,7 @@ function getSelectedCoAuthors(allAuthors: Author[]) {
 }
 
 async function solo() {
-  setCommitTemplate();
+  await setCommitTemplate();
   mob.removeGitMobSection();
   return updateGitTemplate();
 }

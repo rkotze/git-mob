@@ -33,7 +33,7 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
 
   return {
     read: async () => {
-      const authorJsonString = await readFile(pathToCoAuthors());
+      const authorJsonString = await readFile(await pathToCoAuthors());
       try {
         return JSON.parse(authorJsonString);
       } catch (error) {
@@ -43,7 +43,10 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
 
     write: async authorJson => {
       try {
-        return writeToFile(pathToCoAuthors(), JSON.stringify(authorJson, null, 2));
+        return writeToFile(
+          await pathToCoAuthors(),
+          JSON.stringify(authorJson, null, 2)
+        );
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }
@@ -51,14 +54,17 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
 
     overwrite: async authorJson => {
       try {
-        return overwriteFile(pathToCoAuthors(), JSON.stringify(authorJson, null, 2));
+        return overwriteFile(
+          await pathToCoAuthors(),
+          JSON.stringify(authorJson, null, 2)
+        );
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }
     },
 
-    fileExists: () => {
-      return existsSync(pathToCoAuthors());
+    fileExists: async () => {
+      return existsSync(await pathToCoAuthors());
     },
 
     author(authorInitials, authorJson) {

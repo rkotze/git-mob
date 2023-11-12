@@ -54,20 +54,22 @@ test('.git-coauthors file does not exist', async () => {
   );
 });
 
-test('.git-coauthors by default is in the home directory', () => {
-  expect(pathToCoAuthors()).toEqual(join(process.env.HOME, '.git-coauthors'));
+test('.git-coauthors by default is in the home directory', async () => {
+  expect(await pathToCoAuthors()).toEqual(join(process.env.HOME, '.git-coauthors'));
 });
 
-test('.git-coauthors can be overwritten by a repo file', () => {
+test('.git-coauthors can be overwritten by a repo file', async () => {
   jest.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
-  expect(pathToCoAuthors()).toEqual(join(topLevelDirectory(), '.git-coauthors'));
+  expect(await pathToCoAuthors()).toEqual(
+    join(await topLevelDirectory(), '.git-coauthors')
+  );
 });
 
-test('.git-coauthors can be overwritten by the env var', () => {
+test('.git-coauthors can be overwritten by the env var', async () => {
   const oldEnv = process.env.GITMOB_COAUTHORS_PATH;
   try {
     process.env.GITMOB_COAUTHORS_PATH = '~/Env/Path/.git-co-authors';
-    expect(pathToCoAuthors()).toEqual('~/Env/Path/.git-co-authors');
+    expect(await pathToCoAuthors()).toEqual('~/Env/Path/.git-co-authors');
   } finally {
     process.env.GITMOB_COAUTHORS_PATH = oldEnv;
   }
