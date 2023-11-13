@@ -46,3 +46,7 @@ export async function setConfig(key: string, value: string) {
     throw new Error(`Git mob core setConfig: ${message}`);
   }
 }
+
+export async function getRepoAuthors() {
+  return execCommand('git shortlog -sen HEAD');
+}
