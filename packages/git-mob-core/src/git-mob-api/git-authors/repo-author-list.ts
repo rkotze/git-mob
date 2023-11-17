@@ -1,23 +1,23 @@
 import { Author } from '../author';
 import { getRepoAuthors } from '../exec-command';
 
-export async function repoAuthorList(): Promise<Author[]> {
+export async function repoAuthorList(): Promise<Author[] | undefined> {
   const repoAuthorsString = await getRepoAuthors();
   const splitEndOfLine = repoAuthorsString.split('\n');
-  return splitEndOfLine
+  const authorList = splitEndOfLine
     .map(createRepoAuthor)
-    .filter(author => author instanceof Author);
+    .filter(author => author !== undefined) as Author[];
+
+  if (authorList.length > 0) return authorList;
 }
 
 function createRepoAuthor(authorString: string) {
   const regexList = /\s\d+\t(.+)\s<(.+)>/;
-  const authorArray = authorString.match(regexList);
+  const authorArray = regexList.exec(authorString);
   if (authorArray !== null) {
     const [, name, email] = authorArray;
     return new Author(genKey(name, email), name, email);
   }
-
-  return null;
 }
 
 function genKey(name: string, email: string) {
@@ -28,6 +28,6 @@ function genKey(name: string, email: string) {
       return acc + cur[0];
     }, '');
 
-  const domainFirstTwoLetters = email.split('@')[1].slice(0, 2);
+  const domainFirstTwoLetters = email.slice(0, 2);
   return nameInitials + domainFirstTwoLetters;
 }

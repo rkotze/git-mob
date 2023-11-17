@@ -1,58 +1,74 @@
 import os from 'node:os';
+import { getRepoAuthors } from '../exec-command';
 import { Author } from '../author';
 import { repoAuthorList } from './repo-author-list';
 
+jest.mock('../exec-command');
+const mockedGetRepoAuthors = jest.mocked(getRepoAuthors);
+
 describe('Extract repository authors', function () {
-  it('Given a list of authors extract the name and email', function () {
-    const listOfAuthorsString = `   33\tRichard Kotze <rkotze@email.com>${os.EOL}   53\tTony Stark <tony@stark.com>`;
-    const listOfAuthors = repoAuthorList(listOfAuthorsString);
+  it('Given a list of authors extract the name and email', async function () {
+    mockedGetRepoAuthors.mockResolvedValueOnce(
+      `   33\tRichard Kotze <rkotze@email.com>${os.EOL}   53\tTony Stark <tony@stark.com>`
+    );
+    const listOfAuthors = await repoAuthorList();
     expect(listOfAuthors).toEqual([
-      new Author('Richard Kotze', 'rkotze@email.com', 'rkem'),
-      new Author('Tony Stark', 'tony@stark.com', 'tsst'),
+      new Author('rkrk', 'Richard Kotze', 'rkotze@email.com'),
+      new Author('tsto', 'Tony Stark', 'tony@stark.com'),
     ]);
   });
 
-  it('author has one name', function () {
-    const listOfAuthorsString = `   33\tRichard <rkotze@email.com>${os.EOL}   53\tTony Stark <tony@stark.com>`;
-    const listOfAuthors = repoAuthorList(listOfAuthorsString);
+  it('author has one name', async function () {
+    mockedGetRepoAuthors.mockResolvedValueOnce(
+      `   33\tRichard <rkotze@email.com>${os.EOL}   53\tTony Stark <tony@stark.com>`
+    );
+    const listOfAuthors = await repoAuthorList();
     expect(listOfAuthors).toEqual([
-      new Author('Richard', 'rkotze@email.com', 'rem'),
-      new Author('Tony Stark', 'tony@stark.com', 'tsst'),
+      new Author('rrk', 'Richard', 'rkotze@email.com'),
+      new Author('tsto', 'Tony Stark', 'tony@stark.com'),
     ]);
   });
 
-  it('author uses a private GitHub email', function () {
-    const listOfAuthorsString = `   33\tRichard <rkotze@email.com>${os.EOL}   53\tTony Stark <20342323+tony[bot]@users.noreply.github.com>`;
-    const listOfAuthors = repoAuthorList(listOfAuthorsString);
+  it('author uses a private GitHub email', async function () {
+    mockedGetRepoAuthors.mockResolvedValueOnce(
+      `   33\tRichard <rkotze@email.com>${os.EOL}   53\tTony Stark <20342323+tony[bot]@users.noreply.github.com>`
+    );
+    const listOfAuthors = await repoAuthorList();
     expect(listOfAuthors).toEqual([
-      new Author('Richard', 'rkotze@email.com', 'rem'),
+      new Author('rrk', 'Richard', 'rkotze@email.com'),
       new Author(
+        'ts20',
         'Tony Stark',
-        '20342323+tony[bot]@users.noreply.github.com',
-        'tsus'
+        '20342323+tony[bot]@users.noreply.github.com'
       ),
     ]);
   });
 
-  it('only one author on repository', function () {
-    const listOfAuthorsString = `   33\tRichard Kotze <rkotze@email.com>`;
-    const listOfAuthors = repoAuthorList(listOfAuthorsString);
+  it('only one author on repository', async function () {
+    mockedGetRepoAuthors.mockResolvedValueOnce(
+      `   33\tRichard Kotze <rkotze@email.com>`
+    );
+    const listOfAuthors = await repoAuthorList();
     expect(listOfAuthors).toEqual([
-      new Author('Richard Kotze', 'rkotze@email.com', 'rkem'),
+      new Author('rkrk', 'Richard Kotze', 'rkotze@email.com'),
     ]);
   });
 
-  it('author has special characters in name', function () {
-    const listOfAuthorsString = `   33\tRic<C4><8D>rd Kotze <rkotze@email.com>`;
-    const listOfAuthors = repoAuthorList(listOfAuthorsString);
+  it('author has special characters in name', async function () {
+    mockedGetRepoAuthors.mockResolvedValueOnce(
+      `   33\tRic<C4><8D>rd Kotze <rkotze@email.com>`
+    );
+    const listOfAuthors = await repoAuthorList();
     expect(listOfAuthors).toEqual([
-      new Author('Ric<C4><8D>rd Kotze', 'rkotze@email.com', 'rkem'),
+      new Author('rkrk', 'Ric<C4><8D>rd Kotze', 'rkotze@email.com'),
     ]);
   });
 
-  it('exclude if fails to match author pattern in list', function () {
-    const listOfAuthorsString = `   33\tRichard Kotze <rkotze.email.com>`;
-    const listOfAuthors = repoAuthorList(listOfAuthorsString);
-    expect(listOfAuthors).not.toEqual([expect.any(Error)]);
+  it('exclude if fails to match author pattern in list', async function () {
+    mockedGetRepoAuthors.mockResolvedValueOnce(
+      `   33\tRichard Kotze <rkotze.email.com`
+    );
+    const listOfAuthors = await repoAuthorList();
+    expect(listOfAuthors).toEqual(undefined);
   });
 });
