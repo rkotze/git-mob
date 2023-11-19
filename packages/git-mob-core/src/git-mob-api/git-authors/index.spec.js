@@ -128,12 +128,3 @@ test('Throw error if initials of author are not found', () => {
     })
   );
 });
-
-test('find initials of co-authors', () => {
-  const authors = gitAuthors();
-  const coAuthorsInitials = authors.coAuthorsInitials(authorsJson, [
-    'Jane Doe <jane@findmypast.com>',
-  ]);
-
-  expect(coAuthorsInitials).toEqual(['jd']);
-});

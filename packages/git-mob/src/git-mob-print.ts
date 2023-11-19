@@ -1,9 +1,7 @@
 import os from 'node:os';
 import minimist from 'minimist';
 import { getAllAuthors, getSelectedCoAuthors } from 'git-mob-core';
-import { gitAuthors } from './git-authors/index.js';
 import { runMobPrintHelp } from './helpers.js';
-import { getCoAuthors } from './git-mob-commands.js';
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -21,8 +19,7 @@ async function execute(args: minimist.ParsedArgs) {
   }
 
   if (args.initials) {
-    await printCoAuthorsInitials();
-    process.exit(0);
+    return printCoAuthorsInitials();
   }
 
   return printCoAuthors();
@@ -43,17 +40,11 @@ async function printCoAuthors() {
 
 async function printCoAuthorsInitials() {
   try {
-    const instance = gitAuthors();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const authorList = await instance.read();
-    const currentCoAuthors = getCoAuthors();
+    const allAuthors = await getAllAuthors();
+    const selectedAuthors = getSelectedCoAuthors(allAuthors);
 
-    const coAuthorsInitials = instance.coAuthorsInitials(
-      authorList,
-      currentCoAuthors
-    );
-    if (coAuthorsInitials.length > 0) {
-      console.log(coAuthorsInitials.join(','));
+    if (selectedAuthors.length > 0) {
+      console.log(selectedAuthors.map(author => author.key).join(','));
     }
   } catch (error: unknown) {
     const initialsError = error as Error;

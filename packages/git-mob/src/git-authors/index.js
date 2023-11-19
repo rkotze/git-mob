@@ -73,17 +73,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
       return coauthors[authorInitials];
     },
 
-    coAuthorsInitials(authorJson, currentCoAuthors) {
-      const { coauthors } = authorJson;
-      return Object.keys(coauthors).reduce((currentCoAuthorsInitials, initials) => {
-        if (currentCoAuthors.includes(authorBaseFormat(coauthors[initials]))) {
-          currentCoAuthorsInitials.push(initials);
-        }
-
-        return currentCoAuthorsInitials;
-      }, []);
-    },
-
     toList(authors) {
       const entries = Object.entries(authors.coauthors);
       return entries.map(authorParts => {

@@ -75,12 +75,3 @@ test('create an organised string list of .git-coauthors', async t => {
   ];
   t.deepEqual(expectAuthorList, authorList);
 });
-
-test('find initials of co-authors', t => {
-  const authors = gitAuthors();
-  const coAuthorsInitials = authors.coAuthorsInitials(authorsJson, [
-    'Jane Doe <jane@findmypast.com>',
-  ]);
-
-  t.deepEqual(coAuthorsInitials, ['jd']);
-});
