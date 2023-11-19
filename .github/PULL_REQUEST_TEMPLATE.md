@@ -26,7 +26,7 @@ Please check the type of change your PR introduces:
 - [ ] Documentation content changes
 - [ ] Other (please describe):
 
-## What is the current behavior?
+## What is the current behaviour?
 
 <!-- Please describe the current behaviour that you are modifying. -->
 
