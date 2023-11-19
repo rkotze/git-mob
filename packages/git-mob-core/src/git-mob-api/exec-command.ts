@@ -47,6 +47,11 @@ export async function setConfig(key: string, value: string) {
   }
 }
 
-export async function getRepoAuthors() {
-  return execCommand('git shortlog -sen HEAD');
+export async function getRepoAuthors(authorFilter?: string) {
+  let repoAuthorQuery = 'git shortlog -seni HEAD';
+  if (authorFilter) {
+    repoAuthorQuery += ` --author="${authorFilter}"`;
+  }
+
+  return execCommand(repoAuthorQuery);
 }

@@ -21,13 +21,13 @@ async function execute(argv: minimist.ParsedArgs) {
     process.exit(1);
   }
 
-  await printCoauthorSuggestions();
+  await printCoauthorSuggestions(argv._.join(' '));
   process.exit(0);
 }
 
-async function printCoauthorSuggestions() {
+async function printCoauthorSuggestions(authorFilter: string) {
   try {
-    const gitAuthors = await repoAuthorList();
+    const gitAuthors = await repoAuthorList(authorFilter.trim());
 
     if (gitAuthors && gitAuthors.length > 0) {
       console.log(

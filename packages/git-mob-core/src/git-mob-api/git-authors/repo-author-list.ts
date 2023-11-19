@@ -1,9 +1,12 @@
+import { EOL } from 'node:os';
 import { Author } from '../author';
 import { getRepoAuthors } from '../exec-command';
 
-export async function repoAuthorList(): Promise<Author[] | undefined> {
-  const repoAuthorsString = await getRepoAuthors();
-  const splitEndOfLine = repoAuthorsString.split('\n');
+export async function repoAuthorList(
+  authorFilter?: string
+): Promise<Author[] | undefined> {
+  const repoAuthorsString = await getRepoAuthors(authorFilter);
+  const splitEndOfLine = repoAuthorsString.split(EOL);
   const authorList = splitEndOfLine
     .map(createRepoAuthor)
     .filter(author => author !== undefined) as Author[];
@@ -12,7 +15,7 @@ export async function repoAuthorList(): Promise<Author[] | undefined> {
 }
 
 function createRepoAuthor(authorString: string) {
-  const regexList = /\s\d+\t(.+)\s<(.+)>/;
+  const regexList = /\d+\t(.+)\s<(.+)>/;
   const authorArray = regexList.exec(authorString);
   if (authorArray !== null) {
     const [, name, email] = authorArray;
