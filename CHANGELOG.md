@@ -16,6 +16,8 @@ Follows [Semantic Versioning](https://semver.org/).
 - Migrated `git-suggest-coauthors` to TypeScript
 - `git mob-print -i` uses git mob core to print out initials of selected co-authors
 - Migrated mob print file to TypeScript
+- Removed legacy git mob commands no longer used.
+- Removed legacy git commands no longer used.
 
 ## git-mob-core next
 
