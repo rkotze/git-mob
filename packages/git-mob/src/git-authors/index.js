@@ -1,7 +1,6 @@
 import { readFile as _readFile, appendFile, writeFile, existsSync } from 'node:fs';
 import { promisify } from 'node:util';
 import { pathToCoAuthors } from 'git-mob-core';
-import { authorBaseFormat } from './author-base-format.js';
 
 export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {
@@ -71,17 +70,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
       const { coauthors } = authorJson;
       missingAuthorError(authorInitials, coauthors);
       return coauthors[authorInitials];
-    },
-
-    coAuthorsInitials(authorJson, currentCoAuthors) {
-      const { coauthors } = authorJson;
-      return Object.keys(coauthors).reduce((currentCoAuthorsInitials, initials) => {
-        if (currentCoAuthors.includes(authorBaseFormat(coauthors[initials]))) {
-          currentCoAuthorsInitials.push(initials);
-        }
-
-        return currentCoAuthorsInitials;
-      }, []);
     },
 
     toList(authors) {

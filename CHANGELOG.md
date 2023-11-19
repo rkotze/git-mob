@@ -14,6 +14,8 @@ Follows [Semantic Versioning](https://semver.org/).
 - Remove legacy git-add-coauthor API and replace it with git-mob-core `saveNewCoAuthors`
 - Remove legacy git-suggest-coauthor API and replace it with git-mob-core `repoAuthorList`
 - Migrated `git-suggest-coauthors` to TypeScript
+- `git mob-print -i` uses git mob core to print out initials of selected co-authors
+- Migrated mob print file to TypeScript
 
 ## git-mob-core next
 
