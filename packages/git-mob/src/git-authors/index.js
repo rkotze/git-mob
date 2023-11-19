@@ -1,7 +1,6 @@
 import { readFile as _readFile, appendFile, writeFile, existsSync } from 'node:fs';
 import { promisify } from 'node:util';
 import { pathToCoAuthors } from 'git-mob-core';
-import { authorBaseFormat } from './author-base-format.js';
 
 export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromise) {
   async function readFile(path) {
