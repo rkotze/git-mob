@@ -6,14 +6,27 @@ Follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+-- `git suggest-coauthors <name or email>` can filter by author name or email. Addresses [issue 90](https://github.com/rkotze/git-mob/issues/90)
+
+### Refactored
+
 - Remove legacy git-message API and replace it with git-mob-core `git-message` API
 - Remove legacy git-add-coauthor API and replace it with git-mob-core `saveNewCoAuthors`
+- Remove legacy git-suggest-coauthor API and replace it with git-mob-core `repoAuthorList`
+- Migrated `git-suggest-coauthors` to TypeScript
 
 ## git-mob-core next
 
+### Added
+
+- Added `repoAuthorList` which will list all contributors from a repo
+- Added filter to `repoAuthorList` which uses `--author` flag from `git shortlog`.
+
+### Refactored
+
 - Add new co-author module migrated to TypeScript and tested
 - Change to async `topLevelDirectory`, `insideWorkTree` - may not be needed in future versions
-- Resolve-git-message-path migrated to TypeScript
+- `resolve-git-message-path` migrated to TypeScript
 - Changed to async `resolveGitMessagePath`, `setCommitTemplate`
 
 ## git-mob 3.0.0

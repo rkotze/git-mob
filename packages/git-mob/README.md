@@ -27,7 +27,7 @@ _Add co-authors to commits_ when you collaborate on code. Use when pairing with 
     - [Add co-author](#add-co-author)
     - [Delete co-author](#delete-co-author)
     - [Edit co-author](#edit-co-author)
-    - [Suggest co-authors base on current repo](#suggest-co-authors-base-on-current-repo)
+    - [Suggest co-authors](#suggest-co-authors)
     - [Help](#help)
     - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
       - [Bash](#bash)
@@ -242,13 +242,14 @@ $ git edit-coauthor bb --name="Barry Butterworth"
 $ git edit-coauthor bb --email="barry@butterworth.org"
 ```
 
-### Suggest co-authors base on current repo
+### Suggest co-authors
 
-Suggest some co-authors to add based on existing committers to your
-current repo
+Suggest co-authors to save based on contributors to the current Git repo.
+
+Optional author filter by name or email.
 
 ```
-$ git suggest-coauthors
+$ git suggest-coauthors <name or email>
 ```
 
 ### Help

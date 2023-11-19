@@ -25,7 +25,7 @@ fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
 pathToCoAuthors(): <Promise<string>>
 getConfig(prop: string): string | undefined
 updateConfig(prop: string, value: string): void
-repoAuthorList(): Promise<Author[] | undefined>
+repoAuthorList(authorFilter?: string): Promise<Author[] | undefined>
 gitMobConfig = {
   localTemplate(): <Promise<boolean>>,
   fetchFromGitHub(): <Promise<boolean>>,
