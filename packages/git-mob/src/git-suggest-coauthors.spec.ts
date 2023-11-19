@@ -5,7 +5,7 @@ test('suggests potential coauthors', t => {
   const { stdout } = exec('git suggest-coauthors');
 
   t.regex(stdout, /Here are some suggestions/);
-  t.regex(stdout, /git add-coauthor rk "Richard Kotze" rkotze@findmypast.com/);
+  t.regex(stdout, /git add-coauthor rkrk "Richard Kotze" rkotze@findmypast.com/);
   t.regex(stdout, /Paste any line above/);
 });
 
