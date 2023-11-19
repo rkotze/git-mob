@@ -1,5 +1,4 @@
 import { silentRun } from './silent-run.js';
-import { execCommand } from './git-mob-api/exec-command.js';
 
 function handleResponse(query) {
   try {
@@ -57,10 +56,6 @@ function gitAddCoAuthor(coAuthor) {
 
 function removeGitMobSection() {
   return silentRun(`git config --global --remove-section git-mob`);
-}
-
-export async function getRepoAuthors() {
-  return execCommand('git shortlog -sen HEAD');
 }
 
 export const config = {

@@ -132,6 +132,7 @@ export const gitRevParse = {
 };
 
 export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor.js';
+export { repoAuthorList } from './git-mob-api/git-authors/repo-author-list.js';
 export { pathToCoAuthors } from './git-mob-api/git-authors/index.js';
 export { fetchGitHubAuthors } from './git-mob-api/git-authors/fetch-github-authors.js';
 export { getConfig, updateConfig } from './config-manager.js';

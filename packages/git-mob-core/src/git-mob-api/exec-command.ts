@@ -46,3 +46,12 @@ export async function setConfig(key: string, value: string) {
     throw new Error(`Git mob core setConfig: ${message}`);
   }
 }
+
+export async function getRepoAuthors(authorFilter?: string) {
+  let repoAuthorQuery = 'git shortlog -seni HEAD';
+  if (authorFilter) {
+    repoAuthorQuery += ` --author="${authorFilter}"`;
+  }
+
+  return execCommand(repoAuthorQuery);
+}

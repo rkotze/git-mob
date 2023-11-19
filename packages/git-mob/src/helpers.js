@@ -90,11 +90,12 @@ function runMobPrintHelp() {
 function runSuggestCoauthorsHelp() {
   const message = stripIndent`
     Usage
-      $ git suggest-coauthors
+      $ git suggest-coauthors <author name or email>
     Options
       -h  Prints usage information
     Example
-      $ git suggest-coauthors  # suggests coauthors to add based on existing committers to the repo
+      $ git suggest-coauthors  # suggests coauthors who have contributed to this repo
+      $ git suggest-coauthors rich  # filter suggested coauthors
   `;
   console.log(message);
 }
