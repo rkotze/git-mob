@@ -14,7 +14,7 @@ const argv = minimist(process.argv.slice(2), {
 
 await execute(argv);
 
-async function execute(args) {
+async function execute(args: minimist.ParsedArgs) {
   if (args.help) {
     runMobPrintHelp();
     process.exit(0);
@@ -34,8 +34,9 @@ async function printCoAuthors() {
     const selectedAuthors = getSelectedCoAuthors(allAuthors);
     const coAuthors = selectedAuthors.map(author => author.format()).join(os.EOL);
     console.log(os.EOL + os.EOL + coAuthors);
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
+  } catch (error: unknown) {
+    const printError = error as Error;
+    console.error(`Error: ${printError.message}`);
     process.exit(1);
   }
 }
@@ -43,6 +44,7 @@ async function printCoAuthors() {
 async function printCoAuthorsInitials() {
   try {
     const instance = gitAuthors();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const authorList = await instance.read();
     const currentCoAuthors = getCoAuthors();
 
@@ -53,8 +55,9 @@ async function printCoAuthorsInitials() {
     if (coAuthorsInitials.length > 0) {
       console.log(coAuthorsInitials.join(','));
     }
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
+  } catch (error: unknown) {
+    const initialsError = error as Error;
+    console.error(`Error: ${initialsError.message}`);
     process.exit(1);
   }
 }
