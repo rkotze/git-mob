@@ -1,5 +1,9 @@
-import { type Author, fetchGitHubAuthors, saveNewCoAuthors } from 'git-mob-core';
-import { mobConfig } from '../git-mob-commands.js';
+import {
+  type Author,
+  fetchGitHubAuthors,
+  saveNewCoAuthors,
+  gitMobConfig,
+} from 'git-mob-core';
 
 async function saveMissingAuthors(
   initials: string[],
@@ -7,7 +11,8 @@ async function saveMissingAuthors(
   getAuthors = fetchGitHubAuthors,
   saveAuthors = saveNewCoAuthors
 ): Promise<string[]> {
-  if (!mobConfig.fetchFromGitHub()) {
+  const gitHubFetch = await gitMobConfig.fetchFromGitHub();
+  if (!gitHubFetch) {
     return [];
   }
 

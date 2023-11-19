@@ -1,7 +1,6 @@
 import test from 'ava';
 import { type SinonSandbox, type SinonStub, createSandbox, assert } from 'sinon';
-import { Author } from 'git-mob-core';
-import { mobConfig } from '../git-mob-commands.js';
+import { Author, gitMobConfig } from 'git-mob-core';
 import { saveMissingAuthors, findMissingAuthors } from './save-missing-authors.js';
 
 const savedAuthors = [
@@ -28,7 +27,7 @@ test.afterEach(() => {
 
 test('Search from GitHub not enabled', async t => {
   const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
-  sandbox.stub(mobConfig, 'fetchFromGitHub').returns(false);
+  sandbox.stub(gitMobConfig, 'fetchFromGitHub').resolves(false);
 
   t.deepEqual(
     await saveMissingAuthors(
@@ -56,7 +55,7 @@ test('No missing author initials', t => {
 
 test('Search GitHub for missing co-authors', async t => {
   const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
-  sandbox.stub(mobConfig, 'fetchFromGitHub').returns(true);
+  sandbox.stub(gitMobConfig, 'fetchFromGitHub').resolves(true);
 
   await saveMissingAuthors(
     ['rkotze', 'dideler', 'jd'],
@@ -71,7 +70,7 @@ test('Search GitHub for missing co-authors', async t => {
 
 test('Create author list from GitHub and co-author file', async t => {
   const fetchAuthorsStub = sandbox.stub().resolves(gitHubAuthors);
-  sandbox.stub(mobConfig, 'fetchFromGitHub').returns(true);
+  sandbox.stub(gitMobConfig, 'fetchFromGitHub').resolves(true);
 
   const authorList = await saveMissingAuthors(
     ['rkotze', 'dideler', 'jd'],
@@ -91,7 +90,7 @@ test('Create author list from GitHub and co-author file', async t => {
 test('Save missing co-author', async t => {
   const rkotzeAuthor = [new Author('rkotze', 'Richard', 'rich@gitmob.com')];
   const fetchAuthorsStub = sandbox.stub().resolves(rkotzeAuthor);
-  sandbox.stub(mobConfig, 'fetchFromGitHub').returns(true);
+  sandbox.stub(gitMobConfig, 'fetchFromGitHub').resolves(true);
 
   await saveMissingAuthors(
     ['rkotze', 'jd'],
@@ -109,7 +108,7 @@ test('Save missing co-author', async t => {
 
 test('Throw error if author not found', async t => {
   const fetchAuthorsStub = sandbox.stub().rejects();
-  sandbox.stub(mobConfig, 'fetchFromGitHub').returns(true);
+  sandbox.stub(gitMobConfig, 'fetchFromGitHub').resolves(true);
 
   await t.throwsAsync(async () =>
     saveMissingAuthors(['rkotze', 'dideler'], savedAuthors, fetchAuthorsStub)
