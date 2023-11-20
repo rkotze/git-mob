@@ -2,11 +2,11 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
-## git-mob Next
+## git-mob 3.1.0
 
 ### Added
 
--- `git suggest-coauthors <name or email>` can filter by author name or email. Addresses [issue 90](https://github.com/rkotze/git-mob/issues/90)
+-- `git suggest-coauthors [author name or author email]` can filter by author name or email. Addresses [issue 90](https://github.com/rkotze/git-mob/issues/90)
 
 ### Refactored
 
@@ -19,7 +19,7 @@ Follows [Semantic Versioning](https://semver.org/).
 - Removed legacy git mob commands no longer used.
 - Removed legacy git commands no longer used.
 
-## git-mob-core next
+## git-mob-core 0.8.0
 
 ### Added
 
