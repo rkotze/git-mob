@@ -1,6 +1,6 @@
 {
   "name": "git-mob-workspace",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "CLI tool for adding co-authors to commits.",
   "private": true,
   "workspaces": [
