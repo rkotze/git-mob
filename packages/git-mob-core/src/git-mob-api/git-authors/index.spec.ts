@@ -1,9 +1,11 @@
 import { join } from 'node:path';
 import fs from 'node:fs';
-import { jest } from '@jest/globals';
-import { Author } from '../author.js';
-import { topLevelDirectory } from '../git-rev-parse.js';
-import { gitAuthors, pathToCoAuthors } from './index.js';
+import { Author } from '../author';
+import { topLevelDirectory } from '../git-rev-parse';
+import { gitAuthors, pathToCoAuthors } from './index';
+
+jest.mock('../git-rev-parse');
+const mockedTopLevelDirectory = jest.mocked(topLevelDirectory);
 
 const validJsonString = `
 {
@@ -43,26 +45,44 @@ const authorsJson = {
   },
 };
 
+beforeAll(() => {
+  mockedTopLevelDirectory.mockResolvedValue('./path');
+});
+
 test('.git-coauthors file does not exist', async () => {
-  const authors = gitAuthors(() =>
-    Promise.reject(new Error('enoent: no such file or directory, open'))
-  );
+  const authors = gitAuthors(async () => {
+    throw new Error('enoent: no such file or directory, open');
+  });
   await expect(authors.read()).rejects.toEqual(
     expect.objectContaining({
-      message: expect.stringMatching(/enoent: no such file or directory, open/i),
+      message: expect.stringMatching(
+        /enoent: no such file or directory, open/i
+      ) as string,
     })
   );
 });
 
 test('.git-coauthors by default is in the home directory', async () => {
-  expect(await pathToCoAuthors()).toEqual(join(process.env.HOME, '.git-coauthors'));
+  expect(await pathToCoAuthors()).toEqual(
+    join(process.env.HOME || '', '.git-coauthors')
+  );
+});
+
+test('Not running in Git repo should return home directory path', async () => {
+  mockedTopLevelDirectory.mockImplementationOnce(() => {
+    throw new Error('Fake error');
+  });
+
+  expect(await pathToCoAuthors()).toEqual(
+    join(process.env.HOME || '', '.git-coauthors')
+  );
 });
 
 test('.git-coauthors can be overwritten by a repo file', async () => {
+  const mockedPath = './path/to';
   jest.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
-  expect(await pathToCoAuthors()).toEqual(
-    join(await topLevelDirectory(), '.git-coauthors')
-  );
+  mockedTopLevelDirectory.mockResolvedValueOnce(mockedPath);
+  expect(await pathToCoAuthors()).toEqual(join(mockedPath, '.git-coauthors'));
 });
 
 test('.git-coauthors can be overwritten by the env var', async () => {
@@ -76,27 +96,25 @@ test('.git-coauthors can be overwritten by the env var', async () => {
 });
 
 test('invalid json contents from .git-coauthors', async () => {
-  const authors = gitAuthors(() => Promise.resolve(invalidJsonString));
-
-  // const error = await t.throwsAsync(() => authors.read());
+  const authors = gitAuthors(async () => invalidJsonString);
   await expect(authors.read()).rejects.toEqual(
     expect.objectContaining({
-      message: expect.stringMatching(/invalid json/i),
+      message: expect.stringMatching(/invalid json/i) as string,
     })
   );
 });
 
 test('read contents from .git-coauthors', async () => {
-  const authors = gitAuthors(() => Promise.resolve(validJsonString));
+  const authors = gitAuthors(async () => validJsonString);
 
-  const json = await authors.read();
+  const json = (await authors.read()) as unknown;
   expect(json).toEqual(authorsJson);
 });
 
 test('create an organised string list of .git-coauthors', async () => {
-  const authors = gitAuthors(() => Promise.resolve(validJsonString));
+  const authors = gitAuthors(async () => validJsonString);
 
-  const json = await authors.read();
+  const json = (await authors.read()) as unknown;
   const authorList = authors.toList(json);
   const expectAuthorList = [
     new Author('jd', 'Jane Doe', 'jane@findmypast.com'),
@@ -107,7 +125,7 @@ test('create an organised string list of .git-coauthors', async () => {
 
 test('find and format "jd" and "fb" to an array of co-authors', () => {
   const authors = gitAuthors();
-  const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson);
+  const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson) as unknown;
   expect(coAuthorList).toEqual([
     'Jane Doe <jane@findmypast.com>',
     'Frances Bar <frances-bar@findmypast.com>',
@@ -116,15 +134,17 @@ test('find and format "jd" and "fb" to an array of co-authors', () => {
 
 test('find and format "jd" to an array of one co-author', () => {
   const authors = gitAuthors();
-  const coAuthorList = authors.coAuthors(['jd'], authorsJson);
+  const coAuthorList = authors.coAuthors(['jd'], authorsJson) as unknown;
   expect(coAuthorList).toEqual(['Jane Doe <jane@findmypast.com>']);
 });
 
 test('Throw error if initials of author are not found', () => {
   const authors = gitAuthors();
-  expect(() => authors.coAuthors(['jd', 'hp'], authorsJson)).toThrowError(
+  expect(() => authors.coAuthors(['jd', 'hp'], authorsJson) as unknown).toThrow(
     expect.objectContaining({
-      message: expect.stringMatching('Author with initials "hp" not found!'),
-    })
+      message: expect.stringMatching(
+        'Author with initials "hp" not found!'
+      ) as string,
+    }) as Error
   );
 });

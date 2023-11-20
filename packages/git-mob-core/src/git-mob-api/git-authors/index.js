@@ -106,7 +106,13 @@ export async function pathToCoAuthors() {
   }
 
   const gitCoauthorsFileName = '.git-coauthors';
-  const repoAuthorsFile = path.join(await topLevelDirectory(), gitCoauthorsFileName);
+  let repoAuthorsFile = null;
+
+  try {
+    repoAuthorsFile = path.join(await topLevelDirectory(), gitCoauthorsFileName);
+  } catch {
+    repoAuthorsFile = '';
+  }
 
   return fs.existsSync(repoAuthorsFile)
     ? repoAuthorsFile
