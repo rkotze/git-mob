@@ -249,7 +249,7 @@ Suggest co-authors to save based on contributors to the current Git repo.
 Optional author filter by name or email.
 
 ```
-$ git suggest-coauthors <name or email>
+$ git suggest-coauthors [author name | author email]
 ```
 
 ### Help

@@ -14,7 +14,7 @@ function runHelp() {
       $ git add-coauthor <co-author-initials> "Coauthor Name" <coauthor-email-address>
       $ git delete-coauthor <co-author-initials>
       $ git edit-coauthor <co-author-initials> --name="Coauthor Name" --email="coauthor-email-address"
-      $ git suggest-coauthors
+      $ git suggest-coauthors [author name | author email]
 
     Options
       -h  Prints usage information
@@ -90,7 +90,7 @@ function runMobPrintHelp() {
 function runSuggestCoauthorsHelp() {
   const message = stripIndent`
     Usage
-      $ git suggest-coauthors <author name or email>
+      $ git suggest-coauthors [author name | author email]
     Options
       -h  Prints usage information
     Example
