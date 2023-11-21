@@ -19,7 +19,7 @@ Follows [Semantic Versioning](https://semver.org/).
 - Removed legacy git mob commands no longer used.
 - Removed legacy git commands no longer used.
 
-## git-mob-core 0.8.0
+## git-mob-core 0.8.1
 
 ### Added
 
