@@ -23,6 +23,12 @@ Follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Added function to create a global coauthor file `createCoAuthorsFile`.
+
+## git-mob-core 0.8.0
+
+### Added
+
 - Added `repoAuthorList` which will list all contributors from a repo
 - Added filter to `repoAuthorList` which uses `--author` flag from `git shortlog`.
 

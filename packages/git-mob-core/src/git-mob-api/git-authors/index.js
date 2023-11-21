@@ -69,10 +69,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
       }
     },
 
-    fileExists: async () => {
-      return fs.existsSync(await pathToCoAuthors());
-    },
-
     coAuthors(authorInitials, authorJson) {
       const { coauthors } = authorJson;
       return authorInitials.map(initials => {
@@ -100,12 +96,17 @@ function missingAuthorError(initials, coauthors) {
   }
 }
 
+export const gitCoauthorsFileName = '.git-coauthors';
+
+export function globalGitCoAuthorsPath() {
+  return path.join(os.homedir(), gitCoauthorsFileName);
+}
+
 export async function pathToCoAuthors() {
   if (process.env.GITMOB_COAUTHORS_PATH) {
     return process.env.GITMOB_COAUTHORS_PATH;
   }
 
-  const gitCoauthorsFileName = '.git-coauthors';
   let repoAuthorsFile = null;
 
   try {
@@ -114,7 +115,5 @@ export async function pathToCoAuthors() {
     repoAuthorsFile = '';
   }
 
-  return fs.existsSync(repoAuthorsFile)
-    ? repoAuthorsFile
-    : path.join(os.homedir(), gitCoauthorsFileName);
+  return fs.existsSync(repoAuthorsFile) ? repoAuthorsFile : globalGitCoAuthorsPath();
 }
