@@ -14,6 +14,7 @@ npm i git-mob-core
 
 ```TS
 saveNewCoAuthors(authors): <Promise<Author[]>>
+createCoAuthorsFile(): <Promise<boolean>>
 getAllAuthors(): <Promise<Author[]>>
 getPrimaryAuthor(): Author | undefined
 getSelectedCoAuthors(allAuthors): Author[]
