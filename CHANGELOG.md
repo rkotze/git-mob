@@ -2,7 +2,7 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
-## git-mob 3.1.0
+## git-mob 3.1.1
 
 ### Added
 
@@ -15,6 +15,7 @@ Follows [Semantic Versioning](https://semver.org/).
 - Remove legacy git-suggest-coauthor API and replace it with git-mob-core `repoAuthorList`
 - Migrated `git-suggest-coauthors` to TypeScript
 - `git mob-print -i` uses git mob core to print out initials of selected co-authors
+- Post install script to create global coauthor file uses `createCoAuthorsFile` from git mob core
 - Migrated mob print file to TypeScript
 - Removed legacy git mob commands no longer used.
 - Removed legacy git commands no longer used.
