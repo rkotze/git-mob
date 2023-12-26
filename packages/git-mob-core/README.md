@@ -18,29 +18,21 @@ npm i git-mob-core
 - `process.env.GITMOB_COAUTHORS_PATH` set the primary path to coauthors file
 
 ```TS
-saveNewCoAuthors(authors): <Promise<Author[]>>
-createCoAuthorsFile(): <Promise<boolean>>
+// Write actions
+saveNewCoAuthors(authors: Author[]): <Promise<Author[]>>
+createCoAuthorsFile(authors: Author[]): <Promise<boolean>>
+updateGitTemplate(selectedAuthors): void
+solo(): <Promise<void>>
+setCoAuthors(keys): <Promise<Author[]>>
+
+// Read actions
 getAllAuthors(): <Promise<Author[]>>
 getPrimaryAuthor(): Author | undefined
 getSelectedCoAuthors(allAuthors): Author[]
-setCoAuthors(keys): <Promise<Author[]>>
-setPrimaryAuthor(author): void
-solo(): <Promise<void>>
-updateGitTemplate(selectedAuthors): void
+setPrimaryAuthor(author: Author): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
-pathToCoAuthors(): <Promise<string>>
-getConfig(prop: string): string | undefined
-updateConfig(prop: string, value: string): void
 repoAuthorList(authorFilter?: string): Promise<Author[] | undefined>
-gitMobConfig = {
-  localTemplate(): <Promise<boolean>>,
-  fetchFromGitHub(): <Promise<boolean>>,
-};
-
-gitConfig = {
-  getLocalCommitTemplate(): <Promise<string>>,
-  getGlobalCommitTemplate(): <Promise<string>>,
-};
+pathToCoAuthors(): <Promise<string>>
 
 gitRevParse = {
   insideWorkTree(): <Promise<string>>,
@@ -48,7 +40,30 @@ gitRevParse = {
 };
 ```
 
-## Author class
+### Config
+
+```TS
+// Config manager for library
+// supported prop: "processCwd" = set the directory to exec commands
+getConfig(prop: string): string | undefined
+updateConfig(prop: string, value: string): void
+
+// Read GitMob properties from Git config file
+gitMobConfig = {
+  localTemplate(): <Promise<boolean>>,
+  fetchFromGitHub(): <Promise<boolean>>,
+};
+
+// Read Git properties from Git config
+gitConfig = {
+  getLocalCommitTemplate(): <Promise<string>>,
+  getGlobalCommitTemplate(): <Promise<string>>,
+};
+```
+
+### Author class
+
+Main class for Author data exchange between function.
 
 ```TS
 class Author;

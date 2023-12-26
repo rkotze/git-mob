@@ -2,6 +2,12 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## git-mob-core 0.9.0
+
+### Added
+
+- Specify authors to save when creating the coAuthor file.
+
 ## git-mob 3.1.1
 
 ### Added
