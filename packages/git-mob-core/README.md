@@ -12,6 +12,11 @@ npm i git-mob-core
 
 ## API
 
+### Environment variables
+
+- `process.env.GITMOB_MESSAGE_PATH` set the primary path to Git message template
+- `process.env.GITMOB_COAUTHORS_PATH` set the primary path to coauthors file
+
 ```TS
 saveNewCoAuthors(authors): <Promise<Author[]>>
 createCoAuthorsFile(): <Promise<boolean>>

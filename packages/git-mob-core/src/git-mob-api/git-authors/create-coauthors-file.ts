@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs';
+import { type Author } from '../author';
 import { gitAuthors, gitCoauthorsFileName, globalGitCoAuthorsPath } from './index';
 
 const coAuthorSchema = {
@@ -10,13 +11,22 @@ const coAuthorSchema = {
   },
 };
 
-export async function createCoAuthorsFile(): Promise<boolean> {
+export async function createCoAuthorsFile(authorList: Author[]): Promise<boolean> {
   const authorOps = gitAuthors();
   const coAuthorFilePath: string = globalGitCoAuthorsPath();
   if (existsSync(coAuthorFilePath)) {
     throw new Error(`${gitCoauthorsFileName} file exists globally`);
   }
 
-  await authorOps.write(coAuthorSchema);
+  if (authorList && authorList.length > 0) {
+    const schema = authorOps.toObject(authorList) as Record<
+      string,
+      Record<string, { name: string; email: string }>
+    >;
+    await authorOps.write(schema);
+  } else {
+    await authorOps.write(coAuthorSchema);
+  }
+
   return true;
 }

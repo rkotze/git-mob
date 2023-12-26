@@ -87,6 +87,21 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
       const entries = Object.entries(authors.coauthors);
       return entries.map(([key, { name, email }]) => new Author(key, name, email));
     },
+
+    toObject(authorList) {
+      const authorObject = {
+        coauthors: {},
+      };
+
+      for (const author of authorList) {
+        authorObject[author.key] = {
+          name: author.name,
+          email: author.email,
+        };
+      }
+
+      return authorObject;
+    },
   };
 }
 

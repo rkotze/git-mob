@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { mockGitAuthors as mockGitAuthorsFn } from '../../test-helpers/author-mocks';
+import { Author } from '../author';
 import { createCoAuthorsFile } from './create-coauthors-file';
 import { gitAuthors } from '.';
 
@@ -28,4 +29,27 @@ test('Save coauthor file in home directory', async () => {
 
   await expect(createCoAuthorsFile()).resolves.toEqual(true);
   expect(mockGitAuthorsObject.write).toHaveBeenCalled();
+});
+
+test('Save coauthor file with defined coauthor list', async () => {
+  const expectAuthor = {
+    rk: {
+      name: 'rich kid',
+      email: 'richkid@gmail.com',
+    },
+  };
+  mockExistsSync.mockReturnValueOnce(false);
+  const mockGitAuthorsObject = mockGitAuthorsFn(['jo', 'hu']);
+  mockGitAuthorsObject.toObject.mockReturnValue({
+    coauthors: expectAuthor,
+  });
+  mockGitAuthors.mockReturnValue(mockGitAuthorsObject);
+
+  await expect(
+    createCoAuthorsFile([new Author('rk', 'rich kid', 'richkid@gmail.com')])
+  ).resolves.toEqual(true);
+
+  expect(mockGitAuthorsObject.write).toHaveBeenCalledWith({
+    coauthors: expectAuthor,
+  });
 });

@@ -28,5 +28,6 @@ export function mockGitAuthors(keys: string[]) {
     coAuthors: jest.fn(() => []),
     author: jest.fn(() => ({})),
     toList: jest.fn(() => authors),
+    toObject: jest.fn(() => ({ coauthors: {} })),
   };
 }
