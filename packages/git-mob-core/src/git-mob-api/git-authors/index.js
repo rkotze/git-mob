@@ -15,15 +15,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
     }
   }
 
-  async function writeToFile(path, content) {
-    const writeToPromise = writeFilePromise || promisify(fs.appendFile);
-    try {
-      return await writeToPromise(path, content, 'utf8');
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
   async function overwriteFile(path, content) {
     const overwritePromise = overwriteFilePromise || promisify(fs.writeFile);
     try {
@@ -38,17 +29,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
       const authorJsonString = await readFile(await pathToCoAuthors());
       try {
         return JSON.parse(authorJsonString);
-      } catch (error) {
-        throw new Error('Invalid JSON ' + error.message);
-      }
-    },
-
-    write: async authorJson => {
-      try {
-        return writeToFile(
-          await pathToCoAuthors(),
-          JSON.stringify(authorJson, null, 2)
-        );
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }

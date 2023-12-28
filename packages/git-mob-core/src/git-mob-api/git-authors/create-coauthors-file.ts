@@ -23,9 +23,9 @@ export async function createCoAuthorsFile(authorList: Author[]): Promise<boolean
       string,
       Record<string, { name: string; email: string }>
     >;
-    await authorOps.write(schema);
+    await authorOps.overwrite(schema);
   } else {
-    await authorOps.write(coAuthorSchema);
+    await authorOps.overwrite(coAuthorSchema);
   }
 
   return true;

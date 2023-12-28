@@ -28,7 +28,7 @@ test('Save coauthor file in home directory', async () => {
   mockGitAuthors.mockReturnValue(mockGitAuthorsObject);
 
   await expect(createCoAuthorsFile()).resolves.toEqual(true);
-  expect(mockGitAuthorsObject.write).toHaveBeenCalled();
+  expect(mockGitAuthorsObject.overwrite).toHaveBeenCalled();
 });
 
 test('Save coauthor file with defined coauthor list', async () => {
@@ -49,7 +49,7 @@ test('Save coauthor file with defined coauthor list', async () => {
     createCoAuthorsFile([new Author('rk', 'rich kid', 'richkid@gmail.com')])
   ).resolves.toEqual(true);
 
-  expect(mockGitAuthorsObject.write).toHaveBeenCalledWith({
+  expect(mockGitAuthorsObject.overwrite).toHaveBeenCalledWith({
     coauthors: expectAuthor,
   });
 });

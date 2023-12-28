@@ -23,7 +23,6 @@ export function mockGitAuthors(keys: string[]) {
   const coAuthors = buildCoAuthorObject(keys);
   return {
     read: jest.fn(async () => coAuthors),
-    write: jest.fn(async () => ''),
     overwrite: jest.fn(async () => ''),
     coAuthors: jest.fn(() => []),
     author: jest.fn(() => ({})),
