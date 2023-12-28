@@ -19,10 +19,7 @@ export async function createCoAuthorsFile(authorList: Author[]): Promise<boolean
   }
 
   if (authorList && authorList.length > 0) {
-    const schema = authorOps.toObject(authorList) as Record<
-      string,
-      Record<string, { name: string; email: string }>
-    >;
+    const schema = authorOps.toObject(authorList);
     await authorOps.overwrite(schema);
   } else {
     await authorOps.overwrite(coAuthorSchema);

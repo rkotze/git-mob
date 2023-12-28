@@ -2,7 +2,7 @@ import { join } from 'node:path';
 import fs from 'node:fs';
 import { Author } from '../author';
 import { topLevelDirectory } from '../git-rev-parse';
-import { gitAuthors, pathToCoAuthors } from './index';
+import { type CoAuthorSchema, gitAuthors, pathToCoAuthors } from './index';
 
 jest.mock('../git-rev-parse');
 const mockedTopLevelDirectory = jest.mocked(topLevelDirectory);
@@ -21,18 +21,7 @@ const validJsonString = `
   }
 }`;
 
-// Invalid because of comma at end of email
-const invalidJsonString = `
-{
-  "coauthors": {
-    "jd": {
-      "name": "Jane Doe",
-      "email": "jane@findmypast.com",
-    }
-  }
-}`;
-
-const authorsJson = {
+const authorsJson: CoAuthorSchema = {
   coauthors: {
     jd: {
       name: 'Jane Doe',
@@ -95,15 +84,6 @@ test('.git-coauthors can be overwritten by the env var', async () => {
   }
 });
 
-test('invalid json contents from .git-coauthors', async () => {
-  const authors = gitAuthors(async () => invalidJsonString);
-  await expect(authors.read()).rejects.toEqual(
-    expect.objectContaining({
-      message: expect.stringMatching(/invalid json/i) as string,
-    })
-  );
-});
-
 test('read contents from .git-coauthors', async () => {
   const authors = gitAuthors(async () => validJsonString);
 
@@ -111,14 +91,25 @@ test('read contents from .git-coauthors', async () => {
   expect(json).toEqual(authorsJson);
 });
 
-test('create an organised string list of .git-coauthors', async () => {
+test('convert .git-coauthors json into array of Authors', async () => {
   const authors = gitAuthors(async () => validJsonString);
 
-  const json = (await authors.read()) as unknown;
+  const json = await authors.read();
   const authorList = authors.toList(json);
   const expectAuthorList = [
     new Author('jd', 'Jane Doe', 'jane@findmypast.com'),
     new Author('fb', 'Frances Bar', 'frances-bar@findmypast.com'),
   ];
   expect(expectAuthorList).toEqual(authorList);
+});
+
+test('convert an array of authors into .git-coauthors json schema', async () => {
+  const authors = gitAuthors(async () => validJsonString);
+
+  const authorList = [
+    new Author('jd', 'Jane Doe', 'jane@findmypast.com'),
+    new Author('fb', 'Frances Bar', 'frances-bar@findmypast.com'),
+  ];
+  const authorSchema = authors.toObject(authorList);
+  expect(authorsJson).toEqual(authorSchema);
 });

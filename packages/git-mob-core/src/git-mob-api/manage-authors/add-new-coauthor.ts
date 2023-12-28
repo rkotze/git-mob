@@ -7,10 +7,7 @@ export async function saveNewCoAuthors(authors: Author[]): Promise<Author[]> {
   }
 
   const coauthors = gitAuthors();
-  const authorList = (await coauthors.read()) as Record<
-    string,
-    Record<string, { name: string; email: string }>
-  >;
+  const authorList = await coauthors.read();
   const newAuthors = [];
 
   for (const author of authors) {
