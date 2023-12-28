@@ -65,12 +65,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
       }
     },
 
-    author(authorInitials, authorJson) {
-      const { coauthors } = authorJson;
-      missingAuthorError(authorInitials, coauthors);
-      return coauthors[authorInitials];
-    },
-
     toList(authors) {
       const entries = Object.entries(authors.coauthors);
       return entries.map(([key, { name, email }]) => new Author(key, name, email));
@@ -91,12 +85,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
       return authorObject;
     },
   };
-}
-
-function missingAuthorError(initials, coauthors) {
-  if (!(initials in coauthors)) {
-    throw new Error(`Author with initials "${initials}" not found!`);
-  }
 }
 
 export const gitCoauthorsFileName = '.git-coauthors';
