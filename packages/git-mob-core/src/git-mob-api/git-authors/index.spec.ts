@@ -122,29 +122,3 @@ test('create an organised string list of .git-coauthors', async () => {
   ];
   expect(expectAuthorList).toEqual(authorList);
 });
-
-test('find and format "jd" and "fb" to an array of co-authors', () => {
-  const authors = gitAuthors();
-  const coAuthorList = authors.coAuthors(['jd', 'fb'], authorsJson) as unknown;
-  expect(coAuthorList).toEqual([
-    'Jane Doe <jane@findmypast.com>',
-    'Frances Bar <frances-bar@findmypast.com>',
-  ]);
-});
-
-test('find and format "jd" to an array of one co-author', () => {
-  const authors = gitAuthors();
-  const coAuthorList = authors.coAuthors(['jd'], authorsJson) as unknown;
-  expect(coAuthorList).toEqual(['Jane Doe <jane@findmypast.com>']);
-});
-
-test('Throw error if initials of author are not found', () => {
-  const authors = gitAuthors();
-  expect(() => authors.coAuthors(['jd', 'hp'], authorsJson) as unknown).toThrow(
-    expect.objectContaining({
-      message: expect.stringMatching(
-        'Author with initials "hp" not found!'
-      ) as string,
-    }) as Error
-  );
-});

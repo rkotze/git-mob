@@ -33,10 +33,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
     }
   }
 
-  function author({ name, email }) {
-    return `${name} <${email}>`;
-  }
-
   return {
     read: async () => {
       const authorJsonString = await readFile(await pathToCoAuthors());
@@ -67,14 +63,6 @@ export function gitAuthors(readFilePromise, writeFilePromise, overwriteFilePromi
       } catch (error) {
         throw new Error('Invalid JSON ' + error.message);
       }
-    },
-
-    coAuthors(authorInitials, authorJson) {
-      const { coauthors } = authorJson;
-      return authorInitials.map(initials => {
-        missingAuthorError(initials, coauthors);
-        return author(coauthors[initials]);
-      });
     },
 
     author(authorInitials, authorJson) {
