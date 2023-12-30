@@ -7,6 +7,7 @@ import {
   getLocalCommitTemplate,
 } from './git-mob-api/git-config';
 import { buildAuthorList, mockGitAuthors } from './test-helpers/author-mocks';
+import { addCoAuthor } from './git-mob-api/git-mob-config';
 import { setCoAuthors, updateGitTemplate } from '.';
 
 jest.mock('./commands');
@@ -14,6 +15,7 @@ jest.mock('./git-mob-api/git-authors');
 jest.mock('./git-mob-api/git-message');
 jest.mock('./git-mob-api/resolve-git-message-path');
 jest.mock('./git-mob-api/git-config');
+jest.mock('./git-mob-api/git-mob-config');
 
 const mockedGitAuthors = jest.mocked(gitAuthors);
 const mockedGitMessage = jest.mocked(gitMessage);
@@ -64,7 +66,7 @@ describe('Git Mob core API', () => {
 
     expect(mob.removeGitMobSection).toBeCalledTimes(1);
     expect(mockRemoveCoAuthors).toBeCalledTimes(1);
-    expect(mob.gitAddCoAuthor).toBeCalledTimes(2);
+    expect(addCoAuthor).toBeCalledTimes(2);
     expect(mockWriteCoAuthors).toBeCalledWith(authorList);
     expect(coAuthors).toEqual(authorList);
   });

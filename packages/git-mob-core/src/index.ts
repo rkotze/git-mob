@@ -7,6 +7,7 @@ import {
   localTemplate,
   fetchFromGitHub,
   getSetCoAuthors,
+  addCoAuthor,
 } from './git-mob-api/git-mob-config.js';
 import {
   getLocalCommitTemplate,
@@ -29,7 +30,8 @@ async function setCoAuthors(keys: string[]): Promise<Author[]> {
   await solo();
 
   for (const author of selectedAuthors) {
-    mob.gitAddCoAuthor(author.toString());
+    // eslint-disable-next-line no-await-in-loop
+    await addCoAuthor(author.toString());
   }
 
   await updateGitTemplate(selectedAuthors);
