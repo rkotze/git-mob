@@ -19,3 +19,9 @@ export async function addCoAuthor(coAuthor: string) {
 
   return execCommand(addAuthorQuery);
 }
+
+export async function removeGitMobSection() {
+  try {
+    return await execCommand('git config --global --remove-section git-mob');
+  } catch {}
+}

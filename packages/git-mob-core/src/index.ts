@@ -1,4 +1,4 @@
-import { mob, config } from './commands.js';
+import { config } from './commands.js';
 import { Author } from './git-mob-api/author.js';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found.js';
 import { gitAuthors } from './git-mob-api/git-authors/index.js';
@@ -8,6 +8,7 @@ import {
   fetchFromGitHub,
   getSetCoAuthors,
   addCoAuthor,
+  removeGitMobSection,
 } from './git-mob-api/git-mob-config.js';
 import {
   getLocalCommitTemplate,
@@ -87,7 +88,7 @@ function getSelectedCoAuthors(allAuthors: Author[]) {
 
 async function solo() {
   await setCommitTemplate();
-  mob.removeGitMobSection();
+  await removeGitMobSection();
   return updateGitTemplate();
 }
 

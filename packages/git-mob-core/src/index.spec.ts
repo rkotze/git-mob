@@ -1,4 +1,3 @@
-import { mob } from './commands';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
@@ -7,7 +6,7 @@ import {
   getLocalCommitTemplate,
 } from './git-mob-api/git-config';
 import { buildAuthorList, mockGitAuthors } from './test-helpers/author-mocks';
-import { addCoAuthor } from './git-mob-api/git-mob-config';
+import { addCoAuthor, removeGitMobSection } from './git-mob-api/git-mob-config';
 import { setCoAuthors, updateGitTemplate } from '.';
 
 jest.mock('./commands');
@@ -19,13 +18,13 @@ jest.mock('./git-mob-api/git-mob-config');
 
 const mockedGitAuthors = jest.mocked(gitAuthors);
 const mockedGitMessage = jest.mocked(gitMessage);
-const mockedMob = jest.mocked(mob);
+const mockedRemoveGitMobSection = jest.mocked(removeGitMobSection);
 const mockedGetGlobalCommitTemplate = jest.mocked(getGlobalCommitTemplate);
 const mockedGetLocalCommitTemplate = jest.mocked(getLocalCommitTemplate);
 
 describe('Git Mob core API', () => {
   afterEach(() => {
-    mockedMob.removeGitMobSection.mockReset();
+    mockedRemoveGitMobSection.mockReset();
     mockedGetGlobalCommitTemplate.mockReset();
     mockedGetLocalCommitTemplate.mockReset();
   });
@@ -46,7 +45,7 @@ describe('Git Mob core API', () => {
       await setCoAuthors([...authorKeys, 'rk']);
     }).rejects.toThrow(AuthorNotFound);
 
-    expect(mob.removeGitMobSection).not.toHaveBeenCalled();
+    expect(mockedRemoveGitMobSection).not.toHaveBeenCalled();
   });
 
   it('apply co-authors to git config and git message', async () => {
@@ -64,10 +63,10 @@ describe('Git Mob core API', () => {
 
     const coAuthors = await setCoAuthors(authorKeys);
 
-    expect(mob.removeGitMobSection).toBeCalledTimes(1);
-    expect(mockRemoveCoAuthors).toBeCalledTimes(1);
-    expect(addCoAuthor).toBeCalledTimes(2);
-    expect(mockWriteCoAuthors).toBeCalledWith(authorList);
+    expect(mockedRemoveGitMobSection).toHaveBeenCalledTimes(1);
+    expect(mockRemoveCoAuthors).toHaveBeenCalledTimes(1);
+    expect(addCoAuthor).toHaveBeenCalledTimes(2);
+    expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
     expect(coAuthors).toEqual(authorList);
   });
 
@@ -84,7 +83,7 @@ describe('Git Mob core API', () => {
 
     await updateGitTemplate(authorList);
 
-    expect(mockWriteCoAuthors).toBeCalledWith(authorList);
+    expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
   });
 
   // GitMob is Global by default: https://github.com/rkotze/git-mob/discussions/81
@@ -103,10 +102,10 @@ describe('Git Mob core API', () => {
 
     await updateGitTemplate(authorList);
 
-    expect(mockedGetLocalCommitTemplate).toBeCalledTimes(1);
-    expect(mockedGetGlobalCommitTemplate).toBeCalledTimes(1);
-    expect(mockWriteCoAuthors).toBeCalledTimes(2);
-    expect(mockWriteCoAuthors).toBeCalledWith(authorList);
+    expect(mockedGetLocalCommitTemplate).toHaveBeenCalledTimes(1);
+    expect(mockedGetGlobalCommitTemplate).toHaveBeenCalledTimes(1);
+    expect(mockWriteCoAuthors).toHaveBeenCalledTimes(2);
+    expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
     expect(mockRemoveCoAuthors).not.toHaveBeenCalled();
   });
 
@@ -122,7 +121,7 @@ describe('Git Mob core API', () => {
 
     await updateGitTemplate();
 
-    expect(mockRemoveCoAuthors).toBeCalledTimes(1);
+    expect(mockRemoveCoAuthors).toHaveBeenCalledTimes(1);
     expect(mockWriteCoAuthors).not.toHaveBeenCalled();
   });
 });
