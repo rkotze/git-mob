@@ -28,7 +28,7 @@ setCoAuthors(keys): <Promise<Author[]>>
 // Read actions
 getAllAuthors(): <Promise<Author[]>>
 getPrimaryAuthor(): Author | undefined
-getSelectedCoAuthors(allAuthors): Author[]
+getSelectedCoAuthors(allAuthors): <Promise<Author[]>>
 setPrimaryAuthor(author: Author): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
 repoAuthorList(authorFilter?: string): Promise<Author[] | undefined>

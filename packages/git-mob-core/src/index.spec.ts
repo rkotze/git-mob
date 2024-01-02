@@ -6,8 +6,12 @@ import {
   getLocalCommitTemplate,
 } from './git-mob-api/git-config';
 import { buildAuthorList, mockGitAuthors } from './test-helpers/author-mocks';
-import { addCoAuthor, removeGitMobSection } from './git-mob-api/git-mob-config';
-import { setCoAuthors, updateGitTemplate } from '.';
+import {
+  addCoAuthor,
+  getSetCoAuthors,
+  removeGitMobSection,
+} from './git-mob-api/git-mob-config';
+import { getSelectedCoAuthors, setCoAuthors, updateGitTemplate } from '.';
 
 jest.mock('./commands');
 jest.mock('./git-mob-api/git-authors');
@@ -21,6 +25,7 @@ const mockedGitMessage = jest.mocked(gitMessage);
 const mockedRemoveGitMobSection = jest.mocked(removeGitMobSection);
 const mockedGetGlobalCommitTemplate = jest.mocked(getGlobalCommitTemplate);
 const mockedGetLocalCommitTemplate = jest.mocked(getLocalCommitTemplate);
+const mockedGetSetCoAuthors = jest.mocked(getSetCoAuthors);
 
 describe('Git Mob core API', () => {
   afterEach(() => {
@@ -123,5 +128,14 @@ describe('Git Mob core API', () => {
 
     expect(mockRemoveCoAuthors).toHaveBeenCalledTimes(1);
     expect(mockWriteCoAuthors).not.toHaveBeenCalled();
+  });
+
+  it('Get the selected co-authors', async () => {
+    const listAll = buildAuthorList(['ab', 'cd']);
+    const selectedAuthor = listAll[1];
+    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor.toString());
+    const selected = await getSelectedCoAuthors(listAll);
+    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
+    expect(selected).toEqual([selectedAuthor]);
   });
 });

@@ -76,12 +76,10 @@ function pickSelectedAuthors(keys: string[], authorMap: Author[]): Author[] {
   return selectedAuthors;
 }
 
-function getSelectedCoAuthors(allAuthors: Author[]) {
+async function getSelectedCoAuthors(allAuthors: Author[]) {
   let coAuthorsString = '';
-  const coauthorKey = '--global git-mob.co-author';
-  if (config.has(coauthorKey)) {
-    coAuthorsString = config.getAll(coauthorKey) as string;
-  }
+  const coAuthorConfigValue = await getSetCoAuthors();
+  if (coAuthorConfigValue) coAuthorsString = coAuthorConfigValue;
 
   return allAuthors.filter(author => coAuthorsString.includes(author.email));
 }
