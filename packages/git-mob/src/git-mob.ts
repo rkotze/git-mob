@@ -75,7 +75,7 @@ async function runMob(args: string[]) {
       gitMobConfig.localTemplate(),
       gitConfig.getLocalCommitTemplate(),
     ]);
-    const selectedCoAuthors = getSelectedCoAuthors(authorList);
+    const selectedCoAuthors = await getSelectedCoAuthors(authorList);
 
     printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template);
 

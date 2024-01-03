@@ -25,10 +25,14 @@ async function execute(args: minimist.ParsedArgs) {
   return printCoAuthors();
 }
 
+async function listSelectedAuthors() {
+  const allAuthors = await getAllAuthors();
+  return getSelectedCoAuthors(allAuthors);
+}
+
 async function printCoAuthors() {
   try {
-    const allAuthors = await getAllAuthors();
-    const selectedAuthors = getSelectedCoAuthors(allAuthors);
+    const selectedAuthors = await listSelectedAuthors();
     const coAuthors = selectedAuthors.map(author => author.format()).join(os.EOL);
     console.log(os.EOL + os.EOL + coAuthors);
   } catch (error: unknown) {
@@ -40,8 +44,7 @@ async function printCoAuthors() {
 
 async function printCoAuthorsInitials() {
   try {
-    const allAuthors = await getAllAuthors();
-    const selectedAuthors = getSelectedCoAuthors(allAuthors);
+    const selectedAuthors = await listSelectedAuthors();
 
     if (selectedAuthors.length > 0) {
       console.log(selectedAuthors.map(author => author.key).join(','));
