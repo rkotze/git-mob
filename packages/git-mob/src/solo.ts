@@ -32,7 +32,7 @@ await runSolo();
 async function runSolo() {
   try {
     await solo();
-    printAuthor();
+    await printAuthor();
   } catch (error: unknown) {
     const soloError = error as Error;
     console.error(`Error: ${soloError.message}`);
@@ -40,7 +40,7 @@ async function runSolo() {
   }
 }
 
-function printAuthor() {
-  const author = getPrimaryAuthor();
+async function printAuthor() {
+  const author = await getPrimaryAuthor();
   console.log(author?.toString());
 }

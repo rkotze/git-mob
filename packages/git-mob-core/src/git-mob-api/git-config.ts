@@ -7,3 +7,11 @@ export async function getLocalCommitTemplate() {
 export async function getGlobalCommitTemplate() {
   return getConfig('--global commit.template');
 }
+
+export async function getGitUserName() {
+  return getConfig('user.name');
+}
+
+export async function getGitUserEmail() {
+  return getConfig('user.email');
+}

@@ -13,6 +13,8 @@ import {
 import {
   getLocalCommitTemplate,
   getGlobalCommitTemplate,
+  getGitUserName,
+  getGitUserEmail,
 } from './git-mob-api/git-config.js';
 import {
   resolveGitMessagePath,
@@ -90,9 +92,9 @@ async function solo() {
   return updateGitTemplate();
 }
 
-function getPrimaryAuthor() {
-  const name = config.get('user.name') as string;
-  const email = config.get('user.email') as string;
+async function getPrimaryAuthor() {
+  const name = await getGitUserName();
+  const email = await getGitUserEmail();
 
   if (name && email) {
     return new Author('prime', name, email);

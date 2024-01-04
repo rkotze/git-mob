@@ -2,6 +2,8 @@ import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
 import {
+  getGitUserEmail,
+  getGitUserName,
   getGlobalCommitTemplate,
   getLocalCommitTemplate,
 } from './git-mob-api/git-config';
@@ -11,7 +13,12 @@ import {
   getSetCoAuthors,
   removeGitMobSection,
 } from './git-mob-api/git-mob-config';
-import { getSelectedCoAuthors, setCoAuthors, updateGitTemplate } from '.';
+import {
+  getPrimaryAuthor,
+  getSelectedCoAuthors,
+  setCoAuthors,
+  updateGitTemplate,
+} from '.';
 
 jest.mock('./commands');
 jest.mock('./git-mob-api/git-authors');
@@ -26,6 +33,8 @@ const mockedRemoveGitMobSection = jest.mocked(removeGitMobSection);
 const mockedGetGlobalCommitTemplate = jest.mocked(getGlobalCommitTemplate);
 const mockedGetLocalCommitTemplate = jest.mocked(getLocalCommitTemplate);
 const mockedGetSetCoAuthors = jest.mocked(getSetCoAuthors);
+const mockedGetGitUserName = jest.mocked(getGitUserName);
+const mockedGetGitUserEmail = jest.mocked(getGitUserEmail);
 
 describe('Git Mob core API', () => {
   afterEach(() => {
@@ -137,5 +146,15 @@ describe('Git Mob core API', () => {
     const selected = await getSelectedCoAuthors(listAll);
     expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
     expect(selected).toEqual([selectedAuthor]);
+  });
+
+  it('Get the primary author', async () => {
+    const primaryAuthor = buildAuthorList(['prime'])[0];
+    mockedGetGitUserName.mockResolvedValueOnce(primaryAuthor.name);
+    mockedGetGitUserEmail.mockResolvedValueOnce(primaryAuthor.email);
+    const author = await getPrimaryAuthor();
+    expect(mockedGetGitUserName).toHaveBeenCalledTimes(1);
+    expect(mockedGetGitUserEmail).toHaveBeenCalledTimes(1);
+    expect(author).toEqual(primaryAuthor);
   });
 });

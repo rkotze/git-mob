@@ -69,7 +69,7 @@ async function execute(args: minimist.ParsedArgs) {
 
 async function runMob(args: string[]) {
   if (args.length === 0) {
-    const gitAuthor = getPrimaryAuthor();
+    const gitAuthor = await getPrimaryAuthor();
     const [authorList, useLocalTemplate, template] = await Promise.all([
       getAllAuthors(),
       gitMobConfig.localTemplate(),
@@ -138,7 +138,7 @@ async function setMob(initials: string[]) {
       gitConfig.getLocalCommitTemplate(),
     ]);
 
-    const gitAuthor = getPrimaryAuthor();
+    const gitAuthor = await getPrimaryAuthor();
     printMob(gitAuthor, selectedCoAuthors, useLocalTemplate, template);
   } catch (error: unknown) {
     const setMobError = error as Error;
