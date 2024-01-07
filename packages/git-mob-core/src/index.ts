@@ -1,4 +1,3 @@
-import { config } from './commands.js';
 import { Author } from './git-mob-api/author.js';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found.js';
 import { gitAuthors } from './git-mob-api/git-authors/index.js';
@@ -15,6 +14,8 @@ import {
   getGlobalCommitTemplate,
   getGitUserName,
   getGitUserEmail,
+  setGitUserName,
+  setGitUserEmail,
 } from './git-mob-api/git-config.js';
 import {
   resolveGitMessagePath,
@@ -101,11 +102,9 @@ async function getPrimaryAuthor() {
   }
 }
 
-function setPrimaryAuthor(author: Author): void {
-  if (author) {
-    config.set('user.name', author.name);
-    config.set('user.email', author.email);
-  }
+async function setPrimaryAuthor(author: Author) {
+  await setGitUserName(author.name);
+  await setGitUserEmail(author.email);
 }
 
 export {

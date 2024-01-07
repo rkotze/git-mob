@@ -164,7 +164,7 @@ async function setAuthor(initial: string) {
       throw new Error(`${initial} author key not found!`);
     }
 
-    setPrimaryAuthor(author);
+    await setPrimaryAuthor(author);
   } catch (error: unknown) {
     const setAuthorError = error as Error;
     console.error(red(`setAuthor error: ${setAuthorError.message}`));

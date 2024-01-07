@@ -21,13 +21,13 @@ npm i git-mob-core
 // Write actions
 saveNewCoAuthors(authors: Author[]): <Promise<Author[]>>
 createCoAuthorsFile(authors: Author[]): <Promise<boolean>>
-updateGitTemplate(selectedAuthors): void
+updateGitTemplate(selectedAuthors?: Author[]): void
 solo(): <Promise<void>>
-setCoAuthors(keys): <Promise<Author[]>>
+setCoAuthors(keys: string[]): <Promise<Author[]>>
 
 // Read actions
 getAllAuthors(): <Promise<Author[]>>
-getPrimaryAuthor(): Author | undefined
+getPrimaryAuthor(): <Promise<Author | undefined>>
 getSelectedCoAuthors(allAuthors): <Promise<Author[]>>
 setPrimaryAuthor(author: Author): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>

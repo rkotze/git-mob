@@ -11,6 +11,13 @@ Follows [Semantic Versioning](https://semver.org/).
 - Convert `GitAuthors` function to TypeScript and define new internal type `CoAuthorSchema`.
 - Breaking: `getSelectedCoAuthors` now returns a **promise** with type `Author[]`.
 - Breaking: `getPrimaryAuthor` now returns a **promise** with type `Author`.
+- Breaking: `setPrimaryAuthor` now returns a **promise** `void`.
+
+## git-mob 3.2.0
+
+### Added
+
+- Integrate breaking changes in core API: `getPrimaryAuthor`, `getSelectedCoAuthors`, `setPrimaryAuthor`.
 
 ## git-mob 3.1.1
 

@@ -164,7 +164,7 @@ test('sets mob when co-author initials found', t => {
   removeCoAuthors();
 });
 
-test('sets mob and override author', t => {
+test('sets mob and override primary author', t => {
   addAuthor('Billy the Kid', 'billy@example.com');
 
   const actual = exec('git mob -o jd ea').stdout.trimEnd();

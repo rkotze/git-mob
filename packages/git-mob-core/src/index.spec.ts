@@ -1,12 +1,7 @@
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
-import {
-  getGitUserEmail,
-  getGitUserName,
-  getGlobalCommitTemplate,
-  getLocalCommitTemplate,
-} from './git-mob-api/git-config';
+import * as gitConfig from './git-mob-api/git-config';
 import { buildAuthorList, mockGitAuthors } from './test-helpers/author-mocks';
 import {
   addCoAuthor,
@@ -17,10 +12,11 @@ import {
   getPrimaryAuthor,
   getSelectedCoAuthors,
   setCoAuthors,
+  setPrimaryAuthor,
   updateGitTemplate,
 } from '.';
 
-jest.mock('./commands');
+jest.mock('./git-mob-api/exec-command');
 jest.mock('./git-mob-api/git-authors');
 jest.mock('./git-mob-api/git-message');
 jest.mock('./git-mob-api/resolve-git-message-path');
@@ -30,17 +26,14 @@ jest.mock('./git-mob-api/git-mob-config');
 const mockedGitAuthors = jest.mocked(gitAuthors);
 const mockedGitMessage = jest.mocked(gitMessage);
 const mockedRemoveGitMobSection = jest.mocked(removeGitMobSection);
-const mockedGetGlobalCommitTemplate = jest.mocked(getGlobalCommitTemplate);
-const mockedGetLocalCommitTemplate = jest.mocked(getLocalCommitTemplate);
+const mockedGitConfig = jest.mocked(gitConfig);
 const mockedGetSetCoAuthors = jest.mocked(getSetCoAuthors);
-const mockedGetGitUserName = jest.mocked(getGitUserName);
-const mockedGetGitUserEmail = jest.mocked(getGitUserEmail);
 
 describe('Git Mob core API', () => {
   afterEach(() => {
     mockedRemoveGitMobSection.mockReset();
-    mockedGetGlobalCommitTemplate.mockReset();
-    mockedGetLocalCommitTemplate.mockReset();
+    mockedGitConfig.getGlobalCommitTemplate.mockReset();
+    mockedGitConfig.getLocalCommitTemplate.mockReset();
   });
 
   it('missing author to pick for list throws error', async () => {
@@ -107,7 +100,7 @@ describe('Git Mob core API', () => {
     const mockWriteCoAuthors = jest.fn();
     const mockRemoveCoAuthors = jest.fn();
 
-    mockedGetLocalCommitTemplate.mockResolvedValueOnce('template/path');
+    mockedGitConfig.getLocalCommitTemplate.mockResolvedValueOnce('template/path');
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
       readCoAuthors: () => '',
@@ -116,8 +109,8 @@ describe('Git Mob core API', () => {
 
     await updateGitTemplate(authorList);
 
-    expect(mockedGetLocalCommitTemplate).toHaveBeenCalledTimes(1);
-    expect(mockedGetGlobalCommitTemplate).toHaveBeenCalledTimes(1);
+    expect(mockedGitConfig.getLocalCommitTemplate).toHaveBeenCalledTimes(1);
+    expect(mockedGitConfig.getGlobalCommitTemplate).toHaveBeenCalledTimes(1);
     expect(mockWriteCoAuthors).toHaveBeenCalledTimes(2);
     expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
     expect(mockRemoveCoAuthors).not.toHaveBeenCalled();
@@ -148,13 +141,22 @@ describe('Git Mob core API', () => {
     expect(selected).toEqual([selectedAuthor]);
   });
 
-  it('Get the primary author', async () => {
+  it('Get the Git primary author', async () => {
     const primaryAuthor = buildAuthorList(['prime'])[0];
-    mockedGetGitUserName.mockResolvedValueOnce(primaryAuthor.name);
-    mockedGetGitUserEmail.mockResolvedValueOnce(primaryAuthor.email);
+    mockedGitConfig.getGitUserName.mockResolvedValueOnce(primaryAuthor.name);
+    mockedGitConfig.getGitUserEmail.mockResolvedValueOnce(primaryAuthor.email);
     const author = await getPrimaryAuthor();
-    expect(mockedGetGitUserName).toHaveBeenCalledTimes(1);
-    expect(mockedGetGitUserEmail).toHaveBeenCalledTimes(1);
+    expect(mockedGitConfig.getGitUserName).toHaveBeenCalledTimes(1);
+    expect(mockedGitConfig.getGitUserEmail).toHaveBeenCalledTimes(1);
     expect(author).toEqual(primaryAuthor);
+  });
+
+  it('Set the Git primary author', async () => {
+    const primaryAuthor = buildAuthorList(['prime'])[0];
+    await setPrimaryAuthor(primaryAuthor);
+    expect(mockedGitConfig.setGitUserName).toHaveBeenCalledWith(primaryAuthor.name);
+    expect(mockedGitConfig.setGitUserEmail).toHaveBeenCalledWith(
+      primaryAuthor.email
+    );
   });
 });
