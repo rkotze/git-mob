@@ -31,6 +31,7 @@ getPrimaryAuthor(): <Promise<Author | undefined>>
 getSelectedCoAuthors(allAuthors): <Promise<Author[]>>
 setPrimaryAuthor(author: Author): void
 fetchGitHubAuthors(userNames: string[], userAgent: string): <Promise<Author[]>>
+searchGitHubAuthors(query: string, userAgent: string): <Promise<Author[]>>
 repoAuthorList(authorFilter?: string): Promise<Author[] | undefined>
 pathToCoAuthors(): <Promise<string>>
 

@@ -8,10 +8,12 @@ Follows [Semantic Versioning](https://semver.org/).
 
 - Specify authors to save when creating the coAuthor file.
 - Clean up unused features in author file: `coAuthor`, `author` format functions and no need for the `write` method.
+- Remove unused old command API
 - Convert `GitAuthors` function to TypeScript and define new internal type `CoAuthorSchema`.
 - Breaking: `getSelectedCoAuthors` now returns a **promise** with type `Author[]`.
 - Breaking: `getPrimaryAuthor` now returns a **promise** with type `Author`.
 - Breaking: `setPrimaryAuthor` now returns a **promise** `void`.
+- New: `searchGitHubAuthors` search by name and this will return `Author[]`.
 
 ## git-mob 3.2.0
 

@@ -137,6 +137,9 @@ export { saveNewCoAuthors } from './git-mob-api/manage-authors/add-new-coauthor.
 export { createCoAuthorsFile } from './git-mob-api/git-authors/create-coauthors-file.js';
 export { repoAuthorList } from './git-mob-api/git-authors/repo-author-list.js';
 export { pathToCoAuthors } from './git-mob-api/git-authors/index.js';
-export { fetchGitHubAuthors } from './git-mob-api/git-authors/fetch-github-authors.js';
+export {
+  fetchGitHubAuthors,
+  searchGitHubAuthors,
+} from './git-mob-api/git-authors/fetch-github-authors.js';
 export { getConfig, updateConfig } from './config-manager.js';
 export { Author } from './git-mob-api/author.js';

@@ -3,6 +3,7 @@ import { Author } from '../author.js';
 import { httpFetch } from '../fetch/http-fetch.js';
 
 const gitHubUserUrl = 'https://api.github.com/users';
+const gitHubSearchUserUrl = 'https://api.github.com/search/users';
 const getHeaders: RequestOptions = {
   headers: {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -15,6 +16,10 @@ type GitHubUser = {
   id: number;
   login: string;
   name?: string;
+};
+
+type GitHubSearchUser = {
+  items: GitHubUser[];
 };
 
 function validateGhUser(o: any): o is GitHubUser {
@@ -57,6 +62,30 @@ async function fetchGitHubAuthors(
   return authorAuthorList;
 }
 
+async function searchGitHubAuthors(
+  query: string,
+  userAgentHeader: string,
+  fetch = httpFetch
+): Promise<Author[]> {
+  if (!userAgentHeader) {
+    throw new Error('Error no user-agent header string given.');
+  }
+
+  getHeaders.headers = {
+    ...getHeaders.headers,
+    'user-agent': userAgentHeader,
+  };
+
+  const ghSearchUser = await fetch(gitHubSearchUserUrl + '?q=' + query, getHeaders);
+  throwStatusCodeErrors(ghSearchUser.statusCode);
+
+  const results = ghSearchUser.data as GitHubSearchUser;
+
+  const gitHubUsernames = results.items.map(ghUser => ghUser.login);
+
+  return fetchGitHubAuthors(gitHubUsernames, userAgentHeader, fetch);
+}
+
 function throwStatusCodeErrors(statusCode: number | undefined) {
   if (statusCode === 404) {
     throw new Error('GitHub user not found!');
@@ -67,4 +96,4 @@ function throwStatusCodeErrors(statusCode: number | undefined) {
   }
 }
 
-export { fetchGitHubAuthors };
+export { fetchGitHubAuthors, searchGitHubAuthors };

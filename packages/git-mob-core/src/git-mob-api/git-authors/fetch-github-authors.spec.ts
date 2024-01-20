@@ -1,5 +1,5 @@
 import { type BasicResponse, httpFetch } from '../fetch/http-fetch';
-import { fetchGitHubAuthors } from './fetch-github-authors';
+import { fetchGitHubAuthors, searchGitHubAuthors } from './fetch-github-authors';
 
 jest.mock('../fetch/http-fetch');
 const mockedFetch = jest.mocked(httpFetch);
@@ -24,6 +24,15 @@ function buildBasicResponse(ghResponse: Record<string, unknown>): BasicResponse 
   };
 }
 
+function buildSearchResponse(ghResponse: {
+  items: Array<Record<string, unknown>>;
+}): BasicResponse {
+  return {
+    statusCode: 200,
+    data: ghResponse,
+  };
+}
+
 const headers = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   Accept: 'application/vnd.github.v3+json',
@@ -31,6 +40,10 @@ const headers = {
 };
 
 const agentHeader = 'random-agent';
+
+afterEach(() => {
+  mockedFetch.mockReset();
+});
 
 test('Query for one GitHub user and check RESTful url', async () => {
   mockedFetch.mockResolvedValue(buildBasicResponse(ghRkotzeResponse));
@@ -129,4 +142,28 @@ test('Http status code not 200 or 404 throws generic error', async () => {
   await expect(fetchGitHubAuthors(['badrequestuser'], agentHeader)).rejects.toThrow(
     /Error failed to fetch GitHub user! Status code 500./
   );
+});
+
+test('Search for users by name', async () => {
+  mockedFetch
+    .mockResolvedValueOnce(
+      buildSearchResponse({ items: [ghDidelerResponse, ghRkotzeResponse] })
+    )
+    .mockResolvedValueOnce(buildBasicResponse(ghDidelerResponse))
+    .mockResolvedValueOnce(buildBasicResponse(ghRkotzeResponse));
+
+  const actualAuthorList = await searchGitHubAuthors('kotze', agentHeader);
+  expect(mockedFetch).toHaveBeenCalledTimes(3);
+  expect(actualAuthorList).toEqual([
+    {
+      key: 'dideler',
+      name: 'Dennis',
+      email: '345+dideler@users.noreply.github.com',
+    },
+    {
+      key: 'rkotze',
+      name: 'Richard Kotze',
+      email: '123+rkotze@users.noreply.github.com',
+    },
+  ]);
 });
