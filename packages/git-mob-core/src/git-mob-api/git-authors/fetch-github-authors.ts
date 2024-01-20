@@ -22,7 +22,7 @@ function validateGhUser(o: any): o is GitHubUser {
 }
 
 async function fetchGitHubAuthors(
-  initialList: string[],
+  usernames: string[],
   userAgentHeader: string,
   fetch = httpFetch
 ): Promise<Author[]> {
@@ -36,8 +36,8 @@ async function fetchGitHubAuthors(
   };
 
   const ghUsers = await Promise.all(
-    initialList.map(async initials =>
-      fetch(gitHubUserUrl + '/' + initials, getHeaders)
+    usernames.map(async usernames =>
+      fetch(gitHubUserUrl + '/' + usernames, getHeaders)
     )
   );
 
