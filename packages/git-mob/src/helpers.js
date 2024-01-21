@@ -21,6 +21,7 @@ function runHelp() {
       -v  Prints current version
       -l  Prints list of available co-authors
       -o  Overwrite the main author
+      -p  Print path to .git-coauthors file
 
     Examples
       $ git mob jd     # Set John Doe as co-author

@@ -20,6 +20,7 @@ Follows [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Integrate breaking changes in core API: `getPrimaryAuthor`, `getSelectedCoAuthors`, `setPrimaryAuthor`.
+- New flag `-p` path will print out path to `.git-coauthors` file.
 
 ## git-mob 3.1.1
 

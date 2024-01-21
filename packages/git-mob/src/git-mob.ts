@@ -12,6 +12,7 @@ import {
   setPrimaryAuthor,
   updateGitTemplate,
   Author,
+  pathToCoAuthors,
 } from 'git-mob-core';
 import { checkForUpdates, runHelp, runVersion, printList } from './helpers.js';
 import { configWarning } from './check-author.js';
@@ -21,13 +22,14 @@ import { saveMissingAuthors } from './git-authors/save-missing-authors.js';
 checkForUpdates();
 
 const argv = minimist(process.argv.slice(2), {
-  boolean: ['h', 'v', 'l', 'o'],
+  boolean: ['h', 'v', 'l', 'o', 'p'],
 
   alias: {
     h: 'help',
     v: 'version',
     l: 'list',
     o: 'override',
+    p: 'coauthors-path',
   },
 });
 
@@ -41,6 +43,11 @@ async function execute(args: minimist.ParsedArgs) {
 
   if (args.version) {
     runVersion();
+    process.exit(0);
+  }
+
+  if (args['coauthors-path']) {
+    console.log(await pathToCoAuthors());
     process.exit(0);
   }
 

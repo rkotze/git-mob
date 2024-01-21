@@ -28,6 +28,7 @@ _Add co-authors to commits_ when you collaborate on code. Use when pairing with 
     - [Delete co-author](#delete-co-author)
     - [Edit co-author](#edit-co-author)
     - [Suggest co-authors](#suggest-co-authors)
+    - [Path to .git-coauthors](#path-to-git-coauthors)
     - [Help](#help)
     - [Add initials of current mob to your prompt](#add-initials-of-current-mob-to-your-prompt)
       - [Bash](#bash)
@@ -252,9 +253,21 @@ Optional author filter by name or email.
 $ git suggest-coauthors [author name | author email]
 ```
 
+### Path to .git-coauthors
+
+Print out path to `.git-coauthors` file.
+
+```
+git mob -p
+```
+
 ### Help
 
-Find out more with `git mob -h`
+Find out more.
+
+```
+git mob -h
+```
 
 ### Add initials of current mob to your prompt
 
