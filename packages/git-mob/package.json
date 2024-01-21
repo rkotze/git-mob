@@ -1,6 +1,6 @@
 {
   "name": "git-mob",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "CLI tool for adding co-authors to commits.",
   "homepage": "https://github.com/rkotze/git-mob/blob/master/packages/git-mob/README.md",
   "type": "module",
@@ -63,7 +63,7 @@
   ],
   "dependencies": {
     "common-tags": "^1.8.2",
-    "git-mob-core": "^0.8.2",
+    "git-mob-core": "^0.9.0",
     "minimist": "^1.2.8",
     "update-notifier": "^6.0.2"
   },
