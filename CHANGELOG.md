@@ -2,6 +2,12 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## git-mob-core 0.9.1
+
+### Fixes
+
+- When creating a new `.git-coauthors` using the `createCoAuthorsFile` it is created only globally by providing internally the global path.
+
 ## git-mob-core 0.9.0
 
 ### Added

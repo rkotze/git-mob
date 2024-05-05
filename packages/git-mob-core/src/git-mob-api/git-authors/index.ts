@@ -14,18 +14,18 @@ export function gitAuthors(
   overwriteFilePromise?: () => Promise<void>
 ) {
   return {
-    read: async () => {
+    read: async (path?: string) => {
       const readPromise = readFilePromise || promisify(fs.readFile);
       const authorJsonString = (await readPromise(
-        await pathToCoAuthors()
+        path || (await pathToCoAuthors())
       )) as string;
       return JSON.parse(authorJsonString) as CoAuthorSchema;
     },
 
-    overwrite: async (authorJson: CoAuthorSchema) => {
+    overwrite: async (authorJson: CoAuthorSchema, path?: string) => {
       const overwritePromise = overwriteFilePromise || promisify(fs.writeFile);
       return overwritePromise(
-        await pathToCoAuthors(),
+        path || (await pathToCoAuthors()),
         JSON.stringify(authorJson, null, 2)
       );
     },

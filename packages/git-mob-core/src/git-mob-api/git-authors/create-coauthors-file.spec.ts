@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { mockGitAuthors as mockGitAuthorsFn } from '../../test-helpers/author-mocks';
 import { Author } from '../author';
 import { createCoAuthorsFile } from './create-coauthors-file';
-import { gitAuthors } from '.';
+import { gitAuthors, globalGitCoAuthorsPath } from '.';
 
 jest.mock('node:fs');
 jest.mock('.');
@@ -23,12 +23,21 @@ test('Throw error if coauthor file exists', async () => {
 });
 
 test('Save coauthor file in home directory', async () => {
+  const defaultAuthor = {
+    pa: {
+      name: 'Placeholder Author',
+      email: 'placeholder@author.org',
+    },
+  };
   mockExistsSync.mockReturnValueOnce(false);
   const mockGitAuthorsObject = mockGitAuthorsFn(['jo', 'hu']);
   mockGitAuthors.mockReturnValue(mockGitAuthorsObject);
 
   await expect(createCoAuthorsFile()).resolves.toEqual(true);
-  expect(mockGitAuthorsObject.overwrite).toHaveBeenCalled();
+  expect(mockGitAuthorsObject.overwrite).toHaveBeenCalledWith(
+    { coauthors: defaultAuthor },
+    globalGitCoAuthorsPath()
+  );
 });
 
 test('Save coauthor file with defined coauthor list', async () => {
@@ -49,7 +58,10 @@ test('Save coauthor file with defined coauthor list', async () => {
     createCoAuthorsFile([new Author('rk', 'rich kid', 'richkid@gmail.com')])
   ).resolves.toEqual(true);
 
-  expect(mockGitAuthorsObject.overwrite).toHaveBeenCalledWith({
-    coauthors: expectAuthor,
-  });
+  expect(mockGitAuthorsObject.overwrite).toHaveBeenCalledWith(
+    {
+      coauthors: expectAuthor,
+    },
+    globalGitCoAuthorsPath()
+  );
 });
