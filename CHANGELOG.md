@@ -2,6 +2,12 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## git-mob-core 0.9.1
+
+### Fixes
+
+- Internally provide the global path for `.git-coauthors` to the overwrite function when creating it.
+
 ## git-mob-core 0.9.0
 
 ### Added

@@ -4,14 +4,14 @@ import { gitAuthors, gitCoauthorsFileName, globalGitCoAuthorsPath } from './inde
 
 const coAuthorSchema = {
   coauthors: {
-    hh: {
-      name: 'Hulk Hogan',
-      email: 'hulk_hogan22@hotmail.org',
+    pa: {
+      name: 'Placeholder Author',
+      email: 'placeholder@author.org',
     },
   },
 };
 
-export async function createCoAuthorsFile(authorList: Author[]): Promise<boolean> {
+export async function createCoAuthorsFile(authorList?: Author[]): Promise<boolean> {
   const authorOps = gitAuthors();
   const coAuthorFilePath: string = globalGitCoAuthorsPath();
   if (existsSync(coAuthorFilePath)) {
@@ -20,9 +20,9 @@ export async function createCoAuthorsFile(authorList: Author[]): Promise<boolean
 
   if (authorList && authorList.length > 0) {
     const schema = authorOps.toObject(authorList);
-    await authorOps.overwrite(schema);
+    await authorOps.overwrite(schema, coAuthorFilePath);
   } else {
-    await authorOps.overwrite(coAuthorSchema);
+    await authorOps.overwrite(coAuthorSchema, coAuthorFilePath);
   }
 
   return true;
