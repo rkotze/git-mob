@@ -18,13 +18,15 @@ jobs:
       - name: Install dependencies
         run: npm install --ignore-scripts
 
-      - uses: JS-DevTools/npm-publish@v1
+      - name: Publish Git Mob Core
+        uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_Publish }}
           greater-version-only: true
           package: 'packages/git-mob-core/package.json'
 
-      - uses: JS-DevTools/npm-publish@v1
+      - name: Publish Git Mob CLI
+        uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_Publish }}
           greater-version-only: true
