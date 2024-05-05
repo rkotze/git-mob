@@ -6,7 +6,7 @@ Follows [Semantic Versioning](https://semver.org/).
 
 ### Fixes
 
-- Internally provide the global path for `.git-coauthors` to the overwrite function when creating it.
+- When creating a new `.git-coauthors` using the `createCoAuthorsFile` it is created only globally by providing internally the global path.
 
 ## git-mob-core 0.9.0
 
