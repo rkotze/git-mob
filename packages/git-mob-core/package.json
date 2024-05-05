@@ -1,6 +1,6 @@
 {
   "name": "git-mob-core",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Git Mob Core library to manage co-authoring",
   "homepage": "https://github.com/rkotze/git-mob/blob/master/packages/git-mob-core/README.md",
   "main": "./dist/index.js",
