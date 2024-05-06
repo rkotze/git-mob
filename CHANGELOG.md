@@ -2,6 +2,12 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## git-mob-core 0.9.2
+
+### Fixes
+
+- Global path to `.git-coauthors` can be overwritten by env var `GITMOB_COAUTHORS_PATH`.
+
 ## git-mob-core 0.9.1
 
 ### Fixes

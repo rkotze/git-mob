@@ -55,6 +55,10 @@ export function gitAuthors(
 export const gitCoauthorsFileName = '.git-coauthors';
 
 export function globalGitCoAuthorsPath() {
+  if (process.env.GITMOB_COAUTHORS_PATH) {
+    return process.env.GITMOB_COAUTHORS_PATH;
+  }
+
   return path.join(os.homedir(), gitCoauthorsFileName);
 }
 
