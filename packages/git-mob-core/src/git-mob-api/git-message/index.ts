@@ -1,11 +1,12 @@
 import { readFile, writeFile } from 'node:fs';
 import { EOL } from 'node:os';
+import { type Author } from '../author';
 
-function fileExists(error) {
+function fileExists(error: NodeJS.ErrnoException) {
   return error.code !== 'ENOENT';
 }
 
-function append(messagePath, newAuthors) {
+async function append(messagePath: string, newAuthors: string): Promise<void> {
   return new Promise((resolve, reject) => {
     readFile(messagePath, 'utf8', (error, data) => {
       if (error && fileExists(error)) reject(error);
@@ -24,7 +25,7 @@ function append(messagePath, newAuthors) {
   });
 }
 
-function read(messagePath) {
+async function read(messagePath: string) {
   return new Promise((resolve, reject) => {
     readFile(messagePath, 'utf8', (error, data) => {
       if (error && fileExists(error)) reject(error);
@@ -34,21 +35,25 @@ function read(messagePath) {
   });
 }
 
-function formatCoAuthorList(coAuthorList) {
+function formatCoAuthorList(coAuthorList: Author[]): string {
   return coAuthorList.map(coAuthor => coAuthor.format()).join(EOL);
 }
 
-function gitMessage(messagePath, appendFilePromise, readFilePromise) {
+function gitMessage(
+  messagePath: string,
+  appendFilePromise?: () => Promise<void>,
+  readFilePromise?: () => Promise<string>
+) {
   const appendPromise = appendFilePromise || append;
   const readPromise = readFilePromise || read;
 
   return {
-    writeCoAuthors: async coAuthorList => {
+    writeCoAuthors: async (coAuthorList: Author[]) => {
       const coAuthorText = formatCoAuthorList(coAuthorList);
 
       await appendPromise(messagePath, EOL + EOL + coAuthorText);
     },
-    readCoAuthors: () => {
+    readCoAuthors: async () => {
       return readPromise(messagePath);
     },
     removeCoAuthors: async () => {
@@ -57,4 +62,4 @@ function gitMessage(messagePath, appendFilePromise, readFilePromise) {
   };
 }
 
-export { gitMessage, formatCoAuthorList };
+export { gitMessage };

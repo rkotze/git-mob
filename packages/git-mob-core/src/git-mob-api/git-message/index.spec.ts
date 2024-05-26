@@ -3,16 +3,16 @@ import { jest } from '@jest/globals';
 import { Author } from '../author.js';
 import { gitMessage } from './index.js';
 
-test('Append co-authors to .gitmessage append file mock', () => {
-  const appendMock = jest.fn();
+test('Append co-authors to .gitmessage append file mock', async () => {
+  const appendMock = jest.fn(async () => undefined);
   const message = gitMessage('.git/.gitmessage', appendMock);
-  message.writeCoAuthors([
+  await message.writeCoAuthors([
     new Author('jd', 'Jane Doe', 'jane@findmypast.com'),
     new Author('fb', 'Frances Bar', 'frances-bar@findmypast.com'),
   ]);
 
-  expect(appendMock).toBeCalledTimes(1);
-  expect(appendMock).toBeCalledWith(
+  expect(appendMock).toHaveBeenCalledTimes(1);
+  expect(appendMock).toHaveBeenCalledWith(
     expect.stringContaining('.gitmessage'),
     [
       EOL,

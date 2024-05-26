@@ -10,7 +10,7 @@ async function setCommitTemplate() {
   }
 }
 
-async function resolveGitMessagePath(templatePath: string | undefined) {
+async function resolveGitMessagePath(templatePath?: string) {
   if (process.env.GITMOB_MESSAGE_PATH) {
     return resolve(process.env.GITMOB_MESSAGE_PATH);
   }

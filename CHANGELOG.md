@@ -2,6 +2,10 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## git-mob-core Next
+
+- Migrate git template `git-messages` function to TypeScript.
+
 ## git-mob-core 0.9.2
 
 ### Fixes
