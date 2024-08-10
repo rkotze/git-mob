@@ -4,7 +4,15 @@ Follows [Semantic Versioning](https://semver.org/).
 
 ## git-mob-core Next
 
+## git-mob-core 0.9.3
+
+### Added
+
 - Migrate git template `git-messages` function to TypeScript.
+
+### Fixes
+
+- When no path set for the commit template, default to the global template. Don't use a relative path.
 
 ## git-mob-core 0.9.2
 

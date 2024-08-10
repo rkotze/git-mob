@@ -1,4 +1,4 @@
-import { resolve, relative, join } from 'node:path';
+import { resolve, join } from 'node:path';
 import { homedir } from 'node:os';
 import { topLevelDirectory } from './git-rev-parse.js';
 import { getConfig, setConfig } from './exec-command.js';
@@ -17,11 +17,11 @@ async function resolveGitMessagePath(templatePath?: string) {
 
   if (templatePath) return resolve(await topLevelDirectory(), templatePath);
 
-  return relative(await topLevelDirectory(), gitMessagePath());
+  return resolve(gitMessagePath());
 }
 
 function gitMessagePath() {
-  return process.env.GITMOB_MESSAGE_PATH || join(homedir(), '.gitmessage');
+  return join(homedir(), '.gitmessage');
 }
 
 export { resolveGitMessagePath, setCommitTemplate };
