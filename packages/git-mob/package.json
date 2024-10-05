@@ -65,7 +65,7 @@
     "common-tags": "^1.8.2",
     "git-mob-core": "^0.9.0",
     "minimist": "^1.2.8",
-    "update-notifier": "^6.0.2"
+    "update-notifier": "^7.3.1"
   },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
