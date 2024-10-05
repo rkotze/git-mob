@@ -6,11 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: 'npm' # See documentation for possible values
-    directories:
-      - '/'
-      - '/packages/bob'
-      - '/packages/git-mob'
-      - '/packages/git-mob-core'
+    directory: '/'
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 10
