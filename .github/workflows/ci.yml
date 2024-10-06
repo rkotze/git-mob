@@ -27,7 +27,6 @@ jobs:
           - 20
           - 18
           - 16
-          - 14
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -41,10 +40,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Setup npm for Node 14
-        if: ${{ matrix.node-version == 14 }}
-        run: npm install -g npm@8.19.4
 
       - name: Install dependencies
         run: npm install --ignore-scripts
