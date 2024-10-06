@@ -1,6 +1,10 @@
-import { promises } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
 import { EOL } from 'node:os';
 import { type Author } from '../author';
+
+function fileExists(error: NodeJS.ErrnoException) {
+  return error.code !== 'ENOENT';
+}
 
 async function append(messagePath: string, newAuthors: string): Promise<void> {
   const data = await read(messagePath);
@@ -10,11 +14,17 @@ async function append(messagePath: string, newAuthors: string): Promise<void> {
     result = data.replaceAll(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
   }
 
-  await promises.writeFile(messagePath, result);
+  await writeFile(messagePath, result);
 }
 
 async function read(messagePath: string) {
-  return promises.readFile(messagePath, { encoding: 'utf8' });
+  try {
+    return await readFile(messagePath, { encoding: 'utf8' });
+  } catch (error: unknown) {
+    if (error && fileExists(error as Error)) {
+      throw error as Error;
+    }
+  }
 }
 
 function formatCoAuthorList(coAuthorList: Author[]): string {
