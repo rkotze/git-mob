@@ -25,7 +25,7 @@
     "url": "git@github.com:rkotze/git-mob.git"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "keywords": [
     "cli",
@@ -56,6 +56,6 @@
   ],
   "devDependencies": {
     "eslint-plugin-jest": "^27.6.0",
-    "xo": "^0.54.1"
+    "xo": "^0.59.3"
   }
 }
