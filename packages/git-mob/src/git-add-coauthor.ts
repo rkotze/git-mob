@@ -36,7 +36,7 @@ await execute(argv)
   .then(() => {
     process.exit(0);
   })
-  .catch((error: Error) => {
-    console.error(red(error.message));
+  .catch((error: unknown) => {
+    console.error(red((error as Error).message));
     process.exit(1);
   });

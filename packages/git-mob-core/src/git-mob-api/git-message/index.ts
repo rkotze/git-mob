@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
 import { EOL } from 'node:os';
 import { type Author } from '../author';
 
@@ -7,32 +7,24 @@ function fileExists(error: NodeJS.ErrnoException) {
 }
 
 async function append(messagePath: string, newAuthors: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    readFile(messagePath, 'utf8', (error, data) => {
-      if (error && fileExists(error)) reject(error);
+  const data = await read(messagePath);
 
-      let result = newAuthors;
-      if (data) {
-        result = data.replace(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
-      }
+  let result = newAuthors;
+  if (data) {
+    result = data.replaceAll(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
+  }
 
-      writeFile(messagePath, result, error => {
-        if (error) reject(error);
-
-        resolve();
-      });
-    });
-  });
+  await writeFile(messagePath, result);
 }
 
 async function read(messagePath: string) {
-  return new Promise((resolve, reject) => {
-    readFile(messagePath, 'utf8', (error, data) => {
-      if (error && fileExists(error)) reject(error);
-
-      resolve(data);
-    });
-  });
+  try {
+    return await readFile(messagePath, { encoding: 'utf8' });
+  } catch (error: unknown) {
+    if (error && fileExists(error as Error)) {
+      throw error as Error;
+    }
+  }
 }
 
 function formatCoAuthorList(coAuthorList: Author[]): string {

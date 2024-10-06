@@ -9,7 +9,7 @@ async function httpFetch(
   url: string,
   options: https.RequestOptions
 ): Promise<BasicResponse> {
-  return new Promise((fulfil, reject) => {
+  return new Promise((resolve, reject) => {
     const httpRequest = https
       .request(url, options, response => {
         let chunkedData = '';
@@ -19,7 +19,7 @@ async function httpFetch(
         });
 
         response.on('end', () => {
-          fulfil({
+          resolve({
             statusCode: response.statusCode,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             data: JSON.parse(chunkedData),
