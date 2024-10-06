@@ -60,7 +60,7 @@
       "error",
       {
         "files": [
-          "src/**/*.spec.*"
+          "**/*.spec.*"
         ]
       }
     ],

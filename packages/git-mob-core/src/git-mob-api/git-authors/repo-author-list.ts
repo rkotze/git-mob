@@ -9,7 +9,7 @@ export async function repoAuthorList(
   const splitEndOfLine = repoAuthorsString.split(EOL);
   const authorList = splitEndOfLine
     .map(createRepoAuthor)
-    .filter(author => author !== undefined) as Author[];
+    .filter(author => author !== undefined);
 
   if (authorList.length > 0) return authorList;
 }
