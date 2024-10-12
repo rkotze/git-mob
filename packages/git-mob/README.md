@@ -261,6 +261,8 @@ Print out path to `.git-coauthors` file.
 git mob -p
 ```
 
+Open co-author file: `git mob -p | xargs code`
+
 ### Help
 
 Find out more.
