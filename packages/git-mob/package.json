@@ -62,6 +62,7 @@
     }
   ],
   "dependencies": {
+    "@inquirer/checkbox": "^4.0.0",
     "common-tags": "^1.8.2",
     "git-mob-core": "^0.9.3",
     "minimist": "^1.2.8",
