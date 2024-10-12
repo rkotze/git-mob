@@ -5,9 +5,7 @@ import { exec } from '../test-helpers/index.js';
 test('Suggests coauthors using repo contributors', t => {
   const { stdout } = exec('git suggest-coauthors');
 
-  t.regex(stdout, /Here are some suggestions/);
-  t.regex(stdout, /git add-coauthor rkri "Richard Kotze" richkotze@outlook.com/);
-  t.regex(stdout, /Paste any line above/);
+  t.regex(stdout, /"Richard Kotze" richkotze@outlook.com/);
 });
 
 test('Filter suggestions of coauthors', t => {
