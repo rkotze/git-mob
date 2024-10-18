@@ -21,6 +21,7 @@ const baseConfig = {
   logLevel: 'info',
   external: [
     'git-mob-core',
+    '@inquirer/checkbox',
     'common-tags',
     'minimist',
     'update-notifier',
