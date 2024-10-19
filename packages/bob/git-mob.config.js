@@ -27,6 +27,7 @@ const baseConfig = {
     'update-notifier',
     'ava',
     'sinon',
+    'coffee',
   ],
 };
 

@@ -1,22 +1,47 @@
-import { EOL } from 'node:os';
 import test from 'ava';
-import { exec } from '../test-helpers/index.js';
+import coffee from 'coffee';
+import {
+  setCoauthorsFile,
+  deleteCoauthorsFile,
+  readCoauthorsFile,
+} from '../test-helpers/index.js';
 
-test('Suggests coauthors using repo contributors', t => {
-  const { stdout } = exec('git suggest-coauthors');
+const { before, after } = test;
+
+before('setup', () => {
+  setCoauthorsFile();
+});
+
+after.always('final cleanup', () => {
+  deleteCoauthorsFile();
+});
+
+test('Suggests coauthors using repo contributors', async t => {
+  const { stdout } = await coffee
+    .spawn('git', ['suggest-coauthors'])
+    .waitForPrompt(false)
+    .writeKey('ENTER')
+    .end();
 
   t.regex(stdout, /"Richard Kotze" richkotze@outlook.com/);
 });
 
-test('Filter suggestions of coauthors', t => {
-  const { stdout } = exec('git suggest-coauthors dennis i');
+test('Filter suggestions of coauthors', async t => {
+  const { stdout } = await coffee
+    .spawn('git', ['suggest-coauthors', 'dennis i'])
+    .waitForPrompt(false)
+    .writeKey('SPACE', 'ENTER')
+    .end();
 
-  t.regex(stdout, /git add-coauthor diid "Dennis Ideler" ideler.dennis@gmail.com/);
-  t.is(stdout.split(EOL).filter(a => a.includes('git add-coauthor')).length, 2);
+  const coAuthorFile = readCoauthorsFile() || '';
+  t.regex(stdout, /"Dennis Ideler" ideler.dennis@gmail.com/);
+  t.regex(coAuthorFile, /ideler.dennis@gmail.com/);
+  t.regex(coAuthorFile, /Dennis Ideler/);
+  t.regex(coAuthorFile, /diid/);
 });
 
-test('Prints help message', t => {
-  const { stdout } = exec('git suggest-coauthors -h');
+test('Prints help message', async t => {
+  const { stdout } = await coffee.spawn('git', ['suggest-coauthors', '-h']).end();
 
   t.regex(stdout, /usage/i);
   t.regex(stdout, /options/i);

@@ -55,7 +55,7 @@ async function coAuthorSuggestions(authorFilter: string) {
 
 async function selectCoAuthors(coAuthors: Author[]): Promise<Author[]> {
   const selected = await checkbox<Author>({
-    message: 'Select to save a co-author',
+    message: 'Select co-authors to save',
     choices: coAuthors.map(author => ({
       name: `"${author.name}" ${author.email}`,
       value: author,
