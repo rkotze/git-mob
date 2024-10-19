@@ -38,10 +38,7 @@ async function coAuthorSuggestions(authorFilter: string) {
     if (gitAuthors && gitAuthors.length > 0) {
       const selected = await selectCoAuthors(gitAuthors);
       if (selected) {
-        const saved = await saveNewCoAuthors(selected);
-        if (saved) {
-          console.log('Saved co-authors.');
-        }
+        await saveNewCoAuthors(selected);
       }
     } else {
       console.log(yellow('Could not find authors!'));
