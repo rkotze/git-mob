@@ -4,6 +4,12 @@ Follows [Semantic Versioning](https://semver.org/).
 
 ## git-mob-core Next
 
+## git-mob 3.3.0
+
+### Added
+
+- Update to `suggest-coauthors` will show a select interactive list using `inquirer/checkbox`. Select one or more authors to save. Reducing the number of steps to add new co-authors.
+
 ## git-mob-core 0.9.3
 
 ### Added

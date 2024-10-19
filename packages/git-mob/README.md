@@ -245,7 +245,7 @@ $ git edit-coauthor bb --email="barry@butterworth.org"
 
 ### Suggest co-authors
 
-Suggest co-authors to save based on contributors to the current Git repo.
+Suggest co-authors to save based on contributors to the current Git repository.
 
 Optional author filter by name or email.
 
