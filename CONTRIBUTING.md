@@ -23,6 +23,8 @@ See [Ava](https://github.com/avajs/ava) for more options. This is for `git-mob` 
 
 Jest is used for `git-mob-core` package.
 
+Asserting prompts on the cli using [coffee](https://github.com/node-modules/coffee).
+
 ## Releasing
 
 This section is for maintainers with push access to git-mob on npm.
