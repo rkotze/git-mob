@@ -22,8 +22,6 @@
     "git-mob-print": "bin/mob-print.js",
     "git-solo": "bin/solo.js",
     "git-add-coauthor": "bin/add-coauthor.js",
-    "git-delete-coauthor": "bin/delete-coauthor.js",
-    "git-edit-coauthor": "bin/edit-coauthor.js",
     "git-suggest-coauthors": "bin/suggest-coauthors.js"
   },
   "repository": {
