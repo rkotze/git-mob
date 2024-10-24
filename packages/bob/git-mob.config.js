@@ -5,8 +5,6 @@ const baseConfig = {
     './src/git-mob.ts',
     './src/solo.js',
     './src/git-add-coauthor.ts',
-    './src/git-delete-coauthor.js',
-    './src/git-edit-coauthor.js',
     './src/git-mob-print.js',
     './src/git-suggest-coauthors.js',
     './src/install/create-author-file.js',
