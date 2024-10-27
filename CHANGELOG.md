@@ -9,6 +9,7 @@ Follows [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Update to `suggest-coauthors` will show a select interactive list using `inquirer/checkbox`. Select one or more authors to save. Reducing the number of steps to add new co-authors.
+- Finished migration to TypeScript for the main files in git-mob and git-mob-core packages. [Issue 83](https://github.com/rkotze/git-mob/issues/83)
 
 ### Breaking
 
