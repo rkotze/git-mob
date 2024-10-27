@@ -12,8 +12,6 @@ function runHelp() {
       $ git solo
       $ git mob-print
       $ git add-coauthor <co-author-initials> "Coauthor Name" <coauthor-email-address>
-      $ git delete-coauthor <co-author-initials>
-      $ git edit-coauthor <co-author-initials> --name="Coauthor Name" --email="coauthor-email-address"
       $ git suggest-coauthors [author name | author email]
 
     Options
@@ -43,34 +41,6 @@ function runAddCoauthorHelp() {
       -h  Prints usage information
     Examples
       $ git add-coauthor jd "John Doe" johndoe@aol.org  # adds John Doe to coauthors file
-  `;
-  console.log(message);
-}
-
-function runDeleteCoauthorHelp() {
-  const message = stripIndent`
-    Usage
-      $ git delete-coauthor <co-author-initials>
-    Options
-      -h  Prints usage information
-    Examples
-      $ git delete-coauthor jd  # deletes John Doe to coauthors file
-
-  `;
-  console.log(message);
-}
-
-function runEditCoauthorHelp() {
-  const message = stripIndent`
-    Usage
-      $ git edit-coauthor <co-author-initials> name="Coauthor Name" email="Coauthor Email"
-    Options
-      -h  Prints usage information
-    Examples
-      $ git edit-coauthor jd --name="Jeb Diamond" --email="jeb@Diamond.com"    # Updates email and name
-      $ git edit-coauthor jd --name="Jeb Diamond"                           # Updates just the name
-      $ git edit-coauthor jd --email="jeb@diamond.com"                      # Updates just the email
-
   `;
   console.log(message);
 }
@@ -128,8 +98,6 @@ export {
   printList,
   validateEmail,
   runAddCoauthorHelp,
-  runDeleteCoauthorHelp,
-  runEditCoauthorHelp,
   runMobPrintHelp,
   runSuggestCoauthorsHelp,
 };

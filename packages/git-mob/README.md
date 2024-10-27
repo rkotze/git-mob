@@ -25,8 +25,6 @@ _Add co-authors to commits_ when you collaborate on code. Use when pairing with 
     - [List all co-authors](#list-all-co-authors)
     - [Overwrite the main author](#overwrite-the-main-author)
     - [Add co-author](#add-co-author)
-    - [Delete co-author](#delete-co-author)
-    - [Edit co-author](#edit-co-author)
     - [Suggest co-authors](#suggest-co-authors)
     - [Path to .git-coauthors](#path-to-git-coauthors)
     - [Help](#help)
@@ -223,24 +221,6 @@ Add a new co-author to your `.git-coauthors` file.
 
 ```
 $ git add-coauthor bb "Barry Butterworth" barry@butterworth.org
-```
-
-### Delete co-author
-
-Delete a co-author from your `.git-coauthors` file.
-
-```
-$ git delete-coauthor bb
-```
-
-### Edit co-author
-
-Edit a co-author's details in your `.git-coauthors` file.
-
-```
-$ git edit-coauthor bb --name="Barry Butterworth" --email="barry@butterworth.org"
-$ git edit-coauthor bb --name="Barry Butterworth"
-$ git edit-coauthor bb --email="barry@butterworth.org"
 ```
 
 ### Suggest co-authors
