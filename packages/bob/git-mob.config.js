@@ -3,11 +3,11 @@ const glob = require('glob');
 const baseConfig = {
   entryPoints: [
     './src/git-mob.ts',
-    './src/solo.js',
+    './src/solo.ts',
     './src/git-add-coauthor.ts',
-    './src/git-mob-print.js',
-    './src/git-suggest-coauthors.js',
-    './src/install/create-author-file.js',
+    './src/git-mob-print.ts',
+    './src/git-suggest-coauthors.ts',
+    './src/install/create-author-file.ts',
   ],
   mainFields: ['module', 'main'],
   bundle: true,

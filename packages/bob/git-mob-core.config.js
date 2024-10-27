@@ -1,7 +1,7 @@
 const glob = require('glob');
 
 const baseConfig = {
-  entryPoints: ['./src/index.js'],
+  entryPoints: ['./src/index.ts'],
   mainFields: ['module', 'main'],
   platform: 'node',
   target: ['node16'],
