@@ -1,5 +1,6 @@
 import { EOL } from 'node:os';
 import { stripIndent } from 'common-tags';
+import { type Author } from 'git-mob-core';
 import updateNotifier from 'update-notifier';
 import pkg from '../package.json';
 
@@ -81,11 +82,11 @@ function checkForUpdates(intervalInMs = weekly) {
   });
 }
 
-function printList(list) {
+function printList(list: Author[]) {
   console.log(list.map(a => `${a.key}, ${a.name}, ${a.email}`).join(EOL));
 }
 
-function validateEmail(email) {
+function validateEmail(email: string) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|((\w+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
