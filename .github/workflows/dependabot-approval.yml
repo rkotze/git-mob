@@ -1,7 +1,8 @@
 name: Dependabot Pull Request Approve and Merge
 
 on:
-  pull_request_target: [opened]
+  pull_request_target:
+    types: [opened]
   workflow_run:
     workflows: [CI]
     types:
