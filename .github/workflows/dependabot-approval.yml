@@ -1,6 +1,12 @@
 name: Dependabot Pull Request Approve and Merge
 
-on: pull_request_target
+on:
+  pull_request_target:
+    types: [opened]
+  workflow_run:
+    workflows: [CI]
+    types:
+      - completed
 
 permissions:
   pull-requests: write
@@ -11,13 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     # Checking the actor will prevent your Action run failing on non-Dependabot
     # PRs but also ensures that it only does work for Dependabot PRs.
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.actor == 'dependabot[bot]' }}
     steps:
       # This first step will fail if there's no metadata and so the approval
       # will not occur.
       - name: Dependabot metadata
         id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v1.1.1
+        uses: dependabot/fetch-metadata@v2.2.0
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
       # Finally, this sets the PR to allow auto-merging for patch and minor
@@ -28,3 +34,7 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  justrun:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Workflow ran. Conclusion = ${{ github.event.workflow_run.conclusion }} and actor = ${{ github.actor }}'
