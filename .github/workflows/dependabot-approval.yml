@@ -34,3 +34,7 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  justrun:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Workflow ran. Conclusion = ${{ github.event.workflow_run.conclusion }} and actor = ${{ github.actor }}'
