@@ -3,14 +3,12 @@ import { type Author } from '../author';
 
 export enum AuthorTrailers {
   CoAuthorBy = 'Co-authored-by:',
+  SignedBy = 'Signed-off-by:',
 }
 
-export function messageFormatter(
-  txt: string,
-  authors: Author[],
-  trailer: AuthorTrailers = AuthorTrailers.CoAuthorBy
-): string {
-  const regex = new RegExp(`(\r\n|\r|\n){1,2}${trailer}.*`, 'g');
+export function messageFormatter(txt: string, authors: Author[]): string {
+  const trailers = Object.values(AuthorTrailers).join('|');
+  const regex = new RegExp(`(\r\n|\r|\n){1,2}(${trailers}).*`, 'g');
   const message = txt.replaceAll(regex, '');
 
   if (authors && authors.length > 0) {

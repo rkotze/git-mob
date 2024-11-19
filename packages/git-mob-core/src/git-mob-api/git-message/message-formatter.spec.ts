@@ -1,6 +1,6 @@
 import { EOL } from 'node:os';
 import { Author } from '../author';
-import { messageFormatter } from './message-formatter';
+import { AuthorTrailers, messageFormatter } from './message-formatter';
 
 test('MessageFormatter: No authors to append to git message', () => {
   const txt = `git message`;
@@ -46,6 +46,31 @@ test('MessageFormatter: Replace co-author in the git message', () => {
       EOL,
       EOL,
       'Co-authored-by: Frances Bar <frances-bar@gitmob.com>',
+    ].join('')
+  );
+});
+
+test('MessageFormatter: Append a signed-off-by authors to git message', () => {
+  const firstLine = 'git message';
+  const txt = [
+    firstLine,
+    EOL,
+    EOL,
+    'Co-authored-by: Frances Bar <frances-bar@gitmob.com>',
+  ].join('');
+  const message = messageFormatter(txt, [
+    new Author('fb', 'Frances Bar', 'frances-bar@gitmob.com'),
+    new Author('jd', 'Jane Doe', 'jane@gitmob.com', AuthorTrailers.SignedBy),
+  ]);
+
+  expect(message).toBe(
+    [
+      firstLine,
+      EOL,
+      EOL,
+      'Co-authored-by: Frances Bar <frances-bar@gitmob.com>',
+      EOL,
+      'Signed-off-by: Jane Doe <jane@gitmob.com>',
     ].join('')
   );
 });

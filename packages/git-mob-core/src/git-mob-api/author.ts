@@ -4,15 +4,22 @@ export class Author {
   key: string;
   name: string;
   email: string;
+  trailer: string;
 
-  constructor(key: string, name: string, email: string) {
+  constructor(
+    key: string,
+    name: string,
+    email: string,
+    trailer: AuthorTrailers = AuthorTrailers.CoAuthorBy
+  ) {
     this.key = key;
     this.name = name;
     this.email = email;
+    this.trailer = trailer;
   }
 
-  format(trailer: AuthorTrailers = AuthorTrailers.CoAuthorBy) {
-    return `${trailer} ${this.toString()}`;
+  format() {
+    return `${this.trailer} ${this.toString()}`;
   }
 
   toString() {
