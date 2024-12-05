@@ -1,18 +1,15 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { EOL } from 'node:os';
 import { type Author } from '../author';
+import { messageFormatter } from './message-formatter';
 
 function fileExists(error: NodeJS.ErrnoException) {
   return error.code !== 'ENOENT';
 }
 
-async function append(messagePath: string, newAuthors: string): Promise<void> {
+async function append(messagePath: string, newAuthors: Author[]): Promise<void> {
   const data = await read(messagePath);
 
-  let result = newAuthors;
-  if (data) {
-    result = data.replaceAll(/(\r\n|\r|\n){1,2}Co-authored-by.*/g, '') + newAuthors;
-  }
+  const result = messageFormatter(data || '', newAuthors);
 
   await writeFile(messagePath, result);
 }
@@ -27,10 +24,6 @@ async function read(messagePath: string) {
   }
 }
 
-function formatCoAuthorList(coAuthorList: Author[]): string {
-  return coAuthorList.map(coAuthor => coAuthor.format()).join(EOL);
-}
-
 function gitMessage(
   messagePath: string,
   appendFilePromise?: () => Promise<void>,
@@ -41,15 +34,13 @@ function gitMessage(
 
   return {
     writeCoAuthors: async (coAuthorList: Author[]) => {
-      const coAuthorText = formatCoAuthorList(coAuthorList);
-
-      await appendPromise(messagePath, EOL + EOL + coAuthorText);
+      await appendPromise(messagePath, coAuthorList);
     },
     readCoAuthors: async () => {
       return readPromise(messagePath);
     },
     removeCoAuthors: async () => {
-      return appendPromise(messagePath, '');
+      return appendPromise(messagePath, []);
     },
   };
 }

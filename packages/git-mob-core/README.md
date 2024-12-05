@@ -24,6 +24,7 @@ createCoAuthorsFile(authors: Author[]): <Promise<boolean>>
 updateGitTemplate(selectedAuthors?: Author[]): void
 solo(): <Promise<void>>
 setCoAuthors(keys: string[]): <Promise<Author[]>>
+messageFormatter(txt: string, authors: Author[]): string
 
 // Read actions
 getAllAuthors(): <Promise<Author[]>>
@@ -66,7 +67,7 @@ gitConfig = {
 
 ### Author class
 
-Main class for Author data exchange between function.
+Do not change the structure of the class.
 
 ```TS
 class Author;
@@ -75,6 +76,7 @@ class Author;
 Author.key: string
 Author.name: string
 Author.email: string
+Author.trailer: AuthorTrailers // defaults to AuthorTrailers.CoAuthorBy
 
 //Methods
 Author.format(): string

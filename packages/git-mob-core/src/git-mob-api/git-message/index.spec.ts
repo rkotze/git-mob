@@ -1,18 +1,20 @@
 import { EOL } from 'node:os';
-import { jest } from '@jest/globals';
+import { readFile, writeFile } from 'node:fs/promises';
 import { Author } from '../author.js';
 import { gitMessage } from './index.js';
 
+jest.mock('node:fs/promises');
+
 test('Append co-authors to .gitmessage append file mock', async () => {
-  const appendMock = jest.fn(async () => undefined);
-  const message = gitMessage('.git/.gitmessage', appendMock);
+  const message = gitMessage('.fake/.gitmessage');
   await message.writeCoAuthors([
     new Author('jd', 'Jane Doe', 'jane@findmypast.com'),
     new Author('fb', 'Frances Bar', 'frances-bar@findmypast.com'),
   ]);
 
-  expect(appendMock).toHaveBeenCalledTimes(1);
-  expect(appendMock).toHaveBeenCalledWith(
+  expect(readFile).toHaveBeenCalledTimes(1);
+  expect(writeFile).toHaveBeenCalledTimes(1);
+  expect(writeFile).toHaveBeenCalledWith(
     expect.stringContaining('.gitmessage'),
     [
       EOL,

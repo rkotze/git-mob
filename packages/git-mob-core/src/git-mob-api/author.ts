@@ -1,16 +1,25 @@
+import { AuthorTrailers } from './git-message/message-formatter';
+
 export class Author {
   key: string;
   name: string;
   email: string;
+  trailer: AuthorTrailers;
 
-  constructor(key: string, name: string, email: string) {
+  constructor(
+    key: string,
+    name: string,
+    email: string,
+    trailer: AuthorTrailers = AuthorTrailers.CoAuthorBy
+  ) {
     this.key = key;
     this.name = name;
     this.email = email;
+    this.trailer = trailer;
   }
 
   format() {
-    return `Co-authored-by: ${this.toString()}`;
+    return `${this.trailer} ${this.toString()}`;
   }
 
   toString() {

@@ -2,8 +2,6 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
-## git-mob-core Next
-
 ## git-mob 4.0.0
 
 ### Added
@@ -16,6 +14,12 @@ Follows [Semantic Versioning](https://semver.org/).
 - Removed the following commands because I think they are low value to maintain. See readme on how to edit/delete co-authors.
   - `git delete-coauthor`
   - `git edit-coauthor`
+
+## git-mob-core 0.10.0
+
+### Added
+
+- Expose a public function to format Git message co-author trailers in one place. For consumers like Git Mob VS Code extension.
 
 ## git-mob-core 0.9.3
 

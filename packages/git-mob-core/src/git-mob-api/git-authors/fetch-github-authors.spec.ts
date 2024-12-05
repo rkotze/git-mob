@@ -1,4 +1,5 @@
 import { type BasicResponse, httpFetch } from '../fetch/http-fetch';
+import { AuthorTrailers } from '../git-message/message-formatter';
 import { fetchGitHubAuthors, searchGitHubAuthors } from './fetch-github-authors';
 
 jest.mock('../fetch/http-fetch');
@@ -68,6 +69,7 @@ test('Query for one GitHub user and return in AuthorList', async () => {
       key: 'dideler',
       name: 'Dennis',
       email: '345+dideler@users.noreply.github.com',
+      trailer: AuthorTrailers.CoAuthorBy,
     },
   ]);
 });
@@ -87,11 +89,13 @@ test('Query for two GitHub users and build AuthorList', async () => {
       key: 'dideler',
       name: 'Dennis',
       email: '345+dideler@users.noreply.github.com',
+      trailer: AuthorTrailers.CoAuthorBy,
     },
     {
       key: 'rkotze',
       name: 'Richard Kotze',
       email: '123+rkotze@users.noreply.github.com',
+      trailer: AuthorTrailers.CoAuthorBy,
     },
   ]);
 });
@@ -112,6 +116,7 @@ test('Handle GitHub user with no name', async () => {
       key: 'kotze',
       name: 'kotze',
       email: '329+kotze@users.noreply.github.com',
+      trailer: AuthorTrailers.CoAuthorBy,
     },
   ]);
 });
@@ -159,11 +164,13 @@ test('Search for users by name', async () => {
       key: 'dideler',
       name: 'Dennis',
       email: '345+dideler@users.noreply.github.com',
+      trailer: AuthorTrailers.CoAuthorBy,
     },
     {
       key: 'rkotze',
       name: 'Richard Kotze',
       email: '123+rkotze@users.noreply.github.com',
+      trailer: AuthorTrailers.CoAuthorBy,
     },
   ]);
 });
