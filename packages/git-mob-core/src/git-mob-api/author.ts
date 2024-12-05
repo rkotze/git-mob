@@ -4,7 +4,7 @@ export class Author {
   key: string;
   name: string;
   email: string;
-  trailer: string;
+  trailer: AuthorTrailers;
 
   constructor(
     key: string,
