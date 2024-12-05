@@ -225,7 +225,7 @@ $ git add-coauthor bb "Barry Butterworth" barry@butterworth.org
 
 ### Suggest co-authors
 
-Suggest co-authors to save based on contributors to the current Git repository.
+Suggest co-authors from contributors in local Git repository and add to `.git-coauthors` file.
 
 Optional author filter by name or email.
 
