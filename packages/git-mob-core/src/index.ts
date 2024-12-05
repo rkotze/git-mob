@@ -143,3 +143,4 @@ export {
 } from './git-mob-api/git-authors/fetch-github-authors.js';
 export { getConfig, updateConfig } from './config-manager.js';
 export { Author } from './git-mob-api/author.js';
+export { messageFormatter } from './git-mob-api/git-message/message-formatter.js';
