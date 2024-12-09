@@ -56,6 +56,6 @@
   ],
   "devDependencies": {
     "eslint-plugin-jest": "^28.9.0",
-    "xo": "^0.59.3"
+    "xo": "^0.60.0"
   }
 }
