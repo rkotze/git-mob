@@ -70,7 +70,7 @@
     "@ava/typescript": "^5.0.0",
     "@types/common-tags": "^1.8.4",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^22.10.1",
+    "@types/node": "^22.10.2",
     "@types/sinon": "^17.0.3",
     "@types/update-notifier": "^6.0.8",
     "ava": "^6.2.0",
