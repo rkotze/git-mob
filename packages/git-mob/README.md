@@ -41,6 +41,12 @@ git-mob is a CLI tool, so you'll need to install the package globally.
 npm i -g git-mob
 ```
 
+MacOS use Homebrew
+
+```
+brew install git-mob
+```
+
 By default git-mob will use the **global** config `.gitmessage` template to append co-authors.
 
 ## Workflow / Usage
