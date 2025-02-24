@@ -71,7 +71,7 @@
     "@types/common-tags": "^1.8.4",
     "@types/minimist": "^1.2.5",
     "@types/node": "^22.13.5",
-    "@types/sinon": "^17.0.3",
+    "@types/sinon": "^17.0.4",
     "@types/update-notifier": "^6.0.8",
     "ava": "^6.2.0",
     "bob": "file:../bob",
