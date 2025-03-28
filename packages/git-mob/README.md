@@ -6,6 +6,8 @@
 
 _Add co-authors to commits_ when you collaborate on code. Use when pairing with a buddy or mobbing with your team.
 
+<a href="https://www.buymeacoffee.com/rkotze" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 180px !important;" ></a>
+
 [✨ Git Mob VS Code extension](https://github.com/rkotze/git-mob-vs-code)
 
 ![gif showing example usage of git-mob](https://user-images.githubusercontent.com/497458/38682926-2e0cc99c-3e64-11e8-9f71-6336e111005b.gif)
