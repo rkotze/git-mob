@@ -2,6 +2,12 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## git-mob-core 0.10.1
+
+### Fixed
+
+- If an email has partially the same email as another co-author they will get included. This addresses this issue. [Issue 213](https://github.com/rkotze/git-mob/issues/213)
+
 ## git-mob 4.0.0
 
 ### Added
