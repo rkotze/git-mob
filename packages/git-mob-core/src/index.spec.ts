@@ -32,6 +32,7 @@ const mockedGetSetCoAuthors = jest.mocked(getSetCoAuthors);
 describe('Git Mob core API', () => {
   afterEach(() => {
     mockedRemoveGitMobSection.mockReset();
+    mockedGetSetCoAuthors.mockReset();
     mockedGitConfig.getGlobalCommitTemplate.mockReset();
     mockedGitConfig.getLocalCommitTemplate.mockReset();
   });
@@ -137,6 +138,17 @@ describe('Git Mob core API', () => {
     const selectedAuthor = listAll[1];
     mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor.toString());
     const selected = await getSelectedCoAuthors(listAll);
+
+    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
+    expect(selected).toEqual([selectedAuthor]);
+  });
+
+  it('Use exact email for selected co-authors', async () => {
+    const listAll = buildAuthorList(['ab', 'efcd', 'cd']);
+    const selectedAuthor = listAll[1];
+    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor.toString());
+    const selected = await getSelectedCoAuthors(listAll);
+
     expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
     expect(selected).toEqual([selectedAuthor]);
   });

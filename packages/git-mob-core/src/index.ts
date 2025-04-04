@@ -84,7 +84,7 @@ async function getSelectedCoAuthors(allAuthors: Author[]) {
   const coAuthorConfigValue = await getSetCoAuthors();
   if (coAuthorConfigValue) coAuthorsString = coAuthorConfigValue;
 
-  return allAuthors.filter(author => coAuthorsString.includes(author.email));
+  return allAuthors.filter(author => coAuthorsString.includes('<' + author.email));
 }
 
 async function solo() {
