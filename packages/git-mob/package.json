@@ -59,6 +59,10 @@
       "url": "https://github.com/dideler"
     }
   ],
+  "funding":{
+    "type": "BuyMeACoffee",
+    "url": "https://www.buymeacoffee.com/rkotze"
+  },
   "dependencies": {
     "@inquirer/checkbox": "^4.1.4",
     "common-tags": "^1.8.2",
