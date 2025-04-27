@@ -25,12 +25,12 @@ updateGitTemplate(selectedAuthors?: Author[]): void
 solo(): <Promise<void>>
 setCoAuthors(keys: string[]): <Promise<Author[]>>
 messageFormatter(txt: string, authors: Author[]): string
+setPrimaryAuthor(author: Author): void
 
 // Read actions
 getAllAuthors(): <Promise<Author[]>>
 getPrimaryAuthor(): <Promise<Author | undefined>>
 getSelectedCoAuthors(allAuthors): <Promise<Author[]>>
-setPrimaryAuthor(author: Author): void
 repoAuthorList(authorFilter?: string): Promise<Author[] | undefined>
 pathToCoAuthors(): <Promise<string>>
 
