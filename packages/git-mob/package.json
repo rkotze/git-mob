@@ -77,7 +77,7 @@
     "@types/node": "^22.15.8",
     "@types/sinon": "^17.0.4",
     "@types/update-notifier": "^6.0.8",
-    "ava": "^6.2.0",
+    "ava": "^6.3.0",
     "bob": "file:../bob",
     "coffee": "^5.5.1",
     "eol": "^0.10.0",
