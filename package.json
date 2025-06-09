@@ -55,7 +55,7 @@
     }
   ],
   "devDependencies": {
-    "eslint-plugin-jest": "^28.12.0",
+    "eslint-plugin-jest": "^28.13.0",
     "xo": "^0.60.0"
   }
 }
