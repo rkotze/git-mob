@@ -64,7 +64,7 @@
     "url": "https://www.buymeacoffee.com/rkotze"
   },
   "dependencies": {
-    "@inquirer/checkbox": "^4.1.8",
+    "@inquirer/checkbox": "^4.1.9",
     "common-tags": "^1.8.2",
     "git-mob-core": "^0.10.1",
     "minimist": "^1.2.8",
