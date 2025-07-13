@@ -1,3 +1,4 @@
+import { EOL } from 'node:os';
 import { Author } from './git-mob-api/author.js';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found.js';
 import { gitAuthors } from './git-mob-api/git-authors/index.js';
@@ -8,6 +9,7 @@ import {
   getSetCoAuthors,
   addCoAuthor,
   removeGitMobSection,
+  getAllTrailerAuthors,
 } from './git-mob-api/git-mob-config.js';
 import {
   getLocalCommitTemplate,
@@ -23,6 +25,7 @@ import {
 } from './git-mob-api/resolve-git-message-path.js';
 import { insideWorkTree, topLevelDirectory } from './git-mob-api/git-rev-parse.js';
 import { getConfig } from './git-mob-api/exec-command.js';
+import { AuthorTrailers } from './git-mob-api/git-message/message-formatter.js';
 
 async function getAllAuthors() {
   const gitMobAuthors = gitAuthors();
@@ -79,12 +82,34 @@ function pickSelectedAuthors(keys: string[], authorMap: Author[]): Author[] {
   return selectedAuthors;
 }
 
-async function getSelectedCoAuthors(allAuthors: Author[]) {
-  let coAuthorsString = '';
-  const coAuthorConfigValue = await getSetCoAuthors();
-  if (coAuthorConfigValue) coAuthorsString = coAuthorConfigValue;
+const trailerMap: Record<string, AuthorTrailers> = {
+  'git-mob.co-author': AuthorTrailers.CoAuthorBy,
+  'git-mob.signed-author': AuthorTrailers.SignedOffBy,
+  'git-mob.reviewed-author': AuthorTrailers.ReviewedBy,
+};
 
-  return allAuthors.filter(author => coAuthorsString.includes('<' + author.email));
+async function getSelectedCoAuthors(allAuthors: Author[]) {
+  const coAuthorsString = (await getAllTrailerAuthors()) ?? '';
+
+  return coAuthorsString
+    .split(EOL)
+    .map(line => {
+      const [key, ...rest] = line.split(' ');
+      const authorString = rest.join(' ');
+      const trailer = trailerMap[key];
+      if (!trailer) return null;
+
+      const authorRegex = /^(.+)\s+<(.+)>$/.exec(authorString);
+      if (!authorRegex) return null;
+      const email = authorRegex[2];
+
+      const author = allAuthors.find(author => author.email === email);
+      if (!author) return null;
+
+      author.trailer = trailer;
+      return author;
+    })
+    .filter(Boolean);
 }
 
 async function solo() {

@@ -1,3 +1,4 @@
+import { EOL } from 'node:os';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
@@ -5,9 +6,10 @@ import * as gitConfig from './git-mob-api/git-config';
 import { buildAuthorList, mockGitAuthors } from './test-helpers/author-mocks';
 import {
   addCoAuthor,
-  getSetCoAuthors,
+  getAllTrailerAuthors,
   removeGitMobSection,
 } from './git-mob-api/git-mob-config';
+import { AuthorTrailers } from './git-mob-api/git-message/message-formatter';
 import {
   getPrimaryAuthor,
   getSelectedCoAuthors,
@@ -27,12 +29,12 @@ const mockedGitAuthors = jest.mocked(gitAuthors);
 const mockedGitMessage = jest.mocked(gitMessage);
 const mockedRemoveGitMobSection = jest.mocked(removeGitMobSection);
 const mockedGitConfig = jest.mocked(gitConfig);
-const mockedGetSetCoAuthors = jest.mocked(getSetCoAuthors);
+const mockedGetTrailerAuthors = jest.mocked(getAllTrailerAuthors);
 
 describe('Git Mob core API', () => {
   afterEach(() => {
     mockedRemoveGitMobSection.mockReset();
-    mockedGetSetCoAuthors.mockReset();
+    mockedGetTrailerAuthors.mockReset();
     mockedGitConfig.getGlobalCommitTemplate.mockReset();
     mockedGitConfig.getLocalCommitTemplate.mockReset();
   });
@@ -133,24 +135,31 @@ describe('Git Mob core API', () => {
     expect(mockWriteCoAuthors).not.toHaveBeenCalled();
   });
 
-  it('Get the selected co-authors', async () => {
-    const listAll = buildAuthorList(['ab', 'cd']);
-    const selectedAuthor = listAll[1];
-    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor.toString());
-    const selected = await getSelectedCoAuthors(listAll);
-
-    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
-    expect(selected).toEqual([selectedAuthor]);
-  });
-
   it('Use exact email for selected co-authors', async () => {
     const listAll = buildAuthorList(['ab', 'efcd', 'cd']);
-    const selectedAuthor = listAll[1];
-    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor.toString());
+    const selectedAuthor = `git-mob.co-author ${listAll[1].toString()}`;
+    mockedGetTrailerAuthors.mockResolvedValueOnce(selectedAuthor);
     const selected = await getSelectedCoAuthors(listAll);
 
-    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
-    expect(selected).toEqual([selectedAuthor]);
+    expect(mockedGetTrailerAuthors).toHaveBeenCalledTimes(1);
+    expect(selected).toEqual([listAll[1]]);
+  });
+
+  it('Get the selected co-authors and update respective trailers', async () => {
+    const listAll = buildAuthorList(['ab', 'cd', 'ef', 'gh']);
+    const selectedAuthors = [
+      `git-mob.co-author ${listAll[1].toString()}`,
+      `git-mob.signed-author ${listAll[2].toString()}`,
+      `git-mob.reviewed-author ${listAll[3].toString()}`,
+    ].join(EOL);
+
+    mockedGetTrailerAuthors.mockResolvedValueOnce(selectedAuthors);
+    const selected = await getSelectedCoAuthors(listAll);
+
+    expect(mockedGetTrailerAuthors).toHaveBeenCalledTimes(1);
+    expect(selected[0]?.trailer).toEqual(AuthorTrailers.CoAuthorBy);
+    expect(selected[1]?.trailer).toEqual(AuthorTrailers.SignedOffBy);
+    expect(selected[2]?.trailer).toEqual(AuthorTrailers.ReviewedBy);
   });
 
   it('Get the Git primary author', async () => {

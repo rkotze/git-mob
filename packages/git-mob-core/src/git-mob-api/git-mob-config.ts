@@ -1,4 +1,9 @@
-import { getConfig, getAllConfig, execCommand } from './exec-command.js';
+import {
+  getConfig,
+  getAllConfig,
+  execCommand,
+  getRegexpConfig,
+} from './exec-command.js';
 
 export async function localTemplate() {
   const localTemplate = await getConfig('--local git-mob-config.use-local-template');
@@ -12,6 +17,10 @@ export async function fetchFromGitHub() {
 
 export async function getSetCoAuthors() {
   return getAllConfig('--global git-mob.co-author');
+}
+
+export async function getAllTrailerAuthors() {
+  return getRegexpConfig(`'git-mob.*'`);
 }
 
 export async function addCoAuthor(coAuthor: string) {
