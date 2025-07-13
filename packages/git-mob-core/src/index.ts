@@ -99,11 +99,9 @@ async function getSelectedCoAuthors(allAuthors: Author[]) {
       const trailer = trailerMap[key];
       if (!trailer) return null;
 
-      const authorRegex = /^(.+)\s+<(.+)>$/.exec(authorString);
-      if (!authorRegex) return null;
-      const email = authorRegex[2];
-
-      const author = allAuthors.find(author => author.email === email);
+      const author = allAuthors.find(author =>
+        authorString.includes('<' + author.email)
+      );
       if (!author) return null;
 
       author.trailer = trailer;
