@@ -81,11 +81,13 @@ function pickSelectedAuthors(keys: string[], authorMap: Author[]): Author[] {
   return selectedAuthors;
 }
 
-const trailerMap: Record<string, AuthorTrailers> = {
-  'git-mob.co-author': AuthorTrailers.CoAuthorBy,
-  'git-mob.signed-author': AuthorTrailers.SignedOffBy,
-  'git-mob.reviewed-author': AuthorTrailers.ReviewedBy,
-};
+function convertToAuthorTrailers(value: string): AuthorTrailers | undefined {
+  if (value === 'co-author') return AuthorTrailers.CoAuthorBy;
+
+  return (Object.values(AuthorTrailers) as string[]).includes(value)
+    ? (value as AuthorTrailers)
+    : undefined;
+}
 
 async function getSelectedCoAuthors(allAuthors: Author[]) {
   const coAuthorsString = (await getSetCoAuthors()) ?? '';
@@ -95,7 +97,8 @@ async function getSelectedCoAuthors(allAuthors: Author[]) {
     .map(line => {
       const [key, ...rest] = line.split(' ');
       const authorString = rest.join(' ');
-      const trailer = trailerMap[key];
+
+      const trailer = convertToAuthorTrailers(key.split('.')[1]);
       if (!trailer) return null;
 
       const author = allAuthors.find(author =>

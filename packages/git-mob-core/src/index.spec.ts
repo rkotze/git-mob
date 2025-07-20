@@ -145,18 +145,35 @@ describe('Git Mob core API', () => {
     expect(selected).toEqual([listAll[1]]);
   });
 
-  it('Get the selected co-authors and update respective trailers', async () => {
+  it('Backward compatibility get the selected co-author using "git-mob.co-author"', async () => {
     const listAll = buildAuthorList(['ab', 'cd', 'ef', 'gh']);
     const selectedAuthors = [
       `git-mob.co-author ${listAll[1].toString()}`,
-      `git-mob.signed-author ${listAll[2].toString()}`,
-      `git-mob.reviewed-author ${listAll[3].toString()}`,
+      `git-mob.${AuthorTrailers.ReviewedBy} ${listAll[2].toString()}`,
     ].join(EOL);
 
     mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthors);
     const selected = await getSelectedCoAuthors(listAll);
 
     expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
+    expect(selected.length).toEqual(2);
+    expect(selected[0]?.trailer).toEqual(AuthorTrailers.CoAuthorBy);
+    expect(selected[1]?.trailer).toEqual(AuthorTrailers.ReviewedBy);
+  });
+
+  it('Get the selected co-authors and update respective trailers', async () => {
+    const listAll = buildAuthorList(['ab', 'cd', 'ef', 'gh']);
+    const selectedAuthors = [
+      `git-mob.${AuthorTrailers.CoAuthorBy} ${listAll[1].toString()}`,
+      `git-mob.${AuthorTrailers.SignedOffBy} ${listAll[2].toString()}`,
+      `git-mob.${AuthorTrailers.ReviewedBy} ${listAll[3].toString()}`,
+    ].join(EOL);
+
+    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthors);
+    const selected = await getSelectedCoAuthors(listAll);
+
+    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
+    expect(selected.length).toEqual(3);
     expect(selected[0]?.trailer).toEqual(AuthorTrailers.CoAuthorBy);
     expect(selected[1]?.trailer).toEqual(AuthorTrailers.SignedOffBy);
     expect(selected[2]?.trailer).toEqual(AuthorTrailers.ReviewedBy);
