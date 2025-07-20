@@ -1,3 +1,4 @@
+import { EOL } from 'node:os';
 import { Author } from './git-mob-api/author.js';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found.js';
 import { gitAuthors } from './git-mob-api/git-authors/index.js';
@@ -23,6 +24,7 @@ import {
 } from './git-mob-api/resolve-git-message-path.js';
 import { insideWorkTree, topLevelDirectory } from './git-mob-api/git-rev-parse.js';
 import { getConfig } from './git-mob-api/exec-command.js';
+import { AuthorTrailers } from './git-mob-api/git-message/message-formatter.js';
 
 async function getAllAuthors() {
   const gitMobAuthors = gitAuthors();
@@ -79,12 +81,35 @@ function pickSelectedAuthors(keys: string[], authorMap: Author[]): Author[] {
   return selectedAuthors;
 }
 
-async function getSelectedCoAuthors(allAuthors: Author[]) {
-  let coAuthorsString = '';
-  const coAuthorConfigValue = await getSetCoAuthors();
-  if (coAuthorConfigValue) coAuthorsString = coAuthorConfigValue;
+function convertToAuthorTrailers(value: string): AuthorTrailers | undefined {
+  if (value === 'co-author') return AuthorTrailers.CoAuthorBy;
 
-  return allAuthors.filter(author => coAuthorsString.includes('<' + author.email));
+  return (Object.values(AuthorTrailers) as string[]).includes(value)
+    ? (value as AuthorTrailers)
+    : undefined;
+}
+
+async function getSelectedCoAuthors(allAuthors: Author[]) {
+  const coAuthorsString = (await getSetCoAuthors()) ?? '';
+
+  return coAuthorsString
+    .split(EOL)
+    .map(line => {
+      const [key, ...rest] = line.split(' ');
+      const authorString = rest.join(' ');
+
+      const trailer = convertToAuthorTrailers(key.split('.')[1]);
+      if (!trailer) return null;
+
+      const author = allAuthors.find(author =>
+        authorString.includes('<' + author.email)
+      );
+      if (!author) return null;
+
+      author.trailer = trailer;
+      return author;
+    })
+    .filter(Boolean);
 }
 
 async function solo() {
