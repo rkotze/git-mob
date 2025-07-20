@@ -9,7 +9,6 @@ import {
   getSetCoAuthors,
   addCoAuthor,
   removeGitMobSection,
-  getAllTrailerAuthors,
 } from './git-mob-api/git-mob-config.js';
 import {
   getLocalCommitTemplate,
@@ -89,7 +88,7 @@ const trailerMap: Record<string, AuthorTrailers> = {
 };
 
 async function getSelectedCoAuthors(allAuthors: Author[]) {
-  const coAuthorsString = (await getAllTrailerAuthors()) ?? '';
+  const coAuthorsString = (await getSetCoAuthors()) ?? '';
 
   return coAuthorsString
     .split(EOL)

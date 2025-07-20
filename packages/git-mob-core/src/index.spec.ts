@@ -6,7 +6,7 @@ import * as gitConfig from './git-mob-api/git-config';
 import { buildAuthorList, mockGitAuthors } from './test-helpers/author-mocks';
 import {
   addCoAuthor,
-  getAllTrailerAuthors,
+  getSetCoAuthors,
   removeGitMobSection,
 } from './git-mob-api/git-mob-config';
 import { AuthorTrailers } from './git-mob-api/git-message/message-formatter';
@@ -29,12 +29,12 @@ const mockedGitAuthors = jest.mocked(gitAuthors);
 const mockedGitMessage = jest.mocked(gitMessage);
 const mockedRemoveGitMobSection = jest.mocked(removeGitMobSection);
 const mockedGitConfig = jest.mocked(gitConfig);
-const mockedGetTrailerAuthors = jest.mocked(getAllTrailerAuthors);
+const mockedGetSetCoAuthors = jest.mocked(getSetCoAuthors);
 
 describe('Git Mob core API', () => {
   afterEach(() => {
     mockedRemoveGitMobSection.mockReset();
-    mockedGetTrailerAuthors.mockReset();
+    mockedGetSetCoAuthors.mockReset();
     mockedGitConfig.getGlobalCommitTemplate.mockReset();
     mockedGitConfig.getLocalCommitTemplate.mockReset();
   });
@@ -138,10 +138,10 @@ describe('Git Mob core API', () => {
   it('Use exact email for selected co-authors', async () => {
     const listAll = buildAuthorList(['ab', 'efcd', 'cd']);
     const selectedAuthor = `git-mob.co-author ${listAll[1].toString()}`;
-    mockedGetTrailerAuthors.mockResolvedValueOnce(selectedAuthor);
+    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor);
     const selected = await getSelectedCoAuthors(listAll);
 
-    expect(mockedGetTrailerAuthors).toHaveBeenCalledTimes(1);
+    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
     expect(selected).toEqual([listAll[1]]);
   });
 
@@ -153,10 +153,10 @@ describe('Git Mob core API', () => {
       `git-mob.reviewed-author ${listAll[3].toString()}`,
     ].join(EOL);
 
-    mockedGetTrailerAuthors.mockResolvedValueOnce(selectedAuthors);
+    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthors);
     const selected = await getSelectedCoAuthors(listAll);
 
-    expect(mockedGetTrailerAuthors).toHaveBeenCalledTimes(1);
+    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
     expect(selected[0]?.trailer).toEqual(AuthorTrailers.CoAuthorBy);
     expect(selected[1]?.trailer).toEqual(AuthorTrailers.SignedOffBy);
     expect(selected[2]?.trailer).toEqual(AuthorTrailers.ReviewedBy);
