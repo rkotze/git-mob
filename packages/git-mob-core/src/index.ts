@@ -44,6 +44,28 @@ async function setCoAuthors(keys: string[]): Promise<Author[]> {
   return selectedAuthors;
 }
 
+async function setSelectedAuthors(
+  keysTrailers: Record<string, AuthorTrailers>
+): Promise<Author[]> {
+  const allAuthors = await getAllAuthors();
+  const selectedAuthors = Object.entries(keysTrailers).map(([key, trailer]) => {
+    const author = allAuthors.find(author => author.key === key);
+    if (!author) throw new AuthorNotFound(key);
+    author.trailer = trailer;
+    return author;
+  });
+
+  await solo();
+
+  for (const author of selectedAuthors) {
+    // eslint-disable-next-line no-await-in-loop
+    await addCoAuthor(author.toString());
+  }
+
+  await updateGitTemplate(selectedAuthors);
+  return selectedAuthors;
+}
+
 async function updateGitTemplate(selectedAuthors?: Author[]) {
   const [usingLocal, templatePath] = await Promise.all([
     getLocalCommitTemplate(),
@@ -109,7 +131,7 @@ async function getSelectedCoAuthors(allAuthors: Author[]) {
       author.trailer = trailer;
       return author;
     })
-    .filter(Boolean);
+    .filter(author => author !== null);
 }
 
 async function solo() {
@@ -137,6 +159,7 @@ export {
   getPrimaryAuthor,
   getSelectedCoAuthors,
   setCoAuthors,
+  setSelectedAuthors,
   setPrimaryAuthor,
   solo,
   updateGitTemplate,

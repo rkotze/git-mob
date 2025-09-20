@@ -15,6 +15,7 @@ import {
   getSelectedCoAuthors,
   setCoAuthors,
   setPrimaryAuthor,
+  setSelectedAuthors,
   updateGitTemplate,
 } from '.';
 
@@ -30,6 +31,7 @@ const mockedGitMessage = jest.mocked(gitMessage);
 const mockedRemoveGitMobSection = jest.mocked(removeGitMobSection);
 const mockedGitConfig = jest.mocked(gitConfig);
 const mockedGetSetCoAuthors = jest.mocked(getSetCoAuthors);
+const mockedAddCoAuthor = jest.mocked(addCoAuthor);
 
 describe('Git Mob core API', () => {
   afterEach(() => {
@@ -37,6 +39,7 @@ describe('Git Mob core API', () => {
     mockedGetSetCoAuthors.mockReset();
     mockedGitConfig.getGlobalCommitTemplate.mockReset();
     mockedGitConfig.getLocalCommitTemplate.mockReset();
+    mockedAddCoAuthor.mockReset();
   });
 
   it('missing author to pick for list throws error', async () => {
@@ -47,7 +50,7 @@ describe('Git Mob core API', () => {
 
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
-      readCoAuthors: () => '',
+      readCoAuthors: async () => '',
       removeCoAuthors: mockRemoveCoAuthors,
     });
 
@@ -67,7 +70,7 @@ describe('Git Mob core API', () => {
 
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
-      readCoAuthors: () => '',
+      readCoAuthors: async () => '',
       removeCoAuthors: mockRemoveCoAuthors,
     });
 
@@ -75,7 +78,33 @@ describe('Git Mob core API', () => {
 
     expect(mockedRemoveGitMobSection).toHaveBeenCalledTimes(1);
     expect(mockRemoveCoAuthors).toHaveBeenCalledTimes(1);
-    expect(addCoAuthor).toHaveBeenCalledTimes(2);
+    expect(mockedAddCoAuthor).toHaveBeenCalledTimes(2);
+    expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
+    expect(coAuthors).toEqual(authorList);
+  });
+
+  it('apply co-authors to git config and git message with custom trailers', async () => {
+    const authorKeys = ['ab', 'cd'];
+    const authorTrailers = [AuthorTrailers.CoAuthorBy, AuthorTrailers.ReviewedBy];
+    const authorList = buildAuthorList(authorKeys, authorTrailers);
+    const mockWriteCoAuthors = jest.fn(async () => undefined);
+    const mockRemoveCoAuthors = jest.fn(async () => '');
+    mockedGitAuthors.mockReturnValue(mockGitAuthors([...authorKeys, 'ef']));
+
+    mockedGitMessage.mockReturnValue({
+      writeCoAuthors: mockWriteCoAuthors,
+      readCoAuthors: async () => '',
+      removeCoAuthors: mockRemoveCoAuthors,
+    });
+
+    const coAuthors = await setSelectedAuthors({
+      ab: AuthorTrailers.CoAuthorBy,
+      cd: AuthorTrailers.ReviewedBy,
+    });
+
+    expect(mockedRemoveGitMobSection).toHaveBeenCalledTimes(1);
+    expect(mockRemoveCoAuthors).toHaveBeenCalledTimes(1);
+    expect(mockedAddCoAuthor).toHaveBeenCalledTimes(2);
     expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
     expect(coAuthors).toEqual(authorList);
   });
