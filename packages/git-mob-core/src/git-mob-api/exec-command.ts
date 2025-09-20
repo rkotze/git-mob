@@ -38,6 +38,14 @@ export async function getAllConfig(key: string) {
   }
 }
 
+export async function getRegexpConfig(key: string) {
+  try {
+    return await execCommand(`git config --get-regexp ${key}`);
+  } catch {
+    return undefined;
+  }
+}
+
 export async function setConfig(key: string, value: string) {
   try {
     await execCommand(`git config ${key} "${value}"`);
