@@ -2,9 +2,9 @@ import { EOL } from 'node:os';
 import { type Author } from '../author';
 
 export enum AuthorTrailers {
-  CoAuthorBy = 'Co-authored-by:',
-  SignedOffBy = 'Signed-off-by:',
-  ReviewedBy = 'Reviewed-by:',
+  CoAuthorBy = 'Co-authored-by',
+  SignedOffBy = 'Signed-off-by',
+  ReviewedBy = 'Reviewed-by',
 }
 
 function removeTrailers(txt: string): string {

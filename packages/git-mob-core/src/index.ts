@@ -45,10 +45,10 @@ async function setCoAuthors(keys: string[]): Promise<Author[]> {
 }
 
 async function setSelectedAuthors(
-  keysTrailers: Record<string, AuthorTrailers>
+  keysTrailers: Array<[string, AuthorTrailers]>
 ): Promise<Author[]> {
   const allAuthors = await getAllAuthors();
-  const selectedAuthors = Object.entries(keysTrailers).map(([key, trailer]) => {
+  const selectedAuthors = keysTrailers.map(([key, trailer]) => {
     const author = allAuthors.find(author => author.key === key);
     if (!author) throw new AuthorNotFound(key);
     author.trailer = trailer;
@@ -59,7 +59,7 @@ async function setSelectedAuthors(
 
   for (const author of selectedAuthors) {
     // eslint-disable-next-line no-await-in-loop
-    await addCoAuthor(author.toString());
+    await addCoAuthor(author.toString(), author.trailer);
   }
 
   await updateGitTemplate(selectedAuthors);
@@ -191,4 +191,7 @@ export {
 } from './git-mob-api/git-authors/fetch-github-authors.js';
 export { getConfig, updateConfig } from './config-manager.js';
 export { Author } from './git-mob-api/author.js';
-export { messageFormatter } from './git-mob-api/git-message/message-formatter.js';
+export {
+  messageFormatter,
+  AuthorTrailers,
+} from './git-mob-api/git-message/message-formatter.js';

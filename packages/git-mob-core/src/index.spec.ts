@@ -97,14 +97,23 @@ describe('Git Mob core API', () => {
       removeCoAuthors: mockRemoveCoAuthors,
     });
 
-    const coAuthors = await setSelectedAuthors({
-      ab: AuthorTrailers.CoAuthorBy,
-      cd: AuthorTrailers.ReviewedBy,
-    });
+    const coAuthors = await setSelectedAuthors([
+      ['ab', AuthorTrailers.CoAuthorBy],
+      ['cd', AuthorTrailers.ReviewedBy],
+    ]);
 
     expect(mockedRemoveGitMobSection).toHaveBeenCalledTimes(1);
     expect(mockRemoveCoAuthors).toHaveBeenCalledTimes(1);
-    expect(mockedAddCoAuthor).toHaveBeenCalledTimes(2);
+    expect(mockedAddCoAuthor).toHaveBeenNthCalledWith(
+      1,
+      authorList[0].toString(),
+      AuthorTrailers.CoAuthorBy
+    );
+    expect(mockedAddCoAuthor).toHaveBeenNthCalledWith(
+      2,
+      authorList[1].toString(),
+      AuthorTrailers.ReviewedBy
+    );
     expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
     expect(coAuthors).toEqual(authorList);
   });
