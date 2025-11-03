@@ -81,7 +81,7 @@
     "bob": "file:../bob",
     "coffee": "^5.5.1",
     "eol": "^0.10.0",
-    "rimraf": "^6.0.1",
+    "rimraf": "^6.1.0",
     "sinon": "^21.0.0",
     "tempy": "^3.1.0",
     "typescript": "^5.9.3"
