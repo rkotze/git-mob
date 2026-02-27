@@ -258,6 +258,69 @@ test('appends co-authors to a new commit template', t => {
   unsetCommitTemplate();
 });
 
+test('sets signed-off-by Jane Doe trailer via git mob CLI', t => {
+  deleteGitMessageFile();
+  addAuthor('Thomas Anderson', 'neo@example.com');
+
+  exec('git mob --sb jd');
+
+  const actualGitMessage = readGitMessageFile();
+  const expectedGitMessage = auto(
+    [EOL, EOL, 'Signed-off-by: Jane Doe <jane@findmypast.com>'].join('')
+  );
+
+  t.is(actualGitMessage, expectedGitMessage);
+
+  removeCoAuthors();
+  unsetCommitTemplate();
+});
+
+test('sets two signed-off-by trailers via git mob CLI', t => {
+  deleteGitMessageFile();
+  addAuthor('Thomas Anderson', 'neo@example.com');
+
+  exec('git mob --sb jd --sb ea');
+
+  const actualGitMessage = readGitMessageFile();
+  const expectedGitMessage = auto(
+    [
+      EOL,
+      EOL,
+      'Signed-off-by: Jane Doe <jane@findmypast.com>',
+      EOL,
+      'Signed-off-by: Elliot Alderson <ealderson@findmypast.com>',
+    ].join('')
+  );
+
+  t.is(actualGitMessage, expectedGitMessage);
+
+  removeCoAuthors();
+  unsetCommitTemplate();
+});
+
+test('sets default co-authored-by and signed-off-by trailers via git mob CLI', t => {
+  deleteGitMessageFile();
+  addAuthor('Thomas Anderson', 'neo@example.com');
+
+  exec('git mob ea --sb jd');
+
+  const actualGitMessage = readGitMessageFile();
+  const expectedGitMessage = auto(
+    [
+      EOL,
+      EOL,
+      'Co-authored-by: Elliot Alderson <ealderson@findmypast.com>',
+      EOL,
+      'Signed-off-by: Jane Doe <jane@findmypast.com>',
+    ].join('')
+  );
+
+  t.is(actualGitMessage, expectedGitMessage);
+
+  removeCoAuthors();
+  unsetCommitTemplate();
+});
+
 test('warns when used outside of a git repo', t => {
   const repoDir = process.cwd();
   const temporaryDir = temporaryDirectory();
