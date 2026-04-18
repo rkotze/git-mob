@@ -2,6 +2,16 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Added
+
+- Support for storing git-mob settings in a custom git config file via the GITMOB_CONFIG_FILE environment variable. When set, git-mob will use git config --file <path> ... for its settings instead of --global. This is non-breaking and intended for per-machine / dotfiles workflows. (Closes #282)
+
+### Tests
+
+- Unit tests added to verify file-scoped vs global config behavior for git-mob settings.
+
 ## git-mob-core 0.10.1
 
 ### Fixed
