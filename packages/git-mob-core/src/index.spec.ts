@@ -1,3 +1,4 @@
+import { EOL } from 'node:os';
 import { gitAuthors } from './git-mob-api/git-authors';
 import { gitMessage } from './git-mob-api/git-message';
 import { AuthorNotFound } from './git-mob-api/errors/author-not-found';
@@ -8,11 +9,13 @@ import {
   getSetCoAuthors,
   removeGitMobSection,
 } from './git-mob-api/git-mob-config';
+import { AuthorTrailers } from './git-mob-api/git-message/message-formatter';
 import {
   getPrimaryAuthor,
   getSelectedCoAuthors,
   setCoAuthors,
   setPrimaryAuthor,
+  setSelectedAuthors,
   updateGitTemplate,
 } from '.';
 
@@ -28,6 +31,7 @@ const mockedGitMessage = jest.mocked(gitMessage);
 const mockedRemoveGitMobSection = jest.mocked(removeGitMobSection);
 const mockedGitConfig = jest.mocked(gitConfig);
 const mockedGetSetCoAuthors = jest.mocked(getSetCoAuthors);
+const mockedAddCoAuthor = jest.mocked(addCoAuthor);
 
 describe('Git Mob core API', () => {
   afterEach(() => {
@@ -35,6 +39,7 @@ describe('Git Mob core API', () => {
     mockedGetSetCoAuthors.mockReset();
     mockedGitConfig.getGlobalCommitTemplate.mockReset();
     mockedGitConfig.getLocalCommitTemplate.mockReset();
+    mockedAddCoAuthor.mockReset();
   });
 
   it('missing author to pick for list throws error', async () => {
@@ -45,7 +50,7 @@ describe('Git Mob core API', () => {
 
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
-      readCoAuthors: () => '',
+      readCoAuthors: async () => '',
       removeCoAuthors: mockRemoveCoAuthors,
     });
 
@@ -65,7 +70,7 @@ describe('Git Mob core API', () => {
 
     mockedGitMessage.mockReturnValue({
       writeCoAuthors: mockWriteCoAuthors,
-      readCoAuthors: () => '',
+      readCoAuthors: async () => '',
       removeCoAuthors: mockRemoveCoAuthors,
     });
 
@@ -73,7 +78,42 @@ describe('Git Mob core API', () => {
 
     expect(mockedRemoveGitMobSection).toHaveBeenCalledTimes(1);
     expect(mockRemoveCoAuthors).toHaveBeenCalledTimes(1);
-    expect(addCoAuthor).toHaveBeenCalledTimes(2);
+    expect(mockedAddCoAuthor).toHaveBeenCalledTimes(2);
+    expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
+    expect(coAuthors).toEqual(authorList);
+  });
+
+  it('apply co-authors to git config and git message with custom trailers', async () => {
+    const authorKeys = ['ab', 'cd'];
+    const authorTrailers = [AuthorTrailers.CoAuthorBy, AuthorTrailers.ReviewedBy];
+    const authorList = buildAuthorList(authorKeys, authorTrailers);
+    const mockWriteCoAuthors = jest.fn(async () => undefined);
+    const mockRemoveCoAuthors = jest.fn(async () => '');
+    mockedGitAuthors.mockReturnValue(mockGitAuthors([...authorKeys, 'ef']));
+
+    mockedGitMessage.mockReturnValue({
+      writeCoAuthors: mockWriteCoAuthors,
+      readCoAuthors: async () => '',
+      removeCoAuthors: mockRemoveCoAuthors,
+    });
+
+    const coAuthors = await setSelectedAuthors([
+      ['ab', AuthorTrailers.CoAuthorBy],
+      ['cd', AuthorTrailers.ReviewedBy],
+    ]);
+
+    expect(mockedRemoveGitMobSection).toHaveBeenCalledTimes(1);
+    expect(mockRemoveCoAuthors).toHaveBeenCalledTimes(1);
+    expect(mockedAddCoAuthor).toHaveBeenNthCalledWith(
+      1,
+      authorList[0].toString(),
+      AuthorTrailers.CoAuthorBy
+    );
+    expect(mockedAddCoAuthor).toHaveBeenNthCalledWith(
+      2,
+      authorList[1].toString(),
+      AuthorTrailers.ReviewedBy
+    );
     expect(mockWriteCoAuthors).toHaveBeenCalledWith(authorList);
     expect(coAuthors).toEqual(authorList);
   });
@@ -133,24 +173,48 @@ describe('Git Mob core API', () => {
     expect(mockWriteCoAuthors).not.toHaveBeenCalled();
   });
 
-  it('Get the selected co-authors', async () => {
-    const listAll = buildAuthorList(['ab', 'cd']);
-    const selectedAuthor = listAll[1];
-    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor.toString());
-    const selected = await getSelectedCoAuthors(listAll);
-
-    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
-    expect(selected).toEqual([selectedAuthor]);
-  });
-
   it('Use exact email for selected co-authors', async () => {
     const listAll = buildAuthorList(['ab', 'efcd', 'cd']);
-    const selectedAuthor = listAll[1];
-    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor.toString());
+    const selectedAuthor = `git-mob.co-author ${listAll[1].toString()}`;
+    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthor);
     const selected = await getSelectedCoAuthors(listAll);
 
     expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
-    expect(selected).toEqual([selectedAuthor]);
+    expect(selected).toEqual([listAll[1]]);
+  });
+
+  it('Backward compatibility get the selected co-author using "git-mob.co-author"', async () => {
+    const listAll = buildAuthorList(['ab', 'cd', 'ef', 'gh']);
+    const selectedAuthors = [
+      `git-mob.co-author ${listAll[1].toString()}`,
+      `git-mob.${AuthorTrailers.ReviewedBy} ${listAll[2].toString()}`,
+    ].join(EOL);
+
+    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthors);
+    const selected = await getSelectedCoAuthors(listAll);
+
+    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
+    expect(selected.length).toEqual(2);
+    expect(selected[0]?.trailer).toEqual(AuthorTrailers.CoAuthorBy);
+    expect(selected[1]?.trailer).toEqual(AuthorTrailers.ReviewedBy);
+  });
+
+  it('Get the selected co-authors and update respective trailers', async () => {
+    const listAll = buildAuthorList(['ab', 'cd', 'ef', 'gh']);
+    const selectedAuthors = [
+      `git-mob.${AuthorTrailers.CoAuthorBy} ${listAll[1].toString()}`,
+      `git-mob.${AuthorTrailers.SignedOffBy} ${listAll[2].toString()}`,
+      `git-mob.${AuthorTrailers.ReviewedBy} ${listAll[3].toString()}`,
+    ].join(EOL);
+
+    mockedGetSetCoAuthors.mockResolvedValueOnce(selectedAuthors);
+    const selected = await getSelectedCoAuthors(listAll);
+
+    expect(mockedGetSetCoAuthors).toHaveBeenCalledTimes(1);
+    expect(selected.length).toEqual(3);
+    expect(selected[0]?.trailer).toEqual(AuthorTrailers.CoAuthorBy);
+    expect(selected[1]?.trailer).toEqual(AuthorTrailers.SignedOffBy);
+    expect(selected[2]?.trailer).toEqual(AuthorTrailers.ReviewedBy);
   });
 
   it('Get the Git primary author', async () => {

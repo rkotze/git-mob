@@ -1,4 +1,3 @@
-const { spawnSync } = require('child_process');
 const path = require('path');
 
 const testHelperPath = path.join(process.cwd(), '/test-helpers');
