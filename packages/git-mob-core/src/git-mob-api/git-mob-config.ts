@@ -1,4 +1,4 @@
-import { getConfig, getAllConfig, execCommand } from './exec-command.js';
+import { getConfig, execCommand, getRegexpConfig } from './exec-command.js';
 
 export async function localTemplate() {
   const localTemplate = await getConfig('--local git-mob-config.use-local-template');
@@ -11,11 +11,11 @@ export async function fetchFromGitHub() {
 }
 
 export async function getSetCoAuthors() {
-  return getAllConfig('--global git-mob.co-author');
+  return getRegexpConfig(`--global 'git-mob.*'`);
 }
 
-export async function addCoAuthor(coAuthor: string) {
-  const addAuthorQuery = `git config --add --global git-mob.co-author "${coAuthor}"`;
+export async function addCoAuthor(coAuthor: string, trailerKey = 'co-author') {
+  const addAuthorQuery = `git config --add --global git-mob.${trailerKey} "${coAuthor}"`;
 
   return execCommand(addAuthorQuery);
 }
