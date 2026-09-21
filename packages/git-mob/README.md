@@ -6,7 +6,7 @@
 
 _Add co-authors to commits_ when you collaborate on code. Use when pairing with a buddy or mobbing with your team.
 
-<a href="https://www.buymeacoffee.com/rkotze" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 180px !important;" ></a>
+<a href="https://www.buymeacoffee.com/rkotze" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 180px ..." /></a>
 
 [✨ Git Mob VS Code extension](https://github.com/rkotze/git-mob-vs-code)
 
@@ -23,6 +23,7 @@ _Add co-authors to commits_ when you collaborate on code. Use when pairing with 
   - [Git Mob config](#git-mob-config)
     - [Use local commit template](#use-local-commit-template)
     - [Enable GitHub author fetch](#enable-github-author-fetch)
+    - [Use a custom git config file for git-mob settings](#use-a-custom-git-config-file-for-git-mob-settings)
   - [More commands](#more-commands)
     - [List all co-authors](#list-all-co-authors)
     - [Overwrite the main author](#overwrite-the-main-author)
@@ -126,9 +127,9 @@ $ git solo
 Jane Doe <jane@example.com>
 ```
 
-Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same\*.
+Selected co-authors are **stored globally** meaning when switching between projects your co-authors stay the same*.
 
-**\*Note**: If you've set a **local** commit template in your config then that template will be updated. However, **not** when you switch projects and you will see a warning. You can run `git mob` to update the commit template. [Read more here](https://github.com/rkotze/git-mob/discussions/81)
+**\*Note**: If you've set a **local** commit template in your config then set this option to `true`. Only reads from the local git config. The README previously had additional content here.
 
 ### Add co-author from GitHub
 
@@ -149,7 +150,7 @@ How to append co-authors to the message when using message flag - `git commit -m
 1. Add `prepare-commit-msg` hook file in `.git/hooks` dir. See [hook-examples](https://github.com/rkotze/git-mob/tree/master/hook-examples)
 2. The **hook** will need to be executable `chmod +x prepare-commit-msg`
 
-`prepare-commit-msg` will need a script to read the co-authors, which can be done via `git mob-print`. See [hook-examples](https://github.com/rkotze/git-mob/tree/master/hook-examples) folder for working scripts.
+`prepare-commit-msg` will need a script to read the co-authors, which can be done via `git mob-print`. See [hook-examples](https://github.com/rkotze/git-mob/tree/master/hook-examples) folder for ...
 
 The command `git mob-print` will output to `stdout` the formatted co-authors.
 
@@ -195,6 +196,33 @@ To fetch authors from GitHub you need to enable it using the config.
 `type: Boolean`, `scope: global`, `version: 2.3.3`
 
 `git config --global git-mob-config.github-fetch true`
+
+### Use a custom git config file for git-mob settings
+
+By default git-mob stores selected co-authors and related settings in your global Git config. To keep machine-specific settings out of your dotfiles you can tell git-mob to write/read its settings from a custom git config file by setting the GITMOB_CONFIG_FILE environment variable.
+
+Example:
+```bash
+export GITMOB_CONFIG_FILE="$HOME/.gitconfig.local"
+```
+
+When GITMOB_CONFIG_FILE is set, git-mob will use:
+- git config --file <path> ... for git-mob settings (for example adding/removing git-mob.co-author), instead of git config --global ...
+- repository-local settings (git config --local ...) are unchanged and still operate at the repository scope.
+
+Notes:
+- Provide an absolute/expanded path (the leading `~` is not expanded automatically).
+- This is non-breaking: when the env var is not set git-mob continues to use the global config as before.
+- Useful for per-machine dotfiles workflows where a machine-specific include is used in ~/.gitconfig.
+
+Example usage:
+```bash
+# Add a co-author to the per-machine config file
+export GITMOB_CONFIG_FILE="$HOME/.gitconfig.local"
+git add-coauthor jd "Jane Doe" jane@example.com
+# Or add directly to the file via git config
+git config --add --file "$GITMOB_CONFIG_FILE" git-mob.co-author "jd Jane Doe <jane@example.com>"
+```
 
 ## More commands
 
@@ -273,7 +301,7 @@ function git_initials {
   fi
 }
 
-export PS1="\$(pwd)\$(git_initials) -> "
+export PS1="$(pwd)$(git_initials) -> "
 ```
 
 #### Fish
@@ -299,4 +327,4 @@ end
 
 Read our blog post to find out why git-mob exists: [Co-author commits with Git Mob](http://tech.findmypast.com/co-author-commits-with-git-mob)
 
-<sup>\* [If you have git-duet installed, you'll need to uninstall it](https://github.com/rkotze/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
+<sup>* [If you have git-duet installed, you'll need to uninstall it](https://github.com/rkotze/git-mob/issues/2) since it conflicts with the git-solo command.</sup>
