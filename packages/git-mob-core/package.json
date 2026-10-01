@@ -48,7 +48,7 @@
     "@jest/globals": "^30.5.2",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.15.30",
-    "jest": "^30.5.1",
+    "jest": "^30.5.2",
     "jest-config": "^30.5.2",
     "rimraf": "^6.1.3"
   }
