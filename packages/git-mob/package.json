@@ -76,7 +76,7 @@
     "@types/minimist": "^1.2.5",
     "@types/node": "^22.15.30",
     "@types/sinon": "^21.0.1",
-    "@types/update-notifier": "^6.0.8",
+    "@types/update-notifier": "^6.0.9",
     "ava": "^6.4.1",
     "bob": "file:../bob",
     "coffee": "^5.5.1",
