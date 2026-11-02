@@ -20,7 +20,7 @@
   "homepage": "https://github.com/rkotze/git-mob#readme",
   "dependencies": {
     "esbuild": "^0.28.2",
-    "glob": "^13.0.6",
+    "glob": "^14.0.3",
     "minimist": "^1.2.8"
   }
 }
