@@ -1,15 +1,25 @@
 import { Author } from '../git-mob-api/author';
+import { CoAuthorSchema } from '../git-mob-api/git-authors';
+import { AuthorTrailers } from '../git-mob-api/git-message/message-formatter';
 
-export function buildAuthorList(keys: string[]): Author[] {
-  return keys.map(key => new Author(key, key + ' lastName', key + '@email.com'));
+export function buildAuthorList(
+  keys: string[],
+  trailers: AuthorTrailers[] = []
+): Author[] {
+  return keys.map(
+    (key, i) =>
+      new Author(
+        key,
+        key + ' lastName',
+        key + '@email.com',
+        trailers[i] || AuthorTrailers.CoAuthorBy
+      )
+  );
 }
 
-export function buildCoAuthorObject(keys: string[]) {
+export function buildCoAuthorObject(keys: string[]): CoAuthorSchema {
   const authorList = buildAuthorList(keys);
-  const coAuthorList: Record<
-    string,
-    Record<string, { name: string; email: string }>
-  > = { coauthors: {} };
+  const coAuthorList: CoAuthorSchema = { coauthors: {} };
 
   for (const author of authorList) {
     coAuthorList.coauthors[author.key] = { name: author.name, email: author.email };
@@ -18,8 +28,8 @@ export function buildCoAuthorObject(keys: string[]) {
   return coAuthorList;
 }
 
-export function mockGitAuthors(keys: string[]) {
-  const authors = buildAuthorList(keys);
+export function mockGitAuthors(keys: string[], trailers: AuthorTrailers[] = []) {
+  const authors = buildAuthorList(keys, trailers);
   const coAuthors = buildCoAuthorObject(keys);
   return {
     read: jest.fn(async () => coAuthors),
