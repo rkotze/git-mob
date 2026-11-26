@@ -8,11 +8,12 @@ import {
   gitMobConfig,
   gitConfig,
   gitRevParse,
-  setCoAuthors,
   setPrimaryAuthor,
   updateGitTemplate,
   Author,
   pathToCoAuthors,
+  setSelectedAuthors,
+  AuthorTrailers,
 } from 'git-mob-core';
 import { checkForUpdates, runHelp, runVersion, printList } from './helpers.js';
 import { configWarning } from './check-author.js';
@@ -23,6 +24,7 @@ checkForUpdates();
 
 const argv = minimist(process.argv.slice(2), {
   boolean: ['h', 'v', 'l', 'o', 'p'],
+  string: ['sb', 'rb'],
 
   alias: {
     h: 'help',
@@ -68,13 +70,52 @@ async function execute(args: minimist.ParsedArgs) {
       await setAuthor(initial);
     }
 
-    await runMob(args._);
+    await runMob(mapTrailersToInitials(args));
   } else {
-    await runMob(args._);
+    await runMob(mapTrailersToInitials(args));
   }
 }
 
-async function runMob(args: string[]) {
+function normaliseToArray<T>(input: T | T[]): T[] {
+  if (Array.isArray(input)) {
+    return input;
+  }
+
+  if (input === undefined || input === null || input === '') {
+    return [];
+  }
+
+  return [input];
+}
+
+function mapTrailersToInitials(
+  args: minimist.ParsedArgs
+): Array<[string, AuthorTrailers]> {
+  const sb = normaliseToArray(args.sb as string[]);
+  const rb = normaliseToArray(args.rb as string[]);
+
+  const remainingArgs = { cb: args._ || [], sb, rb };
+  const mapTrailers: Record<string, AuthorTrailers> = {
+    cb: AuthorTrailers.CoAuthorBy,
+    sb: AuthorTrailers.SignedOffBy,
+    rb: AuthorTrailers.ReviewedBy,
+  };
+
+  const result: Array<[string, AuthorTrailers]> = [];
+  for (const [accept, value] of Object.entries(remainingArgs)) {
+    if (Array.isArray(value) && value.length > 0) {
+      for (const author of value) {
+        if (typeof author === 'string') {
+          result.push([author, mapTrailers[accept]]);
+        }
+      }
+    }
+  }
+
+  return result;
+}
+
+async function runMob(args: Array<[string, AuthorTrailers]>) {
   if (args.length === 0) {
     const gitAuthor = await getPrimaryAuthor();
     const [authorList, useLocalTemplate, template] = await Promise.all([
@@ -134,11 +175,14 @@ async function listCoAuthors() {
   }
 }
 
-async function setMob(initials: string[]) {
+async function setMob(initials: Array<[string, AuthorTrailers]>) {
   try {
     const authorList = await getAllAuthors();
-    await saveMissingAuthors(initials, authorList);
-    const selectedCoAuthors = await setCoAuthors(initials);
+    await saveMissingAuthors(
+      initials.map(([key]) => key),
+      authorList
+    );
+    const selectedCoAuthors = await setSelectedAuthors(initials);
 
     const [useLocalTemplate, template] = await Promise.all([
       gitMobConfig.localTemplate(),

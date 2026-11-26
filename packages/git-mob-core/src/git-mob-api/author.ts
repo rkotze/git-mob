@@ -19,7 +19,7 @@ export class Author {
   }
 
   format() {
-    return `${this.trailer} ${this.toString()}`;
+    return `${this.trailer}: ${this.toString()}`;
   }
 
   toString() {

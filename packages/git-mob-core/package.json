@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rimraf dist && tsc --project tsconfig.test.json && bob -c=core",
     "pretest": "npm run build -- -t",
-    "test": "jest",
+    "test": "jest --coverage --verbose",
     "minifytest": "npm run build -- -m -t && npm run test",
     "prepack": "rimraf dist && tsc --project tsconfig.prod.json && bob -c=core -m",
     "checks": "npm run test && npm run lint",
